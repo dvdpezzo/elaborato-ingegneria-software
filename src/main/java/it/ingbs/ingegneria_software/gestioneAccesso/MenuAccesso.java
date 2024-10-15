@@ -5,6 +5,10 @@ import it.ingbs.ingegneria_software.utilitaGenerale.InputDati;
 
 public class MenuAccesso {
 
+    /**
+     * chiede all'utente di inserire le credenziali per accedere al sistema
+     * @return Utente valido se le credenziali sono corrette
+     */
     public static Utente avvioLogin(){
         GestoreAccesso gestoreAccesso = new GestoreAccesso();
         Utente result;
@@ -15,4 +19,6 @@ public class MenuAccesso {
         } while (result == null);
         return result;
     }
+
+
 }
