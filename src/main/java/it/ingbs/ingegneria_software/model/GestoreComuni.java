@@ -4,6 +4,9 @@ import java.util.*;
 
 import java.io.*;
 
+import it.ingbs.ingegneria_software.utilita_generale.InputDati;
+import it.ingbs.ingegneria_software.utilita_generale.MenuUtil;
+
 
 
 
@@ -13,6 +16,7 @@ public class GestoreComuni {
     private final String MSG_ERRORE_COMUNE_DUPLICE ="Comune già presente nella lista";
     private final File fileComuni = new File("src\\Data File\\elencoComuni.txt");
     private final String ERRORE_COMUNE_NON_TROVATO ="Comune non trovato!";
+    
 
     public HashMap<Integer,String> mappaComuni = new HashMap<>();
 
@@ -52,15 +56,20 @@ public class GestoreComuni {
 
 
 
-    //metodo per la scelta del comune da inserire nel compensporio geografico, ritorna il nome del comune della mappa (se corrisponde il numero)
-    public String scegliComune(int n){
-        for (Map.Entry<Integer,String> entry : mappaComuni.entrySet()){
-            if(entry.getKey()==n){
+    public String scegliComune(int n) {
+        while (n < 1 || n > mappaComuni.size()) {
+            n = InputDati.leggiIntero("Input out of range. Please enter a valid comune number:");
+        }
+
+        for (Map.Entry<Integer, String> entry : mappaComuni.entrySet()) {
+            if (entry.getKey() == n) {
                 return entry.getValue();
             }
         }
+
         return ERRORE_COMUNE_NON_TROVATO;
     }
+
 
 
     //metodo che salva la mappa dei comuni su un file 

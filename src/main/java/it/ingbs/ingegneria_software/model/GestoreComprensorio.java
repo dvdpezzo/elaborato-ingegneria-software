@@ -23,7 +23,7 @@ public class GestoreComprensorio {
 
     //aggiungo un comprensorio alla mappa
     public void aggiungiComprensorio(ComprensorioGeografico comprensorioNuovo ){
-        if(getComprensorio(comprensorioNuovo) != null){
+        if(controlloComprensorioDuplicato(comprensorioNuovo) != null){
             loggerGestoreComprensorio.log(Level.SEVERE, "Comprensorio già esistente.");
         }
         else{
@@ -43,7 +43,7 @@ public class GestoreComprensorio {
         }
     }
     //controlla se il comprensorio sia già presente oppure no
-    public ComprensorioGeografico getComprensorio (ComprensorioGeografico comprensorioNuovo) {
+    public ComprensorioGeografico controlloComprensorioDuplicato (ComprensorioGeografico comprensorioNuovo) {
         for (ComprensorioGeografico comprensorio : mappaComprensori.values()) {
             if (comprensorio.equals(comprensorioNuovo)) {
                 return comprensorio;
@@ -53,11 +53,10 @@ public class GestoreComprensorio {
     }
 
 
-    //controlla se il compensorio sia già presente oppure no
+    //cerca comprensorio per codice
     public ComprensorioGeografico getComprensorio (int codice) {
         return mappaComprensori.get(codice);
     }
-
 
     //salva la mappa sul file elencoComprensori
     public void salvaMappaComprensoriSuFile() {

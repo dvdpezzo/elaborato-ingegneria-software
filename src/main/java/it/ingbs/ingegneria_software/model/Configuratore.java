@@ -1,7 +1,6 @@
 package it.ingbs.ingegneria_software.model;
 
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 import it.ingbs.ingegneria_software.utilita_generale.InputDati;
 
@@ -41,9 +40,13 @@ public class Configuratore extends Utente  {
                 }
             }
         }
+
+        // Sort the list of comuni
+        Collections.sort(listaComuni);
         ComprensorioGeografico comprensorioNuovo = new ComprensorioGeografico(listaComuni);
         gestoreComprensorio.aggiungiComprensorio(comprensorioNuovo);
-    }   
+    }
+
 
     public void aggiungiComune(String nomeComune, int codiceComprensorio) {
         ComprensorioGeografico comprensorio = gestoreComprensorio.getComprensorio(codiceComprensorio);
