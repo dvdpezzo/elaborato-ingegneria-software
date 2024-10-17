@@ -3,6 +3,8 @@ package it.ingbs.ingegneria_software.gestione_accesso;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import it.ingbs.ingegneria_software.model.Configuratore;
 import it.ingbs.ingegneria_software.model.GestoreConfiguratori;
@@ -12,24 +14,25 @@ import it.ingbs.ingegneria_software.model.GestoreConfiguratori;
  */
 public class GestoreAccesso {
 
-    private static final String FILE_DI_ACCESSO_CREDENZIALI_FRUITORI_TXT = "src\\File di accesso\\credenzialiFruitori.txt";
+    // private static final String FILE_DI_ACCESSO_CREDENZIALI_FRUITORI_TXT = "src\\File di accesso\\credenzialiFruitori.txt";
     private static final String FILE_DI_ACCESSO_CREDENZIALI_CONFIGURATORI_TXT = "src\\File di accesso\\credenzialiConfiguratori.txt";
     private static final String UTENTE_DEFAULT="admin";
     private static final String PASS_DEFAULT="admin";
     
-    private File file_configuratori = new File(FILE_DI_ACCESSO_CREDENZIALI_CONFIGURATORI_TXT);
-    private File file_fruitori = new File(FILE_DI_ACCESSO_CREDENZIALI_FRUITORI_TXT);
+    private Logger logGestoreAccesso = Logger.getLogger(getClass().getName());
+    private File fileConfiguratori = new File(FILE_DI_ACCESSO_CREDENZIALI_CONFIGURATORI_TXT);
+    // private File fileFruitori = new File(FILE_DI_ACCESSO_CREDENZIALI_FRUITORI_TXT);
     private HashMap<String, String> mappaCredenzialiUtenti = new HashMap<>();
     private GestoreFileCredenziali gestoreFile;
-    private GestoreConfiguratori gestoreConfiguratori ;
+    private final GestoreConfiguratori gestoreConfiguratori ;
     
 
     public GestoreAccesso() {       
         this.gestoreFile = new GestoreFileCredenziali(mappaCredenzialiUtenti);        
         try {
-            gestoreFile.configuraMappaCredenzialiDaFile(file_configuratori);
-        } catch (Exception e) {
-            System.out.println("File non trovato: "+e.getMessage());
+            gestoreFile.configuraMappaCredenzialiDaFile(fileConfiguratori);
+        } catch (IOException e) {
+            logGestoreAccesso.log(Level.INFO, "File non trovato: {0}", e.getMessage());
         }
         this.gestoreConfiguratori = new GestoreConfiguratori(gestoreFile);
     }
@@ -47,11 +50,11 @@ public class GestoreAccesso {
         {
             if(controlloEsistenzaCredenziali(nomeUtente, passUtente)){                
                 Configuratore existingUtente = gestoreConfiguratori.trovaConfiguratore(nomeUtente);
-                System.out.println("Accesso effettuato corretamente!");
+                logGestoreAccesso.info("Accesso effettuato corretamente!");
                 return existingUtente;
             }
             else{
-                System.out.println("ERRORE! Nome Utente o password errati!");
+                logGestoreAccesso.info("ERRORE! Nome Utente o password errati!");
                 return null;
             }
         }
@@ -62,7 +65,7 @@ public class GestoreAccesso {
      * @return
      */
     private Configuratore registrazioneNuovoConfiguratore () {
-        System.out.println("Sei stasto reindirizzato alla creazione del tuo Nome utente e Password personali:");
+        logGestoreAccesso.info("Sei stasto reindirizzato alla creazione del tuo Nome utente e Password personali:");
         Configuratore newUtente = gestoreConfiguratori.creaUtenteConfiguratore();
         aggiungiCredenzialiAllaMappa(newUtente.getNomeUtente(), newUtente.getPassword());
         return newUtente;
@@ -76,7 +79,7 @@ public class GestoreAccesso {
     private void aggiungiCredenzialiAllaMappa(String nomeUtente, String pass) {
         mappaCredenzialiUtenti.put(nomeUtente, pass);
         try {
-            gestoreFile.salvaMappaCredenzialiSuFile(file_configuratori);
+            gestoreFile.salvaMappaCredenzialiSuFile(fileConfiguratori);
         } catch (IOException e) {
             e.printStackTrace();
         }

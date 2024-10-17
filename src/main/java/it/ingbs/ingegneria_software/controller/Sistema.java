@@ -1,18 +1,15 @@
 package it.ingbs.ingegneria_software.controller;
 
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import it.ingbs.ingegneria_software.model.Categoria;
-import it.ingbs.ingegneria_software.model.ComprensorioGeografico;
 import it.ingbs.ingegneria_software.model.Configuratore;
 import it.ingbs.ingegneria_software.utilita_generale.InputDati;
 import it.ingbs.ingegneria_software.utilita_generale.MenuUtil;
 
 public class Sistema {
 
-	public final Logger logSistema;
+	public final Logger logSistema = Logger.getLogger(getClass().getName());
 	public final String[] vociMenuBackEnd = new String[]{"AGGIUNGI COMUNE","AGGIUNGI COMPRENSORIO", 
 												"AGGIUNGI NUOVA GERARCHIA",
 												"AGGIUNGI CATEGORIA A GERARCHIA ESISTENTE",
@@ -21,9 +18,6 @@ public class Sistema {
       
 	public final MenuUtil menuBackEnd = new MenuUtil("MENU BACK-END:", vociMenuBackEnd);
 	
-	public Sistema() {
-		this.logSistema = Logger.getLogger(getClass().getName());
-	}
 
     public void backEnd (Configuratore configuratore, boolean isLoggedIn) {
 		do {
@@ -52,11 +46,11 @@ public class Sistema {
 					
 				break;
 				case 3: //AGGIUNGI NUOVA GERARCHIA
-					List<Categoria> gerarchia = configuratore.creaGerarchia();
+					// List<Categoria> gerarchia = configuratore.creaGerarchia();
 					logSistema.log(Level.INFO, "Nuova gerarchia creata.");
 				break;
 				case 4: //AGGIUNGI CATEGORIA A GERARCHIA ESISTENTE
-					Categoria categoria = configuratore.creaCategoria();
+					// Categoria categoria = configuratore.creaCategoria();
 					logSistema.log(Level.INFO, "Categoria aggiunta a gerarchia esistente.");
 				break;
 				case 5: //VISUALIZZA
