@@ -12,7 +12,7 @@ class GestoreAccessoTest {
     @Test
     void testAccessoUtenteWithDefaultCredentials() {
         GestoreAccesso gestoreAccesso = new GestoreAccesso();
-        Utente result = gestoreAccesso.accessoUtente("admin", "admin");
+        Utente result = gestoreAccesso.accessoConfiguratore("admin", "admin");
         assertNotNull(result);
         assertTrue(result instanceof Configuratore);
     }

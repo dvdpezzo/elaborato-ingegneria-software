@@ -1,16 +1,20 @@
 package it.ingbs.ingegneria_software.gestioneAccesso;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.HashMap;
-import it.ingbs.ingegneria_software.model.*;
+
+import it.ingbs.ingegneria_software.model.Configuratore;
+import it.ingbs.ingegneria_software.model.GestoreConfiguratori;
 
 /**
  * Classe che si occupa solo della gestione della mappa delle credenziali
  */
 public class GestoreAccesso {
 
-    private static final String FILE_DI_ACCESSO_CREDENZIALI_FRUITORI_TXT = "File di accesso\\credenzialiFruitori.txt";
-    private static final String FILE_DI_ACCESSO_CREDENZIALI_CONFIGURATORI_TXT = "File di accesso\\credenzialiConfiguratori.txt";
+    private static final String FILE_DI_ACCESSO_CREDENZIALI_FRUITORI_TXT = "src\\File di accesso\\credenzialiFruitori.txt";
+    private static final String FILE_DI_ACCESSO_CREDENZIALI_CONFIGURATORI_TXT = "src\\File di accesso\\credenzialiConfiguratori.txt";
     private static final String UTENTE_DEFAULT="admin";
     private static final String PASS_DEFAULT="admin";
     
@@ -18,7 +22,7 @@ public class GestoreAccesso {
     private File file_fruitori = new File(FILE_DI_ACCESSO_CREDENZIALI_FRUITORI_TXT);
     private HashMap<String, String> mappaCredenzialiUtenti = new HashMap<>();
     private GestoreFileCredenziali gestoreFile;
-    private GestoreUtenti gestoreUtenti;
+    private GestoreConfiguratori gestoreConfiguratori ;
     
 
     public GestoreAccesso() {       
@@ -30,7 +34,7 @@ public class GestoreAccesso {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        this.gestoreUtenti = new GestoreUtenti(gestoreFile);
+        this.gestoreConfiguratori = new GestoreConfiguratori(gestoreFile);
     }
     /**
      * permette l'accesso all'utente: controlla prima di tutto che non sia il primo accesso,
@@ -39,13 +43,13 @@ public class GestoreAccesso {
      * @param passUtente
      * @return nuovoUtente se è il primo accesso, existingUtente se l'accesso è andato a buon fine, null se le credenziali sono errate
      */
-    public Utente accessoUtente(String nomeUtente, String passUtente ){
+    public Configuratore accessoConfiguratore (String nomeUtente, String passUtente ){
         if(nomeUtente.equals(UTENTE_DEFAULT) && passUtente.equals(PASS_DEFAULT)){
-            return registrazioneNuovoUtente();
+            return registrazioneNuovoConfiguratore();
         }else
         {
             if(controlloEsistenzaCredenziali(nomeUtente, passUtente)){                
-                Utente existingUtente = gestoreUtenti.trovaUtente(nomeUtente);
+                Configuratore existingUtente = gestoreConfiguratori.trovaConfiguratore(nomeUtente);
                 System.out.println("Accesso effettuato corretamente!");
                 return existingUtente;
             }
@@ -60,9 +64,9 @@ public class GestoreAccesso {
      * Inserisce le credenziali nella mappa e salva sul file
      * @return
      */
-    private Utente registrazioneNuovoUtente() {
+    private Configuratore registrazioneNuovoConfiguratore () {
         System.out.println("Sei stasto reindirizzato alla creazione del tuo Nome utente e Password personali:");
-        Configuratore newUtente = gestoreUtenti.creaUtenteConfiguratore();
+        Configuratore newUtente = gestoreConfiguratori.creaUtenteConfiguratore();
         aggiungiCredenzialiAllaMappa(newUtente.getNomeUtente(), newUtente.getPassword());
         return newUtente;
     }

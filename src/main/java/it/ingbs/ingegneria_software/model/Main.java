@@ -12,7 +12,7 @@ public class Main {
 		Sistema sistemaGenerale = new Sistema();
 
 		//chiedi credenziali d'accesso:
-		Utente utente = MenuAccesso.avvioLogin();
+		Utente utente = MenuAccesso.loginConfiguratore();
 
 		if (utente instanceof Configuratore){
 			//se utente è di tipo Configuratore, richiama il menu back-end:

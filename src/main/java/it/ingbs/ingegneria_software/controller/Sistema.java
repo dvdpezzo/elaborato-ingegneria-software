@@ -1,20 +1,29 @@
 package it.ingbs.ingegneria_software.controller;
 
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
-import it.ingbs.ingegneria_software.model.*;
-import it.ingbs.ingegneria_software.utilitaGenerale.*;
+import it.ingbs.ingegneria_software.model.Categoria;
+import it.ingbs.ingegneria_software.model.Configuratore;
+import it.ingbs.ingegneria_software.utilitaGenerale.InputDati;
+import it.ingbs.ingegneria_software.utilitaGenerale.MenuUtil;
 
 public class Sistema {
 
-    public void menuBackEnd(Configuratore configuratore, boolean isLoggedIn) {       
+	Logger logSistema;
+	
+	public Sistema() {
+		this.logSistema = Logger.getLogger("Sistema");
+	}
 
-    	String[] vociMenuBackEnd = new String[]{"AGGIUNGI COMUNE","AGGIUNGI COMPRENSORIO", 
+    public void menuBackEnd(Configuratore configuratore, boolean isLoggedIn) {     
+		
+		String[] vociMenuBackEnd = new String[]{"AGGIUNGI COMUNE","AGGIUNGI COMPRENSORIO", 
 												"AGGIUNGI NUOVA GERARCHIA",
 												"AGGIUNGI CATEGORIA A GERARCHIA ESISTENTE",
 												"VISUALIZZA",
-												"SALVA",
-												"LOGOUT"};
+												"SALVA"};
       
 		MenuUtil menuBackEnd = new MenuUtil("MENU BACK-END:", vociMenuBackEnd);
 		do {
@@ -35,16 +44,16 @@ public class Sistema {
 				break;
 
 				case 2:
-					ComprensorioGeografico comprensorio = configuratore.creaComprensorioGeografico();
-					System.out.println("Comprensorio aggiunto.");
+					// ComprensorioGeografico comprensorio = configuratore.creaComprensorioGeografico();
+					logSistema.log(Level.INFO, "Comprensorio aggiunto.");
 				break;
 				case 3:
 					List<Categoria> gerarchia = configuratore.creaGerarchia();
-					System.out.println("Nuova gerarchia creata.");
+					logSistema.log(Level.INFO, "Nuova gerarchia creata.");
 				break;
 				case 4:
 					Categoria categoria = configuratore.creaCategoria();
-					System.out.println("Categoria aggiunta a gerarchia esistente.");
+					logSistema.log(Level.INFO, "Categoria aggiunta a gerarchia esistente.");
 				break;
 				case 5:
 					String[] vociMenuVisualizzazione = new String[]{"COMPRENSORI", "GERARCHIA", "FATTIori DI CONVERSIONE"};
@@ -59,19 +68,16 @@ public class Sistema {
 				break;
 				case 6: 
 					configuratore.salvaCambiamenti();
-					System.out.println("Cambiamenti salvati.");
+					logSistema.log(Level.INFO, "Cambiamenti salvati.");
 				break;
 				case 0: 
 					isLoggedIn = false;
-					System.out.println("Logout effettuato.");
+					logSistema.log(Level.INFO, "Logout effettuato.");
+
 				break;
 			}		
 		} while (isLoggedIn);
 	}
-    public void creaConversione(){}
-    public void controlloConversione(){}
-    public void primoAccesso(){}
-    public void controlloAccesso(){}
 
     public void menuUtente() {
         throw new UnsupportedOperationException("Not supported yet.");
