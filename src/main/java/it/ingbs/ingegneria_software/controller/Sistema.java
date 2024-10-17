@@ -11,10 +11,10 @@ import it.ingbs.ingegneria_software.utilitaGenerale.MenuUtil;
 
 public class Sistema {
 
-	Logger logSistema;
+	public final Logger logSistema;
 	
 	public Sistema() {
-		this.logSistema = Logger.getLogger("Sistema");
+		this.logSistema = Logger.getLogger(getClass().getName());
 	}
 
     public void menuBackEnd(Configuratore configuratore, boolean isLoggedIn) {     

@@ -29,10 +29,8 @@ public class GestoreAccesso {
         this.gestoreFile = new GestoreFileCredenziali(mappaCredenzialiUtenti);        
         try {
             gestoreFile.configuraMappaCredenzialiDaFile(file_configuratori);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (Exception e) {
+            System.out.println("File non trovato: "+e.getMessage());
         }
         this.gestoreConfiguratori = new GestoreConfiguratori(gestoreFile);
     }
