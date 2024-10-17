@@ -1,8 +1,9 @@
 package it.ingbs.ingegneria_software.model;
 
 import java.util.*;
-
+import java.util.logging.Logger;
 import java.io.*;
+import java.util.logging.Level;
 
 import it.ingbs.ingegneria_software.utilita_generale.InputDati;
 import it.ingbs.ingegneria_software.utilita_generale.MenuUtil;
@@ -13,18 +14,19 @@ import it.ingbs.ingegneria_software.utilita_generale.MenuUtil;
 //classe che gestisce l'elenco dei comuni inseriti dal configuratore
 public class GestoreComuni {
 
-    private final String MSG_ERRORE_COMUNE_DUPLICE ="Comune già presente nella lista";
-    private final File fileComuni = new File("src\\Data File\\elencoComuni.txt");
-    private final String ERRORE_COMUNE_NON_TROVATO ="Comune non trovato!";
+    private static final String MSG_ERRORE_COMUNE_DUPLICE ="Comune già presente nella lista";
+    private static final String ERRORE_COMUNE_NON_TROVATO ="Comune non trovato!";
+    private final File fileComuni = new File("src\\Data File\\elencoComuni.txt");   
+    private final Logger logGestoreComuni = Logger.getLogger(getClass().getName());
     
 
-    public HashMap<Integer,String> mappaComuni = new HashMap<>();
+    private Map<Integer,String> mappaComuni = new HashMap<>();
 
     public GestoreComuni() {
         try {
             leggiComuni();
-        } catch (IOException e) {
-           e.printStackTrace();
+        } catch (IOException e){
+            logGestoreComuni.severe("Errore durante la lettura dei comuni dal file.");
         }
     }
 
@@ -32,7 +34,7 @@ public class GestoreComuni {
     //aggiunge un comune alla lista
     public void aggiungiComune(Comuni comune){
         if(controlloComuni(comune)){
-            System.out.println(MSG_ERRORE_COMUNE_DUPLICE);
+            logGestoreComuni.info(MSG_ERRORE_COMUNE_DUPLICE);
         }
         else{
             mappaComuni.put(comune.getNumero(),comune.getNome());
@@ -50,7 +52,7 @@ public class GestoreComuni {
     public void visualizzaComuni(){
         for (Map.Entry<Integer, String> entry : mappaComuni.entrySet())
         {
-            System.out.println(entry.getKey()+" "+entry.getValue()+"\n");
+            logGestoreComuni.log(Level.INFO, "{0} {1}\n", new Object[]{entry.getKey(), entry.getValue()});
         }
     }
 
@@ -74,13 +76,13 @@ public class GestoreComuni {
 
     //metodo che salva la mappa dei comuni su un file 
     public void scriviComuni() throws IOException{
-        BufferedWriter bw = new BufferedWriter(new FileWriter(fileComuni));
-        for (HashMap.Entry<Integer,String> entry : mappaComuni.entrySet()){
-            String comune = entry.getKey() +" "+entry.getValue();
-            bw.write(comune);
-            bw.newLine();
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(fileComuni))) {
+            for (Map.Entry<Integer,String> entry : mappaComuni.entrySet()) {
+                String comune = entry.getKey() +" "+entry.getValue();
+                bw.write(comune);
+                bw.newLine();
+            }
         }
-        bw.close();
     }
 
     /*metodo che legge la mappa dei comuni da file
@@ -90,7 +92,7 @@ public class GestoreComuni {
             String parola = br.readLine();
             do{
                 String [] datiComune = parola.split(" ");
-                Integer num = Integer.parseInt(datiComune[0]);
+                Integer num = Integer.valueOf(datiComune[0]);
                 String nome = datiComune[1];
                 mappaComuni.put(num,nome); 
                 parola = br.readLine();
@@ -100,8 +102,8 @@ public class GestoreComuni {
     }
 
     public void stampaComuni() {
-        for (HashMap.Entry<Integer, String> entry : mappaComuni.entrySet()) {
-            System.out.println(entry.getValue());
+        for (Map.Entry<Integer, String> entry : mappaComuni.entrySet()) {
+            logGestoreComuni.info(entry.getValue());
         }
     }
 

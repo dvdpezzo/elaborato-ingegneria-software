@@ -1,12 +1,14 @@
 package it.ingbs.ingegneria_software.model;
 
 import java.util.*;
+import java.util.logging.Logger;
 
 import it.ingbs.ingegneria_software.utilita_generale.InputDati;
 
 public class Configuratore extends Utente  {
+    private Logger logConfiguratore = Logger.getLogger(getClass().getName());
     private static final String DEFAULT = "admin";
-    private GestoreComprensorio gestoreComprensorio;
+    private final GestoreComprensorio gestoreComprensorio;
 
     
 
@@ -33,7 +35,7 @@ public class Configuratore extends Utente  {
                 String comune = gc.scegliComune(numeroComune);
 
                 if (listaComuni.contains(comune)) {
-                    System.out.println("Questo comune è già stato inserito!");
+                    logConfiguratore.info("Questo comune è già stato inserito!");
                 } else {
                     listaComuni.add(comune);
                     comuneValido = true;
@@ -49,7 +51,6 @@ public class Configuratore extends Utente  {
 
 
     public void aggiungiComune(String nomeComune, int codiceComprensorio) {
-        ComprensorioGeografico comprensorio = gestoreComprensorio.getComprensorio(codiceComprensorio);
         gestoreComprensorio.aggiungiComuneAlComprensorio(codiceComprensorio, nomeComune);        
     }
 
@@ -57,8 +58,8 @@ public class Configuratore extends Utente  {
     public void salvaCambiamenti(){}
 
     public void visualizzaComprensori(){
-        for (ComprensorioGeografico comprensorio : gestoreComprensorio.mappaComprensori.values()) {
-            System.out.println(comprensorio);
+        for (ComprensorioGeografico comprensorio : gestoreComprensorio.getMappaComprensori().values()) {
+            logConfiguratore.info(comprensorio.toString());
         }
     }
     public void visualizzaGerarchia(){}

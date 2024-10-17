@@ -9,14 +9,14 @@ import it.ingbs.ingegneria_software.utilita_generale.MenuUtil;
 
 public class Sistema {
 
-	public final Logger logSistema = Logger.getLogger(getClass().getName());
-	public final String[] vociMenuBackEnd = new String[]{"AGGIUNGI COMUNE","AGGIUNGI COMPRENSORIO", 
+	private final Logger logSistema = Logger.getLogger(getClass().getName());
+	private final String[] vociMenuBackEnd = new String[]{"AGGIUNGI COMUNE","AGGIUNGI COMPRENSORIO", 
 												"AGGIUNGI NUOVA GERARCHIA",
 												"AGGIUNGI CATEGORIA A GERARCHIA ESISTENTE",
 												"VISUALIZZA",
 												"SALVA"};
       
-	public final MenuUtil menuBackEnd = new MenuUtil("MENU BACK-END:", vociMenuBackEnd);
+	private final MenuUtil menuBackEnd = new MenuUtil("MENU BACK-END:", vociMenuBackEnd);
 	
 
     public void backEnd (Configuratore configuratore, boolean isLoggedIn) {
@@ -36,6 +36,7 @@ public class Sistema {
 						}while (risposta);
 						
 					}else{
+						// se non esiste
 						logSistema.log(Level.SEVERE, "Comprensorio non trovato.");
 					}
 				break;
@@ -47,7 +48,7 @@ public class Sistema {
 				break;
 				case 3: //AGGIUNGI NUOVA GERARCHIA
 					// List<Categoria> gerarchia = configuratore.creaGerarchia();
-					logSistema.log(Level.INFO, "Nuova gerarchia creata.");
+					logSistema.info( "Nuova gerarchia creata.");
 				break;
 				case 4: //AGGIUNGI CATEGORIA A GERARCHIA ESISTENTE
 					// Categoria categoria = configuratore.creaCategoria();

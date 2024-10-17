@@ -9,8 +9,8 @@ import java.util.logging.Logger;
 //classe che gestisce l'elenco dei comprensori inseriti dal configuratore
 public class GestoreComprensorio {
 
-    public final Logger loggerGestoreComprensorio;
-    public HashMap<Integer,ComprensorioGeografico> mappaComprensori;
+    private final Logger loggerGestoreComprensorio;
+    private HashMap<Integer,ComprensorioGeografico> mappaComprensori;
     private File fileComprensori = new File("src\\Data File\\elencoComprensori.txt");
 
     //costruttore che legge i comprensori dal file e li carica nella mappa
@@ -18,6 +18,10 @@ public class GestoreComprensorio {
        this.loggerGestoreComprensorio  = Logger.getLogger(getClass().getName());
        this.mappaComprensori = new HashMap<>();
        configuraMappaComprensoriDaFile();
+    }
+
+    public HashMap<Integer, ComprensorioGeografico> getMappaComprensori() {
+        return mappaComprensori;
     }
 
 
@@ -43,7 +47,7 @@ public class GestoreComprensorio {
         }
     }
     //controlla se il comprensorio sia già presente oppure no
-    public ComprensorioGeografico controlloComprensorioDuplicato (ComprensorioGeografico comprensorioNuovo) {
+    private ComprensorioGeografico controlloComprensorioDuplicato (ComprensorioGeografico comprensorioNuovo) {
         for (ComprensorioGeografico comprensorio : mappaComprensori.values()) {
             if (comprensorio.equals(comprensorioNuovo)) {
                 return comprensorio;
@@ -92,6 +96,8 @@ public class GestoreComprensorio {
             loggerGestoreComprensorio.log(Level.SEVERE, "Error reading file", e);
         }
     }
+
+    
 
 
 
