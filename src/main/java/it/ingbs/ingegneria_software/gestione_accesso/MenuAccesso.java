@@ -1,8 +1,8 @@
-package it.ingbs.ingegneria_software.gestioneAccesso;
+package it.ingbs.ingegneria_software.gestione_accesso;
 
 import it.ingbs.ingegneria_software.model.Configuratore;
-import it.ingbs.ingegneria_software.model.Utente;
-import it.ingbs.ingegneria_software.utilitaGenerale.InputDati;
+// import it.ingbs.ingegneria_software.model.Utente;
+import it.ingbs.ingegneria_software.utilita_generale.InputDati;
 
 public class MenuAccesso {
 

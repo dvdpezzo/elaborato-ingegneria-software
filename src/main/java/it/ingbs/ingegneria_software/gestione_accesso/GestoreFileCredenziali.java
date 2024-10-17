@@ -1,4 +1,4 @@
-package it.ingbs.ingegneria_software.gestioneAccesso;
+package it.ingbs.ingegneria_software.gestione_accesso;
 
 import java.io.*;
 import java.util.HashMap;

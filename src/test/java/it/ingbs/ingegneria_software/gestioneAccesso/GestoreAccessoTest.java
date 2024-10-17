@@ -4,15 +4,15 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.Test;
 
+import it.ingbs.ingegneria_software.gestione_accesso.GestoreAccesso;
 import it.ingbs.ingegneria_software.model.Configuratore;
-import it.ingbs.ingegneria_software.model.Utente;
 
 class GestoreAccessoTest {
         
     @Test
     void testAccessoUtenteWithDefaultCredentials() {
         GestoreAccesso gestoreAccesso = new GestoreAccesso();
-        Utente result = gestoreAccesso.accessoConfiguratore("admin", "admin");
+        Configuratore result = gestoreAccesso.accessoConfiguratore("admin", "admin");
         assertNotNull(result);
         assertTrue(result instanceof Configuratore);
     }

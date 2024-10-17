@@ -5,57 +5,60 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import it.ingbs.ingegneria_software.model.Categoria;
+import it.ingbs.ingegneria_software.model.ComprensorioGeografico;
 import it.ingbs.ingegneria_software.model.Configuratore;
-import it.ingbs.ingegneria_software.utilitaGenerale.InputDati;
-import it.ingbs.ingegneria_software.utilitaGenerale.MenuUtil;
+import it.ingbs.ingegneria_software.utilita_generale.InputDati;
+import it.ingbs.ingegneria_software.utilita_generale.MenuUtil;
 
 public class Sistema {
 
 	public final Logger logSistema;
-	
-	public Sistema() {
-		this.logSistema = Logger.getLogger(getClass().getName());
-	}
-
-    public void menuBackEnd(Configuratore configuratore, boolean isLoggedIn) {     
-		
-		String[] vociMenuBackEnd = new String[]{"AGGIUNGI COMUNE","AGGIUNGI COMPRENSORIO", 
+	public final String[] vociMenuBackEnd = new String[]{"AGGIUNGI COMUNE","AGGIUNGI COMPRENSORIO", 
 												"AGGIUNGI NUOVA GERARCHIA",
 												"AGGIUNGI CATEGORIA A GERARCHIA ESISTENTE",
 												"VISUALIZZA",
 												"SALVA"};
       
-		MenuUtil menuBackEnd = new MenuUtil("MENU BACK-END:", vociMenuBackEnd);
+	public final MenuUtil menuBackEnd = new MenuUtil("MENU BACK-END:", vociMenuBackEnd);
+	
+	public Sistema() {
+		this.logSistema = Logger.getLogger(getClass().getName());
+	}
+
+    public void backEnd (Configuratore configuratore, boolean isLoggedIn) {
 		do {
 			int scelta = menuBackEnd.scegli();
             switch (scelta) { 
-				case 1:
-					boolean aggiungiComune;
-					do{
-						if(InputDati.yesOrNo("Vuoi aggiungere un comune?")){
-							// chiede a quale comprensorio lo voglio aggiungere, se non ne esiste ancora nessuno
-							int codiceComprensorio = InputDati.leggiIntero("Inserisci il codice del comprensorio al quale si vuole aggiungere il comune:");
-							// lo rimando alla creazione del comprensorio geografico
+				case 1: //AGGIUNGI COMUNE
+					boolean risposta;											
+					// chiede a quale comprensorio lo voglio aggiungere
+					int codiceComprensorio = InputDati.leggiIntero("Inserisci il codice del comprensorio al quale si vuole aggiungere il comune:");
+					// se esiste:
+					if (configuratore.controllaEsistenzaComprensorio(codiceComprensorio)){
+						do{
 							configuratore.aggiungiComune(InputDati.leggiStringa("Inserisci il nome del comune:"), codiceComprensorio);
-							aggiungiComune=true;
-						}   
-						else aggiungiComune=false;     
-					}while(aggiungiComune);
+							risposta = InputDati.yesOrNo("Vuoi aggiungere un altro comune?");
+						}while (risposta);
+						
+					}else{
+						logSistema.log(Level.SEVERE, "Comprensorio non trovato.");
+					}
 				break;
 
-				case 2:
-					// ComprensorioGeografico comprensorio = configuratore.creaComprensorioGeografico();
+				case 2: //AGGIUNGI COMPRENSORIO
+					ComprensorioGeografico comprensorio = configuratore.creaComprensorioGeografico();
+					logSistema.log(Level.INFO, comprensorio.toString());
 					logSistema.log(Level.INFO, "Comprensorio aggiunto.");
 				break;
-				case 3:
+				case 3: //AGGIUNGI NUOVA GERARCHIA
 					List<Categoria> gerarchia = configuratore.creaGerarchia();
 					logSistema.log(Level.INFO, "Nuova gerarchia creata.");
 				break;
-				case 4:
+				case 4: //AGGIUNGI CATEGORIA A GERARCHIA ESISTENTE
 					Categoria categoria = configuratore.creaCategoria();
 					logSistema.log(Level.INFO, "Categoria aggiunta a gerarchia esistente.");
 				break;
-				case 5:
+				case 5: //VISUALIZZA
 					String[] vociMenuVisualizzazione = new String[]{"COMPRENSORI", "GERARCHIA", "FATTIori DI CONVERSIONE"};
 					MenuUtil menuVisualizza = new MenuUtil("MENU DI VISUALIZZAZIONE:", vociMenuVisualizzazione);
 				
@@ -66,7 +69,7 @@ public class Sistema {
 						case 3: configuratore.visualizzaFattoriConversione(); break;
 					}
 				break;
-				case 6: 
+				case 6: //SALVA 
 					configuratore.salvaCambiamenti();
 					logSistema.log(Level.INFO, "Cambiamenti salvati.");
 				break;
@@ -79,7 +82,7 @@ public class Sistema {
 		} while (isLoggedIn);
 	}
 
-    public void menuUtente() {
+    public void frontEnd () {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 

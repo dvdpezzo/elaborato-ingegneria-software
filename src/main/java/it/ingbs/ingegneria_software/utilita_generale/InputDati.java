@@ -1,4 +1,4 @@
-package it.ingbs.ingegneria_software.utilitaGenerale;
+package it.ingbs.ingegneria_software.utilita_generale;
 
 import java.util.*;
 public class InputDati 

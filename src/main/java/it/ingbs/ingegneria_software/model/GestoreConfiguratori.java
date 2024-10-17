@@ -3,8 +3,8 @@ package it.ingbs.ingegneria_software.model;
 import java.util.HashMap;
 import java.util.Map;
 
-import it.ingbs.ingegneria_software.gestioneAccesso.GestoreFileCredenziali;
-import it.ingbs.ingegneria_software.utilitaGenerale.InputDati;
+import it.ingbs.ingegneria_software.gestione_accesso.GestoreFileCredenziali;
+import it.ingbs.ingegneria_software.utilita_generale.InputDati;
 
 
 public class GestoreConfiguratori {

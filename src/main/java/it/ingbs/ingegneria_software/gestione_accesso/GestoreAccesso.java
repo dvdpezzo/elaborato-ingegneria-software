@@ -1,7 +1,6 @@
-package it.ingbs.ingegneria_software.gestioneAccesso;
+package it.ingbs.ingegneria_software.gestione_accesso;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.HashMap;
 

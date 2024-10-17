@@ -32,6 +32,21 @@ public class ComprensorioGeografico {
         return listaComuni;
     }
 
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("Codice = ").append(getCodice()).append(" Comuni = [");
+        for (String comune : getListaComuni()) {
+            sb.append(comune).append(", ");
+        }
+        if (sb.length() > 2) {
+            sb.setLength(sb.length() - 2); // remove the trailing comma and space
+        }
+        sb.append("]");
+        return sb.toString();
+    }
+
+
 
 
 }
