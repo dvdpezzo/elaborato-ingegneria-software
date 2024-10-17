@@ -19,7 +19,7 @@ public class Configuratore extends Utente  {
 /* crea un compensorioGeofratico partento dalla lista dei comuni, l'utente decide quali comuni inserire in base al numero inserito
    esegue anche un controllo sul comune scelto per evitare che si ripeta lo stesso. 
  */
-    public ComprensorioGeografico creaComprensorioGeografico(){      
+    public void creaComprensorioGeografico(){      
 
         List<String> listaComuni = new LinkedList<>();
         GestoreComuni gc = new GestoreComuni();
@@ -41,19 +41,23 @@ public class Configuratore extends Utente  {
                 }
             }
         }
-        return new ComprensorioGeografico(listaComuni);
+        ComprensorioGeografico comprensorioNuovo = new ComprensorioGeografico(listaComuni);
+        gestoreComprensorio.aggiungiComprensorio(comprensorioNuovo);
     }   
 
     public void aggiungiComune(String nomeComune, int codiceComprensorio) {
         ComprensorioGeografico comprensorio = gestoreComprensorio.getComprensorio(codiceComprensorio);
-        comprensorio.aggiungiComune(nomeComune);
-        System.out.println("Comune " + nomeComune + " aggiunto con successo al comprensorio " + codiceComprensorio);
+        gestoreComprensorio.aggiungiComuneAlComprensorio(codiceComprensorio, nomeComune);        
     }
 
 
     public void salvaCambiamenti(){}
 
-    public void visualizzaComprensori(){}
+    public void visualizzaComprensori(){
+        for (ComprensorioGeografico comprensorio : gestoreComprensorio.mappaComprensori.values()) {
+            System.out.println(comprensorio);
+        }
+    }
     public void visualizzaGerarchia(){}
     public void visualizzaFattoriConversione(){}
 

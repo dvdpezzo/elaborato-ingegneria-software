@@ -32,6 +32,7 @@ public class Sistema {
 				case 1: //AGGIUNGI COMUNE
 					boolean risposta;											
 					// chiede a quale comprensorio lo voglio aggiungere
+					configuratore.visualizzaComprensori();
 					int codiceComprensorio = InputDati.leggiIntero("Inserisci il codice del comprensorio al quale si vuole aggiungere il comune:");
 					// se esiste:
 					if (configuratore.controllaEsistenzaComprensorio(codiceComprensorio)){
@@ -46,9 +47,9 @@ public class Sistema {
 				break;
 
 				case 2: //AGGIUNGI COMPRENSORIO
-					ComprensorioGeografico comprensorio = configuratore.creaComprensorioGeografico();
-					logSistema.log(Level.INFO, comprensorio.toString());
-					logSistema.log(Level.INFO, "Comprensorio aggiunto.");
+					configuratore.creaComprensorioGeografico();
+					configuratore.visualizzaComprensori();
+					
 				break;
 				case 3: //AGGIUNGI NUOVA GERARCHIA
 					List<Categoria> gerarchia = configuratore.creaGerarchia();

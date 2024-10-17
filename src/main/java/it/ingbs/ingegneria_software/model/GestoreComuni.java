@@ -16,6 +16,15 @@ public class GestoreComuni {
 
     public HashMap<Integer,String> mappaComuni = new HashMap<>();
 
+    public GestoreComuni() {
+        try {
+            leggiComuni();
+        } catch (IOException e) {
+           e.printStackTrace();
+        }
+    }
+
+
     //aggiunge un comune alla lista
     public void aggiungiComune(Comuni comune){
         if(controlloComuni(comune)){
@@ -67,7 +76,7 @@ public class GestoreComuni {
 
     /*metodo che legge la mappa dei comuni da file
       OSS: non so se funziona, da testare*/ 
-    public void leggiComuni()throws IOException{ 
+    private void leggiComuni()throws IOException{ 
         try (BufferedReader br = new BufferedReader(new FileReader(fileComuni))){
             String parola = br.readLine();
             do{
