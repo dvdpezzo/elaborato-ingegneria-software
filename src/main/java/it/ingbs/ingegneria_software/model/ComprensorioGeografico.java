@@ -1,45 +1,67 @@
 package it.ingbs.ingegneria_software.model;
 
 import java.util.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 public class ComprensorioGeografico {
 
+    private Logger logComprensorio = Logger.getLogger(getClass().getName());
     private final int codice;
     private List<String> listaComuni = new ArrayList<>(); //non posso mettere List()
+    private Random random = new Random();
     
-    
+    /**
+     * Costruttore per quando creo nuovo (assegna codice random)
+     */
     public ComprensorioGeografico(List<String> listaComuni){
         this.codice=generaCodice();
         this.listaComuni=listaComuni;
     }
 
+    /**
+     * Costruttore per quando prendo da file
+     */
     public ComprensorioGeografico(int codice, String listaComuni) {
         this.codice = codice;
         this.listaComuni = parseComuni(listaComuni);
     }
 
+    /**
+     * Analizza una rappresentazione di stringa di un elenco di comuni in una List<String>.
+     *
+     * <p>La stringa di input dovrebbe essere nel formato "[comune1, comune2, ..., comuneN]".
+     * La funzione rimuove le parentesi quadre e divide la stringa dove trova virgole per ottenere
+     * una serie di nomi di comuni. Quindi converte l'array in un List<String> e lo restituisce.
+     * 
+     * @param listaComuni una rappresentazione di stringa di un elenco di comuni.
+     * @return List<String> contenente i nomi dei comuni analizzati.
+     */
     private List<String> parseComuni(String listaComuni) {
         String[] comuniArray = listaComuni.substring(1, listaComuni.length() - 1).split(", ");
         return new ArrayList<>(Arrays.asList(comuniArray));
     }
 
-
     public int getCodice() {
         return codice;
     }
   
-    //metodo per la creazione del codice da 0 a 9000
-    private int generaCodice(){
-        Random random = new Random();
-        return 0000 + random.nextInt(9000);
-
+    /**
+     * genera codice randomico per Comprensorio
+     * @return codice generato tra 0 e 9999
+     */
+    private int generaCodice(){        
+        return random.nextInt(9999);
     }
 
+    /**
+     * aggiunge comune alla listaComuni se non già presente, altrimenti comunica messaggio d'errore
+     */
     public void aggiungiComune(String nomeComune) {
         if (!listaComuni.contains(nomeComune)) {
             listaComuni.add(nomeComune);
-            System.out.println("Comune " + nomeComune + " aggiunto con successo al comprensorio " + getCodice());
+            logComprensorio.log(Level.INFO, "Comune {0} aggiunto con successo al comprensorio {1}", new Object[]{nomeComune, getCodice()});
         } else {
-            System.out.println("Comune già presente nel comprensorio geografico.");
+            logComprensorio.warning(("Comune già presente nel comprensorio geografico."));
         }
     }
     
@@ -73,9 +95,5 @@ public class ComprensorioGeografico {
         ComprensorioGeografico other = (ComprensorioGeografico) obj;
         return this.listaComuni.equals(other.listaComuni);
     }
-
-
-
-
 
 }

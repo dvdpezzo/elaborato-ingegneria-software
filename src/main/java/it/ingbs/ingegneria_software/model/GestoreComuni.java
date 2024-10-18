@@ -102,10 +102,13 @@ public class GestoreComuni {
     }
 
     public void stampaComuni() {
+        int position = 1;
         for (Map.Entry<Integer, String> entry : mappaComuni.entrySet()) {
-            logGestoreComuni.info(entry.getValue());
+            logGestoreComuni.info("Position: " + position + ", Comune: " + entry.getValue());
+            position++;
         }
     }
+
 
     
 }

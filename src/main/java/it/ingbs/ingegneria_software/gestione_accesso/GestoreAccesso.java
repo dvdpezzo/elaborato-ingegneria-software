@@ -37,11 +37,11 @@ public class GestoreAccesso {
         this.gestoreConfiguratori = new GestoreConfiguratori(gestoreFile);
     }
     /**
-     * permette l'accesso all'utente: controlla prima di tutto che non sia il primo accesso,
+     * permette l'accesso al configuratore: controlla prima di tutto che non sia il primo accesso,
      * altrimenti controlla le credenziali e se sono valide, permette l'accesso
      * @param nomeUtente
      * @param passUtente
-     * @return nuovoUtente se è il primo accesso, existingUtente se l'accesso è andato a buon fine, null se le credenziali sono errate
+     * @return nuovo configuratore se è il primo accesso, existingConfiguratore se l'accesso è andato a buon fine, null se le credenziali sono errate
      */
     public Configuratore accessoConfiguratore (String nomeUtente, String passUtente ){
         if(nomeUtente.equals(UTENTE_DEFAULT) && passUtente.equals(PASS_DEFAULT)){
@@ -49,9 +49,9 @@ public class GestoreAccesso {
         }else
         {
             if(controlloEsistenzaCredenziali(nomeUtente, passUtente)){                
-                Configuratore existingUtente = gestoreConfiguratori.trovaConfiguratore(nomeUtente);
+                Configuratore existingConfiguratore = gestoreConfiguratori.trovaConfiguratore(nomeUtente);
                 logGestoreAccesso.info("Accesso effettuato corretamente!");
-                return existingUtente;
+                return existingConfiguratore;
             }
             else{
                 logGestoreAccesso.info("ERRORE! Nome Utente o password errati!");
@@ -61,8 +61,8 @@ public class GestoreAccesso {
 
     }
     /**
-     * Inserisce le credenziali nella mappa e salva sul file
-     * @return
+     * Effettua la registrazione di un nuovo configuratore: inserisce le credenziali nella mappa e salva sul file
+     * @return nuovo configuratore
      */
     private Configuratore registrazioneNuovoConfiguratore () {
         logGestoreAccesso.info("Sei stasto reindirizzato alla creazione del tuo Nome utente e Password personali:");
@@ -71,7 +71,7 @@ public class GestoreAccesso {
         return newUtente;
     }
     /**
-     * Permette di aggiungere nome utente e password nella mappa e le salva sul file
+     * Aggiunge nome utente e password nella mappa e le salva sul file
      * @param nomeUtente 
      * @param pass password
      * @throws IOException 
@@ -81,7 +81,7 @@ public class GestoreAccesso {
         try {
             gestoreFile.salvaMappaCredenzialiSuFile(fileConfiguratori);
         } catch (IOException e) {
-            e.printStackTrace();
+           logGestoreAccesso.log(Level.SEVERE, "File assente");
         }
     }
 

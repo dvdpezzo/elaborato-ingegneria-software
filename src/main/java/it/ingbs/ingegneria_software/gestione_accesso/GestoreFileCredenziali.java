@@ -1,7 +1,7 @@
 package it.ingbs.ingegneria_software.gestione_accesso;
 
 import java.io.*;
-import java.util.HashMap;
+import java.util.Map;
 
 /**
  * classe usata per la gestione del file di accesso dei configuratori e fruitori:
@@ -9,24 +9,24 @@ import java.util.HashMap;
 */
 public class GestoreFileCredenziali {
     
-    private HashMap<String, String> mappaCredenziali; 
+    private Map<String, String> mappaCredenziali; 
 
-    public GestoreFileCredenziali(HashMap<String, String> mappaCredenziali) {
+    public GestoreFileCredenziali(Map<String, String> mappaCredenziali) {
         this.mappaCredenziali = mappaCredenziali;
     }
 
     /**
      * Permette di aggiungere nuove credenziali dalla mappa al file
-     * @throws IOException
+     * @throws IOException file delle credenziali non esiste
      */
     public void salvaMappaCredenzialiSuFile(File nomeFile) throws IOException {
-        BufferedWriter bw = new BufferedWriter(new FileWriter(nomeFile));
-        for (HashMap.Entry<String,String> entry : mappaCredenziali.entrySet()) {
-            String utente = entry.getKey() + " " + entry.getValue();
-            bw.write(utente);
-            bw.newLine();
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(nomeFile))) {
+            for (Map.Entry<String,String> entry : mappaCredenziali.entrySet()) {
+                String utente = entry.getKey() + " " + entry.getValue();
+                bw.write(utente);
+                bw.newLine();
+            }
         }
-        bw.close();
     }
     /**
      * Effettua configurazione iniziale della mappa: legge il file delle credenziali e imposta per ogni riga
@@ -34,7 +34,7 @@ public class GestoreFileCredenziali {
      * @throws FileNotFoundException 
      * @throws IOException
      */
-    public void configuraMappaCredenzialiDaFile(File nomeFile) throws FileNotFoundException, IOException {
+    public void configuraMappaCredenzialiDaFile(File nomeFile) throws IOException {
         try (BufferedReader br = new BufferedReader(new FileReader(nomeFile))) {
             String parola = br.readLine();
             do {
@@ -47,11 +47,19 @@ public class GestoreFileCredenziali {
         }
     }   
 
-    public HashMap<String, String> getMappaCredenziali() {
+    /**
+     * Getter della mappa delle credenziali
+     * @return
+     */
+    public Map<String, String> getMappaCredenziali() {
         return mappaCredenziali;
     }
 
-    public void setMappaCredenziali(HashMap<String, String> mappaCredenziali) {
+    /**
+     * Setter della mappa delle credenziali
+     * @param mappaCredenziali
+     */
+    public void setMappaCredenziali(Map<String, String> mappaCredenziali) {
         this.mappaCredenziali = mappaCredenziali;
     }
 }

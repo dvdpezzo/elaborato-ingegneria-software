@@ -19,6 +19,11 @@ public class Sistema {
 	private final MenuUtil menuBackEnd = new MenuUtil("MENU BACK-END:", vociMenuBackEnd);
 	
 
+	/**
+	 * Menu accessibile ai soli configuratori, viene mostrato finchè isLoggedIn è true
+	 * @param configuratore Configuratore che ha effettuato l'accesso
+	 * @param isLoggedIn
+	 */
     public void backEnd (Configuratore configuratore, boolean isLoggedIn) {
 		do {
 			int scelta = menuBackEnd.scegli();
@@ -27,18 +32,12 @@ public class Sistema {
 					boolean risposta;											
 					// chiede a quale comprensorio lo voglio aggiungere
 					configuratore.visualizzaComprensori();
-					int codiceComprensorio = InputDati.leggiIntero("Inserisci il codice del comprensorio al quale si vuole aggiungere il comune:");
-					// se esiste:
-					if (configuratore.controllaEsistenzaComprensorio(codiceComprensorio)){
-						do{
-							configuratore.aggiungiComune(InputDati.leggiStringa("Inserisci il nome del comune:"), codiceComprensorio);
-							risposta = InputDati.yesOrNo("Vuoi aggiungere un altro comune?");
-						}while (risposta);
-						
-					}else{
-						// se non esiste
-						logSistema.log(Level.SEVERE, "Comprensorio non trovato.");
-					}
+					int codiceComprensorio = InputDati.leggiIntero("Inserisci il codice del comprensorio al quale si vuole aggiungere il comune:");					
+					do{
+						configuratore.aggiungiComune(InputDati.leggiStringa("Inserisci il nome del comune:"), codiceComprensorio);
+						risposta = InputDati.yesOrNo("Vuoi aggiungere un altro comune?");
+					}while (risposta);						
+					
 				break;
 
 				case 2: //AGGIUNGI COMPRENSORIO
@@ -78,7 +77,7 @@ public class Sistema {
 		} while (isLoggedIn);
 	}
 
-    public void frontEnd () {
+	    public void frontEnd () {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 

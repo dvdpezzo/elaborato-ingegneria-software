@@ -9,12 +9,12 @@ import it.ingbs.ingegneria_software.utilita_generale.InputDati;
 
 public class GestoreConfiguratori {
 
-    private HashMap<String, Configuratore> mappaConfiguratori = new HashMap<>();
+    private Map<String, Configuratore> mappaConfiguratori = new HashMap<>();
 
     public GestoreConfiguratori(GestoreFileCredenziali gestoreFileCredenziali) {
          this.mappaConfiguratori = setMappaConfiguratori(gestoreFileCredenziali.getMappaCredenziali());
     }
-    private HashMap<String, Configuratore> setMappaConfiguratori (HashMap<String, String> mappaCredenziali) {
+    private Map<String, Configuratore> setMappaConfiguratori (Map<String, String> mappaCredenziali) {
         for (Map.Entry<String, String> entry : mappaCredenziali.entrySet()) {
             String nome = entry.getKey();
             String pass = entry.getValue();
