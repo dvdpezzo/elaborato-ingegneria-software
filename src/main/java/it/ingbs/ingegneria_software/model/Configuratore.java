@@ -1,14 +1,16 @@
 package it.ingbs.ingegneria_software.model;
 
-import java.util.*;
+import java.util.Collections;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import it.ingbs.ingegneria_software.utilita_generale.InputDati;
 
 public class Configuratore extends Utente  {
-    private Logger logConfiguratore = Logger.getLogger(getClass().getName());
-    private static final String DEFAULT = "admin";
+    private static final Logger LOGGER = Logger.getLogger(Configuratore.class.getName());
+    private static final int MIN_NUMERO_COMUNI_COMPRENSORIO = 3;
     private final GestoreComprensorio gestoreComprensorio;  
     private final GestoreCategorie gestoreCategorie;  
 
@@ -29,8 +31,8 @@ public class Configuratore extends Utente  {
 
         gc.stampaComuni();
 
-        //un comprensorio deve avere minimo n=3 comuni limitrofi
-        inserimentoComuni(listaComuni, gc, 3);
+        //un comprensorio deve avere minimo n=3 ? comuni limitrofi
+        inserimentoComuni(listaComuni, gc, MIN_NUMERO_COMUNI_COMPRENSORIO);
 
         // Riordina in ordine alfabetico la lista dei comuni, onde evitare Comprensori geogradici duplicati
         Collections.sort(listaComuni);
@@ -49,7 +51,7 @@ public class Configuratore extends Utente  {
                 int numeroComune = InputDati.leggiIntero("Inserisci il numero del " + (i + 1) + "° comune:");
                 String comune = gc.scegliComune(numeroComune);
                 if (listaComuni.contains(comune)) {
-                    logConfiguratore.info("Questo comune è già stato inserito!");
+                    LOGGER.info("Questo comune è già stato inserito!");
                 } else {
                     listaComuni.add(comune);
                     comuneValido = true;
@@ -66,7 +68,7 @@ public class Configuratore extends Utente  {
         if(controllaEsistenzaComprensorio(codiceComprensorio)){
             gestoreComprensorio.aggiungiComuneAlComprensorio(codiceComprensorio, nomeComune);
         }else{
-            logConfiguratore.log(Level.SEVERE, "Comprensorio non trovato.");
+            LOGGER.log(Level.SEVERE, "Comprensorio non trovato.");
         }
                 
     }
@@ -83,7 +85,7 @@ public class Configuratore extends Utente  {
      */
     public void visualizzaComprensori(){
         for (ComprensorioGeografico comprensorio : gestoreComprensorio.getMappaComprensori().values()) {
-            logConfiguratore.info(comprensorio.toString());
+            LOGGER.info(comprensorio.toString());
         }
     }
 

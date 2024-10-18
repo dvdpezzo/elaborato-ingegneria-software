@@ -1,8 +1,8 @@
 package it.ingbs.ingegneria_software.controller;
 
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.List;
 
 import it.ingbs.ingegneria_software.model.Categoria;
 import it.ingbs.ingegneria_software.model.Configuratore;
@@ -11,7 +11,7 @@ import it.ingbs.ingegneria_software.utilita_generale.MenuUtil;
 
 public class Sistema {
 
-	private final Logger logSistema = Logger.getLogger(getClass().getName());
+	private static final Logger LOGGER = Logger.getLogger(Sistema.class.getName());
 	private final String[] vociMenuBackEnd = new String[]{"AGGIUNGI COMUNE","AGGIUNGI COMPRENSORIO", 
 												"AGGIUNGI NUOVA GERARCHIA",
 												"AGGIUNGI CATEGORIA A GERARCHIA ESISTENTE",
@@ -51,11 +51,11 @@ public class Sistema {
 					String nomeNuovaGerarchia = InputDati.leggiStringaNonVuota("Inserire nome nuova gerarchia:");
 					List<Categoria> gerarchia = configuratore.creaGerarchia(nomeNuovaGerarchia);
 					configuratore.visualizzaGerarchia();
-					logSistema.info( "Nuova gerarchia creata.");
+					LOGGER.info( "Nuova gerarchia creata.");
 				break;
 				case 4: //AGGIUNGI CATEGORIA A GERARCHIA ESISTENTE
 					// Categoria categoria = configuratore.creaCategoria();
-					logSistema.log(Level.INFO, "Categoria aggiunta a gerarchia esistente.");
+					LOGGER.log(Level.INFO, "Categoria aggiunta a gerarchia esistente.");
 				break;
 				case 5: //VISUALIZZA
 					String[] vociMenuVisualizzazione = new String[]{"COMPRENSORI", "GERARCHIA", "FATTIori DI CONVERSIONE"};
@@ -70,11 +70,11 @@ public class Sistema {
 				break;
 				case 6: //SALVA 
 					configuratore.salvaCambiamenti();
-					logSistema.log(Level.INFO, "Cambiamenti salvati.");
+					LOGGER.log(Level.INFO, "Cambiamenti salvati.");
 				break;
 				case 0: 
 					isLoggedIn = false;
-					logSistema.log(Level.INFO, "Logout effettuato.");
+					LOGGER.log(Level.INFO, "Logout effettuato.");
 
 				break;
 			}		

@@ -1,14 +1,17 @@
 package it.ingbs.ingegneria_software.model;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 public class ComprensorioGeografico {
 
-    private Logger logComprensorio = Logger.getLogger(getClass().getName());
+    private static final Logger LOGGER = Logger.getLogger(ComprensorioGeografico.class.getName());
     private final int codice;
-    private List<String> listaComuni = new ArrayList<>(); //non posso mettere List()
-    private Random random = new Random();
+    private List<String> listaComuni = new ArrayList<>();
+    private final Random random = new Random();
     
     /**
      * Costruttore per quando creo nuovo (assegna codice random)
@@ -59,9 +62,9 @@ public class ComprensorioGeografico {
     public void aggiungiComune(String nomeComune) {
         if (!listaComuni.contains(nomeComune)) {
             listaComuni.add(nomeComune);
-            logComprensorio.log(Level.INFO, "Comune {0} aggiunto con successo al comprensorio {1}", new Object[]{nomeComune, getCodice()});
+            LOGGER.log(Level.INFO, "Comune {0} aggiunto con successo al comprensorio {1}", new Object[]{nomeComune, getCodice()});
         } else {
-            logComprensorio.warning(("Comune già presente nel comprensorio geografico."));
+            LOGGER.warning(("Comune già presente nel comprensorio geografico."));
         }
     }
     

@@ -1,21 +1,25 @@
 package it.ingbs.ingegneria_software.model;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.logging.Level;
-import java.io.*;
 import java.util.logging.Logger;
 
 
 //classe che gestisce l'elenco dei comprensori inseriti dal configuratore
 public class GestoreComprensorio {
 
-    private final Logger loggerGestoreComprensorio;
+    private static final Logger LOGGER = Logger.getLogger(GestoreComprensorio.class.getName());
     private HashMap<Integer,ComprensorioGeografico> mappaComprensori;
     private File fileComprensori = new File("src\\Data File\\elencoComprensori.txt");
 
     //costruttore che legge i comprensori dal file e li carica nella mappa
     public GestoreComprensorio() {
-       this.loggerGestoreComprensorio  = Logger.getLogger(getClass().getName());
        this.mappaComprensori = new HashMap<>();
        configuraMappaComprensoriDaFile();
     }
@@ -28,12 +32,12 @@ public class GestoreComprensorio {
     //aggiungo un comprensorio alla mappa
     public void aggiungiComprensorio(ComprensorioGeografico comprensorioNuovo ){
         if(controlloComprensorioDuplicato(comprensorioNuovo) != null){
-            loggerGestoreComprensorio.log(Level.SEVERE, "Comprensorio già esistente.");
+            LOGGER.log(Level.SEVERE, "Comprensorio già esistente.");
         }
         else{
             mappaComprensori.put(comprensorioNuovo.getCodice(), comprensorioNuovo);
             salvaMappaComprensoriSuFile();
-            loggerGestoreComprensorio.log(Level.INFO, "Comprensorio aggiunto.");
+            LOGGER.log(Level.INFO, "Comprensorio aggiunto.");
         }
     }
 
@@ -43,7 +47,7 @@ public class GestoreComprensorio {
             comprensorio.aggiungiComune(nomeComune);
             salvaMappaComprensoriSuFile();
         } else {
-            loggerGestoreComprensorio.log(Level.SEVERE, "Comprensorio non trovato.");
+            LOGGER.log(Level.SEVERE, "Comprensorio non trovato.");
         }
     }
     //controlla se il comprensorio sia già presente oppure no
@@ -93,7 +97,7 @@ public class GestoreComprensorio {
             }
         } catch (IOException e) {
             // Log the exception or handle it in a meaningful way
-            loggerGestoreComprensorio.log(Level.SEVERE, "Error reading file", e);
+            LOGGER.log(Level.SEVERE, "Error reading file", e);
         }
     }
 

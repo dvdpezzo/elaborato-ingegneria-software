@@ -19,7 +19,7 @@ public class GestoreAccesso {
     private static final String UTENTE_DEFAULT="admin";
     private static final String PASS_DEFAULT="admin";
     
-    private Logger logGestoreAccesso = Logger.getLogger(getClass().getName());
+    private static final Logger LOGGER = Logger.getLogger(GestoreAccesso.class.getName());
     private File fileConfiguratori = new File(FILE_DI_ACCESSO_CREDENZIALI_CONFIGURATORI_TXT);
     // private File fileFruitori = new File(FILE_DI_ACCESSO_CREDENZIALI_FRUITORI_TXT);
     private HashMap<String, String> mappaCredenzialiUtenti = new HashMap<>();
@@ -32,7 +32,7 @@ public class GestoreAccesso {
         try {
             gestoreFile.configuraMappaCredenzialiDaFile(fileConfiguratori);
         } catch (IOException e) {
-            logGestoreAccesso.log(Level.INFO, "File non trovato: {0}", e.getMessage());
+            LOGGER.log(Level.INFO, "File non trovato: {0}", e.getMessage());
         }
         this.gestoreConfiguratori = new GestoreConfiguratori(gestoreFile);
     }
@@ -50,11 +50,11 @@ public class GestoreAccesso {
         {
             if(controlloEsistenzaCredenziali(nomeUtente, passUtente)){                
                 Configuratore existingConfiguratore = gestoreConfiguratori.trovaConfiguratore(nomeUtente);
-                logGestoreAccesso.info("Accesso effettuato corretamente!");
+                LOGGER.info("Accesso effettuato corretamente!");
                 return existingConfiguratore;
             }
             else{
-                logGestoreAccesso.info("ERRORE! Nome Utente o password errati!");
+                LOGGER.info("ERRORE! Nome Utente o password errati!");
                 return null;
             }
         }
@@ -65,7 +65,7 @@ public class GestoreAccesso {
      * @return nuovo configuratore
      */
     private Configuratore registrazioneNuovoConfiguratore () {
-        logGestoreAccesso.info("Sei stasto reindirizzato alla creazione del tuo Nome utente e Password personali:");
+        LOGGER.info("Sei stasto reindirizzato alla creazione del tuo Nome utente e Password personali:");
         Configuratore newUtente = gestoreConfiguratori.creaUtenteConfiguratore();
         aggiungiCredenzialiAllaMappa(newUtente.getNomeUtente(), newUtente.getPassword());
         return newUtente;
@@ -81,7 +81,7 @@ public class GestoreAccesso {
         try {
             gestoreFile.salvaMappaCredenzialiSuFile(fileConfiguratori);
         } catch (IOException e) {
-           logGestoreAccesso.log(Level.SEVERE, "File assente");
+           LOGGER.log(Level.SEVERE, "File assente");
         }
     }
 

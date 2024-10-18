@@ -1,12 +1,17 @@
 package it.ingbs.ingegneria_software.model;
 
-import java.util.*;
-import java.util.logging.Logger;
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import it.ingbs.ingegneria_software.utilita_generale.InputDati;
-import it.ingbs.ingegneria_software.utilita_generale.MenuUtil;
 
 
 
@@ -17,7 +22,7 @@ public class GestoreComuni {
     private static final String MSG_ERRORE_COMUNE_DUPLICE ="Comune già presente nella lista";
     private static final String ERRORE_COMUNE_NON_TROVATO ="Comune non trovato!";
     private final File fileComuni = new File("src\\Data File\\elencoComuni.txt");   
-    private final Logger logGestoreComuni = Logger.getLogger(getClass().getName());
+    private static final Logger LOGGER = Logger.getLogger(GestoreComuni.class.getName());
     
 
     private Map<Integer,String> mappaComuni = new HashMap<>();
@@ -26,7 +31,7 @@ public class GestoreComuni {
         try {
             leggiComuni();
         } catch (IOException e){
-            logGestoreComuni.severe("Errore durante la lettura dei comuni dal file.");
+            LOGGER.severe("Errore durante la lettura dei comuni dal file.");
         }
     }
 
@@ -34,7 +39,7 @@ public class GestoreComuni {
     //aggiunge un comune alla lista
     public void aggiungiComune(Comuni comune){
         if(controlloComuni(comune)){
-            logGestoreComuni.info(MSG_ERRORE_COMUNE_DUPLICE);
+            LOGGER.info(MSG_ERRORE_COMUNE_DUPLICE);
         }
         else{
             mappaComuni.put(comune.getNumero(),comune.getNome());
@@ -52,7 +57,7 @@ public class GestoreComuni {
     public void visualizzaComuni(){
         for (Map.Entry<Integer, String> entry : mappaComuni.entrySet())
         {
-            logGestoreComuni.log(Level.INFO, "{0} {1}\n", new Object[]{entry.getKey(), entry.getValue()});
+            LOGGER.log(Level.INFO, "{0} {1}\n", new Object[]{entry.getKey(), entry.getValue()});
         }
     }
 
@@ -104,7 +109,7 @@ public class GestoreComuni {
     public void stampaComuni() {
         int position = 1;
         for (Map.Entry<Integer, String> entry : mappaComuni.entrySet()) {
-            logGestoreComuni.info("Position: " + position + ", Comune: " + entry.getValue());
+            LOGGER.log(Level.INFO, "Position: {0}, Comune: {1}", new Object[]{position, entry.getValue()});
             position++;
         }
     }

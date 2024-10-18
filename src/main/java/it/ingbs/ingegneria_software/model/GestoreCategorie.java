@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import it.ingbs.ingegneria_software.utilita_generale.InputDati;
 
@@ -13,10 +15,11 @@ import it.ingbs.ingegneria_software.utilita_generale.InputDati;
  */
 public class GestoreCategorie {
     
+    private static final Logger LOGGER = Logger.getLogger(GestoreCategorie.class.getName());
     private Map<String, List<Categoria>> categoriePerGerarchia;
 
     public GestoreCategorie() {
-        categoriePerGerarchia = new HashMap<>();
+        this.categoriePerGerarchia = new HashMap<>();
     }
 
     public List<Categoria> creaGerarchiaRicorsiva(String nomeGerarchia ) {
@@ -76,7 +79,7 @@ public class GestoreCategorie {
     }
 
     public void visualizzaAlberoCategorie() {
-        System.out.println("Albero delle categorie: ");
+        LOGGER.info("Albero delle categorie: ");
         visualizzaCategorieRicorsiva(categoriePerGerarchia, "");
     }
     
@@ -85,7 +88,7 @@ public class GestoreCategorie {
             String nomeRadice = entry.getKey();
             List<Categoria> gerarchia = entry.getValue();
     
-            System.out.println(indentazione + nomeRadice);
+            LOGGER.log(Level.INFO, "{0}{1}", new Object[]{indentazione, nomeRadice});
             for (Categoria categoria : gerarchia) {
                 visualizzaSottocategorieRicorsiva(categoria, indentazione + "  ");
             }
@@ -93,7 +96,7 @@ public class GestoreCategorie {
     }
     
     private void visualizzaSottocategorieRicorsiva(Categoria categoria, String indentazione) {
-        System.out.println(indentazione + categoria.getNome());
+        LOGGER.log(Level.INFO, "{0}{1}", new Object[]{indentazione, categoria.getNome()});
     
         for (Categoria sottocategoria : categoria.getSottocategorie()) {
             visualizzaSottocategorieRicorsiva(sottocategoria, indentazione + "  ");
