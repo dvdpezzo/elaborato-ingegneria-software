@@ -2,7 +2,6 @@ package it.ingbs.ingegneria_software.utilita_generale;
 
 import java.util.InputMismatchException;
 import java.util.Scanner;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 public class InputDati 
 {
@@ -84,7 +83,7 @@ public class InputDati
 	    if (ammissibili.indexOf(valoreLetto) != -1){
 		 finito  = true;
 		} else
-	     LOGGER.log(Level.WARNING,MESSAGGIO_AMMISSIBILI + "{0}", ammissibili);
+	     LOGGER.warning(MESSAGGIO_AMMISSIBILI + ammissibili);
 	   } while (!finito);
 	   return valoreLetto;
 	  }
@@ -131,7 +130,7 @@ public class InputDati
 	     if (valoreLetto >= minimo)
 	      finito = true;
 	     else
-	      LOGGER.log(Level.WARNING,ERRORE_MINIMO + "{0}", minimo);
+	      LOGGER.warning(ERRORE_MINIMO + minimo);
 	    } while (!finito);
 	     
 	   return valoreLetto;
@@ -148,9 +147,9 @@ public class InputDati
 	      finito = true;
 	     else
 	      if (valoreLetto < minimo){
-	         LOGGER.log(Level.WARNING,ERRORE_MINIMO + "{0}", minimo);
+	         LOGGER.warning(ERRORE_MINIMO + minimo);
 		  }else
-	    	 LOGGER.log(Level.WARNING,ERRORE_MASSIMO + "{0}", massimo); 
+	    	 LOGGER.warning(ERRORE_MASSIMO + massimo); 
 	    } while (!finito);
 	     
 	   return valoreLetto;
@@ -187,7 +186,7 @@ public class InputDati
 	     if (valoreLetto >= minimo)
 	      finito = true;
 	     else
-	      LOGGER.log(Level.WARNING,ERRORE_MINIMO + "{0}", minimo);
+	      LOGGER.warning(ERRORE_MINIMO + minimo);
 	    } while (!finito);
 	     
 	   return valoreLetto;

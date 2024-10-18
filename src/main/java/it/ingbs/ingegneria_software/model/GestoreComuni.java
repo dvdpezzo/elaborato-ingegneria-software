@@ -57,7 +57,7 @@ public class GestoreComuni {
     public void visualizzaComuni(){
         for (Map.Entry<Integer, String> entry : mappaComuni.entrySet())
         {
-            LOGGER.log(Level.INFO, "{0} {1}\n", new Object[]{entry.getKey(), entry.getValue()});
+            LOGGER.info(String.format("%d %s \n", entry.getKey(), entry.getValue()));
         }
     }
 
@@ -109,10 +109,11 @@ public class GestoreComuni {
     public void stampaComuni() {
         int position = 1;
         for (Map.Entry<Integer, String> entry : mappaComuni.entrySet()) {
-            LOGGER.log(Level.INFO, "Position: {0}, Comune: {1}", new Object[]{position, entry.getValue()});
+            LOGGER.info(String.format("Position: %d, Comune: %s", position, entry.getValue()));
             position++;
         }
     }
+
 
 
     

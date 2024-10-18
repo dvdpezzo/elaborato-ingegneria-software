@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import it.ingbs.ingegneria_software.utilita_generale.InputDati;
@@ -88,7 +87,7 @@ public class GestoreCategorie {
             String nomeRadice = entry.getKey();
             List<Categoria> gerarchia = entry.getValue();
     
-            LOGGER.log(Level.INFO, "{0}{1}", new Object[]{indentazione, nomeRadice});
+            LOGGER.info(indentazione + nomeRadice);
             for (Categoria categoria : gerarchia) {
                 visualizzaSottocategorieRicorsiva(categoria, indentazione + "  ");
             }
@@ -96,7 +95,7 @@ public class GestoreCategorie {
     }
     
     private void visualizzaSottocategorieRicorsiva(Categoria categoria, String indentazione) {
-        LOGGER.log(Level.INFO, "{0}{1}", new Object[]{indentazione, categoria.getNome()});
+        LOGGER.info(indentazione + categoria.getNome());
     
         for (Categoria sottocategoria : categoria.getSottocategorie()) {
             visualizzaSottocategorieRicorsiva(sottocategoria, indentazione + "  ");

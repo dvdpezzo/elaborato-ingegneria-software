@@ -32,7 +32,7 @@ public class GestoreAccesso {
         try {
             gestoreFile.configuraMappaCredenzialiDaFile(fileConfiguratori);
         } catch (IOException e) {
-            LOGGER.log(Level.INFO, "File non trovato: {0}", e.getMessage());
+            LOGGER.log(Level.INFO, String.format("File non trovato: %s", e.getMessage()));
         }
         this.gestoreConfiguratori = new GestoreConfiguratori(gestoreFile);
     }

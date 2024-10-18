@@ -62,7 +62,7 @@ public class ComprensorioGeografico {
     public void aggiungiComune(String nomeComune) {
         if (!listaComuni.contains(nomeComune)) {
             listaComuni.add(nomeComune);
-            LOGGER.log(Level.INFO, "Comune {0} aggiunto con successo al comprensorio {1}", new Object[]{nomeComune, getCodice()});
+            LOGGER.log(Level.INFO, String.format("Comune %s aggiunto con successo al comprensorio %d", nomeComune, getCodice()));
         } else {
             LOGGER.warning(("Comune già presente nel comprensorio geografico."));
         }
