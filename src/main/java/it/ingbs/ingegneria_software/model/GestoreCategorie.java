@@ -29,7 +29,7 @@ public class GestoreCategorie {
             List<Categoria> sottocategorie = creaSottocategorie(categoriaRadice);
             gerarchia.addAll(sottocategorie);
         }
-        
+        categoriePerGerarchia.put(nomeRadice, gerarchia);
         return gerarchia;
     }
     
@@ -70,6 +70,31 @@ public class GestoreCategorie {
     
     public void aggiungiFattoreConversione(Categoria categoria1, Categoria categoria2, Double fattoreConversione) {
         categoria1.aggiungiFattoreConversione(categoria2, fattoreConversione);
+    }
+
+    public void visualizzaAlberoCategorie() {
+        System.out.println("Albero delle categorie:");
+        visualizzaCategorieRicorsiva(categoriePerGerarchia, "");
+    }
+    
+    private void visualizzaCategorieRicorsiva(Map<String, List<Categoria>> categorie, String indentazione) {
+        for (Map.Entry<String, List<Categoria>> entry : categorie.entrySet()) {
+            String nomeRadice = entry.getKey();
+            List<Categoria> gerarchia = entry.getValue();
+    
+            System.out.println(indentazione + nomeRadice);
+            for (Categoria categoria : gerarchia) {
+                visualizzaSottocategorieRicorsiva(categoria, indentazione + "  ");
+            }
+        }
+    }
+    
+    private void visualizzaSottocategorieRicorsiva(Categoria categoria, String indentazione) {
+        System.out.println(indentazione + categoria.getNome());
+    
+        for (Categoria sottocategoria : categoria.getSottocategorie()) {
+            visualizzaSottocategorieRicorsiva(sottocategoria, indentazione + "  ");
+        }
     }
 
 

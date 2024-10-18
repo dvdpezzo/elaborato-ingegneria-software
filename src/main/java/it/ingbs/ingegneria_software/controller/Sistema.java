@@ -50,6 +50,7 @@ public class Sistema {
 				case 3: //AGGIUNGI NUOVA GERARCHIA
 					String nomeNuovaGerarchia = InputDati.leggiStringaNonVuota("Inserire nome nuova gerarchia:");
 					List<Categoria> gerarchia = configuratore.creaGerarchia(nomeNuovaGerarchia);
+					configuratore.visualizzaGerarchia();
 					logSistema.info( "Nuova gerarchia creata.");
 				break;
 				case 4: //AGGIUNGI CATEGORIA A GERARCHIA ESISTENTE

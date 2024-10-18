@@ -88,7 +88,9 @@ public class Configuratore extends Utente  {
     }
 
     public void salvaCambiamenti(){}
-    public void visualizzaGerarchia(){}
+    public void visualizzaGerarchia(){
+        gestoreCategorie.visualizzaAlberoCategorie();
+    }
     public void visualizzaFattoriConversione(){}
 
     public List<Categoria> creaGerarchia(String nomeGerarchia) {
