@@ -37,6 +37,7 @@ public class GestoreCategorie {
     }
     
     private Categoria creaCategoria(String nome) {
+        //inserire metodo che chieda il nome del campo caratteristico (i.e. tipo, materia, strumento)
         List<Valore> valoriCampo = chiediValoriCampo(nome);
         CampoCaratteristico campo = new CampoCaratteristico("Tipo", valoriCampo);
         return new Categoria(nome, campo);
@@ -58,13 +59,14 @@ public class GestoreCategorie {
     
     private List<Valore> chiediValoriCampo(String nome) {
         List<Valore> valoriCampo = new ArrayList<>();
+        //di fatto chiedo se è o meno una categoria foglia
         boolean aggiungiValore = InputDati.yesOrNo("Vuoi aggiungere campi caratteristici alla categoria " + nome + " attualmente selezionata?");
         if (aggiungiValore){
             while (aggiungiValore) {
                 String nomeSottocategoria = InputDati.leggiStringaNonVuota("Inserire nome del campo caratteristico: ");
                 valoriCampo.add(new Valore(nomeSottocategoria));
                 
-                aggiungiValore = InputDati.yesOrNo("Vuoi aggiungerne altre? ");
+                aggiungiValore = InputDati.yesOrNo("Vuoi aggiungerne altri? ");
             }
         }else{
             //allora è una categoria foglia e andrebbero aggiunti i fattori di conversione
