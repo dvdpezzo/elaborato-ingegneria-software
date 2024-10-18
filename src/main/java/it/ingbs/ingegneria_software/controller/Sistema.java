@@ -2,7 +2,9 @@ package it.ingbs.ingegneria_software.controller;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.List;
 
+import it.ingbs.ingegneria_software.model.Categoria;
 import it.ingbs.ingegneria_software.model.Configuratore;
 import it.ingbs.ingegneria_software.utilita_generale.InputDati;
 import it.ingbs.ingegneria_software.utilita_generale.MenuUtil;
@@ -46,7 +48,8 @@ public class Sistema {
 					
 				break;
 				case 3: //AGGIUNGI NUOVA GERARCHIA
-					// List<Categoria> gerarchia = configuratore.creaGerarchia();
+					String nomeNuovaGerarchia = InputDati.leggiStringaNonVuota("Inserire nome nuova gerarchia:");
+					List<Categoria> gerarchia = configuratore.creaGerarchia(nomeNuovaGerarchia);
 					logSistema.info( "Nuova gerarchia creata.");
 				break;
 				case 4: //AGGIUNGI CATEGORIA A GERARCHIA ESISTENTE
