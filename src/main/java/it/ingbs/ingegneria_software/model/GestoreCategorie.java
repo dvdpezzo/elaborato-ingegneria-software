@@ -19,50 +19,53 @@ public class GestoreCategorie {
         categoriePerGerarchia = new HashMap<>();
     }
 
-    public List<Categoria> creaGerarchiaRicorsiva(String nomeRadice) {
+    public List<Categoria> creaGerarchiaRicorsiva(String nomeGerarchia ) {
         List<Categoria> gerarchia = new ArrayList<>();
+        String nomeRadice = InputDati.leggiStringaNonVuota("Inserire nome Categoria radice: ");
         Categoria categoriaRadice = creaCategoria(nomeRadice);
         gerarchia.add(categoriaRadice);
         
-        boolean aggiungiSottoCategorie = InputDati.yesOrNo("Vuoi aggiungere sottocategorie a " + nomeRadice + "?");
+        boolean aggiungiSottoCategorie = InputDati.yesOrNo("Vuoi aggiungere subito categorie a " + nomeRadice + "?");
         if (aggiungiSottoCategorie) {
-            List<Categoria> sottocategorie = creaSottocategorie(categoriaRadice);
+            List<Categoria> sottocategorie = creaSottocategorieAutomatiche(categoriaRadice);
             gerarchia.addAll(sottocategorie);
         }
-        categoriePerGerarchia.put(nomeRadice, gerarchia);
+        categoriePerGerarchia.put(nomeGerarchia, gerarchia);
         return gerarchia;
     }
     
     private Categoria creaCategoria(String nome) {
-        List<Valore> valoriCampo = chiediValoriCampo();
+        List<Valore> valoriCampo = chiediValoriCampo(nome);
         CampoCaratteristico campo = new CampoCaratteristico("Tipo", valoriCampo);
         return new Categoria(nome, campo);
     }
     
-    private List<Categoria> creaSottocategorie(Categoria categoriaPadre) {
+    private List<Categoria> creaSottocategorieAutomatiche(Categoria categoriaPadre) {
         List<Categoria> sottocategorie = new ArrayList<>();
-        boolean aggiungiSottoCategoria = true;
-        
-        while (aggiungiSottoCategoria) {
-            String nomeSottocategoria = InputDati.leggiStringaNonVuota("Inserisci il nome della sottocategoria di " + categoriaPadre.getNome() + ":");
+        List<Valore> valoriCampo = categoriaPadre.getCampoCaratteristico().getDominioValori();
+
+        for (Valore valore : valoriCampo) {
+            String nomeSottocategoria = categoriaPadre.getNome() + " - " + valore.getNome();
             Categoria sottocategoria = creaCategoria(nomeSottocategoria);
             sottocategorie.add(sottocategoria);
-            
-            aggiungiSottoCategoria = InputDati.yesOrNo("Vuoi aggiungere altre sottocategorie a " + categoriaPadre.getNome() + "?");
         }
-        
+
         return sottocategorie;
     }
+
     
-    private List<Valore> chiediValoriCampo() {
+    private List<Valore> chiediValoriCampo(String nome) {
         List<Valore> valoriCampo = new ArrayList<>();
-        boolean aggiungiValore = true;
-        
-        while (aggiungiValore) {
-            String valore = InputDati.leggiStringaNonVuota("Inserisci un valore per il campo caratteristico:");
-            valoriCampo.add(new Valore(valore));
-            
-            aggiungiValore = InputDati.yesOrNo("Vuoi aggiungere altri valori al campo caratteristico?");
+        boolean aggiungiValore = InputDati.yesOrNo("Vuoi aggiungere campi caratteristici alla categoria " + nome + " attualmente selezionata?");
+        if (aggiungiValore){
+            while (aggiungiValore) {
+                String nomeSottocategoria = InputDati.leggiStringaNonVuota("Inserire nome del campo caratteristico: ");
+                valoriCampo.add(new Valore(nomeSottocategoria));
+                
+                aggiungiValore = InputDati.yesOrNo("Vuoi aggiungerne altre? ");
+            }
+        }else{
+            //allora è una categoria foglia e andrebbero aggiunti i fattori di conversione
         }
         
         return valoriCampo;
@@ -73,7 +76,7 @@ public class GestoreCategorie {
     }
 
     public void visualizzaAlberoCategorie() {
-        System.out.println("Albero delle categorie:");
+        System.out.println("Albero delle categorie: ");
         visualizzaCategorieRicorsiva(categoriePerGerarchia, "");
     }
     
