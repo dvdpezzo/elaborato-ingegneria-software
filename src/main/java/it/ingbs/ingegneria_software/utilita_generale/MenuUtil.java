@@ -1,18 +1,21 @@
 package it.ingbs.ingegneria_software.utilita_generale;
+
+import java.util.logging.Logger;
+
 /*
 Questa classe rappresenta un menu testuale generico a piu' voci
 Si suppone che la voce per uscire sia sempre associata alla scelta 0 
 e sia presentata in fondo al menu
-
 */
 public class MenuUtil
 {
   private static final String CORNICE = "--------------------------------";
-  private static final String VOCE_USCITA = "0\tEsci";
+  private static final String VOCE_USCITA = "\n0\tEsci\n";
   private static final String RICHIESTA_INSERIMENTO = "Digita il numero dell'opzione desiderata > ";
+  private static final Logger LOGGER = Logger.getLogger(MenuUtil.class.getName());
 
-  private String titolo;
-  private String [] voci;
+  private final String titolo;
+  private final String [] voci;
 
 	
   public MenuUtil (String titolo, String [] voci)
@@ -29,16 +32,14 @@ public class MenuUtil
 		
   public void stampaMenu ()
   {
-	System.out.println(CORNICE);
-	System.out.println(titolo);
-	System.out.println(CORNICE);
+    LOGGER.info(CORNICE);
+    LOGGER.info(titolo);
+    LOGGER.info(CORNICE);
     for (int i=0; i<voci.length; i++)
 	 {
-	  System.out.println( (i+1) + "\t" + voci[i]);
-	 }
-    System.out.println();
-	System.out.println(VOCE_USCITA);
-    System.out.println();
+	  LOGGER.info( (i+1) + "\t" + voci[i]);
+	 }    
+    LOGGER.info(VOCE_USCITA);    
   }
 		
 }

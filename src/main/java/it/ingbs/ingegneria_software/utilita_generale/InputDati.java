@@ -1,20 +1,26 @@
 package it.ingbs.ingegneria_software.utilita_generale;
 
-import java.util.*;
+import java.util.InputMismatchException;
+import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 public class InputDati 
 {
-	  private static Scanner lettore = creaScanner();
+	  private static final Scanner lettore = creaScanner();
 	  
-	  private final static String ERRORE_FORMATO = "Attenzione: il dato inserito non e' nel formato corretto";
-	  private final static String ERRORE_MINIMO= "Attenzione: e' richiesto un valore maggiore o uguale a ";
-	  private final static String ERRORE_STRINGA_VUOTA= "Attenzione: non hai inserito alcun carattere";
-	  private final static String ERRORE_MASSIMO= "Attenzione: e' richiesto un valore minore o uguale a ";
-	  private final static String MESSAGGIO_AMMISSIBILI= "Attenzione: i caratteri ammissibili sono: ";
+	  private static final String ERRORE_FORMATO = "Attenzione: il dato inserito non e' nel formato corretto";
+	  private static final String ERRORE_MINIMO= "Attenzione: e' richiesto un valore maggiore o uguale a ";
+	  private static final String ERRORE_STRINGA_VUOTA= "Attenzione: non hai inserito alcun carattere";
+	  private static final String ERRORE_MASSIMO= "Attenzione: e' richiesto un valore minore o uguale a ";
+	  private static final String MESSAGGIO_AMMISSIBILI= "Attenzione: i caratteri ammissibili sono: ";
+	  private static final Logger LOGGER = Logger.getLogger(InputDati.class.getName());
 
-	  private final static char RISPOSTA_SI='S';
-	  private final static char RISPOSTA_NO='N';
+	  private static final char RISPOSTA_SI='S';
+	  private static final char RISPOSTA_NO='N';
 
-	  
+	  private InputDati() {
+		throw new IllegalStateException("Utility class");
+	  }
  
 	  private static Scanner creaScanner ()
 	  {
@@ -25,7 +31,7 @@ public class InputDati
 	  
 	  public static String leggiStringa (String messaggio)
 	  {
-		  System.out.print(messaggio);
+		  LOGGER.info(messaggio);
 		  return lettore.next();
 	  }
 	  
@@ -40,7 +46,7 @@ public class InputDati
 		 if (lettura.length() > 0)
 		  finito=true;
 		 else
-		  System.out.println(ERRORE_STRINGA_VUOTA);
+		  LOGGER.warning(ERRORE_STRINGA_VUOTA);
 	   } while (!finito);
 	   
 	   return lettura;
@@ -52,7 +58,7 @@ public class InputDati
 	   char valoreLetto = '\0';
 	   do
 	    {
-	     System.out.print(messaggio);
+	     LOGGER.info(messaggio);
 	     String lettura = lettore.next();
 	     if (lettura.length() > 0)
 	      {
@@ -61,7 +67,7 @@ public class InputDati
 	      }
 	     else
 	      {
-	       System.out.println(ERRORE_STRINGA_VUOTA);
+	       LOGGER.warning(ERRORE_STRINGA_VUOTA);
 	      }
 	    } while (!finito);
 	   return valoreLetto;
@@ -70,15 +76,15 @@ public class InputDati
 	  public static char leggiUpperChar (String messaggio, String ammissibili)
 	  {
 	   boolean finito = false;
-	   char valoreLetto = '\0';
+	   char valoreLetto;
 	   do
 	   {
 	    valoreLetto = leggiChar(messaggio);
 	    valoreLetto = Character.toUpperCase(valoreLetto);
-	    if (ammissibili.indexOf(valoreLetto) != -1)
+	    if (ammissibili.indexOf(valoreLetto) != -1){
 		 finito  = true;
-	    else
-	     System.out.println(MESSAGGIO_AMMISSIBILI + ammissibili);
+		} else
+	     LOGGER.log(Level.WARNING,MESSAGGIO_AMMISSIBILI + "{0}", ammissibili);
 	   } while (!finito);
 	   return valoreLetto;
 	  }
@@ -90,7 +96,7 @@ public class InputDati
 	   int valoreLetto = 0;
 	   do
 	    {
-	     System.out.print(messaggio);
+	     LOGGER.info(messaggio);
 	     try
 	      {
 	       valoreLetto = lettore.nextInt();
@@ -98,7 +104,7 @@ public class InputDati
 	      }
 	     catch (InputMismatchException e)
 	      {
-	       System.out.println(ERRORE_FORMATO);
+	       LOGGER.warning(ERRORE_FORMATO);
 	      }
 	    } while (!finito);
 	   return valoreLetto;
@@ -125,7 +131,7 @@ public class InputDati
 	     if (valoreLetto >= minimo)
 	      finito = true;
 	     else
-	      System.out.println(ERRORE_MINIMO + minimo);
+	      LOGGER.log(Level.WARNING,ERRORE_MINIMO + "{0}", minimo);
 	    } while (!finito);
 	     
 	   return valoreLetto;
@@ -141,10 +147,10 @@ public class InputDati
 	     if (valoreLetto >= minimo && valoreLetto<= massimo)
 	      finito = true;
 	     else
-	      if (valoreLetto < minimo)
-	         System.out.println(ERRORE_MINIMO + minimo);
-	      else
-	    	 System.out.println(ERRORE_MASSIMO + massimo); 
+	      if (valoreLetto < minimo){
+	         LOGGER.log(Level.WARNING,ERRORE_MINIMO + "{0}", minimo);
+		  }else
+	    	 LOGGER.log(Level.WARNING,ERRORE_MASSIMO + "{0}", massimo); 
 	    } while (!finito);
 	     
 	   return valoreLetto;
@@ -157,7 +163,7 @@ public class InputDati
 	   double valoreLetto = 0;
 	   do
 	    {
-	     System.out.print(messaggio);
+	     LOGGER.info(messaggio);
 	     try
 	      {
 	       valoreLetto = lettore.nextDouble();
@@ -165,7 +171,7 @@ public class InputDati
 	      }
 	     catch (InputMismatchException e)
 	      {
-	       System.out.println(ERRORE_FORMATO);
+	       LOGGER.warning(ERRORE_FORMATO);
 	      }
 	    } while (!finito);
 	   return valoreLetto;
@@ -181,7 +187,7 @@ public class InputDati
 	     if (valoreLetto >= minimo)
 	      finito = true;
 	     else
-	      System.out.println(ERRORE_MINIMO + minimo);
+	      LOGGER.log(Level.WARNING,ERRORE_MINIMO + "{0}", minimo);
 	    } while (!finito);
 	     
 	   return valoreLetto;
@@ -193,10 +199,7 @@ public class InputDati
 		  String mioMessaggio = messaggio + "("+RISPOSTA_SI+"/"+RISPOSTA_NO+")";
 		  char valoreLetto = leggiUpperChar(mioMessaggio,String.valueOf(RISPOSTA_SI)+String.valueOf(RISPOSTA_NO));
 		  
-		  if (valoreLetto == RISPOSTA_SI)
-			return true;
-		  else
-			return false;
+              return valoreLetto == RISPOSTA_SI;
 	  }
 
 }
