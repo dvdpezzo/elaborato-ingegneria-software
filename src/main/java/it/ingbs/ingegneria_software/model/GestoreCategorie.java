@@ -1,7 +1,9 @@
 package it.ingbs.ingegneria_software.model;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import it.ingbs.ingegneria_software.utilita_generale.InputDati;
 
@@ -11,43 +13,64 @@ import it.ingbs.ingegneria_software.utilita_generale.InputDati;
  */
 public class GestoreCategorie {
     
-    public List<Categoria> creaGerarchia(String nomeCategoriaRadice) {
+    private Map<String, List<Categoria>> categoriePerGerarchia;
+
+    public GestoreCategorie() {
+        categoriePerGerarchia = new HashMap<>();
+    }
+
+    public List<Categoria> creaGerarchiaRicorsiva(String nomeRadice) {
         List<Categoria> gerarchia = new ArrayList<>();
+        Categoria categoriaRadice = creaCategoria(nomeRadice);
+        gerarchia.add(categoriaRadice);
         
-        // Creiamo la categoria radice
-        Categoria radice = new Categoria(nomeCategoriaRadice);
-        boolean condition=false;
-        Categoria subCategoria;
-        // Creiamo le sottocategorie e aggiungiamo Sottocategorie alla categoria radice
-        do {
-            // Inserire qui il codice per creare una nuova sottocategoria
-            String nomeSubCategoria = InputDati.leggiStringa("Inserisci il nome della sottocategoria:");
-            boolean esci = InputDati.yesOrNo("Vuoi aggiungere un'altra sottocategoria?");
-            condition =!esci;  // Se esci è true, non creare più sottocategorie per questa categoria radice
-            
-            // Creiamo la nuova sottocategoria e la aggiungiamo alla categoria radice
-            CampoCaratteristico campoCaratteristico = creaCampoCaratteristico();
-            FattoreConversione fattoreConversione = creaFattoreConversione();
-            if (fattoreConversione!= null) {
-                subCategoria = new Categoria(nomeSubCategoria, campoCaratteristico, fattoreConversione);
-            } else {
-                subCategoria = new Categoria(nomeSubCategoria, campoCaratteristico, fattoreConversione);
-                subCategoria = creaCategoria(nomeCategoriaRadice);
-            radice.aggiungiSottoCategoria(subCategoria);
-        } while (condition); 
-        
-        // Aggiungiamo la categoria radice alla gerarchia
-        gerarchia.add(radice);
+        boolean aggiungiSottoCategorie = InputDati.yesOrNo("Vuoi aggiungere sottocategorie a " + nomeRadice + "?");
+        if (aggiungiSottoCategorie) {
+            List<Categoria> sottocategorie = creaSottocategorie(categoriaRadice);
+            gerarchia.addAll(sottocategorie);
+        }
         
         return gerarchia;
     }
-
-    private Categoria creaCategoria(String nomeCategoria){
-        return new Categoria(nomeCategoria);
+    
+    private Categoria creaCategoria(String nome) {
+        List<Valore> valoriCampo = chiediValoriCampo();
+        CampoCaratteristico campo = new CampoCaratteristico("Tipo", valoriCampo);
+        return new Categoria(nome, campo);
+    }
+    
+    private List<Categoria> creaSottocategorie(Categoria categoriaPadre) {
+        List<Categoria> sottocategorie = new ArrayList<>();
+        boolean aggiungiSottoCategoria = true;
+        
+        while (aggiungiSottoCategoria) {
+            String nomeSottocategoria = InputDati.leggiStringaNonVuota("Inserisci il nome della sottocategoria di " + categoriaPadre.getNome() + ":");
+            Categoria sottocategoria = creaCategoria(nomeSottocategoria);
+            sottocategorie.add(sottocategoria);
+            
+            aggiungiSottoCategoria = InputDati.yesOrNo("Vuoi aggiungere altre sottocategorie a " + categoriaPadre.getNome() + "?");
+        }
+        
+        return sottocategorie;
+    }
+    
+    private List<Valore> chiediValoriCampo() {
+        List<Valore> valoriCampo = new ArrayList<>();
+        boolean aggiungiValore = true;
+        
+        while (aggiungiValore) {
+            String valore = InputDati.leggiStringaNonVuota("Inserisci un valore per il campo caratteristico:");
+            valoriCampo.add(new Valore(valore));
+            
+            aggiungiValore = InputDati.yesOrNo("Vuoi aggiungere altri valori al campo caratteristico?");
+        }
+        
+        return valoriCampo;
+    }
+    
+    public void aggiungiFattoreConversione(Categoria categoria1, Categoria categoria2, Double fattoreConversione) {
+        categoria1.aggiungiFattoreConversione(categoria2, fattoreConversione);
     }
 
-    private FattoreConversione creaFattoreConversione(){
-        return null;
-    }
 
 }

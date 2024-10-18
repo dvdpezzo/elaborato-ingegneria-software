@@ -9,11 +9,13 @@ import it.ingbs.ingegneria_software.utilita_generale.InputDati;
 public class Configuratore extends Utente  {
     private Logger logConfiguratore = Logger.getLogger(getClass().getName());
     private static final String DEFAULT = "admin";
-    private final GestoreComprensorio gestoreComprensorio;    
+    private final GestoreComprensorio gestoreComprensorio;  
+    private final GestoreCategorie gestoreCategorie;  
 
     public Configuratore(String nomeUtente, String passwordUtente) {
         super(nomeUtente, passwordUtente);
         this.gestoreComprensorio = new GestoreComprensorio();
+        this.gestoreCategorie = new GestoreCategorie();
     }
     /**
      * Crea un compensorioGeografico partento dalla lista dei comuni, 
@@ -89,12 +91,12 @@ public class Configuratore extends Utente  {
     public void visualizzaGerarchia(){}
     public void visualizzaFattoriConversione(){}
 
-    public List<Categoria> creaGerarchia() {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public List<Categoria> creaGerarchia(String nomeGerarchia) {
+        return gestoreCategorie.creaGerarchiaRicorsiva(nomeGerarchia); 
     }
 
-    public Categoria creaCategoria() {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public Categoria creaCategoria(String nomeCategoria) {
+        return null;
     }
 
 }
