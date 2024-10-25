@@ -1,5 +1,6 @@
 package it.ingbs.ingegneria_software.controller;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -25,8 +26,9 @@ public class Sistema {
 	 * Menu accessibile ai soli configuratori, viene mostrato finchè isLoggedIn è true
 	 * @param configuratore Configuratore che ha effettuato l'accesso
 	 * @param isLoggedIn
+	 * @throws IOException 
 	 */
-    public void backEnd (Configuratore configuratore, boolean isLoggedIn) {
+    public void backEnd (Configuratore configuratore, boolean isLoggedIn) throws IOException {
 		do {
 			int scelta = menuBackEnd.scegli();
             switch (scelta) { 

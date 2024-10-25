@@ -1,5 +1,6 @@
 package it.ingbs.ingegneria_software.model;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -58,12 +59,14 @@ public class ComprensorioGeografico {
 
     /**
      * aggiunge comune alla listaComuni se non già presente, altrimenti comunica messaggio d'errore
+     * @throws IOException 
      */
-    public void aggiungiComune(String nomeComune) {
+    public void aggiungiComune(String nomeComune) throws IOException {
         GestoreComuni gc = new GestoreComuni();
         if (!listaComuni.contains(nomeComune)) {
             listaComuni.add(nomeComune);
-            gc.aggiungiComune(new Comuni(nomeComune));
+            gc.aggiungiComune(new Comuni(nomeComune)); //aggiungo il comune all'elenco dei comuni e lo visualizzo per verifica. 
+            gc.scriviComuni();
             gc.visualizzaComuni();
             LOGGER.log(Level.INFO, String.format("Comune %s aggiunto con successo al comprensorio %d", nomeComune, getCodice()));
         } else {

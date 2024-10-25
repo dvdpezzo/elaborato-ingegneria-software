@@ -3,13 +3,14 @@ package it.ingbs.ingegneria_software.model;
 
 public class Comuni {
 
+    GestoreComuni gc = new GestoreComuni();
     private String nome;
     private Integer numero=0;
 
 
     public Comuni(String nome){
         this.nome=nome;
-        this.numero=numero+1;
+        this.numero=gc.getLastNumero()+1;
     }
 
 
@@ -35,6 +36,8 @@ public class Comuni {
         Comuni comuni = (Comuni) obj;
         return this.getNome().equalsIgnoreCase(comuni.getNome());
     }
+
+    
 
 }
 

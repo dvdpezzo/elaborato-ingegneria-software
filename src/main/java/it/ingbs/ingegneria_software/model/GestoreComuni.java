@@ -114,6 +114,16 @@ public class GestoreComuni {
         }
     }
 
+    //controlla quale sia il numero più alto di conune e lo ritorna 
+    public int getLastNumero(){
+        int max=0;
+        for(Map.Entry<Integer,String> entry : mappaComuni.entrySet()){
+            if(entry.getKey()>max){
+                max=entry.getKey();
+            }
+         }
+         return max; 
+    }
 
 
     

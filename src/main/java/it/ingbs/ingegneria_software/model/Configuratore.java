@@ -1,5 +1,6 @@
 package it.ingbs.ingegneria_software.model;
 
+import java.io.IOException;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
@@ -63,8 +64,9 @@ public class Configuratore extends Utente  {
      * aggiungi comune al comprensorio esistente con codice passato ad argomento
      * @param nomeComune
      * @param codiceComprensorio
+     * @throws IOException 
      */
-    public void aggiungiComune(String nomeComune, int codiceComprensorio) {
+    public void aggiungiComune(String nomeComune, int codiceComprensorio) throws IOException {
         if(controllaEsistenzaComprensorio(codiceComprensorio)){
             gestoreComprensorio.aggiungiComuneAlComprensorio(codiceComprensorio, nomeComune);
         }else{
