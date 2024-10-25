@@ -1,3 +1,4 @@
 7313 [Iseo, Pisogne, Sulzano]
-3460 [Marone, Sale, Sulzano, Iseo]
+3460 [Marone, Sale, Sulzano]
+8427 [Bergamo, Genova, Sale]
 4524 [Brescia, Bergamo, Milano]

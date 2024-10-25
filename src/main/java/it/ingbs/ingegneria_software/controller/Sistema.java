@@ -31,7 +31,7 @@ public class Sistema {
 			int scelta = menuBackEnd.scegli();
             switch (scelta) { 
 				case 1: //AGGIUNGI COMUNE
-					boolean risposta;											
+					boolean risposta;										
 					// chiede a quale comprensorio lo voglio aggiungere
 					configuratore.visualizzaComprensori();
 					int codiceComprensorio = InputDati.leggiIntero("Inserisci il codice del comprensorio al quale si vuole aggiungere il comune:");					

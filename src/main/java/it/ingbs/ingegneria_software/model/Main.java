@@ -1,5 +1,6 @@
 package it.ingbs.ingegneria_software.model;
 
+import java.io.IOException;
 import java.util.logging.ConsoleHandler;
 import java.util.logging.Handler;
 import java.util.logging.Level;
@@ -28,7 +29,8 @@ public class Main {
         }
     }
 	
-	public static void main(String[] args) {
+	public static void main(String[] args) throws IOException {
+
 
 		//creazione istanza del sistema generale:
 		Sistema sistemaGenerale = new Sistema();

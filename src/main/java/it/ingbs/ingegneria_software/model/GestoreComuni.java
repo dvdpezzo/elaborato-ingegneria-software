@@ -92,7 +92,7 @@ public class GestoreComuni {
 
     /*metodo che legge la mappa dei comuni da file
       OSS: non so se funziona, da testare*/ 
-    private void leggiComuni()throws IOException{ 
+    public void leggiComuni()throws IOException{ 
         try (BufferedReader br = new BufferedReader(new FileReader(fileComuni))){
             String parola = br.readLine();
             do{
