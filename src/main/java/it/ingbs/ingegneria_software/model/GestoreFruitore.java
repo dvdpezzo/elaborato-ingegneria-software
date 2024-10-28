@@ -4,9 +4,11 @@ import java.util.HashMap;
 
 public class GestoreFruitore {
 
-    private HashMap<String,String> listaFruitori = new HashMap();
+    private HashMap<String,String> mappaFruitori = new HashMap();
+
 
     
+
     
     
     

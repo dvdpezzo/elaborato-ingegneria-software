@@ -85,6 +85,12 @@ public class Sistema {
 
 	    public void frontEnd () {
         throw new UnsupportedOperationException("Not supported yet.");
+		/*
+		 * per visualizzare i comprensori ho 2 scelte:
+		 * a)Li visualizzo e scelgo utilizzando i metodi del configuratore (faccio dipende i metodi del Fruitore
+		 * da quello del configuraore) NON MI PIACE COME SCELTA.
+		 * b)Creo nuovi metodi nella classe Fruitore che mi permettono di visualizzare i Comprensori e di sceglierne uno. 
+		 */
     }
 
 }

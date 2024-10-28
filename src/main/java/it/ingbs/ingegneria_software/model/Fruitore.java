@@ -1,5 +1,7 @@
 package it.ingbs.ingegneria_software.model;
 
+import java.util.logging.Logger;
+
 public class Fruitore extends Utente{
 
  /*
@@ -16,18 +18,41 @@ public class Fruitore extends Utente{
 	 * Se primo accesso già eseguito devo vedere il menu frontEnd. 
 	 */
 
-     
-   private ComprensorioGeografico comprensorio;
+
+   private final GestoreComprensorio gestoreComprensorio;
+   private static final Logger LOGGER = Logger.getLogger(Fruitore.class.getName());
+
+
 
 
    /*
-    * Quando creo un utente Fruitore devo indicare il comprensorio geografico ed i suoi dati utente
+    * Creo un nuovo oggetto Fruitore
     */
-    public Fruitore(String nomeUtente,String passUtente,ComprensorioGeografico comprensorio){
-         super(nomeUtente,passUtente); 
-         this.comprensorio=comprensorio;
+    public Fruitore(String nomeUtente, String passUtente){
+        super(nomeUtente, passUtente);
+        this.gestoreComprensorio = new GestoreComprensorio();
+        
+    }
+
+    /*
+     * Visualizza tutti i comprensori
+     */
+    public void visualizzaComprensori(){
+        for (ComprensorioGeografico comprensorio : gestoreComprensorio.getMappaComprensori().values()) {
+            LOGGER.info(comprensorio.toString());
+        }
+    }
+
+    /*
+     * Sceglie un comprensorio geografico dalla lista dei comprensori e lo ritorna.
+     */
+    public ComprensorioGeografico sceltaComprensorio(){
+
+        return null;
 
     }
+    
+
 
 
 
