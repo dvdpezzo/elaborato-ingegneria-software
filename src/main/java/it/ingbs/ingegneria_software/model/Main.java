@@ -9,6 +9,8 @@ import java.util.logging.SimpleFormatter;
 
 import it.ingbs.ingegneria_software.controller.Sistema;
 import it.ingbs.ingegneria_software.gestione_accesso.MenuAccesso;
+import it.ingbs.ingegneria_software.utilita_generale.InputDati;
+import it.ingbs.ingegneria_software.utilita_generale.MenuUtil;
 
 public class Main {
 	//setup logger: non toccare
@@ -28,25 +30,41 @@ public class Main {
             }
         }
     }
+
+    //creazione del menu di accesso 
+    private final static String [] VOCI = {"ACCESSO CONFIGURATORE","ACCESSO FRUITORE"};
+    static MenuUtil menuAccesso = new MenuUtil("MENU DI ACCESSO UTENTE:",VOCI);
 	
 	public static void main(String[] args) throws IOException {
 
 
+        
 		//creazione istanza del sistema generale:
 		Sistema sistemaGenerale = new Sistema();
 
-		//chiedi credenziali d'accesso:
-		Utente utente = MenuAccesso.loginConfiguratore();
+    
+        boolean accesso=true;
 
-		//da rivedere il modo in cui differenzia utente da configuratore, nella versione 2
+       do{
+           int opzione =menuAccesso.scegli();
+           switch(opzione){
+            
+            case 1:
+                Utente utente = MenuAccesso.loginConfiguratore();
+                  if (utente instanceof Configuratore){
+                    //se utente è di tipo Configuratore, richiama il menu back-end:
+                    sistemaGenerale.backEnd((Configuratore) utente, true);
+                  }
+                  accesso=false;
+                break;
 
-		if (utente instanceof Configuratore){
-			//se utente è di tipo Configuratore, richiama il menu back-end:
-            sistemaGenerale.backEnd((Configuratore) utente, true);
-		} else {
-			//altrimenti richiama il menu utente:
-			sistemaGenerale.frontEnd();
-		}
+            case 2:
+            System.out.println("Accesso fruitore ancora da implementare");
+            accesso=false;
+            break;
+           }
+        }while(accesso);
+
 		
 
 	}
