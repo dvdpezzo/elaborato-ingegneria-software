@@ -44,7 +44,7 @@ public class GestoreComprensorio {
     public void aggiungiComuneAlComprensorio(int codiceComprensorio, String nomeComune) throws IOException {
         ComprensorioGeografico comprensorio = getComprensorio(codiceComprensorio);
         if (comprensorio != null) {
-            comprensorio.aggiungiComune(nomeComune);
+            comprensorio.aggiungiComuneNuovo(nomeComune);
             salvaMappaComprensoriSuFile();
         }
     }

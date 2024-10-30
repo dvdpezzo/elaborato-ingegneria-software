@@ -61,7 +61,7 @@ public class ComprensorioGeografico {
      * aggiunge comune alla listaComuni se non già presente, altrimenti comunica messaggio d'errore
      * @throws IOException 
      */
-    public void aggiungiComune(String nomeComune) throws IOException {
+    public void aggiungiComuneNuovo(String nomeComune) throws IOException {
         GestoreComuni gc = new GestoreComuni();
         if (!listaComuni.contains(nomeComune)) {
             listaComuni.add(nomeComune);
