@@ -79,7 +79,7 @@ public class Configuratore extends Utente  {
      * @param codiceComprensorio
      * @return
      */
-    private boolean controllaEsistenzaComprensorio(int codiceComprensorio) {
+    public boolean controllaEsistenzaComprensorio(int codiceComprensorio) {
         return gestoreComprensorio.getComprensorio(codiceComprensorio)!= null;
     }
     /**

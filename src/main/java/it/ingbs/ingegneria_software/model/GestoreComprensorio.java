@@ -46,8 +46,6 @@ public class GestoreComprensorio {
         if (comprensorio != null) {
             comprensorio.aggiungiComune(nomeComune);
             salvaMappaComprensoriSuFile();
-        } else {
-            LOGGER.log(Level.SEVERE, "Comprensorio non trovato.");
         }
     }
     //controlla se il comprensorio sia già presente oppure no
