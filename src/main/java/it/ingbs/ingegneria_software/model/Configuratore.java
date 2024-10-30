@@ -69,11 +69,9 @@ public class Configuratore extends Utente  {
     public void aggiungiComune(String nomeComune, int codiceComprensorio) throws IOException {
         if(controllaEsistenzaComprensorio(codiceComprensorio)){
             gestoreComprensorio.aggiungiComuneAlComprensorio(codiceComprensorio, nomeComune);
-        }else{
-            LOGGER.log(Level.SEVERE, "Comprensorio non trovato.");
         }
-                
     }
+    
     /**
      * controlla che determinato comprensorio esista, dato il codice
      * @param codiceComprensorio
