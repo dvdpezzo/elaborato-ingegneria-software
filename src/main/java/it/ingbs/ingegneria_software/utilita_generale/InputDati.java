@@ -89,6 +89,8 @@ public class InputDati
 	  }
 	  
 	  
+
+
 	  public static int leggiIntero (String messaggio)
 	  {
 	   boolean finito = false;
@@ -104,6 +106,7 @@ public class InputDati
 	     catch (InputMismatchException e)
 	      {
 	       LOGGER.warning(ERRORE_FORMATO);
+		   lettore.nextLine();
 	      }
 	    } while (!finito);
 	   return valoreLetto;

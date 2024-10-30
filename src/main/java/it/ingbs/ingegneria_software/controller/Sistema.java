@@ -39,7 +39,6 @@ public class Sistema {
 					int codiceComprensorio = InputDati.leggiIntero("Inserisci il codice del comprensorio al quale si vuole aggiungere il comune:");					
 					do{
 						risposta=true;
-						//NOTA BENE: da sistemare in quanto fa inserire lo stesso il nome del comune prima di fare il controllo sul codice
 						if(configuratore.controllaEsistenzaComprensorio(codiceComprensorio)){
 						     configuratore.aggiungiComune(InputDati.leggiStringa("Inserisci il nome del comune:"), codiceComprensorio);
 							 risposta = InputDati.yesOrNo("Vuoi aggiungere un altro comune?");
