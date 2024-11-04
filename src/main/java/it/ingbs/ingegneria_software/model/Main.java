@@ -34,6 +34,7 @@ public class Main {
     //creazione del menu di accesso 
     private final static String [] VOCI = {"ACCESSO CONFIGURATORE","ACCESSO FRUITORE"};
     static MenuUtil menuAccesso = new MenuUtil("MENU DI ACCESSO UTENTE:",VOCI);
+    GestoreFruitore gf = new GestoreFruitore();
 	
 	public static void main(String[] args) throws IOException {
 
@@ -59,14 +60,11 @@ public class Main {
                 break;
 
             case 2:
-            System.out.println("Accesso fruitore ancora da implementare");
+            int code = InputDati.leggiIntero("Inserisci il codice del tuo comprensorio:");
             accesso=false;
             break;
            }
         }while(accesso);
-
-		
-
-	}
+    }
 
 }
