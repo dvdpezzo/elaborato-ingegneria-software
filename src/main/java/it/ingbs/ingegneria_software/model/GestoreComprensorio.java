@@ -120,6 +120,14 @@ public class GestoreComprensorio {
         return null;
     }
 
+    /*
+     * metodo creato per visualizzare i comprensori nella parte del fruitore
+     */
+    public void visualizzaElencoComprensori(){
+        for (ComprensorioGeografico comprensorio : getMappaComprensori().values()) {
+            LOGGER.info(comprensorio.toString());
+        }
+    }
 
 
 }

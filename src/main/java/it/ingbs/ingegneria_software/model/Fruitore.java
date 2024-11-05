@@ -4,24 +4,11 @@ import java.util.logging.Logger;
 
 public class Fruitore extends Utente{
 
- /*
-  * a)scelta del comprensorio di appartenenza
-    b)accesso con nome utente (univoco) e password
-    c)se primo accesso deve inserire anche la mail.
-    d)aggiungere metodi di utilità
-  */
-
-  /*
-	 * Dopo essere entrati nella sezione del fruitore bisogna selezionare il comprensorio di appartenenza ed in seguito 
-	 * eseguire l'accesso.
-	 * Se primo accesso devo inserire anche email e nome utente deve essere univoco
-	 * Se primo accesso già eseguito devo vedere il menu frontEnd. 
-	 */
-
 
    private final GestoreComprensorio gestoreComprensorio;
    private static final Logger LOGGER = Logger.getLogger(Fruitore.class.getName());
    private ComprensorioGeografico comprensorio;
+   private String email;
 
 
 
@@ -29,10 +16,11 @@ public class Fruitore extends Utente{
    /*
     * Creo un nuovo oggetto Fruitore
     */
-    public Fruitore(String nomeUtente, String passUtente, ComprensorioGeografico comprensorio){
+    public Fruitore(String nomeUtente, String passUtente, ComprensorioGeografico comprensorio,String email){
         super(nomeUtente, passUtente);
         this.comprensorio=comprensorio;
         this.gestoreComprensorio = new GestoreComprensorio();
+        this.email=email;
         
     }
 
