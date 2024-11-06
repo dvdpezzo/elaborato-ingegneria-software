@@ -97,12 +97,12 @@ public class GestoreComuni {
             String parola = br.readLine();
             do{
                 String [] datiComune = parola.split(" ");
-                Integer num = Integer.valueOf(datiComune[0]);
+                Integer num = Integer.parseInt(datiComune[0]);
                 String nome = datiComune[1];
                 mappaComuni.put(num,nome); 
                 parola = br.readLine();
 
-            }while(parola!=null && !parola.equals("\n"));
+            }while(parola!=null && !parola.equals("\n")&& !parola.equals(""));
          }
     }
 

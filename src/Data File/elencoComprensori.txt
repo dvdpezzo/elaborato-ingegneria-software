@@ -1,4 +1,4 @@
-7313 [Iseo, Pisogne, Sulzano]
+7313 [Iseo, Pisogne, Sulzano, Romano, Lucca, Lecco]
 3460 [Marone, Sale, Sulzano]
 8427 [Bergamo, Genova, Sal]
 4524 [Brescia, Bergamo, Milano]
