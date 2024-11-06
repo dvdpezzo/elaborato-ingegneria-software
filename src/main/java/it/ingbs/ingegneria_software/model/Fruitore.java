@@ -24,6 +24,31 @@ public class Fruitore extends Utente{
         
     }
 
+
+
+
+    public String getEmail() {
+        return email;
+    }
+
+    public ComprensorioGeografico getComprensorio() {
+        return comprensorio;
+    }
+
+
+
+
+    /*
+     * stampa le informazion riguardanti un oggetto fruitore
+     */
+    public void infoFruitore(){
+        StringBuffer sb = new StringBuffer();
+        sb.append(this.getNomeUtente());
+        sb.append((this.getPassword()));
+        sb.append((this.getComprensorio().toString()));
+        sb.append((this.getEmail()));
+     }
+
     
    
     
