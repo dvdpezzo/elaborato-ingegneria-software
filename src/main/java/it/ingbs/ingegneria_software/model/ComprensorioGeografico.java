@@ -13,6 +13,7 @@ public class ComprensorioGeografico {
     private final int codice;
     private List<String> listaComuni = new ArrayList<>();
     private final Random random = new Random();
+    private GestoreComuni gc = new GestoreComuni();
     
     /**
      * Costruttore per quando creo nuovo (assegna codice random)
@@ -62,7 +63,6 @@ public class ComprensorioGeografico {
      * @throws IOException 
      */
     public void aggiungiComuneNuovo(String nomeComune) throws IOException {
-        GestoreComuni gc = new GestoreComuni();
         if (!listaComuni.contains(nomeComune)) {
             listaComuni.add(nomeComune);
             gc.aggiungiComune(new Comuni(nomeComune)); //aggiungo il comune all'elenco dei comuni e lo visualizzo per verifica. 
