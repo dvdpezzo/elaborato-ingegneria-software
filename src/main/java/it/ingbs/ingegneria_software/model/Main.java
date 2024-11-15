@@ -7,6 +7,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
 
+import it.ingbs.ingegneria_software.controller.GestoreMenu;
 import it.ingbs.ingegneria_software.controller.Sistema;
 import it.ingbs.ingegneria_software.gestione_accesso.MenuAccesso;
 
@@ -33,7 +34,7 @@ public class Main {
 
 
 		//creazione istanza del sistema generale:
-		Sistema sistemaGenerale = new Sistema();
+		GestoreMenu sistemaGenerale = new GestoreMenu();
 
 		//chiedi credenziali d'accesso:
 		Utente utente = MenuAccesso.loginConfiguratore();
@@ -45,7 +46,7 @@ public class Main {
             sistemaGenerale.backEnd((Configuratore) utente);
 		} else {
 			//altrimenti richiama il menu utente:
-			sistemaGenerale.frontEnd();
+			//sistemaGenerale.frontEnd();
 		}
 		
 

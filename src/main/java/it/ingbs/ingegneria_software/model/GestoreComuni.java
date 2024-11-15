@@ -7,6 +7,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -21,7 +22,7 @@ public class GestoreComuni {
 
     private static final String MSG_ERRORE_COMUNE_DUPLICE ="Comune già presente nella lista";
     private static final String ERRORE_COMUNE_NON_TROVATO ="Comune non trovato!";
-    private final File fileComuni = new File("src\\Data File\\elencoComuni.txt");   
+    private final File fileComuni = new File("elaborato-ingegneria-software\\src\\Data File\\elencoComuni.txt");   
     private static final Logger LOGGER = Logger.getLogger(GestoreComuni.class.getName());
     
 
@@ -125,6 +126,30 @@ public class GestoreComuni {
          return max; 
     }
 
+
+    /*
+     * MODIFICA FATTA DOPO INCONTRO 15/11
+     */
+
+      /**
+     * Inserisce n comuni da una lista di comuni disponibili.
+     * Se un comune viene scelto più volte, lo ripete fino a quando non viene scelto un altro.
+     */
+    public void inserimentoComuni(List<String> listaComuni, int n) {
+        for (int i = 0; i < n; i++) {
+            boolean comuneValido = false;
+            while (!comuneValido) {
+                int numeroComune = InputDati.leggiIntero("Inserisci il numero del " + (i + 1) + "° comune:");
+                String comune = scegliComune(numeroComune);
+                if (listaComuni.contains(comune)) {
+                    LOGGER.info("Questo comune è già stato inserito!");
+                } else {
+                    listaComuni.add(comune);
+                    comuneValido = true;
+                }
+            }
+        }
+    }
 
     
 }
