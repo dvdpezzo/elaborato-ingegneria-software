@@ -23,10 +23,26 @@ public class Gerarchia {
     public void aggiungiSottocategoria(){
         String nomePadre;
         do{
-            nomePadre = InputDati.leggiStringaNonVuota("Insirisci il nome della caterogia padre:");
-        }while(controlloNomeCategoria(nomePadre));
-        Categoria padre = mappaCategorie.get(nomePadre);
-        padre.aggiungiFiglio();
+            nomePadre = InputDati.leggiStringaNonVuota("Inserisci il nome della categoria padre:");
+        }while(!controlloNomeCategoria(nomePadre.toUpperCase()));
+        Categoria padre = mappaCategorie.get(nomePadre.toUpperCase());
+        controlloFiglio(padre);
+    }
+
+
+    /*
+     * controllo se la sottocategoria (figlio) aggiunta è già presente e se non lo è la aggiungo alle sottocategorie
+     */
+    private void controlloFiglio(Categoria padre) {
+        String nomeSottocat;
+        String descSottocat;
+        do{
+             nomeSottocat = InputDati.leggiStringaNonVuota("Inserisci il nome della sottocategoria che vuoi aggiungere:");
+        }while(!controlloSottocat(nomeSottocat));
+        
+        descSottocat = InputDati.leggiStringa("Inserisci una descrizione per la sottocategoria:(facoltativo)");
+        
+        padre.aggiungiFiglio(nomeSottocat,descSottocat);
     }
 
     /*
@@ -38,6 +54,16 @@ public class Gerarchia {
             }
         return false;
      }
+
+    
+    /*
+     * controllo se il nome della sottocategoria è gia presente
+     */
+    private boolean controlloSottocat(String nome){
+        
+
+        return true;
+    }
 
     public void eliminaSottocategoria(){}
 

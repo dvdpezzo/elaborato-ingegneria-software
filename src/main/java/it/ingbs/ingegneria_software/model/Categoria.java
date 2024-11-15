@@ -1,6 +1,8 @@
 package it.ingbs.ingegneria_software.model;
 import java.util.*;
 
+import it.ingbs.ingegneria_software.utilita_generale.InputDati;
+
 public class Categoria {
 
   
@@ -14,14 +16,21 @@ public class Categoria {
     public Categoria(String nome,String descrizione) {
         this.nome = nome;
         this.descrizione = descrizione;
+        this.sottoCategorie=new ArrayList<Categoria>();
     }
     
-    public void aggiungiFiglio(){};
+    /*
+     * aggiunge una sottocategoria alla categoria padre
+     */
+    public void aggiungiFiglio(String nome, String descrizione){
+        sottoCategorie.add(new Categoria(nome, descrizione));
+    }
     
     // Getter per il nome
     public String getNome() {
         return nome;
     }
+    
     
     //-------------------------------------------------------------------------------------------------//
     

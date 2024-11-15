@@ -1,14 +1,8 @@
 package it.ingbs.ingegneria_software.model;
 
 import java.io.IOException;
-import java.util.logging.ConsoleHandler;
-import java.util.logging.Handler;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import java.util.logging.SimpleFormatter;
-
+import java.util.logging.*;
 import it.ingbs.ingegneria_software.controller.GestoreMenu;
-import it.ingbs.ingegneria_software.controller.Sistema;
 import it.ingbs.ingegneria_software.gestione_accesso.MenuAccesso;
 
 public class Main {

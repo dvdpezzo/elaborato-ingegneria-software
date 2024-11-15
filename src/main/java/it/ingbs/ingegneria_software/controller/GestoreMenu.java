@@ -1,7 +1,6 @@
 package it.ingbs.ingegneria_software.controller;
 
 import java.io.IOException;
-import java.util.logging.Logger;
 import it.ingbs.ingegneria_software.model.Configuratore;
 import it.ingbs.ingegneria_software.model.GestoreComprensorio;
 import it.ingbs.ingegneria_software.model.GestoreGerarchia;
@@ -12,7 +11,7 @@ import it.ingbs.ingegneria_software.utilita_generale.MenuUtil;
  */
 public class GestoreMenu {
     
-    private static final Logger LOGGER = Logger.getLogger(Sistema.class.getName());
+    
 	private final String[] vociMenuBackEnd = new String[]{"GESTIONE COMPRENSORI","GESTIONE GERARCHIE","VISUALIZZA COMPRENSORI",
 "VISUALIZZA GERARCHIE"};
       

@@ -67,8 +67,8 @@ public class GestoreGerarchia {
         String nome;
         do{
            nome = InputDati.leggiStringaNonVuota("Inserisci il nome della gerarchia:");
-        }while(controlloNomeGerarchia(nome));
-        return mappaGerarchie.get(nome);
+        }while(!controlloNomeGerarchia(nome.toUpperCase()));
+        return mappaGerarchie.get(nome.toUpperCase());
     }
 
     /*
@@ -80,6 +80,8 @@ public class GestoreGerarchia {
         }
     }
 
-    public void salvaMappaGerarchie(){}
+    public void salvaMappaGerarchie(){
+        
+    }
 
 }

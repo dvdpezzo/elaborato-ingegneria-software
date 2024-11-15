@@ -7,11 +7,11 @@ import java.util.Map;
 import java.util.logging.Logger;
 
 import it.ingbs.ingegneria_software.utilita_generale.InputDati;
-
+/*  
 /**
  * Classe che gestisce le categorie nel sistema
  * @author Davide
- */
+ 
 public class GestoreCategorie {
     
     private static final Logger LOGGER = Logger.getLogger(GestoreCategorie.class.getName());
@@ -35,15 +35,16 @@ public class GestoreCategorie {
                 visualizzaSottocategorieRicorsiva(categoria, indentazione + "  ");
             }
         }
+    
     }
     
-    private void visualizzaSottocategorieRicorsiva(Categoria categoria, String indentazione) {
+      private void visualizzaSottocategorieRicorsiva(Categoria categoria, String indentazione) {
         LOGGER.info(indentazione + categoria.getNome());
     
-        for (Categoria sottocategoria : categoria.getSottocategorie()) {
+       for (Categoria sottocategoria : categoria.getSottocategorie()) {
             visualizzaSottocategorieRicorsiva(sottocategoria, indentazione + "  ");
         }
     }
+        */
 
 
-}
