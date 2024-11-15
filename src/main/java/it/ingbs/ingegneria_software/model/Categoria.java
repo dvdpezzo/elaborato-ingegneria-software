@@ -1,48 +1,30 @@
 package it.ingbs.ingegneria_software.model;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class Categoria {
 
   
     private String nome;  // Nome della categoria
-    private CampoCaratteristico campoCaratteristico;  // Campo caratteristico
+    private String descrizione; //descrizione generale della categoria
     private List<Categoria> sottoCategorie ;  // Lista di sottocategorie
     private Map<Categoria, Double> mappaFattoriConversione;
 
-    // Costruttore per una categoria non foglia
-    public Categoria(String nome, CampoCaratteristico campoCaratteristico) {
+
+    // Costruttore per una categoria NON foglia
+    public Categoria(String nome,String descrizione) {
         this.nome = nome;
-        this.campoCaratteristico = campoCaratteristico;
-        this.sottoCategorie = new ArrayList<>();
+        this.descrizione = descrizione;
     }
     
-    // Costruttore per una categoria foglia (senza sottocategorie)
-    public Categoria(String nome) {
-        this(nome, null);  // Nessun campo caratteristico per le foglie
-    }
-    
-    // Metodo per aggiungere una sottocategoria
-    public void aggiungiSottocategoria(Categoria sottocategoria) {
-        sottoCategorie.add(sottocategoria);
-    }
+    public void aggiungiFiglio(){};
     
     // Getter per il nome
     public String getNome() {
         return nome;
     }
     
-    // Getter per il campo caratteristico
-    public CampoCaratteristico getCampoCaratteristico() {
-        return campoCaratteristico;
-    }
+    //-------------------------------------------------------------------------------------------------//
     
-    // Getter per le sottocategorie
-    public List<Categoria> getSottocategorie() {
-        return sottoCategorie;
-    }   
 
     public double calcolaOreEquivalenti(Categoria categoriaDestinazione, double ore) {
         if (this.sottoCategorie.isEmpty()) {

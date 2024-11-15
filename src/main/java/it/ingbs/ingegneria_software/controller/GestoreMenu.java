@@ -1,15 +1,10 @@
 package it.ingbs.ingegneria_software.controller;
 
 import java.io.IOException;
-import java.util.List;
-import java.util.logging.Level;
 import java.util.logging.Logger;
-
-import it.ingbs.ingegneria_software.model.Categoria;
 import it.ingbs.ingegneria_software.model.Configuratore;
 import it.ingbs.ingegneria_software.model.GestoreComprensorio;
 import it.ingbs.ingegneria_software.model.GestoreGerarchia;
-import it.ingbs.ingegneria_software.utilita_generale.InputDati;
 import it.ingbs.ingegneria_software.utilita_generale.MenuUtil;
 
 /*
@@ -18,7 +13,8 @@ import it.ingbs.ingegneria_software.utilita_generale.MenuUtil;
 public class GestoreMenu {
     
     private static final Logger LOGGER = Logger.getLogger(Sistema.class.getName());
-	private final String[] vociMenuBackEnd = new String[]{"GESTIONE COMPRENSORI","GESTIONE GERARCHIE"};
+	private final String[] vociMenuBackEnd = new String[]{"GESTIONE COMPRENSORI","GESTIONE GERARCHIE","VISUALIZZA COMPRENSORI",
+"VISUALIZZA GERARCHIE"};
       
 	private final MenuUtil menuBackEnd = new MenuUtil("MENU BACK-END:", vociMenuBackEnd);
 
@@ -41,6 +37,13 @@ public class GestoreMenu {
                 case 2:
                 gestoreGerarchia.modificaGerarchie();
                 break;
+
+                case 3:
+                gestoreComprensorio.visualizzaComprensori();
+                break;
+
+                case 4:
+               // gestoreGerarchia.visualizzaGerarchie();
             }
         }while(scelta!=0);
     }

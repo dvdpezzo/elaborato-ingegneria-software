@@ -17,67 +17,8 @@ public class GestoreCategorie {
     private static final Logger LOGGER = Logger.getLogger(GestoreCategorie.class.getName());
     private Map<String, List<Categoria>> categoriePerGerarchia;
 
-    public GestoreCategorie() {
-        this.categoriePerGerarchia = new HashMap<>();
-    }
 
-    public List<Categoria> creaGerarchiaRicorsiva(String nomeGerarchia ) {
-        List<Categoria> gerarchia = new ArrayList<>();
-        String nomeRadice = InputDati.leggiStringaNonVuota("Inserire nome Categoria radice: ");
-        Categoria categoriaRadice = creaCategoria(nomeRadice);
-        gerarchia.add(categoriaRadice);
-        
-        boolean aggiungiSottoCategorie = InputDati.yesOrNo("Vuoi aggiungere subito categorie a " + nomeRadice + "?");
-        if (aggiungiSottoCategorie) {
-            List<Categoria> sottocategorie = creaSottocategorieAutomatiche(categoriaRadice);
-            gerarchia.addAll(sottocategorie);
-        }
-        categoriePerGerarchia.put(nomeGerarchia, gerarchia);
-        return gerarchia;
-    }
-    
-    private Categoria creaCategoria(String nome) {
-        //inserire metodo che chieda il nome del campo caratteristico (i.e. tipo, materia, strumento)
-        List<Valore> valoriCampo = chiediValoriCampo(nome);
-        CampoCaratteristico campo = new CampoCaratteristico("Tipo", valoriCampo);
-        return new Categoria(nome, campo);
-    }
-    
-    private List<Categoria> creaSottocategorieAutomatiche(Categoria categoriaPadre) {
-        List<Categoria> sottocategorie = new ArrayList<>();
-        List<Valore> valoriCampo = categoriaPadre.getCampoCaratteristico().getDominioValori();
-
-        for (Valore valore : valoriCampo) {
-            String nomeSottocategoria = categoriaPadre.getNome() + " - " + valore.getNome();
-            Categoria sottocategoria = creaCategoria(nomeSottocategoria);
-            sottocategorie.add(sottocategoria);
-        }
-
-        return sottocategorie;
-    }
-
-    
-    private List<Valore> chiediValoriCampo(String nome) {
-        List<Valore> valoriCampo = new ArrayList<>();
-        //di fatto chiedo se è o meno una categoria foglia
-        boolean aggiungiValore = InputDati.yesOrNo("Vuoi aggiungere campi caratteristici alla categoria " + nome + " attualmente selezionata?");
-        if (aggiungiValore){
-            while (aggiungiValore) {
-                String nomeSottocategoria = InputDati.leggiStringaNonVuota("Inserire nome del campo caratteristico: ");
-                valoriCampo.add(new Valore(nomeSottocategoria));
-                
-                aggiungiValore = InputDati.yesOrNo("Vuoi aggiungerne altri? ");
-            }
-        }else{
-            //allora è una categoria foglia e andrebbero aggiunti i fattori di conversione
-        }
-        
-        return valoriCampo;
-    }
-    
-    public void aggiungiFattoreConversione(Categoria categoria1, Categoria categoria2, Double fattoreConversione) {
-        categoria1.aggiungiFattoreConversione(categoria2, fattoreConversione);
-    }
+    //OSS TENIAMO QUESTO IN QUANTO I METODI DI VISUALIZZAZIONE POSSONO ESSERE UTILI
 
     public void visualizzaAlberoCategorie() {
         LOGGER.info("Albero delle categorie: ");
