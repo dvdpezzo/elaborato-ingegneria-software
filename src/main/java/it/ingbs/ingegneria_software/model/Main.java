@@ -42,7 +42,7 @@ public class Main {
 
 		if (utente instanceof Configuratore){
 			//se utente è di tipo Configuratore, richiama il menu back-end:
-            sistemaGenerale.backEnd((Configuratore) utente, true);
+            sistemaGenerale.backEnd((Configuratore) utente);
 		} else {
 			//altrimenti richiama il menu utente:
 			sistemaGenerale.frontEnd();

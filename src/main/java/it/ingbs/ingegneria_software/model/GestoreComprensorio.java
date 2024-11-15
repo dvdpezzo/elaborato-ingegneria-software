@@ -10,6 +10,9 @@ import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import it.ingbs.ingegneria_software.utilita_generale.InputDati;
+import it.ingbs.ingegneria_software.utilita_generale.MenuUtil;
+
 
 //classe che gestisce l'elenco dei comprensori inseriti dal configuratore
 public class GestoreComprensorio {
@@ -41,13 +44,6 @@ public class GestoreComprensorio {
         }
     }
 
-    public void aggiungiComuneAlComprensorio(int codiceComprensorio, String nomeComune) throws IOException {
-        ComprensorioGeografico comprensorio = getComprensorio(codiceComprensorio);
-        if (comprensorio != null) {
-            comprensorio.aggiungiComuneNuovo(nomeComune);
-            salvaMappaComprensoriSuFile();
-        }
-    }
     //controlla se il comprensorio sia già presente oppure no
     private ComprensorioGeografico controlloComprensorioDuplicato (ComprensorioGeografico comprensorioNuovo) {
         for (ComprensorioGeografico comprensorio : mappaComprensori.values()) {
@@ -97,6 +93,81 @@ public class GestoreComprensorio {
             // Log the exception or handle it in a meaningful way
             LOGGER.log(Level.SEVERE, "Error reading file", e);
         }
+    }
+
+
+    // OSS: PARTE MODIFICATA DOPO INCONTRO IN PRESENZA 15/11
+    /*
+     * visualizza tutti i comprensori esistenti
+     */
+
+    public void visualizzaComprensori(){
+        for (ComprensorioGeografico comprensorio : mappaComprensori.values()) {
+            LOGGER.info(comprensorio.toString());
+        }
+    }
+
+    /*
+     * controlla se il comprensorio esiste in base al codice
+     */
+    public boolean controllaEsistenzaComprensorio(int codiceComprensorio) {
+        return getComprensorio(codiceComprensorio)!= null;
+    }
+
+   
+
+
+    /*
+     * Metodo che aggiunge un comune ad un comprensorio già esistente
+     */
+    private void aggiungiComuneAlComprensorio() throws IOException{
+        visualizzaComprensori();
+        boolean risposta=true;
+        int codiceComprensorio = InputDati.leggiIntero("Inserisci il codice del comprensorio al quale si vuole aggiungere il comune:");					
+		   do{
+              if(controllaEsistenzaComprensorio(codiceComprensorio)){
+                ComprensorioGeografico comprensorio = getComprensorio(codiceComprensorio);
+                if (comprensorio != null) {
+                    comprensorio.aggiungiComuneNuovo(InputDati.leggiStringa("Inserisci il nome del comune:"));
+                    salvaMappaComprensoriSuFile();
+                }
+                risposta = InputDati.yesOrNo("Vuoi aggiungere un altro comune?");
+                }
+              else{
+                System.out.println("Codice del comprensorio sbagliato!");
+                risposta=false;
+                }
+            }while (risposta);	
+     }
+
+    /*
+     * Menu per la scelta delle operazioni da eseguore sui Comprensori 
+     * -Agggiungi comune al comprensorio
+     * -Aggiungi comprensorio
+     * -Rimuovi comprensorio
+     * -Salva Cambiamenti
+     */
+    public void modificaComprensori() throws IOException {
+
+        String [] voci = {"Aggiungi comune al comprensorio: ",  "Aggiungi Comprensorio: ","Rimuovi Comprensorio: ","Salva Cambiamenti: "};
+        MenuUtil menuComprensorio = new MenuUtil("AZIONI SUI COMPRENSORI",voci);
+        int scelta=0;
+        do{
+            scelta = menuComprensorio.scegli();
+            switch(scelta){
+                case 1: aggiungiComuneAlComprensorio();
+                break;
+            
+                case 2:
+                break;
+                case 3:
+                case 4:
+            }
+
+        }while(scelta!=0);
+
+
+        
     }
 
     

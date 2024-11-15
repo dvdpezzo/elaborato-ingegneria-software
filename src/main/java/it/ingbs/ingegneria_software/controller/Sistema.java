@@ -28,9 +28,10 @@ public class Sistema {
 	 * @param isLoggedIn
 	 * @throws IOException 
 	 */
-    public void backEnd (Configuratore configuratore, boolean isLoggedIn) throws IOException {
+    public void backEnd (Configuratore configuratore) throws IOException {
+		int scelta=0;
 		do {
-			int scelta = menuBackEnd.scegli();
+			 scelta = menuBackEnd.scegli();
             switch (scelta) { 
 				case 1: //AGGIUNGI COMUNE
 					boolean risposta;										
@@ -82,12 +83,11 @@ public class Sistema {
 					LOGGER.log(Level.INFO, "Cambiamenti salvati.");
 				break;
 				case 0: 
-					isLoggedIn = false;
 					LOGGER.log(Level.INFO, "Logout effettuato.");
 
 				break;
 			}		
-		} while (isLoggedIn);
+		} while (scelta!=0);
 	}
 
 	    public void frontEnd () {

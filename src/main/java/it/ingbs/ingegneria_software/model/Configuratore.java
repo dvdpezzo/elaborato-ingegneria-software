@@ -60,35 +60,8 @@ public class Configuratore extends Utente  {
             }
         }
     }
-    /**
-     * aggiungi comune al comprensorio esistente con codice passato ad argomento
-     * @param nomeComune
-     * @param codiceComprensorio
-     * @throws IOException 
-     */
-    public void aggiungiComune(String nomeComune, int codiceComprensorio) throws IOException {
-        if(controllaEsistenzaComprensorio(codiceComprensorio)){
-            gestoreComprensorio.aggiungiComuneAlComprensorio(codiceComprensorio, nomeComune);
-        }
-    }
     
-    /**
-     * controlla che determinato comprensorio esista, dato il codice
-     * @param codiceComprensorio
-     * @return
-     */
-    public boolean controllaEsistenzaComprensorio(int codiceComprensorio) {
-        return gestoreComprensorio.getComprensorio(codiceComprensorio)!= null;
-    }
-    /**
-     * Viusalizza a video i Comprensori
-     */
-    public void visualizzaComprensori(){
-        for (ComprensorioGeografico comprensorio : gestoreComprensorio.getMappaComprensori().values()) {
-            LOGGER.info(comprensorio.toString());
-        }
-    }
-
+   
     public void salvaCambiamenti(){}
     public void visualizzaGerarchia(){
         gestoreCategorie.visualizzaAlberoCategorie();
