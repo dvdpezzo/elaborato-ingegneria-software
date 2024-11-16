@@ -24,8 +24,8 @@ public class Gerarchia {
         String nomePadre;
         do{
             nomePadre = InputDati.leggiStringaNonVuota("Inserisci il nome della categoria padre:");
-        }while(!controlloNomeCategoria(nomePadre.toUpperCase()));
-        Categoria padre = mappaCategorie.get(nomePadre.toUpperCase());
+        }while(!controlloNomeCategoria(nomePadre));
+        Categoria padre = mappaCategorie.get(nomePadre);
         controlloFiglio(padre);
     }
 
@@ -46,22 +46,20 @@ public class Gerarchia {
     }
 
     /*
-     * controlla se il nome della categoria è univoco
+     * controlla se il nome della categoria padre esiste 
      */
     private boolean controlloNomeCategoria(String nome){
         for (String nomiCategoria : mappaCategorie.keySet()) {
-            return nomiCategoria.equals(nome);
+            return nomiCategoria.equalsIgnoreCase(nome);
             }
         return false;
      }
 
     
     /*
-     * controllo se il nome della sottocategoria è gia presente
+     * controllo se il nome della sottocategoria è gia presente (da mettere in categoria?)
      */
     private boolean controlloSottocat(String nome){
-        
-
         return true;
     }
 

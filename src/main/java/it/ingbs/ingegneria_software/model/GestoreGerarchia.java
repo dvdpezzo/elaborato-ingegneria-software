@@ -44,7 +44,7 @@ public class GestoreGerarchia {
         }while(controlloNomeGerarchia(nome));
 
         String descrizione = InputDati.leggiStringa("Inserisci una descrizione per la gerarchia(facoltativa)");
-        mappaGerarchie.put((nome.toUpperCase()), new Gerarchia(nome.toUpperCase(), descrizione));
+        mappaGerarchie.put((nome.toUpperCase()), new Gerarchia(nome.toUpperCase(),descrizione));
     }
 
 
@@ -53,7 +53,7 @@ public class GestoreGerarchia {
      */
     private boolean controlloNomeGerarchia(String nome){
         for (String nomiGerarchia : mappaGerarchie.keySet()) {
-            return nomiGerarchia.equals(nome);
+            return nomiGerarchia.equalsIgnoreCase(nome);
             }
         return false;
      }

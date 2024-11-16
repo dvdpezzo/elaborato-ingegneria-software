@@ -15,7 +15,7 @@ public class GestoreComprensorio {
     private static final Logger LOGGER = Logger.getLogger(GestoreComprensorio.class.getName());
         private static final int MIN_NUMERO_COMUNI_COMPRENSORIO = 3;
         private HashMap<Integer,ComprensorioGeografico> mappaComprensori;
-        private File fileComprensori = new File("elaborato-ingegneria-software\\src\\Data File\\elencoComprensori.txt");
+        private File fileComprensori = new File("src\\Data File\\elencoComprensori.txt");
     
         //costruttore che legge i comprensori dal file e li carica nella mappa
         public GestoreComprensorio() {

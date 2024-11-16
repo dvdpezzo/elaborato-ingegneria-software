@@ -31,6 +31,11 @@ public class Categoria {
         return nome;
     }
     
+    /*
+     * IDEA: creiamo un oggetto sottocategoria, in modo tale da creare una mappa con il nome e la sottocategoria, e sempre nella classe sottocategoria possiamo dire se è foglia o no
+     * se è foglia inserisamo il fattore di conversione, se non lo è la consideriamo una sottocategoria (sottocategoria = campoCaratteristico).
+     * OSS: PARLANE DOMENICA CON DAVIDE. 
+     */
     
     //-------------------------------------------------------------------------------------------------//
     

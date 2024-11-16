@@ -15,7 +15,7 @@ import it.ingbs.ingegneria_software.model.GestoreConfiguratori;
 public class GestoreAccesso {
 
     // private static final String FILE_DI_ACCESSO_CREDENZIALI_FRUITORI_TXT = "src\\File di accesso\\credenzialiFruitori.txt";
-    private static final String FILE_DI_ACCESSO_CREDENZIALI_CONFIGURATORI_TXT = "elaborato-ingegneria-software\\src\\File di accesso\\credenzialiConfiguratori.txt";
+    private static final String FILE_DI_ACCESSO_CREDENZIALI_CONFIGURATORI_TXT = "src\\File di accesso\\credenzialiConfiguratori.txt";
     private static final String UTENTE_DEFAULT="admin";
     private static final String PASS_DEFAULT="admin";
     
