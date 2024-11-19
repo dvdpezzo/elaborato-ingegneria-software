@@ -1,54 +1,32 @@
 package it.ingbs.ingegneria_software.model;
 
+import java.io.IOException;
+import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
-public class Configuratore {
-    private static final String DEFAULT = "admin";
+import it.ingbs.ingegneria_software.utilita_generale.InputDati;
 
-    private String userName;
-    private String password;   
-
-    public Configuratore() {
-        this.userName = DEFAULT;
-        this.password = DEFAULT;
-    }
-
-    public String getUserName() {
-        return userName;
-    }
-
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public ComprensorioGeografico creaComprensorioGeografico(){
-        return null;
-    }
-
-    public List<Categoria> creaGerarchia(){
-        return null;
-    }
-
-    public Categoria creaCategoria(){
-        return null;
-    }
-
-    public FattoreConversione creaFattoreConversione(){
-        return null;
+public class Configuratore extends Utente  {
+    
+    public Configuratore(String nomeUtente, String passwordUtente) {
+        super(nomeUtente, passwordUtente);
     }
 
     public void salvaCambiamenti(){}
-
-    public void visualizzaComprensori(){}
-    public void visualizzaGerarchia(){}
+    public void visualizzaGerarchia(){
+   //     gestoreCategorie.visualizzaAlberoCategorie();
+    }
     public void visualizzaFattoriConversione(){}
+
+  //  public List<Categoria> creaGerarchia(String nomeGerarchia) {
+   //     return gestoreCategorie.creaGerarchiaRicorsiva(nomeGerarchia); 
+    
+
+    public Categoria creaCategoria(String nomeCategoria) {
+        return null;
+    }
 
 }
