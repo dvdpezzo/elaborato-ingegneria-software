@@ -1,5 +1,7 @@
 package it.ingbs.ingegneria_software.model;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
 
 import it.ingbs.ingegneria_software.utilita_generale.InputDati;
@@ -8,8 +10,9 @@ import it.ingbs.ingegneria_software.utilita_generale.MenuUtil;
 public class GestoreGerarchia {
 
     private HashMap<String,Gerarchia> mappaGerarchie = new HashMap();
+    private File elencoGerarchie = new File("src\\Data File\\elencoGerarchie.txt");
 
-    public void modificaGerarchie() {
+    public void modificaGerarchie() throws IOException {
           String [] voci = {"Aggiungi Gerarchia: ",  "Aggiungi Categoria: ","Rimuovi Categoria: ","Salva Cambiamenti: "};
         MenuUtil menuComprensorio = new MenuUtil("AZIONI SUI COMPRENSORI",voci);
         int scelta=0;
@@ -53,7 +56,7 @@ public class GestoreGerarchia {
      */
     private boolean controlloNomeGerarchia(String nome){
         for (String nomiGerarchia : mappaGerarchie.keySet()) {
-            return nomiGerarchia.equalsIgnoreCase(nome);
+            return nomiGerarchia.equals(nome.toUpperCase());
             }
         return false;
      }
@@ -67,7 +70,7 @@ public class GestoreGerarchia {
         String nome;
         do{
            nome = InputDati.leggiStringaNonVuota("Inserisci il nome della gerarchia:");
-        }while(!controlloNomeGerarchia(nome.toUpperCase()));
+        }while(controlloNomeGerarchia(nome.toUpperCase()));
         return mappaGerarchie.get(nome.toUpperCase());
     }
 
@@ -80,7 +83,12 @@ public class GestoreGerarchia {
         }
     }
 
-    public void salvaMappaGerarchie(){
+    public void salvaMappaGerarchie() throws IOException{
+    for (Gerarchia gerarchia : mappaGerarchie.values()) {
+        gerarchia.salvaGerarchia(elencoGerarchie);
+        
+    }
+
         
     }
 

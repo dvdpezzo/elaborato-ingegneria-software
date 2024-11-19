@@ -1,5 +1,7 @@
 package it.ingbs.ingegneria_software.model;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
 
 import it.ingbs.ingegneria_software.utilita_generale.InputDati;
@@ -25,44 +27,32 @@ public class Gerarchia {
         do{
             nomePadre = InputDati.leggiStringaNonVuota("Inserisci il nome della categoria padre:");
         }while(!controlloNomeCategoria(nomePadre));
-        Categoria padre = mappaCategorie.get(nomePadre);
-        controlloFiglio(padre);
+        Categoria padre = mappaCategorie.get(nomePadre.toUpperCase());
+        padre.controlloFiglio();
     }
 
-
-    /*
-     * controllo se la sottocategoria (figlio) aggiunta è già presente e se non lo è la aggiungo alle sottocategorie
-     */
-    private void controlloFiglio(Categoria padre) {
-        String nomeSottocat;
-        String descSottocat;
-        do{
-             nomeSottocat = InputDati.leggiStringaNonVuota("Inserisci il nome della sottocategoria che vuoi aggiungere:");
-        }while(!controlloSottocat(nomeSottocat));
-        
-        descSottocat = InputDati.leggiStringa("Inserisci una descrizione per la sottocategoria:(facoltativo)");
-        
-        padre.aggiungiFiglio(nomeSottocat,descSottocat);
-    }
 
     /*
      * controlla se il nome della categoria padre esiste 
      */
     private boolean controlloNomeCategoria(String nome){
         for (String nomiCategoria : mappaCategorie.keySet()) {
-            return nomiCategoria.equalsIgnoreCase(nome);
+            return nomiCategoria.equals(nome.toUpperCase());
             }
         return false;
      }
 
     
-    /*
-     * controllo se il nome della sottocategoria è gia presente (da mettere in categoria?)
-     */
-    private boolean controlloSottocat(String nome){
-        return true;
-    }
-
+   
     public void eliminaSottocategoria(){}
+
+
+
+    public void salvaGerarchia(File nomeFile) throws IOException
+    {
+        for(Categoria categoria : mappaCategorie.values()){
+            categoria.salvaCategorie(nomeFile);
+        }
+    }
 
 }
