@@ -1,0 +1,41 @@
+public void leggiDaTXT(String nomeFile) throws IOException {
+    try (BufferedReader reader = new BufferedReader(new FileReader(nomeFile))) {
+        String line;
+        while ((line = reader.readLine()) != null) {
+            // Processa ogni riga del file
+            String[] parts = line.split(" -> |: ");  // Divide la riga in base ai separatori
+
+            if (parts.length == 3) {
+                String categoria1 = parts[0].trim();
+                String categoria2 = parts[1].trim();
+                double valore = Double.parseDouble(parts[2].trim());
+
+                // Crea le categorie (potresti voler gestire le categorie come oggetti)
+                Categoria c1 = new Categoria(categoria1, null); // 'null' per semplificare
+                Categoria c2 = new Categoria(categoria2, null); // 'null' per semplificare
+
+                // Aggiungi il fattore di conversione alla mappa
+                FattoreConversione fattore = new FattoreConversione(c1, c2, valore);
+                fattoriConversione.put(categoria1 + "->" + categoria2, fattore);
+            }
+        }
+    }
+
+
+    public void esportaInTXT(String nomeFile) throws IOException {
+        try (FileWriter writer = new FileWriter(nomeFile)) {
+            // Itera sulla mappa dei fattori di conversione e scrive ogni coppia su una riga
+            for (FattoreConversione fattore : fattoriConversione.values()) {
+                // Scrive la riga con le categorie e il valore del fattore
+                writer.append(fattore.getCategoria1().getNome() + " -> " +
+                              fattore.getCategoria2().getNome() + ": " +
+                              fattore.getValore() + "\n");
+            }
+        }
+    }
+}
+
+
+//POSSIBILI METODI PER IL SALVATAGGIO E LA LETTURA DEI VALORI DI CONVERSIONE E DELLE CATEGORIE A LORO ASSOCIATI. 
+
+//oss: LETTURA DA ESEGUIRE ALL'AVVIO DEL PROGRAMMA, SCRITTURA DA ESEGUIRE QUANDO SI SALVANO LE MODIFICHE (OPZIONE SCELTA DAL MENU DEL CONFIGURATORE).
