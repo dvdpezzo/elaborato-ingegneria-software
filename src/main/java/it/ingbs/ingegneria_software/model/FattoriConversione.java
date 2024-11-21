@@ -34,9 +34,8 @@ public class FattoriConversione {
 
     
 
-    /*
-     * OSS: visto che il fattore di conversione lo inserisce il Configuratore metto la mappa nella classe configuratore
-     */
+    
+     
 
 
 }

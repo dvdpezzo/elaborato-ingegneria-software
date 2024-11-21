@@ -3,6 +3,8 @@ package it.ingbs.ingegneria_software.controller;
 import java.io.IOException;
 import it.ingbs.ingegneria_software.model.Configuratore;
 import it.ingbs.ingegneria_software.model.GestoreComprensorio;
+import it.ingbs.ingegneria_software.model.GestoreConfiguratori;
+import it.ingbs.ingegneria_software.model.GestoreFattoriConversione;
 import it.ingbs.ingegneria_software.model.GestoreGerarchia;
 import it.ingbs.ingegneria_software.utilita_generale.MenuUtil;
 
@@ -13,12 +15,13 @@ public class GestoreMenu {
     
     
 	private final String[] vociMenuBackEnd = new String[]{"GESTIONE COMPRENSORI","GESTIONE GERARCHIE","VISUALIZZA COMPRENSORI",
-"VISUALIZZA GERARCHIE"};
+"VISUALIZZA GERARCHIE,GESTIONE FATTORI CONVERSIONE"};
       
 	private final MenuUtil menuBackEnd = new MenuUtil("MENU BACK-END:", vociMenuBackEnd);
 
     private GestoreComprensorio gestoreComprensorio = new GestoreComprensorio();
     private GestoreGerarchia gestoreGerarchia = new GestoreGerarchia();
+    private GestoreFattoriConversione gestoreFattori = new GestoreFattoriConversione();
 
 
     /*
@@ -43,6 +46,10 @@ public class GestoreMenu {
 
                 case 4:
                // gestoreGerarchia.visualizzaGerarchie();
+
+                case 5:
+                gestoreFattori.modificaFattori();
+                break;
             }
         }while(scelta!=0);
     }

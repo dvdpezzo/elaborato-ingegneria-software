@@ -51,12 +51,11 @@ public class Categoria {
      /*
      * controllo se il nome della sottocategoria è gia presente (da mettere in categoria?)
      */
-    private boolean controlloSottocat(String nome){
+    public boolean controlloSottocat(String nome){
         for (String sottoCat : mappaSottocategorie.keySet()) 
         {
             return sottoCat.equalsIgnoreCase(nome);
         }
-
         return false;
     }
 
@@ -68,6 +67,10 @@ public class Categoria {
             
         }
     }
+
+    
+
+    
 
 
     
