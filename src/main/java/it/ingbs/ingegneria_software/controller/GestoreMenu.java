@@ -15,7 +15,7 @@ public class GestoreMenu {
     
     
 	private final String[] vociMenuBackEnd = new String[]{"GESTIONE COMPRENSORI","GESTIONE GERARCHIE","VISUALIZZA COMPRENSORI",
-"VISUALIZZA GERARCHIE,GESTIONE FATTORI CONVERSIONE"};
+"VISUALIZZA GERARCHIE","GESTIONE FATTORI CONVERSIONE"};
       
 	private final MenuUtil menuBackEnd = new MenuUtil("MENU BACK-END:", vociMenuBackEnd);
 

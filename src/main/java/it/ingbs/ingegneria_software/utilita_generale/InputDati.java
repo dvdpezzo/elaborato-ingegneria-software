@@ -223,8 +223,9 @@ public class InputDati
 			  finito = true;
 			 else
 			  LOGGER.warning(ERRORE_MINIMO + minimo);
+			  lettore.nextLine();
 			} while (!finito);
-			 
+		    
 		   return valoreLetto;
 		  }
 	  
