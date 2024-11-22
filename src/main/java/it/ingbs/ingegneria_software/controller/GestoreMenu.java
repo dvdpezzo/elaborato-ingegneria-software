@@ -20,11 +20,10 @@ public class GestoreMenu {
     private GestoreComprensorio gestoreComprensorio = new GestoreComprensorio();
     private GestoreGerarchia gestoreGerarchia = new GestoreGerarchia();
 
-
     /*
      * nuovo menu back end dove il configuratore sceglie su quale oggetto lavorare 
      */
-    public void backEnd (Configuratore configuratore) throws IOException {
+    public void backEnd () throws IOException {
         int scelta=0;
 		do {
 		    scelta = menuBackEnd.scegli();
