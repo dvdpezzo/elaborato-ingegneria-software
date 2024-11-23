@@ -21,9 +21,9 @@ public class GestoreFattoriConversione {
     /*
      * assegno un fattore di conversione tra 2 categorie foglia 
      */
-    public void assegnaFattoreConversione(CategoriaFoglia categoria1, CategoriaFoglia categoria2, double valore){
+    private void assegnaFattoreConversione(CategoriaFoglia categoria1, CategoriaFoglia categoria2, double valore){
         //creo la chiave che è data dal nome delle 2 categorie foglia
-        String chiave = categoria1.getNome()+" "+categoria2.getNome();
+        String chiave = categoria1.getNome()+" -> "+categoria2.getNome();
         
         //creo un fattore di conversione e lo aggiungo alla mappa dei fattori
         FattoriConversione fattore = new FattoriConversione(valore, categoria1, categoria2);
@@ -38,11 +38,11 @@ public class GestoreFattoriConversione {
     /*
      * Crea un fattore di conversione opposto rispeto a quello appena creato. 
      */
-    public void fattoreOpposto(CategoriaFoglia categoria1, CategoriaFoglia categoria2, double valore)
+    private void fattoreOpposto(CategoriaFoglia categoria1, CategoriaFoglia categoria2, double valore)
     {
-        String chiaveOpposta = categoria2.getNome()+" "+categoria1.getNome();
+        String chiaveOpposta = categoria2.getNome()+" -> "+categoria1.getNome();
 
-        FattoriConversione fattoreOpposto = new FattoriConversione(valore, categoria2, categoria1);
+        FattoriConversione fattoreOpposto = new FattoriConversione(1/valore, categoria2, categoria1);
         mappaFattori.put(chiaveOpposta,fattoreOpposto);
     }
 
@@ -53,8 +53,8 @@ public class GestoreFattoriConversione {
      * Controllo se esistono i valori di conversione da 1 a 2 e da 2 a 3, se esistono creo il valore da 1 a 3 e lo aggiungo alla mappa.
      */
     public void fattoreDerivato(CategoriaFoglia cat1, CategoriaFoglia cat2, CategoriaFoglia cat3){
-        String controllo12 = cat1.getNome()+" "+cat2.getNome();
-        String controllo23 = cat2.getNome()+" "+cat3.getNome();
+        String controllo12 = cat1.getNome()+" -> "+cat2.getNome();
+        String controllo23 = cat2.getNome()+" -> "+cat3.getNome();
         if(mappaFattori.containsKey(controllo12) && mappaFattori.containsKey(controllo23)){
             double val1 = mappaFattori.get(controllo12).getValore();
             double val2 = mappaFattori.get(controllo23).getValore();

@@ -19,6 +19,7 @@ public class FattoriConversione {
     public CategoriaFoglia getCategoria1() {
         return categoria1;
     }
+    
 
 
 

@@ -9,7 +9,7 @@ public class CategoriaFoglia extends Categoria {
 
     private String nome;  // Nome della categoria
     private String descrizione; //descrizione generale della categoria
-    private  HashMap<String,CategoriaFoglia> mappaSottocatFoglia;
+    private  HashMap<String,CategoriaFoglia> mappaSottocatFoglia;   //da spostare in gestore categorie 
     
     
         /*
@@ -36,6 +36,7 @@ public class CategoriaFoglia extends Categoria {
 
         /*
          * visualizzo tutto le categorie foglia presenti
+         * DA SPOSTARE IN GESTORE CATEGORIE
          */
         public void visualizzaCatFoglia(){
             for (String nomiCategoria : mappaSottocatFoglia.keySet()) 

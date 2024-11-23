@@ -12,7 +12,7 @@ public void leggiDaTXT(String nomeFile) throws IOException {
 
                 // Crea le categorie (potresti voler gestire le categorie come oggetti)
                 Categoria c1 = new Categoria(categoria1, null); // 'null' per semplificare
-                Categoria c2 = new Categoria(categoria2, null); // 'null' per semplificare
+                Categoria c2 = new Categoria(categoria2, null); // 'null' per semplificare    Cosa succede con la descrizione? come la salvo su file?
 
                 // Aggiungi il fattore di conversione alla mappa
                 FattoreConversione fattore = new FattoreConversione(c1, c2, valore);
