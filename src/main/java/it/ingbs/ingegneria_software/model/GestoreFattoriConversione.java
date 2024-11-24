@@ -7,13 +7,13 @@ import java.util.HashMap;
 
 import it.ingbs.ingegneria_software.utilita_generale.InputDati;
 import it.ingbs.ingegneria_software.utilita_generale.MenuUtil;
-import it.ingbs.ingegneria_software.model.CategoriaFoglia;
+
 
 
 
 public class GestoreFattoriConversione {
     
-    static CategoriaFoglia catFoglia = new CategoriaFoglia(null, null);
+    GestoreCategorie gestoreCat = new GestoreCategorie();
     private HashMap<String,FattoriConversione> mappaFattori;
     File nomeFile = new File("src\\Data File\\elencoFattoriConversione.txt");
     
@@ -88,7 +88,7 @@ public class GestoreFattoriConversione {
      * visualizza le categoria foglia e in seguito crea un fattore di conversione.
      */
     public void nuovoFattore(){
-        catFoglia.visualizzaCatFoglia();
+        gestoreCat.visualizzaCatFoglia();
         CategoriaFoglia cat1 = InputDati.trovaCat();
         CategoriaFoglia cat2 = InputDati.trovaCat();
         double valore = InputDati.leggiDoubleLimitato("Inserisci il fattore di conversione:", 0.5, 2);

@@ -9,7 +9,7 @@ public class CategoriaFoglia extends Categoria {
 
     private String nome;  // Nome della categoria
     private String descrizione; //descrizione generale della categoria
-    private  HashMap<String,CategoriaFoglia> mappaSottocatFoglia;   //da spostare in gestore categorie 
+    
     
     
         /*
@@ -17,33 +17,22 @@ public class CategoriaFoglia extends Categoria {
          */
         public CategoriaFoglia(String nome, String descrizione) {
             super(nome, descrizione);
-            this.mappaSottocatFoglia = new HashMap<>();
+        }
+
+
+
+        public String getNome() {
+            return nome;
+        }
+
+
+
+        public String getDescrizione() {
+            return descrizione;
         }
     
-        /*
-         * cerca una catFoglia nella mappa in base al nome
-         */
-        public CategoriaFoglia cercaCatFoglia(String nomeCat){
-            for (String nomiCategoria : mappaSottocatFoglia.keySet()) {
-                if(nomiCategoria.equals(nomeCat)){
-                    return mappaSottocatFoglia.get(nomeCat);
-                }
-            }
-            return null;
-        }
 
 
-
-        /*
-         * visualizzo tutto le categorie foglia presenti
-         * DA SPOSTARE IN GESTORE CATEGORIE
-         */
-        public void visualizzaCatFoglia(){
-            for (String nomiCategoria : mappaSottocatFoglia.keySet()) 
-            {
-               System.out.println("Categoria:"+mappaSottocatFoglia.get(nomiCategoria));
-            }
-        }
         
     
     }
