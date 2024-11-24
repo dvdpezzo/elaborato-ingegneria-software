@@ -2,25 +2,28 @@ public void leggiDaTXT(String nomeFile) throws IOException {
     try (BufferedReader reader = new BufferedReader(new FileReader(nomeFile))) {
         String line;
         while ((line = reader.readLine()) != null) {
-            // Processa ogni riga del file
-            String[] parts = line.split(" -> |: ");  // Divide la riga in base ai separatori
+            // Processa ogni riga del file 
+            String[] parts = line.split(" -> |: | [ | / | ]");  // Divide la riga in base ai separatori (ho aggiunto quelli in piu)
 
             if (parts.length == 3) {
                 String categoria1 = parts[0].trim();
                 String categoria2 = parts[1].trim();
                 double valore = Double.parseDouble(parts[2].trim());
+                String descrizione1 = part[3].trim();
+                String descrizione2 = part[4].trim();
 
                 // Crea le categorie (potresti voler gestire le categorie come oggetti)
-                Categoria c1 = new Categoria(categoria1, null); // 'null' per semplificare
-                Categoria c2 = new Categoria(categoria2, null); // 'null' per semplificare    Cosa succede con la descrizione? come la salvo su file?
-
+                CategoriaFoglia c1 = new Categoria(categoria1,descrizione1); 
+                CategoriaFoglia c2 = new Categoria(categoria2,descrizione2);
                 // Aggiungi il fattore di conversione alla mappa
                 FattoreConversione fattore = new FattoreConversione(c1, c2, valore);
                 fattoriConversione.put(categoria1 + "->" + categoria2, fattore);
             }
         }
     }
-
+    /*
+    OSS: Metoto per la lettura da file modificato, ora legge anche le descrizioni. (Se da problemi è da rivedere la line.split)
+    */
 
     public void esportaInTXT(String nomeFile) throws IOException {
         try (FileWriter writer = new FileWriter(nomeFile)) {

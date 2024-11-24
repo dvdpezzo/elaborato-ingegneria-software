@@ -70,6 +70,8 @@ public class GestoreFattoriConversione {
 
     /*
      * metodo che permette di salvare i fattori di conversione su file txt
+     * Salva nome delle categorie, valore di conversine ed eventuali descrizioni. (possibili modifiche da apportare se i dati vengono 
+     * salvati in modo sbagliato) 
      */
      public void salvaFattori(File nomeFile2) throws IOException {
              try (FileWriter writer = new FileWriter(nomeFile2)) {
@@ -78,7 +80,10 @@ public class GestoreFattoriConversione {
                 // Scrive la riga con le categorie e il valore del fattore
                 writer.append(fattore.getCategoria1().getNome() + " -> " +
                               fattore.getCategoria2().getNome() + ": " +
-                              fattore.getValore() + "\n");
+                              fattore.getValore() + "["+
+                              fattore.getCategoria1().getDescrizione()+"/"+
+                              fattore.getCategoria2().getDescrizione()+"]"+
+                               "\n");
             }
         }
     }
