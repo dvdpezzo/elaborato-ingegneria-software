@@ -1,8 +1,13 @@
 package it.ingbs.ingegneria_software.model;
 
-import java.io.*;
-import java.util.*;
+import java.io.File;
+import java.io.IOException;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
 
+import it.ingbs.ingegneria_software.gestione_file.GestoreFileComprensori;
 import it.ingbs.ingegneria_software.utilita_generale.InputDati;
 import it.ingbs.ingegneria_software.utilita_generale.MenuUtil;
 
@@ -11,13 +16,16 @@ import it.ingbs.ingegneria_software.utilita_generale.MenuUtil;
 public class GestoreComprensorio {
 
     
+    private static final String ELENCO_COMPRENSORI_TXT = "src\\Data_File\\elencoComprensori.txt";
     private static final int MIN_NUMERO_COMUNI_COMPRENSORIO = 3;
     private HashMap<Integer,ComprensorioGeografico> mappaComprensori;
-    private File fileComprensori = new File("src\\Data File\\elencoComprensori.txt");
+    private final File fileComprensori = new File(ELENCO_COMPRENSORI_TXT);
+    private GestoreFileComprensori gestoreFileComprensori;
 
     //costruttore che legge i comprensori dal file e li carica nella mappa
     public GestoreComprensorio() {
         this.mappaComprensori = new HashMap<>();
+        this.gestoreFileComprensori = new GestoreFileComprensori(this.mappaComprensori);
         configuraMappaComprensoriDaFile();
     }
 
@@ -58,36 +66,22 @@ public class GestoreComprensorio {
     //salva la mappa sul file elencoComprensori
     private void salvaMappaComprensoriSuFile() {
         try {
-            BufferedWriter bw = new BufferedWriter(new FileWriter(fileComprensori));
-            for (HashMap.Entry<Integer,ComprensorioGeografico> entry : mappaComprensori.entrySet()){
-                String comprensorio = entry.getKey()+ " "+ entry.getValue().getListaComuni();
-                bw.write(comprensorio);
-                bw.newLine();
-            }
-            bw.close();
-        } catch (IOException ex) {
+            gestoreFileComprensori.salvaSuFile(fileComprensori);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-    }
-    
+    }   
 
 
     /*legge la mappa dei comprensori da file 
     OSS: Non ho idea di come svilupparlo visto che devo passare un argomento Comprensorio.
     */    
     private void configuraMappaComprensoriDaFile() {
-        try (BufferedReader br = new BufferedReader(new FileReader(fileComprensori))) {
-            String line;
-            while ((line = br.readLine()) != null && !line.isEmpty()) {
-                String[] parts = line.split(" ");
-                int codice = Integer.parseInt(parts[0]);
-                String listaComuni = line.substring(parts[0].length() + 1); // Extract the list of comuni from the remaining part of the line
-                ComprensorioGeografico comprensorio = new ComprensorioGeografico(codice, listaComuni);
-                mappaComprensori.put(codice, comprensorio);
-            }
-        } catch (IOException e) {
-            // Log the exception or handle it in a meaningful way
-            System.out.println("Error reading file");
-        }
+       try {
+        mappaComprensori = (HashMap<Integer, ComprensorioGeografico>) gestoreFileComprensori.leggiFile(fileComprensori);
+    } catch (IOException e) {
+        e.printStackTrace();
+    }
     }
 
 

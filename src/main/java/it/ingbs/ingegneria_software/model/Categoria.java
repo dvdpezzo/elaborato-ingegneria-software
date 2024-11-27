@@ -61,13 +61,17 @@ public class Categoria {
         return false;
     }
 
-    public void salvaCategorie(File nomeFile) throws IOException{
-        GestoreFile gf = new GestoreFile();
-        for (Categoria  categoria : mappaSottocategorie.values()) {
-            gf.salvaSuFileCategoria(nomeFile,categoria);
 
-            
-        }
+    public boolean isFoglia() {
+        return mappaSottocategorie.isEmpty();
+    }
+
+    public Map<String, Categoria> getSottoCategorie() {
+        return mappaSottocategorie;
+    }
+
+    public String getDescrizione() {
+        return descrizione;
     }
 
 

@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 
+import it.ingbs.ingegneria_software.gestione_file.GestoreFileGerarchie;
 import it.ingbs.ingegneria_software.utilita_generale.InputDati;
 import it.ingbs.ingegneria_software.utilita_generale.MenuUtil;
 
@@ -11,9 +12,11 @@ public class GestoreGerarchia {
 
     private HashMap<String,Gerarchia> mappaGerarchie = new HashMap();
     private File elencoGerarchie = new File("src\\Data File\\elencoGerarchie.txt");
+    private GestoreFileGerarchie gestoreFileGerarchie;
 
     public void modificaGerarchie() throws IOException {
-          String [] voci = {"Aggiungi Gerarchia: ",  "Aggiungi Categoria: ","Rimuovi Categoria: ","Salva Cambiamenti: "};
+        leggiFileGerarchie();
+        String [] voci = {"Aggiungi Gerarchia: ",  "Aggiungi Categoria: ","Rimuovi Categoria: ","Salva Cambiamenti: "};
         MenuUtil menuComprensorio = new MenuUtil("AZIONI SUI COMPRENSORI",voci);
         int scelta=0;
         do{
@@ -33,10 +36,22 @@ public class GestoreGerarchia {
             }
 
         }while(scelta!=0);
-    
+            
     }
-
-    /*
+        
+    private void leggiFileGerarchie() {
+        gestoreFileGerarchie = new GestoreFileGerarchie(mappaGerarchie);
+        try {
+            gestoreFileGerarchie.leggiFile(elencoGerarchie);
+            System.out.println("Caricamento completato");
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        
+    }
+        
+            /*
      * metodo che crea una gerarchia e la aggiunge alla mappa delle gerarchie 
      */
     public void aggiungiGerarchia(){
@@ -46,8 +61,7 @@ public class GestoreGerarchia {
 
         }while(controlloNomeGerarchia(nome));
 
-        String descrizione = InputDati.leggiStringa("Inserisci una descrizione per la gerarchia(facoltativa)");
-        mappaGerarchie.put((nome.toUpperCase()), new Gerarchia(nome.toUpperCase(),descrizione));
+        mappaGerarchie.put((nome.toUpperCase()), new Gerarchia(nome.toUpperCase()));
     }
 
 
@@ -84,10 +98,10 @@ public class GestoreGerarchia {
     }
 
     public void salvaMappaGerarchie() throws IOException{
-    for (Gerarchia gerarchia : mappaGerarchie.values()) {
-        gerarchia.salvaGerarchia(elencoGerarchie);
-        
-    }
+   
+        gestoreFileGerarchie = new GestoreFileGerarchie(mappaGerarchie);
+        gestoreFileGerarchie.salvaSuFile(elencoGerarchie);
+        System.out.println("Salvataggio completato con successo");
 
         
     }

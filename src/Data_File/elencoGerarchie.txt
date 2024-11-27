@@ -1,0 +1,7 @@
+[NomeGerarchia]
+    | [NomeCategoria1]
+        | [NomeSottoCategoria1.1] - CategoriaFoglia
+    | [NomeCategoria2]
+    | [NomeCategoria3]
+        | [NomeSottoCategoria3.1]
+        | [NomeSottoCategoria3.2] - CategoriaFoglia

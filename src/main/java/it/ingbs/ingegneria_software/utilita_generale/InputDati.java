@@ -234,11 +234,13 @@ public class InputDati
 		  /* IDEA DEL CAZZO:
 		   * Cerco una categoriaFoglia e la ritorno 
 		   * Metodo di utilità generale messo in InputDati come test
-		   */
+		   *
 		  public static CategoriaFoglia trovaCat(){
 			String nome = leggiStringaNonVuota("Inserisci il nome della categoria");
 			return catFoglia.cercaCatFoglia(nome);
          }
+			
+		 */
 
 
 	 

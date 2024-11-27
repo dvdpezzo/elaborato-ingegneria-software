@@ -33,7 +33,7 @@ public class GestoreFileCredenziali implements GestoreFile{
      * nome utente e password
      * @throws IOException file delle credenziali non esiste
      */
-    public void leggiFile(File nomeFile) throws IOException {
+    public Map leggiFile(File nomeFile) throws IOException {
         try (BufferedReader br = new BufferedReader(new FileReader(nomeFile))) {
             String parola = br.readLine();
             do {
@@ -44,6 +44,7 @@ public class GestoreFileCredenziali implements GestoreFile{
                 parola = br.readLine();               
             } while (parola!=null && !parola.equals("\n"));
         }
+        return mappaCredenziali;
     }   
 
     /**

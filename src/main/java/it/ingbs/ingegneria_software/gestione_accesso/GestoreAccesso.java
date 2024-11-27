@@ -19,7 +19,7 @@ public class GestoreAccesso {
     private static final String ACCESSO_EFFETTUATO_CORRETAMENTE = "Accesso effettuato corretamente!";
     private static final String FILE_NON_TROVATO = "File non trovato: %s";
     // private static final String FILE_DI_ACCESSO_CREDENZIALI_FRUITORI_TXT = "src\\File di accesso\\credenzialiFruitori.txt";
-    private static final String FILE_DI_ACCESSO_CREDENZIALI_CONFIGURATORI_TXT = "src\\File di accesso\\credenzialiConfiguratori.txt";
+    private static final String FILE_DI_ACCESSO_CREDENZIALI_CONFIGURATORI_TXT = "src\\File_di_accesso\\credenzialiConfiguratori.txt";
     private static final String UTENTE_DEFAULT="admin";
     private static final String PASS_DEFAULT="admin";
     
@@ -33,7 +33,7 @@ public class GestoreAccesso {
     public GestoreAccesso() {       
         this.gestoreFile = new GestoreFileCredenziali(mappaCredenzialiUtenti);        
         try {
-            gestoreFile.leggiFile(fileConfiguratori);
+            mappaCredenzialiUtenti = (HashMap<String, String>) gestoreFile.leggiFile(fileConfiguratori);
         } catch (IOException e) {
             System.out.println(String.format(FILE_NON_TROVATO, e.getMessage()));
         }

@@ -3,6 +3,7 @@ package it.ingbs.ingegneria_software.model;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.Map;
 
 import it.ingbs.ingegneria_software.utilita_generale.InputDati;
 
@@ -15,8 +16,8 @@ public class Gerarchia {
 
     
 
-    public Gerarchia(String nome, String descrizione) {
-        Categoria categoriaRadice = new Categoria(nome.toUpperCase(), descrizione);
+    public Gerarchia(String nome) {
+        Categoria categoriaRadice = new Categoria(nome.toUpperCase(), "");
         mappaCategorie = new HashMap<>();
         mappaCategorie.put(categoriaRadice.getNome(),categoriaRadice);
         this.categoriaRadice = categoriaRadice;
@@ -49,11 +50,9 @@ public class Gerarchia {
 
 
 
-    public void salvaGerarchia(File nomeFile) throws IOException
-    {
-        for(Categoria categoria : mappaCategorie.values()){
-            categoria.salvaCategorie(nomeFile);
-        }
+    public Map<String, Categoria> getCategoriePrincipali() {
+        return mappaCategorie;
     }
+
 
 }
