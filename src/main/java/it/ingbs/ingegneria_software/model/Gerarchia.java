@@ -9,6 +9,7 @@ import it.ingbs.ingegneria_software.utilita_generale.InputDati;
 public class Gerarchia {
     
 
+    private static final String INSERISCI_IL_NOME_DELLA_CATEGORIA_PADRE = "Inserisci il nome della categoria padre:";
     private final HashMap<String, Categoria> mappaCategorie;
     private final Categoria categoriaRadice;
 
@@ -25,7 +26,7 @@ public class Gerarchia {
     public void aggiungiSottocategoria(){
         String nomePadre;
         do{
-            nomePadre = InputDati.leggiStringaNonVuota("Inserisci il nome della categoria padre:");
+            nomePadre = InputDati.leggiStringaNonVuota(INSERISCI_IL_NOME_DELLA_CATEGORIA_PADRE);
         }while(!controlloNomeCategoria(nomePadre));
         Categoria padre = mappaCategorie.get(nomePadre.toUpperCase());
         padre.controlloFiglio();

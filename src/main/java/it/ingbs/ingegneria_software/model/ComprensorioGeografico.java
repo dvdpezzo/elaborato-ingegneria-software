@@ -5,11 +5,13 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
 public class ComprensorioGeografico {
 
-    private static final Logger LOGGER = Logger.getLogger(ComprensorioGeografico.class.getName());
+    private static final String COMUNI = " Comuni = [";
+    private static final String CODICE = "Codice = ";
+    private static final String COMUNE_GIÀ_PRESENTE_NEL_COMPRENSORIO_GEOGRAFICO = "Comune già presente nel comprensorio geografico.";
+    private static final String COMUNE_AGGIUNTO_CON_SUCCESSO_AL_COMPRENSORIO = "Comune %s aggiunto con successo al comprensorio %d";
     private final int codice;
     private List<String> listaComuni = new ArrayList<>();
     private final Random random = new Random();
@@ -68,9 +70,9 @@ public class ComprensorioGeografico {
             gc.aggiungiComune(new Comuni(nomeComune)); //aggiungo il comune all'elenco dei comuni e lo visualizzo per verifica. 
             gc.scriviComuni();
             gc.visualizzaComuni();
-            LOGGER.log(Level.INFO, String.format("Comune %s aggiunto con successo al comprensorio %d", nomeComune, getCodice()));
+            System.out.println(String.format(COMUNE_AGGIUNTO_CON_SUCCESSO_AL_COMPRENSORIO, nomeComune, getCodice()));
         } else {
-            LOGGER.warning(("Comune già presente nel comprensorio geografico."));
+            System.out.println(COMUNE_GIÀ_PRESENTE_NEL_COMPRENSORIO_GEOGRAFICO);
         }
     }
     
@@ -81,7 +83,7 @@ public class ComprensorioGeografico {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append("Codice = ").append(getCodice()).append(" Comuni = [");
+        sb.append(CODICE).append(getCodice()).append(COMUNI);
         for (String comune : getListaComuni()) {
             sb.append(comune).append(", ");
         }

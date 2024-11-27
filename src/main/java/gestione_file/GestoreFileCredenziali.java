@@ -1,4 +1,4 @@
-package it.ingbs.ingegneria_software.gestione_accesso;
+package gestione_file;
 
 import java.io.*;
 import java.util.Map;
@@ -7,7 +7,7 @@ import java.util.Map;
  * classe usata per la gestione del file di accesso dei configuratori e fruitori:
  * deve solo leggere i file e inserirli nella mappa, o viceversa leggere la mappa e inserirli nel file 
 */
-public class GestoreFileCredenziali {
+public class GestoreFileCredenziali implements GestoreFile{
     
     private Map<String, String> mappaCredenziali; 
 
@@ -19,7 +19,7 @@ public class GestoreFileCredenziali {
      * Permette di aggiungere nuove credenziali dalla mappa al file
      * @throws IOException file delle credenziali non esiste
      */
-    public void salvaMappaCredenzialiSuFile(File nomeFile) throws IOException {
+    public void salvaSuFile(File nomeFile) throws IOException {
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(nomeFile))) {
             for (Map.Entry<String,String> entry : mappaCredenziali.entrySet()) {
                 String utente = entry.getKey() + " " + entry.getValue();
@@ -31,10 +31,9 @@ public class GestoreFileCredenziali {
     /**
      * Effettua configurazione iniziale della mappa: legge il file delle credenziali e imposta per ogni riga
      * nome utente e password
-     * @throws FileNotFoundException 
-     * @throws IOException
+     * @throws IOException file delle credenziali non esiste
      */
-    public void configuraMappaCredenzialiDaFile(File nomeFile) throws IOException {
+    public void leggiFile(File nomeFile) throws IOException {
         try (BufferedReader br = new BufferedReader(new FileReader(nomeFile))) {
             String parola = br.readLine();
             do {
@@ -62,4 +61,5 @@ public class GestoreFileCredenziali {
     public void setMappaCredenziali(Map<String, String> mappaCredenziali) {
         this.mappaCredenziali = mappaCredenziali;
     }
+
 }

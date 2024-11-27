@@ -6,6 +6,7 @@ import it.ingbs.ingegneria_software.utilita_generale.InputDati;
 
 public class GestoreCategorie {
 
+    private static final String LA_CATEGORIE_INSERITA_NON_È_STATA_TROVATA = "La categoria inserita non è stata trovata!";
     HashMap<String,CategoriaFoglia> mappaCategerorieFoglia = new HashMap();
 
          /* 
@@ -19,7 +20,7 @@ public class GestoreCategorie {
             }
         }
          catch (Exception catNotFound) {
-            System.out.println("La categorie inserita non è stata trovata!");
+            System.out.println(LA_CATEGORIE_INSERITA_NON_È_STATA_TROVATA);
          }
             return null;
         }
@@ -31,7 +32,7 @@ public class GestoreCategorie {
         public void visualizzaCatFoglia(){
             for (String nomiCategoria : mappaCategerorieFoglia.keySet()) 
             {
-               System.out.println("Categoria:"+mappaCategerorieFoglia.get(nomiCategoria)+"\n"+"Descrizione:"
+               System.out.println("Categoria: "+mappaCategerorieFoglia.get(nomiCategoria)+"\nDescrizione: "
                        +mappaCategerorieFoglia.get(nomiCategoria).getDescrizione());
             }
         }
