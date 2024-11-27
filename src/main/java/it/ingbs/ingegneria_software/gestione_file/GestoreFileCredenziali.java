@@ -1,4 +1,4 @@
-package gestione_file;
+package it.ingbs.ingegneria_software.gestione_file;
 
 import java.io.*;
 import java.util.Map;

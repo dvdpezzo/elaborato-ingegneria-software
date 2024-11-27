@@ -4,7 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 
-import gestione_file.GestoreFileCredenziali;
+import it.ingbs.ingegneria_software.gestione_file.GestoreFileCredenziali;
 import it.ingbs.ingegneria_software.model.Configuratore;
 import it.ingbs.ingegneria_software.model.GestoreConfiguratori;
 
