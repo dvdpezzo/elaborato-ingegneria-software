@@ -1,7 +1,12 @@
 package it.ingbs.ingegneria_software.gestione_file;
 
-import java.io.*;
-import java.util.Map;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.HashMap;
 
 /**
  * classe usata per la gestione del file di accesso dei configuratori e fruitori:
@@ -9,9 +14,9 @@ import java.util.Map;
 */
 public class GestoreFileCredenziali implements GestoreFile{
     
-    private Map<String, String> mappaCredenziali; 
+    private HashMap<String, String> mappaCredenziali; 
 
-    public GestoreFileCredenziali(Map<String, String> mappaCredenziali) {
+    public GestoreFileCredenziali(HashMap<String, String> mappaCredenziali) {
         this.mappaCredenziali = mappaCredenziali;
     }
 
@@ -21,7 +26,7 @@ public class GestoreFileCredenziali implements GestoreFile{
      */
     public void salvaSuFile(File nomeFile) throws IOException {
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(nomeFile))) {
-            for (Map.Entry<String,String> entry : mappaCredenziali.entrySet()) {
+            for (HashMap.Entry<String,String> entry : mappaCredenziali.entrySet()) {
                 String utente = entry.getKey() + " " + entry.getValue();
                 bw.write(utente);
                 bw.newLine();
@@ -33,7 +38,7 @@ public class GestoreFileCredenziali implements GestoreFile{
      * nome utente e password
      * @throws IOException file delle credenziali non esiste
      */
-    public Map leggiFile(File nomeFile) throws IOException {
+    public HashMap leggiFile(File nomeFile) throws IOException {
         try (BufferedReader br = new BufferedReader(new FileReader(nomeFile))) {
             String parola = br.readLine();
             do {
@@ -51,7 +56,7 @@ public class GestoreFileCredenziali implements GestoreFile{
      * Getter della mappa delle credenziali
      * @return
      */
-    public Map<String, String> getMappaCredenziali() {
+    public HashMap<String, String> getMappaCredenziali() {
         return mappaCredenziali;
     }
 
@@ -59,7 +64,7 @@ public class GestoreFileCredenziali implements GestoreFile{
      * Setter della mappa delle credenziali
      * @param mappaCredenziali
      */
-    public void setMappaCredenziali(Map<String, String> mappaCredenziali) {
+    public void setMappaCredenziali(HashMap<String, String> mappaCredenziali) {
         this.mappaCredenziali = mappaCredenziali;
     }
 

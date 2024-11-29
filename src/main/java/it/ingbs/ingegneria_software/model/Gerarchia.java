@@ -1,9 +1,6 @@
 package it.ingbs.ingegneria_software.model;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.HashMap;
-import java.util.Map;
 
 import it.ingbs.ingegneria_software.utilita_generale.InputDati;
 
@@ -28,21 +25,11 @@ public class Gerarchia {
         String nomePadre;
         do{
             nomePadre = InputDati.leggiStringaNonVuota(INSERISCI_IL_NOME_DELLA_CATEGORIA_PADRE);
-        }while(!controlloNomeCategoria(nomePadre));
+        }while(!mappaCategorie.containsKey(nomePadre.toUpperCase()));
         Categoria padre = mappaCategorie.get(nomePadre.toUpperCase());
         padre.controlloFiglio();
     }
 
-
-    /*
-     * controlla se il nome della categoria padre esiste 
-     */
-    private boolean controlloNomeCategoria(String nome){
-        for (String nomiCategoria : mappaCategorie.keySet()) {
-            return nomiCategoria.equals(nome.toUpperCase());
-            }
-        return false;
-     }
 
     
    
@@ -50,7 +37,7 @@ public class Gerarchia {
 
 
 
-    public Map<String, Categoria> getCategoriePrincipali() {
+    public HashMap<String, Categoria> getCategoriePrincipali() {
         return mappaCategorie;
     }
 

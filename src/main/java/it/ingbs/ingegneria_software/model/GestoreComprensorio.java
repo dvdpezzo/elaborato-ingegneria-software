@@ -18,9 +18,10 @@ public class GestoreComprensorio {
     
     private static final String ELENCO_COMPRENSORI_TXT = "src\\Data_File\\elencoComprensori.txt";
     private static final int MIN_NUMERO_COMUNI_COMPRENSORIO = 3;
+    
     private HashMap<Integer,ComprensorioGeografico> mappaComprensori;
     private final File fileComprensori = new File(ELENCO_COMPRENSORI_TXT);
-    private GestoreFileComprensori gestoreFileComprensori;
+    private final GestoreFileComprensori gestoreFileComprensori;
 
     //costruttore che legge i comprensori dal file e li carica nella mappa
     public GestoreComprensorio() {

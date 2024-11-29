@@ -7,15 +7,14 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.Map;
 
 import it.ingbs.ingegneria_software.model.ComprensorioGeografico;
 
 public class GestoreFileComprensori implements GestoreFile {
 
-    private Map<Integer, ComprensorioGeografico> mappaComprensori; 
+    private HashMap<Integer, ComprensorioGeografico> mappaComprensori; 
 
-    public GestoreFileComprensori(Map<Integer, ComprensorioGeografico> mappaComprensori) {
+    public GestoreFileComprensori(HashMap<Integer, ComprensorioGeografico> mappaComprensori) {
         this.mappaComprensori = mappaComprensori;
     }
     @Override
@@ -33,7 +32,7 @@ public class GestoreFileComprensori implements GestoreFile {
     }
 
     @Override
-    public Map leggiFile(File nomeFile) throws IOException {
+    public HashMap leggiFile(File nomeFile) throws IOException {
          try (BufferedReader br = new BufferedReader(new FileReader(nomeFile))) {
             String line;
             while ((line = br.readLine()) != null && !line.isEmpty()) {

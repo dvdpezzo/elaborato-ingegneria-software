@@ -1,7 +1,6 @@
 package it.ingbs.ingegneria_software.model;
-import java.io.File;
-import java.io.IOException;
-import java.util.*;
+
+import java.util.HashMap;
 
 import it.ingbs.ingegneria_software.utilita_generale.InputDati;
 
@@ -66,7 +65,7 @@ public class Categoria {
         return mappaSottocategorie.isEmpty();
     }
 
-    public Map<String, Categoria> getSottoCategorie() {
+    public HashMap<String, Categoria> getSottoCategorie() {
         return mappaSottocategorie;
     }
 

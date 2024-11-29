@@ -10,12 +10,12 @@ import it.ingbs.ingegneria_software.utilita_generale.MenuUtil;
 
 public class GestoreGerarchia {
 
-    private HashMap<String,Gerarchia> mappaGerarchie = new HashMap();
-    private File elencoGerarchie = new File("src\\Data File\\elencoGerarchie.txt");
+    private HashMap<String,Gerarchia> mappaGerarchie;
+    private final File elencoGerarchie = new File("src\\Data_File\\elencoGerarchie.txt");
     private GestoreFileGerarchie gestoreFileGerarchie;
 
     public void modificaGerarchie() throws IOException {
-        leggiFileGerarchie();
+        riempiMappaGerarchiDaFile();
         String [] voci = {"Aggiungi Gerarchia: ",  "Aggiungi Categoria: ","Rimuovi Categoria: ","Salva Cambiamenti: "};
         MenuUtil menuComprensorio = new MenuUtil("AZIONI SUI COMPRENSORI",voci);
         int scelta=0;
@@ -39,10 +39,10 @@ public class GestoreGerarchia {
             
     }
         
-    private void leggiFileGerarchie() {
+    private void riempiMappaGerarchiDaFile () {
         gestoreFileGerarchie = new GestoreFileGerarchie(mappaGerarchie);
         try {
-            gestoreFileGerarchie.leggiFile(elencoGerarchie);
+            mappaGerarchie = gestoreFileGerarchie.leggiFile(elencoGerarchie);
             System.out.println("Caricamento completato");
         } catch (IOException e) {
             // TODO Auto-generated catch block
@@ -59,22 +59,10 @@ public class GestoreGerarchia {
         do{
          nome = InputDati.leggiStringaNonVuota("Inserisci il nome della gerarchia:");
 
-        }while(controlloNomeGerarchia(nome));
+        }while(mappaGerarchie.containsKey(nome.toUpperCase()));
 
         mappaGerarchie.put((nome.toUpperCase()), new Gerarchia(nome.toUpperCase()));
     }
-
-
-    /*
-     * controllo se una gerarchia è già presente, controllo effettuato sul nome 
-     */
-    private boolean controlloNomeGerarchia(String nome){
-        for (String nomiGerarchia : mappaGerarchie.keySet()) {
-            return nomiGerarchia.equals(nome.toUpperCase());
-            }
-        return false;
-     }
-
 
     /*
      * Aggiugo una nuova categoria alla gerarchia già esistente
@@ -84,7 +72,7 @@ public class GestoreGerarchia {
         String nome;
         do{
            nome = InputDati.leggiStringaNonVuota("Inserisci il nome della gerarchia:");
-        }while(controlloNomeGerarchia(nome.toUpperCase()));
+        }while(!mappaGerarchie.containsKey(nome.toUpperCase()));
         return mappaGerarchie.get(nome.toUpperCase());
     }
 
@@ -92,6 +80,7 @@ public class GestoreGerarchia {
      * visualizza i nomi di tutte le gerarchie
      */
     public void visualizzaGerarchie(){
+        System.out.println("Elenco Gerarchie:");
         for (String  nomiGerarchia : mappaGerarchie.keySet()) {
             System.out.println(nomiGerarchia);
         }

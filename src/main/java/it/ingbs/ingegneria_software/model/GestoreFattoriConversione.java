@@ -89,10 +89,16 @@ public class GestoreFattoriConversione {
      */
     public void nuovoFattore(){
         gestoreCat.visualizzaCatFoglia();
-        CategoriaFoglia cat1 = InputDati.trovaCat();
-        CategoriaFoglia cat2 = InputDati.trovaCat();
+        CategoriaFoglia cat1 = getCat();
+        CategoriaFoglia cat2 = getCat();
         double valore = InputDati.leggiDoubleLimitato("Inserisci il fattore di conversione:", 0.5, 2);
         assegnaFattoreConversione(cat1,cat2,valore);
+    }
+
+
+    private CategoriaFoglia getCat () {
+        String nome = InputDati.leggiStringaNonVuota("Inserisci il nome della categoria");		
+        return gestoreCat.cercaCatFoglia(nome);
     }
 
 

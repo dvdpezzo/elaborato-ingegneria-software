@@ -7,7 +7,7 @@ import it.ingbs.ingegneria_software.utilita_generale.InputDati;
 public class GestoreCategorie {
 
     private static final String LA_CATEGORIE_INSERITA_NON_È_STATA_TROVATA = "La categoria inserita non è stata trovata!";
-    HashMap<String,CategoriaFoglia> mappaCategerorieFoglia = new HashMap();
+    private final HashMap<String,CategoriaFoglia> mappaCategerorieFoglia = new HashMap();
 
          /* 
          * cerca una catFoglia nella mappa in base al nome  (Ho provato ad unsare un try-catch ma non penso funzioni)
@@ -55,29 +55,17 @@ public class GestoreCategorie {
          * controlla se la categoria è gia presente, se è presente mostra un errore
          */
         public boolean controlloFoglia(String nomeDaControllare){
-            for (String prova : mappaCategerorieFoglia.keySet()) {
-                if(prova.equals(nomeDaControllare))
-                { 
-                    System.out.println("Categoria già presente!");
-                    return true;
-                }
+            if(mappaCategerorieFoglia.containsKey(nomeDaControllare)){
+                System.out.println("Categoria già presente!");
+                return true;
             }
             return false;
         }
-
-
     
     /*
      * OSS: NON MI RICORDO SE DEVO GESTIRE SOLO LE CATEGORIA FOGLIA O TUTTE LE CATEGORIE. 
      */
 
-
-
-
-    
-
-
-    
 
 
 }

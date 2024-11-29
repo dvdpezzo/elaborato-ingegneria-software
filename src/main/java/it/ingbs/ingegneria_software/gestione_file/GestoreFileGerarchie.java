@@ -14,19 +14,25 @@ import it.ingbs.ingegneria_software.model.Categoria;
 import it.ingbs.ingegneria_software.model.CategoriaFoglia;
 import it.ingbs.ingegneria_software.model.Gerarchia;
 
+/*
+ * - rivedere il modo di scrittura su file delle categorie: quando salvo le informazioni che permangono davvero e non vengono
+ *  modificate ad un secondo avvio sono le gerarchie; le categorie "foglia" vengono sovrascritte
+ * - modificare il modo di aggiunta delle categorie: selezionare più padri, al momento viene vista come "padre" solo la categoria radice
+ */
+
 public class GestoreFileGerarchie implements GestoreFile{
 
     private static final String CATEGORIA_FOGLIA = " - CategoriaFoglia";
-    private Map<String, Gerarchia> mappaGerarchie; 
+    private HashMap<String, Gerarchia> mappaGerarchie; 
 
-    public GestoreFileGerarchie(Map<String, Gerarchia> mappaGerarchie) {
+    public GestoreFileGerarchie(HashMap<String, Gerarchia> mappaGerarchie) {
         this.mappaGerarchie = mappaGerarchie;
     }
 
     @Override
 public void salvaSuFile(File nomeFile) throws IOException {
     try (BufferedWriter writer = new BufferedWriter(new FileWriter(nomeFile))) {
-        for (Map.Entry<String, Gerarchia> entry : mappaGerarchie.entrySet()) {
+        for (HashMap.Entry<String, Gerarchia> entry : mappaGerarchie.entrySet()) {
             Gerarchia gerarchia = entry.getValue();
             writer.write(entry.getKey());
             writer.write("\t|\t");
@@ -36,8 +42,8 @@ public void salvaSuFile(File nomeFile) throws IOException {
     }
 }
 
-private void scriviCategorie(BufferedWriter writer, Map<String, Categoria> categorie, int livello) throws IOException {
-    for (Map.Entry<String, Categoria> entry : categorie.entrySet()) {
+private void scriviCategorie(BufferedWriter writer, HashMap<String, Categoria> categorie, int livello) throws IOException {
+    for (HashMap.Entry<String, Categoria> entry : categorie.entrySet()) {
         if (livello > 0) {
             writer.write("\t|\t");
         }
@@ -52,8 +58,8 @@ private void scriviCategorie(BufferedWriter writer, Map<String, Categoria> categ
 }
 
 @Override
-public Map<String, Gerarchia> leggiFile(File nomeFile) throws IOException {
-    Map<String, Gerarchia> gerarchie = new HashMap<>();
+public HashMap<String, Gerarchia> leggiFile(File nomeFile) throws IOException {
+    HashMap<String, Gerarchia> gerarchie = new HashMap<>();
     
     try (BufferedReader reader = new BufferedReader(new FileReader(nomeFile))) {
         String line;
