@@ -1,3 +1,4 @@
-MUSICA	|	MUSICA:	|	pinco:pallo - CategoriaFoglia
-MATE	|	MATE: - CategoriaFoglia
-ARTE	|	ARTE: - CategoriaFoglia
+</MUSICA>, <a>, <#!Stato di Conservazione #Descrizione Libera>
+<TEORIA>, <a>, <MUSICA/MUSICA>, >
+<PIANOFORTE>, <c>, <MUSICA/teoria>, >
+<PRATICA>, <b>, <MUSICA/MUSICA>, >

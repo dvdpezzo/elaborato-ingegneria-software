@@ -77,7 +77,7 @@ public class Categoria {
         count++;
         for (Categoria figlio : figli) {
             String repeated = new String(new char[count]).replace("\0", "\t");
-            //sb.append("\t".repeat(Math.max(0, count)));
+            
             sb.append(repeated);
             sb.append(figlio.toString(count));
         }
