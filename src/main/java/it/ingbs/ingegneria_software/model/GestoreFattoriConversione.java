@@ -5,6 +5,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.HashMap;
 
+import it.ingbs.ingegneria_software.model.gerarchie.CategoriaFoglia;
+import it.ingbs.ingegneria_software.model.gerarchie.GestoreCategorie;
 import it.ingbs.ingegneria_software.utilita_generale.InputDati;
 import it.ingbs.ingegneria_software.utilita_generale.MenuUtil;
 

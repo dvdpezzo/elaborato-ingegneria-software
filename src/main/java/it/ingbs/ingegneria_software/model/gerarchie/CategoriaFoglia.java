@@ -1,4 +1,4 @@
-package it.ingbs.ingegneria_software.model;
+package it.ingbs.ingegneria_software.model.gerarchie;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -38,8 +38,8 @@ public class CategoriaFoglia extends Categoria {
     }
 
     @Override
-    public Map<String, Categoria> getSottoCategorie() {
-        return Collections.emptyMap();
+    public HashMap getSottoCategorie() {
+        return (HashMap) Collections.emptyMap();
     }
 
 

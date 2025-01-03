@@ -3,8 +3,7 @@ package it.ingbs.ingegneria_software.utilita_generale;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
-
-import it.ingbs.ingegneria_software.model.CategoriaFoglia;
+import it.ingbs.ingegneria_software.model.gerarchie.CategoriaFoglia;
 
 
 public class InputDati 

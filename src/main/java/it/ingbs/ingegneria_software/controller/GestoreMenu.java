@@ -4,7 +4,7 @@ import java.io.IOException;
 import it.ingbs.ingegneria_software.model.Configuratore;
 import it.ingbs.ingegneria_software.model.GestoreComprensorio;
 import it.ingbs.ingegneria_software.model.GestoreFattoriConversione;
-import it.ingbs.ingegneria_software.model.GestoreGerarchia;
+import it.ingbs.ingegneria_software.model.gerarchie.GestoreGerarchia;
 import it.ingbs.ingegneria_software.utilita_generale.MenuUtil;
 
 /*

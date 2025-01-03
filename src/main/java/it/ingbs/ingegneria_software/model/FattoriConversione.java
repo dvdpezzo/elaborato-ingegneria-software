@@ -1,5 +1,7 @@
 package it.ingbs.ingegneria_software.model;
 
+import it.ingbs.ingegneria_software.model.gerarchie.CategoriaFoglia;
+
 public class FattoriConversione {
     
     private CategoriaFoglia categoria1;
