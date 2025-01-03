@@ -24,7 +24,7 @@ public class GestoreComuni {
 
     private static final String MSG_ERRORE_COMUNE_DUPLICE ="Comune già presente nella lista";
     private static final String ERRORE_COMUNE_NON_TROVATO ="Comune non trovato!";
-    private final File fileComuni = new File("src\\Data File\\elencoComuni.txt");
+    private final File fileComuni = new File("elaborato-ingegneria-software\\src\\Data File\\elencoComuni.txt");
     private static final Logger LOGGER = Logger.getLogger(GestoreComuni.class.getName());
     
 
