@@ -52,7 +52,7 @@ public class Main {
                 Utente utente = MenuAccesso.loginConfiguratore();
                   if (utente instanceof Configuratore){
                     //se utente è di tipo Configuratore, richiama il menu back-end:
-                    sistemaGenerale.backEnd((Configuratore) utente, true);
+                    sistemaGenerale.backEnd((Configuratore) utente);
                   }
                   accesso=false;
                 break;
