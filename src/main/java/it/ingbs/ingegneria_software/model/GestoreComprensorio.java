@@ -188,6 +188,21 @@ public class GestoreComprensorio {
         }while(scelta!=0);
      }
 
+         /*
+    metodo che ritorna un comprensorio scelto dal fruitore
+    */
+
+    
+    public ComprensorioGeografico scegliComprensorio(int codice){
+        for (HashMap.Entry<Integer,ComprensorioGeografico> entry : mappaComprensori.entrySet()){
+            if(entry.getKey()==codice)
+            {
+              return entry.getValue();
+            }
+        }
+        return null;
+    }
+
     
 
 
