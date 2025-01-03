@@ -3,7 +3,6 @@ package it.ingbs.ingegneria_software.model.gerarchie;
 import java.util.*;
 import it.ingbs.ingegneria_software.Eccezioni.*;
 
-import it.ingbs.ingegneria_software.utilita_generale.InputDati;
 
 //copiata da progetto Simone
 public class Categoria {
@@ -77,7 +76,9 @@ public class Categoria {
         sb.append("\n");
         count++;
         for (Categoria figlio : figli) {
-            sb.append("\t".repeat(Math.max(0, count)));
+            String repeated = new String(new char[count]).replace("\0", "\t");
+            //sb.append("\t".repeat(Math.max(0, count)));
+            sb.append(repeated);
             sb.append(figlio.toString(count));
         }
         return sb.toString();

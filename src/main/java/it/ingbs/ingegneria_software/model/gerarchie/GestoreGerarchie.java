@@ -96,14 +96,19 @@ public class GestoreGerarchie {
         if (radici.containsKey(nomeGer.toUpperCase())) {
             do {
                 switch (scelta = menuLavoro.scegli()) {
-                    case 1 -> addCategoria(radici.get(nomeGer.toUpperCase()));
-                    case 2 -> rimuoviCategoria(radici.get(nomeGer.toUpperCase()));
-                    case 3 -> spostaCategoria(radici.get(nomeGer.toUpperCase()));
-                    case 4 -> aggiungiCampi(radici.get(nomeGer.toUpperCase()));
-                    case 5 -> rimuoviCampi(radici.get(nomeGer.toUpperCase()));
-                    case 6 -> System.out.println(radici.get(nomeGer.toUpperCase()));
-                    default -> {
-                    }
+                    case 1: addCategoria(radici.get(nomeGer.toUpperCase()));
+                    break;
+                    case 2: rimuoviCategoria(radici.get(nomeGer.toUpperCase()));
+                    break;
+                    case 3: spostaCategoria(radici.get(nomeGer.toUpperCase()));
+                    break;
+                    case 4: aggiungiCampi(radici.get(nomeGer.toUpperCase()));
+                    break;
+                    case 5: rimuoviCampi(radici.get(nomeGer.toUpperCase()));
+                    break;
+                    case 6: System.out.println(radici.get(nomeGer.toUpperCase()));
+                    break;
+ 
                 }
 
             } while (scelta != 0);

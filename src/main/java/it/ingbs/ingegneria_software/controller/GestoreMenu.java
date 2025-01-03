@@ -4,7 +4,7 @@ import java.io.IOException;
 import it.ingbs.ingegneria_software.model.Configuratore;
 import it.ingbs.ingegneria_software.model.GestoreComprensorio;
 import it.ingbs.ingegneria_software.model.GestoreFattoriConversione;
-import it.ingbs.ingegneria_software.model.gerarchie.GestoreGerarchia;
+import it.ingbs.ingegneria_software.model.gerarchie.GestoreGerarchie;
 import it.ingbs.ingegneria_software.utilita_generale.MenuUtil;
 
 /*
@@ -19,8 +19,8 @@ public class GestoreMenu {
 	private final MenuUtil menuBackEnd = new MenuUtil("MENU BACK-END:", vociMenuBackEnd);
 
     private GestoreComprensorio gestoreComprensorio = new GestoreComprensorio();
-    private GestoreGerarchia gestoreGerarchia = new GestoreGerarchia();
-    private GestoreFattoriConversione gestoreFattori = new GestoreFattoriConversione();
+    private GestoreGerarchie gestoreGerarchia = new GestoreGerarchie();
+    // private GestoreFattoriConversione gestoreFattori = new GestoreFattoriConversione();
 
 
     /*
@@ -36,7 +36,7 @@ public class GestoreMenu {
                 break;
 
                 case 2:
-                gestoreGerarchia.modificaGerarchie();
+                gestoreGerarchia.modificaGerarchia(null);
                 break;
 
                 case 3:
@@ -47,7 +47,7 @@ public class GestoreMenu {
                // gestoreGerarchia.visualizzaGerarchie();
 
                 case 5:
-                gestoreFattori.modificaFattori();
+               // gestoreFattori.modificaFattori();
                 break;
             }
         }while(scelta!=0);

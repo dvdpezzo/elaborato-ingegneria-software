@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.stream.*;
+
 
 import it.ingbs.ingegneria_software.model.gerarchie.Categoria;
 import it.ingbs.ingegneria_software.model.gerarchie.Gerarchia;
@@ -49,7 +51,8 @@ public class GestoreFileGerarchie {
     private static void caricaCategoria(String line) throws Exception {
 
         line = line.substring(1, line.length() - 1);
-        ArrayList<String> elementi = new ArrayList<>(( Arrays.stream(line.split(">, <"))).toList());
+        ArrayList<String> elementi = new ArrayList<>((Arrays.stream(line.split(">, <")))
+        .collect(Collectors.toList()));
 
         try {
             if (elementi.get(0).startsWith("/")) {
@@ -59,7 +62,9 @@ public class GestoreFileGerarchie {
                 Categoria nuova = new Categoria(elementi.get(0), elementi.get(1));
                 for (String s : recuperaCampi(elementi.get(3)))
                     nuova.addCampoNativo(s.startsWith("!") ? s.substring(1) : s, s.startsWith("!"));
-                ArrayList<String> padre = new ArrayList<>(Arrays.stream(elementi.get(2).split("/")).toList());
+                ArrayList<String> padre = new ArrayList<>(Arrays.stream(elementi.get(2)
+                .split("/"))
+                .collect(Collectors.toList()));
                 albero.get(padre.get(0)).addSottocategoria(nuova, padre.get(1));
             }
 
@@ -72,7 +77,9 @@ public class GestoreFileGerarchie {
     }
 
     private static ArrayList<String> recuperaCampi(String lista) {
-        ArrayList<String> campi = new ArrayList<>(Arrays.stream(lista.split(" #")).toList());
+        ArrayList<String> campi = new ArrayList<>(Arrays.stream(lista.split(" #"))
+        .collect(Collectors.toList()));
+
         campi.set(0, campi.get(0).substring(1));
         return campi;
     }

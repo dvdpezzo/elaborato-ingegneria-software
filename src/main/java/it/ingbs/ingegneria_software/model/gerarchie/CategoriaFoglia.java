@@ -6,20 +6,22 @@ import java.util.Map;
 
 import it.ingbs.ingegneria_software.utilita_generale.InputDati;
 
-public class CategoriaFoglia extends Categoria {
+public class CategoriaFoglia{
 
 
     private String nome;  // Nome della categoria
     private String descrizione; //descrizione generale della categoria   
     
     
-    /*
-        * costruttore
-        */
+    
+        
     public CategoriaFoglia(String nome, String descrizione) {
-        super(nome, descrizione);
+        this.nome=nome;
+        this.descrizione=descrizione;
     }
 
+}
+    /* 
 
 
     public String getNome() {

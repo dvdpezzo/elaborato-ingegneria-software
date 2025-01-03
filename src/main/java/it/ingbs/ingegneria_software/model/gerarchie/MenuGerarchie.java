@@ -3,6 +3,7 @@ package it.ingbs.ingegneria_software.model.gerarchie;
 import java.io.File;
 import java.util.HashMap;
 
+import it.ingbs.ingegneria_software.gestione_file.GestoreFileGerarchie;
 import it.ingbs.ingegneria_software.utilita_generale.MenuUtil;
 
 public class MenuGerarchie implements Runnable {
@@ -40,13 +41,16 @@ private final static String[] VOCI_PRINCIPALI = {
         int scelta;
         do {
             switch (scelta = menuPrincipale.scegli()) {
-                case 1 -> FileGerarchie.salvaAlbero(radici.values(), fileSalvataggio);
-                case 2 -> GestoreGerarchie.aggiungiGerarchia(radici);
-                case 3 -> GestoreGerarchie.rimuoviGerarchia(radici);
-                case 4 -> stampaGerarchie();
-                case 5 -> GestoreGerarchie.modificaGerarchia(radici);
-                default -> {
-                }
+                case 1: GestoreFileGerarchie.salvaAlbero(radici.values(), fileSalvataggio);
+                break;
+                case 2: GestoreGerarchie.aggiungiGerarchia(radici);
+                break;
+                case 3: GestoreGerarchie.rimuoviGerarchia(radici);
+                break;
+                case 4: stampaGerarchie();
+                break;
+                case 5: GestoreGerarchie.modificaGerarchia(radici);
+                break;
             }
         } while (scelta != 0);
     }
