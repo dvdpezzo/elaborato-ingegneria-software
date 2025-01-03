@@ -4,16 +4,19 @@ import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 
+import it.ingbs.ingegneria_software.gestione_file.GestoreFileGerarchie;
 import it.ingbs.ingegneria_software.utilita_generale.InputDati;
 import it.ingbs.ingegneria_software.utilita_generale.MenuUtil;
 
 public class GestoreGerarchia {
 
-    private HashMap<String,Gerarchia> mappaGerarchie = new HashMap();
-    private File elencoGerarchie = new File("src\\Data File\\elencoGerarchie.txt");
+    private HashMap<String,Gerarchia> mappaGerarchie;
+    private final File elencoGerarchie = new File("src\\Data_File\\elencoGerarchie.txt");
+    private GestoreFileGerarchie gestoreFileGerarchie;
 
     public void modificaGerarchie() throws IOException {
-          String [] voci = {"Aggiungi Gerarchia: ",  "Aggiungi Categoria: ","Rimuovi Categoria: ","Salva Cambiamenti: "};
+        riempiMappaGerarchiDaFile();
+        String [] voci = {"Aggiungi Gerarchia: ",  "Aggiungi Categoria: ","Rimuovi Categoria: ","Salva Cambiamenti: "};
         MenuUtil menuComprensorio = new MenuUtil("AZIONI SUI COMPRENSORI",voci);
         int scelta=0;
         do{
@@ -33,10 +36,22 @@ public class GestoreGerarchia {
             }
 
         }while(scelta!=0);
-    
+            
     }
-
-    /*
+        
+    private void riempiMappaGerarchiDaFile () {
+        gestoreFileGerarchie = new GestoreFileGerarchie(mappaGerarchie);
+        try {
+            mappaGerarchie = gestoreFileGerarchie.leggiFile(elencoGerarchie);
+            System.out.println("Caricamento completato");
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        
+    }
+        
+            /*
      * metodo che crea una gerarchia e la aggiunge alla mappa delle gerarchie 
      */
     public void aggiungiGerarchia(){
@@ -44,23 +59,10 @@ public class GestoreGerarchia {
         do{
          nome = InputDati.leggiStringaNonVuota("Inserisci il nome della gerarchia:");
 
-        }while(controlloNomeGerarchia(nome));
+        }while(mappaGerarchie.containsKey(nome.toUpperCase()));
 
-        String descrizione = InputDati.leggiStringa("Inserisci una descrizione per la gerarchia(facoltativa)");
-        mappaGerarchie.put((nome.toUpperCase()), new Gerarchia(nome.toUpperCase(),descrizione));
+        mappaGerarchie.put((nome.toUpperCase()), new Gerarchia(nome.toUpperCase()));
     }
-
-
-    /*
-     * controllo se una gerarchia è già presente, controllo effettuato sul nome 
-     */
-    private boolean controlloNomeGerarchia(String nome){
-        for (String nomiGerarchia : mappaGerarchie.keySet()) {
-            return nomiGerarchia.equals(nome.toUpperCase());
-            }
-        return false;
-     }
-
 
     /*
      * Aggiugo una nuova categoria alla gerarchia già esistente
@@ -70,7 +72,7 @@ public class GestoreGerarchia {
         String nome;
         do{
            nome = InputDati.leggiStringaNonVuota("Inserisci il nome della gerarchia:");
-        }while(controlloNomeGerarchia(nome.toUpperCase()));
+        }while(!mappaGerarchie.containsKey(nome.toUpperCase()));
         return mappaGerarchie.get(nome.toUpperCase());
     }
 
@@ -78,16 +80,17 @@ public class GestoreGerarchia {
      * visualizza i nomi di tutte le gerarchie
      */
     public void visualizzaGerarchie(){
+        System.out.println("Elenco Gerarchie:");
         for (String  nomiGerarchia : mappaGerarchie.keySet()) {
             System.out.println(nomiGerarchia);
         }
     }
 
     public void salvaMappaGerarchie() throws IOException{
-    for (Gerarchia gerarchia : mappaGerarchie.values()) {
-        gerarchia.salvaGerarchia(elencoGerarchie);
-        
-    }
+   
+        gestoreFileGerarchie = new GestoreFileGerarchie(mappaGerarchie);
+        gestoreFileGerarchie.salvaSuFile(elencoGerarchie);
+        System.out.println("Salvataggio completato con successo");
 
         
     }

@@ -3,7 +3,7 @@ package it.ingbs.ingegneria_software.model;
 import java.util.HashMap;
 import java.util.Map;
 
-import it.ingbs.ingegneria_software.gestione_accesso.GestoreFileCredenziali;
+import it.ingbs.ingegneria_software.gestione_file.GestoreFileCredenziali;
 import it.ingbs.ingegneria_software.utilita_generale.InputDati;
 
 

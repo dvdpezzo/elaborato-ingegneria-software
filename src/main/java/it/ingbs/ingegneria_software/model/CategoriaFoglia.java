@@ -1,6 +1,8 @@
 package it.ingbs.ingegneria_software.model;
 
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.Map;
 
 import it.ingbs.ingegneria_software.utilita_generale.InputDati;
 
@@ -8,29 +10,37 @@ public class CategoriaFoglia extends Categoria {
 
 
     private String nome;  // Nome della categoria
-    private String descrizione; //descrizione generale della categoria
+    private String descrizione; //descrizione generale della categoria   
     
     
-    
-        /*
-         * costruttore
-         */
-        public CategoriaFoglia(String nome, String descrizione) {
-            super(nome, descrizione);
-        }
+    /*
+        * costruttore
+        */
+    public CategoriaFoglia(String nome, String descrizione) {
+        super(nome, descrizione);
+    }
 
 
 
-        public String getNome() {
-            return nome;
-        }
+    public String getNome() {
+        return nome;
+    }
 
 
 
-        public String getDescrizione() {
-            return descrizione;
-        }
-    
+    public String getDescrizione() {
+        return descrizione;
+    }
+
+    @Override
+    public boolean isFoglia() {
+        return true;
+    }
+
+    @Override
+    public Map<String, Categoria> getSottoCategorie() {
+        return Collections.emptyMap();
+    }
 
 
         

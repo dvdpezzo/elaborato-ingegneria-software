@@ -1,13 +1,14 @@
 package it.ingbs.ingegneria_software.model;
-import java.io.File;
-import java.io.IOException;
-import java.util.*;
+
+import java.util.HashMap;
 
 import it.ingbs.ingegneria_software.utilita_generale.InputDati;
 
 public class Categoria {
 
   
+    private static final String INSERISCI_UNA_DESCRIZIONE_PER_LA_SOTTOCATEGORIA = "Inserisci una descrizione per la sottocategoria:(facoltativo)";
+    private static final String INSERISCI_IL_NOME_DELLA_SOTTOCATEGORIA = "Inserisci il nome della sottocategoria che vuoi aggiungere:";
     private String nome;  // Nome della categoria
     private String descrizione; //descrizione generale della categoria
     private HashMap<String,Categoria> mappaSottocategorie;
@@ -41,10 +42,10 @@ public class Categoria {
         String nomeSottocat;
         String descSottocat;
         do{
-             nomeSottocat = InputDati.leggiStringaNonVuota("Inserisci il nome della sottocategoria che vuoi aggiungere:");
+             nomeSottocat = InputDati.leggiStringaNonVuota(INSERISCI_IL_NOME_DELLA_SOTTOCATEGORIA);
         }while(controlloSottocat(nomeSottocat));
         
-        descSottocat = InputDati.leggiStringa("Inserisci una descrizione per la sottocategoria:(facoltativo)");
+        descSottocat = InputDati.leggiStringa(INSERISCI_UNA_DESCRIZIONE_PER_LA_SOTTOCATEGORIA);
         aggiungiFiglio(nomeSottocat,descSottocat);
     }
 
@@ -59,13 +60,17 @@ public class Categoria {
         return false;
     }
 
-    public void salvaCategorie(File nomeFile) throws IOException{
-        GestoreFile gf = new GestoreFile();
-        for (Categoria  categoria : mappaSottocategorie.values()) {
-            gf.salvaSuFileCategoria(nomeFile,categoria);
 
-            
-        }
+    public boolean isFoglia() {
+        return mappaSottocategorie.isEmpty();
+    }
+
+    public HashMap<String, Categoria> getSottoCategorie() {
+        return mappaSottocategorie;
+    }
+
+    public String getDescrizione() {
+        return descrizione;
     }
 
 

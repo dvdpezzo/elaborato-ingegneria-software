@@ -1,19 +1,12 @@
 package it.ingbs.ingegneria_software.model;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
-import javax.xml.crypto.Data;
-
+import it.ingbs.ingegneria_software.gestione_file.GestoreFileComuni;
 import it.ingbs.ingegneria_software.utilita_generale.InputDati;
 
 
@@ -24,17 +17,17 @@ public class GestoreComuni {
 
     private static final String MSG_ERRORE_COMUNE_DUPLICE ="Comune già presente nella lista";
     private static final String ERRORE_COMUNE_NON_TROVATO ="Comune non trovato!";
-    private final File fileComuni = new File("src\\Data File\\elencoComuni.txt");
-    private static final Logger LOGGER = Logger.getLogger(GestoreComuni.class.getName());
-    
+    private final File fileComuni = new File("src\\Data_File\\elencoComuni.txt");    
 
-    private Map<Integer,String> mappaComuni = new HashMap<>();
+    private HashMap<Integer,String> mappaComuni = new HashMap<>();
+    private final GestoreFileComuni gestoreFileComuni;
 
     public GestoreComuni() {
+        this.gestoreFileComuni = new GestoreFileComuni(this.mappaComuni);
         try {
-            leggiComuni();
+            gestoreFileComuni.leggiFile(fileComuni);
         } catch (IOException e){
-            LOGGER.severe("Errore durante la lettura dei comuni dal file.");
+            System.out.println("Errore durante la lettura dei comuni dal file.");
         }
     }
 
@@ -42,7 +35,7 @@ public class GestoreComuni {
     //aggiunge un comune alla lista
     public void aggiungiComune(Comuni comune){
         if(controlloComuni(comune)){
-            LOGGER.info(MSG_ERRORE_COMUNE_DUPLICE);
+            System.out.println(MSG_ERRORE_COMUNE_DUPLICE);
         }
         else{
             mappaComuni.put(comune.getNumero(),comune.getNome());
@@ -60,7 +53,7 @@ public class GestoreComuni {
     public void visualizzaComuni(){
         for (Map.Entry<Integer, String> entry : mappaComuni.entrySet())
         {
-            LOGGER.info(String.format("%d %s \n", entry.getKey(), entry.getValue()));
+            System.out.println(String.format("%d %s \n", entry.getKey(), entry.getValue()));
         }
     }
 
@@ -80,39 +73,15 @@ public class GestoreComuni {
         return ERRORE_COMUNE_NON_TROVATO;
     }
 
-
-
-    //metodo che salva la mappa dei comuni su un file 
+    //metodo che salva la mappa dei comuni su un file -> TEMPORANEO
     public void scriviComuni() throws IOException{
-        try (BufferedWriter bw = new BufferedWriter(new FileWriter(fileComuni))) {
-            for (Map.Entry<Integer,String> entry : mappaComuni.entrySet()) {
-                String comune = entry.getKey() +" "+entry.getValue();
-                bw.write(comune);
-                bw.newLine();
-            }
-        }
-    }
-
-    /*metodo che legge la mappa dei comuni da file
-      OSS: non so se funziona, da testare*/ 
-    public void leggiComuni()throws IOException{ 
-        try (BufferedReader br = new BufferedReader(new FileReader(fileComuni))){
-            String parola = br.readLine();
-            do{
-                String [] datiComune = parola.split(" ");
-                Integer num = Integer.parseInt(datiComune[0]);
-                String nome = datiComune[1];
-                mappaComuni.put(num,nome); 
-                parola = br.readLine();
-
-            }while(parola!=null && !parola.equals("\n")&& !parola.equals(""));
-         }
+        gestoreFileComuni.salvaSuFile(fileComuni);
     }
 
     public void stampaComuni() {
         int position = 1;
         for (Map.Entry<Integer, String> entry : mappaComuni.entrySet()) {
-            LOGGER.info(String.format("Position: %d, Comune: %s", position, entry.getValue()));
+            System.out.println(String.format("Position: %d, Comune: %s", position, entry.getValue()));
             position++;
         }
     }
@@ -144,7 +113,7 @@ public class GestoreComuni {
                 int numeroComune = InputDati.leggiIntero("Inserisci il numero del " + (i + 1) + "° comune:");
                 String comune = scegliComune(numeroComune);
                 if (listaComuni.contains(comune)) {
-                    LOGGER.info("Questo comune è già stato inserito!");
+                    System.out.println("Questo comune è già stato inserito!");
                 } else {
                     listaComuni.add(comune);
                     comuneValido = true;
