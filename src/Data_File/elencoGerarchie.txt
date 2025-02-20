@@ -1,4 +1,2 @@
-</MUSICA>, <a>, <#!Stato di Conservazione #Descrizione Libera>
-<TEORIA>, <a>, <MUSICA/MUSICA>, >
-<PIANOFORTE>, <c>, <MUSICA/teoria>, >
-<PRATICA>, <b>, <MUSICA/MUSICA>, >
+</MUSICA>, <nd>, <#!Stato di Conservazione #Descrizione Libera>
+</ARTE>, <2>, <#!Stato di Conservazione #Descrizione Libera>

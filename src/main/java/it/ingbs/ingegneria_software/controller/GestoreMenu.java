@@ -1,9 +1,9 @@
 package it.ingbs.ingegneria_software.controller;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.HashMap;
 
+import it.ingbs.ingegneria_software.gestione_file.GestoreFileGerarchie;
 import it.ingbs.ingegneria_software.model.Configuratore;
 import it.ingbs.ingegneria_software.model.GestoreComprensorio;
 import it.ingbs.ingegneria_software.model.gerarchie.Gerarchia;
@@ -34,7 +34,7 @@ public class GestoreMenu {
     /*
      * nuovo menu back end dove il configuratore sceglie su quale oggetto lavorare 
      */
-    public void backEnd (Configuratore configuratore) throws IOException {
+    public void backEnd (Configuratore configuratore) throws Exception {
         int scelta=0;
         do {
             scelta = menuBackEnd.scegli();
@@ -44,6 +44,7 @@ public class GestoreMenu {
                 break;
 
                 case 2:
+                radici = GestoreFileGerarchie.recuperaAlbero(nomefile);
                 MenuGerarchie menuGerarchie = new MenuGerarchie(radici, nomefile);
                 menuGerarchie.run();
                 break;
