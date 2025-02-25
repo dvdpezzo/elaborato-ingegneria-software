@@ -186,13 +186,9 @@ public class GestoreFattoriConversione {
 }
 
 
-
-/*
+/* 
+ * Per capire se una categoria è foglia bisogna vedere se possiede dei figli. 
+ * -serve metodo per vedere se ha figli (non ricordo se esiste già)
+ * -posso usare i metodi che avevo già fatto per la creazione del fattore diretto/inverso e derivato 
  * 
- * OSS: da aggiungere il metodo che permette la lettura da file dei valori di conversione e li aggiunge alla mappa. 
- * L'ideale sarebbe trattare i fattori di conversione separatamente dalle categorie, cioè si creano 2 mappe di categorie:
- * 1)Lavora sulle gerarchie
- * 2)Lavora sui fattori di coversione
- * ovviamente le mappe dovranno essere uguale in quanto le categorie foglia sono uguali sia per le gerarchie sia per
- * i fattori di conversione. 
  */
