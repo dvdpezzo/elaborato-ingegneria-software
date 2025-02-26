@@ -3,13 +3,12 @@ package it.ingbs.ingegneria_software.utilita_generale;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
-import it.ingbs.ingegneria_software.model.gerarchie.CategoriaFoglia;
 
 
 public class InputDati 
 {
 
-	      static CategoriaFoglia catFoglia = new CategoriaFoglia(null, null);
+	      
 		  private static final Scanner lettore = creaScanner();
 		  
 		  private static final String ERRORE_FORMATO = "Attenzione: il dato inserito non e' nel formato corretto";

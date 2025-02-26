@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.HashMap;
 import it.ingbs.ingegneria_software.model.gerarchie.Categoria;
 
+
 public class GestoreFattori {
     
     public static String ERRORE_CATEGORIA ="Le categorie che hai inserito non sono categorie foglia!";
@@ -71,12 +72,16 @@ public class GestoreFattori {
     }
 
     public void nuovoFattore(){
-        /*
-         * visualizzo tutte le categorie foglia? 
-         * -> quindi controllo se sono foglia, e poi faccio inserire all'utente il nome?
-         * ->gli chiedo di inserire il valore di conversione con il metodo valore compreso 
-         */
+        /*Devo permettere al controllore di inserire il fattore di conversione
+         PROBLEMA: come conosce le varie categorie? 
+         SOLUZIONE: a) le ha viste dalla gerarchia e se le ricorda (non funzionale, ma semplice)
+                    b) può visualizzare le varie categorie/categorie foglia (come implemento sta cosa?)
+                    */
+
+       
     }
+
+    
 
 
 }
