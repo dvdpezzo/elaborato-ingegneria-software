@@ -85,6 +85,19 @@ public class Categoria {
     }
 
     /**
+     * Controlla se una categoria possiede dei figli (se size>0 ha figli)
+     * 
+     * @param cat categoria presa in considerazine
+     * @return true se possiede figli, false se non li possiede
+     */
+    public boolean hasFiglio(Categoria cat){
+        if(cat.figli.size()!=0){
+            return true;
+        }
+        return false;
+    }
+
+    /**
      * aggiunge campi alla categoria da cui viene invocato
      *
      * @param nome nome del campo

@@ -189,6 +189,7 @@ public class GestoreFattoriConversione {
 /* 
  * Per capire se una categoria è foglia bisogna vedere se possiede dei figli. 
  * -serve metodo per vedere se ha figli (non ricordo se esiste già)
- * -posso usare i metodi che avevo già fatto per la creazione del fattore diretto/inverso e derivato 
+ * -dopo implementa tutti i metodi che hai implementato qua visto che funzionavano 
+ * 
  * 
  */

@@ -117,7 +117,7 @@ public class Gerarchia {
     }
 
     /**
-     * Sposta una categoria da un punto a un altro delò'albero
+     * Sposta una categoria da un punto a un altro dell'albero
      * Cambiando il riferimento alla categoria padre della categoria selezionata
      *
      * @param cat nome della categoria da spostare
