@@ -1,2 +1,3 @@
 </ARTE>, <lezioni di arte>, <#!Stato di Conservazione #Descrizione Libera>
+<PRATICA>, <lezione di pratica>, <ARTE/ARTE>, >
 </LINGUE>, <null>, <#!Stato di Conservazione #Descrizione Libera>
