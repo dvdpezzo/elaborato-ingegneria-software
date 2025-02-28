@@ -6,6 +6,7 @@ import java.util.HashMap;
 
 import it.ingbs.ingegneria_software.gestione_file.GestoreFileCredenziali;
 import it.ingbs.ingegneria_software.model.Configuratore;
+import it.ingbs.ingegneria_software.model.Fruitore;
 import it.ingbs.ingegneria_software.model.GestoreConfiguratori;
 
 /**
@@ -39,6 +40,7 @@ public class GestoreAccesso {
         }
         this.gestoreConfiguratori = new GestoreConfiguratori(gestoreFile);
     }
+
     /**
      * permette l'accesso al configuratore: controlla prima di tutto che non sia il primo accesso,
      * altrimenti controlla le credenziali e se sono valide, permette l'accesso
@@ -97,4 +99,12 @@ public class GestoreAccesso {
     private boolean controlloEsistenzaCredenziali (String nomeUtente, String pass){
         return mappaCredenzialiUtenti.containsKey(nomeUtente) && mappaCredenzialiUtenti.containsValue(pass);
     }   
+
+
+
+    //BISOGNA IMPLEMENTARE IL GESTORE ACESSO DEL FRUITORE con registrazione del nuovo utente 
+
+    public Fruitore accessoFruitore(String nomeUtente, String pass){
+        return null; 
+    }
 }

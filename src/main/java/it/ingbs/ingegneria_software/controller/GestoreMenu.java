@@ -5,10 +5,10 @@ import java.util.HashMap;
 
 import it.ingbs.ingegneria_software.gestione_file.GestoreFileGerarchie;
 import it.ingbs.ingegneria_software.model.Configuratore;
+import it.ingbs.ingegneria_software.model.Fruitore;
 import it.ingbs.ingegneria_software.model.GestoreComprensorio;
 import it.ingbs.ingegneria_software.model.gerarchie.Gerarchia;
-// import it.ingbs.ingegneria_software.model.GestoreFattoriConversione;
-import it.ingbs.ingegneria_software.model.gerarchie.GestoreGerarchie;
+ import it.ingbs.ingegneria_software.model.gerarchie.GestoreGerarchie;
 import it.ingbs.ingegneria_software.model.gerarchie.MenuGerarchie;
 import it.ingbs.ingegneria_software.utilita_generale.MenuUtil;
 
@@ -18,10 +18,13 @@ import it.ingbs.ingegneria_software.utilita_generale.MenuUtil;
 public class GestoreMenu {
     
     
-    private final String[] vociMenuBackEnd = new String[]{"GESTIONE COMPRENSORI","GESTIONE GERARCHIE","VISUALIZZA COMPRENSORI",
-"GESTIONE FATTORI CONVERSIONE"};
+    private final String[] vociMenuBackEnd = new String[]{"GESTIONE COMPRENSORI","GESTIONE GERARCHIE","GESTIONE FATTORI CONVERSIONE"};
+
+    private final String[] vociMenuFrontEnd = new String[]{"Visualizza Gerarchie"};
       
     private final MenuUtil menuBackEnd = new MenuUtil("MENU BACK-END:", vociMenuBackEnd);
+
+    private final MenuUtil menuFrontEnd = new MenuUtil("MENU FRONT END",vociMenuFrontEnd);
 
     private GestoreComprensorio gestoreComprensorio = new GestoreComprensorio();
     private GestoreGerarchie gestoreGerarchia = new GestoreGerarchie();
@@ -50,16 +53,32 @@ public class GestoreMenu {
                 break;
 
                 case 3:
-                gestoreComprensorio.visualizzaComprensori();
-                break;
-
-                case 4:
                // gestoreFattori.modificaFattori();
                 break;
             }
         }while(scelta!=0);
     }
 	
+
+    /**
+     * menu front end con le varie operazioni che il fruitore può eseguire 
+     * @param fruitore
+     * @throws Exception
+     */
+
+    public void frontEnd(Fruitore fruitore) throws Exception{
+        int scelta=0;
+
+        do{
+            scelta=menuFrontEnd.scegli();
+            switch(scelta){
+                case 1: 
+                //visualizzaGerarchie()
+                break;
+
+        }
+     }while(scelta!=0);
+  }
     
 
 
