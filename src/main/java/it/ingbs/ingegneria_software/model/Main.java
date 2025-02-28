@@ -11,17 +11,19 @@ public class Main {
 		//creazione istanza del sistema generale:
 		GestoreMenu sistemaGenerale = new GestoreMenu();
 
-		//chiedi credenziali d'accesso:
-		Utente utente = MenuAccesso.loginConfiguratore();
+		
+		Utente configuratore = MenuAccesso.loginConfiguratore();
+
+		Utente fruitore = MenuAccesso.loginFruitore();
 
 		//da rivedere il modo in cui differenzia utente da configuratore, nella versione 2
 
-		if (utente instanceof Configuratore){
+		if (configuratore instanceof Configuratore){
 			//se utente è di tipo Configuratore, richiama il menu back-end:
-            sistemaGenerale.backEnd((Configuratore) utente);
+            sistemaGenerale.backEnd((Configuratore) configuratore);
 		} else {
-			//altrimenti richiama il menu utente:
-			//sistemaGenerale.frontEnd();
+			
+			sistemaGenerale.frontEnd((Fruitore) fruitore);
 		}
 		
 
