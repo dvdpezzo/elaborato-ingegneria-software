@@ -56,8 +56,21 @@ private final static String[] VOCI_PRINCIPALI = {
     }
 
     private void stampaGerarchie() {
-        for (String g : radici.keySet())
-            System.out.println(g + " ");
+        for (Gerarchia gerarchia : radici.values()) {
+            stampaGerarchia(gerarchia.getCategoriaRadice(), 0);
+        }
+    }
 
+    private void stampaGerarchia(Categoria categoria, int livello) {
+        // Stampa l'indentazione in base al livello
+        for (int i = 0; i < livello; i++) {
+            System.out.print("  ");
+        }
+        // Stampa il nome della categoria
+        System.out.println(categoria.getNome());
+        // Stampa le sottocategorie ricorsivamente
+        for (Categoria sottocategoria : categoria.getFigli()) {
+            stampaGerarchia(sottocategoria, livello + 1);
+        }
     }
 }

@@ -1,13 +1,17 @@
 package it.ingbs.ingegneria_software.gestione_file;
 
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.stream.*;
-
+import java.util.stream.Collectors;
 
 import it.ingbs.ingegneria_software.model.gerarchie.Categoria;
 import it.ingbs.ingegneria_software.model.gerarchie.Gerarchia;
@@ -20,7 +24,7 @@ public class GestoreFileGerarchie {
      * Recupera gli alberi di tutte le gerarchie da un file
      *
      * @param fileAlbero file di testo contenente le gerarchie
-     * @return l'albero sotto-forma di HashMap, nel quale ogni elemento è rappresentato dalla copia
+     * @return l'albero sotto-forma di HashMap, nel quale ogni elemento è rappresentato dalla coppia
      * nome della categoria-categoria
      *
      * @throws FileNotFoundException quando non trova il file di caricamento
@@ -55,12 +59,16 @@ public class GestoreFileGerarchie {
         .collect(Collectors.toList()));
 
         try {
+            //se inizia con prefisso / allora è una gerarchia, altrimenti creo una categoria
             if (elementi.get(0).startsWith("/")) {
                 String nome = elementi.get(0).substring(1);
                 albero.put(nome, new Gerarchia(nome.toUpperCase(), elementi.get(1)));
             } else {
                 Categoria nuova = new Categoria(elementi.get(0), elementi.get(1));
                 for (String s : recuperaCampi(elementi.get(3)))
+                // Questa riga di codice aggiunge un campo nativo alla categoria nuova. 
+                // La riga utilizza un'operazione ternaria per determinare se il campo è obbligatorio (!) 
+                // o meno e per rimuovere il carattere ! se presente.
                     nuova.addCampoNativo(s.startsWith("!") ? s.substring(1) : s, s.startsWith("!"));
                 ArrayList<String> padre = new ArrayList<>(Arrays.stream(elementi.get(2)
                 .split("/"))

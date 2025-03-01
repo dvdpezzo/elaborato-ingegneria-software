@@ -7,7 +7,6 @@ import it.ingbs.ingegneria_software.gestione_file.GestoreFileGerarchie;
 import it.ingbs.ingegneria_software.model.Configuratore;
 import it.ingbs.ingegneria_software.model.GestoreComprensorio;
 import it.ingbs.ingegneria_software.model.gerarchie.Gerarchia;
-// import it.ingbs.ingegneria_software.model.GestoreFattoriConversione;
 import it.ingbs.ingegneria_software.model.gerarchie.GestoreGerarchie;
 import it.ingbs.ingegneria_software.model.gerarchie.MenuGerarchie;
 import it.ingbs.ingegneria_software.utilita_generale.MenuUtil;
@@ -28,7 +27,7 @@ public class GestoreMenu {
     private HashMap<String, Gerarchia> radici = new HashMap<>();
     // private GestoreFattoriConversione gestoreFattori = new GestoreFattoriConversione();
 
-    private File nomefile = new File("elaborato-ingegneria-software\\src\\Data_File\\elencoGerarchie.txt");
+    private File nomefile = new File("src\\Data_File\\elencoGerarchie.txt");
 
 
     /*

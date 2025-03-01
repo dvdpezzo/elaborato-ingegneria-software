@@ -1,3 +1,11 @@
+</MUSICA>, <lezioni di musica>, <#!Stato di Conservazione #Descrizione Libera>
+<CHITARRA>, <lezioni di chitarra>, <MUSICA/MUSICA>, <#!Principianti #!Intermedi #!Esperti>
+<CHITARRA PRINCIPIANTI>, <lezioni di chitarra per principianti>, <MUSICA/CHITARRA>, <#>
+<PIANOFORTE>, <lezioni di piano>, <MUSICA/MUSICA>, <#!base>
+<PIANOFORTE ESPERTI>, <lezioni di pianoforte per esperti>, <MUSICA/PIANOFORTE>, <#>
 </ARTE>, <lezioni di arte>, <#!Stato di Conservazione #Descrizione Libera>
-<PRATICA>, <lezione di pratica>, <ARTE/ARTE>, >
-</LINGUE>, <null>, <#!Stato di Conservazione #Descrizione Libera>
+<PRATICA>, <lezione di pratica>, <ARTE/ARTE>, <#!Scultura #Descrizione Libera>
+<PRATICA SCULTURA>, <lezione di pratica di scultura>, <ARTE/PRATICA>, <#!Principianti #!Intermedi #!Esperti>
+</LINGUE>, <lezioni di lingue>, <#!Stato di Conservazione #Descrizione Libera>
+<INGLESE>, <lezioni di inglese>, <LINGUE/LINGUE>, <#!Principianti #!Intermedi #!Esperti>
+<TEDESCO>, <lezioni di tedesco>, <LINGUE/LINGUE>, <#!Principianti #!Intermedi #!Esperti>

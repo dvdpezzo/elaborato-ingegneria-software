@@ -1,9 +1,11 @@
 package it.ingbs.ingegneria_software.model.gerarchie;
 
-import java.util.*;
+import java.util.HashMap;
 
-import it.ingbs.ingegneria_software.Eccezioni.*;
-import it.ingbs.ingegneria_software.utilita_generale.InputDati;
+import it.ingbs.ingegneria_software.Eccezioni.CategoriaNotFoundException;
+import it.ingbs.ingegneria_software.Eccezioni.CategoriaOmonimaException;
+import it.ingbs.ingegneria_software.Eccezioni.IllegalCampoException;
+import it.ingbs.ingegneria_software.Eccezioni.PadreNotFoundException;
 
 //copiata da progetto simone. 
 public class Gerarchia {
@@ -13,7 +15,7 @@ public class Gerarchia {
 
     /**
      * costruttore della Gerarchia
-     *
+     * crea una categoria radice e aggiunge due campi nativi predefiniti
      * @param nome nome della categoria radice
      * @param desc descrizione della categoria radice
      */

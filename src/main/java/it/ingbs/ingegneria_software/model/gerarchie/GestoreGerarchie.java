@@ -1,9 +1,12 @@
 package it.ingbs.ingegneria_software.model.gerarchie;
 
 
-import java.util.*;
+import java.util.HashMap;
 
-import it.ingbs.ingegneria_software.Eccezioni.*;
+import it.ingbs.ingegneria_software.Eccezioni.CategoriaNotFoundException;
+import it.ingbs.ingegneria_software.Eccezioni.CategoriaOmonimaException;
+import it.ingbs.ingegneria_software.Eccezioni.IllegalCampoException;
+import it.ingbs.ingegneria_software.Eccezioni.PadreNotFoundException;
 import it.ingbs.ingegneria_software.utilita_generale.InputDati;
 import it.ingbs.ingegneria_software.utilita_generale.MenuUtil;
 
@@ -123,9 +126,10 @@ public class GestoreGerarchie {
             desc = InputDati.leggiStringaNonVuota(DESCRIZIONE_CATEGORIA);
             String padre = InputDati.leggiStringaNonVuota(CHI_E_IL_PADRE);
             try {
-                radice.addSottocategoria(nome, desc, padre);
+                radice.addSottocategoria(nome.toUpperCase(), desc, padre);
+                radice.getCategoria(nome.toUpperCase()).addCampoNativo("", false); // Aggiunge un campo nativo vuoto
                 System.out.printf((CATEGORIA_S_AGGIUNTA) + "%n", nome);
-            } catch (PadreNotFoundException | CategoriaOmonimaException e) {
+            } catch (PadreNotFoundException | CategoriaOmonimaException | CategoriaNotFoundException | IllegalCampoException e) {
                 System.out.println(e.getMessage());
             }
         } while (InputDati.yesOrNo(VUOI_AGGIUNGERE_ALTRE_CATEGORIE));
@@ -185,6 +189,7 @@ public class GestoreGerarchie {
         try {
             if (scelta == 1) {
                 radice.getCategoria(nomeCat).eliminaCampiNativi();
+                radice.getCategoria(nomeCat).addCampoNativo("", false); // Aggiunge un campo vuoto
                 System.out.println(CAMPI_NATIVI_ELIMINATI);
             } else {
                 System.out.println(radice.getCategoria(nomeCat).stampaCampiNativi());
@@ -193,6 +198,9 @@ public class GestoreGerarchie {
                     radice.getCategoria(nomeCat).eliminaCampoNativo(nomeCampo);
                     System.out.println(CAMPO_NATIVO_ELIMINATO);
                 } while (InputDati.yesOrNo(VUOI_ELIMINARE_ALTRI_CAMPI));
+                if (radice.getCategoria(nomeCat).getCampiNativi().isEmpty()) {
+                    radice.getCategoria(nomeCat).addCampoNativo("", false); // Aggiunge un campo vuoto se non ci sono più campi
+                }
             }
         } catch (Exception e) {
             System.out.println(e.getMessage());
