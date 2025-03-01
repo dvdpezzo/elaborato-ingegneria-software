@@ -7,7 +7,11 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.HashMap;
 
+import it.ingbs.ingegneria_software.Eccezioni.CategoriaNotFoundException;
 import it.ingbs.ingegneria_software.model.gerarchie.Categoria;
+import it.ingbs.ingegneria_software.model.gerarchie.Gerarchia;
+import it.ingbs.ingegneria_software.model.gerarchie.GestoreGerarchie;
+import it.ingbs.ingegneria_software.model.gerarchie.MenuGerarchie;
 import it.ingbs.ingegneria_software.utilita_generale.InputDati;
 import it.ingbs.ingegneria_software.utilita_generale.MenuUtil;
 
@@ -87,10 +91,13 @@ public class GestoreFattori {
      */
     public void nuovoFattore(){
     
-        String str1 = InputDati.leggiStringaNonVuota(CATEGORIA_PARTENZA);
-        Categoria cat1 = null; 
+        Categoria cat1 = trovaCategoria();
+
+        String str4 = InputDati.leggiStringaNonVuota("Inserisci il nome della Gerarchia2:");
+        Gerarchia ger2 = GestoreGerarchie.getGerarchia(str4);
         String str2 = InputDati.leggiStringaNonVuota(CATEGORIA_DESTINAZIONE);
-        Categoria cat2=null;
+        Categoria cat2= ger2.getCategoria(str2);
+        
         double valore = InputDati.leggiDoubleLimitato("Inserisci il valore di conversione:", 0.5, 2);
         assegnaFattoreConversione(cat1, cat2, valore);
     }
@@ -177,7 +184,7 @@ public class GestoreFattori {
      * menu che permette di eseguire operazioni sui fattori di conversione
      */
     public void modificaFattori() throws IOException{
-        String [] voci = {"Aggiungi nuovo fattore di conversione","Aggiunigi fattore di conversione derivato","Salva fattori di conversione",
+        String [] voci = {"Visualizza gerarchie", "Aggiungi nuovo fattore di conversione","Aggiunigi fattore di conversione derivato","Salva fattori di conversione",
         "Visualizza fattori di conversione"};
         MenuUtil menuFattori = new MenuUtil("AZIONI SUI FATTORI DI CONVERSIONE",voci);
         int scelta;
@@ -185,21 +192,32 @@ public class GestoreFattori {
            scelta=menuFattori.scegli();
            switch(scelta){
             case 1:
+                MenuGerarchie.stampaGerarchie();
+            break;
+            case 2:
               nuovoFattore();
             break;
-            case 2: 
+            case 3: 
               nuovoFattoreDerivato();
             break;
 
-            case 3:
+            case 4:
              salvaFattori(nomeFile);
              break;
 
-            case 4: 
+            case 5: 
              visualizzaFattori();
             break;
            }
         }while(scelta!=0);
+    }
+
+    private Categoria trovaCategoria () throws CategoriaNotFoundException {
+        String str0 = InputDati.leggiStringaNonVuota("Inserisci il nome della Gerarchia1:");
+        Gerarchia ger1 = GestoreGerarchie.getGerarchia(str0);
+        String str1 = InputDati.leggiStringaNonVuota(CATEGORIA_PARTENZA);
+        Categoria cat1 = ger1.getCategoria(str1);
+        return cat1;
     }
 }
 

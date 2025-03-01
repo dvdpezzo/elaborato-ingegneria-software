@@ -56,7 +56,7 @@ private static final String[] VOCI_PRINCIPALI = {
         } while (scelta != 0);
     }
 
-    private void stampaGerarchie() {
+    public void stampaGerarchie() {
         for (Gerarchia gerarchia : radici.values()) {
             stampaGerarchia(gerarchia.getCategoriaRadice(), 0);
         }
