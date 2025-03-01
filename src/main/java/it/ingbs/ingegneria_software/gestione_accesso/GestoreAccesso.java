@@ -33,7 +33,7 @@ public class GestoreAccesso {
     public GestoreAccesso() {       
         this.gestoreFile = new GestoreFileCredenziali(mappaCredenzialiUtenti);        
         try {
-            mappaCredenzialiUtenti = (HashMap<String, String>) gestoreFile.leggiFile(fileConfiguratori);
+            mappaCredenzialiUtenti = gestoreFile.leggiFile(fileConfiguratori);
         } catch (IOException e) {
             System.out.println(String.format(FILE_NON_TROVATO, e.getMessage()));
         }

@@ -32,7 +32,7 @@ public class GestoreFileComprensori implements GestoreFile {
     }
 
     @Override
-    public HashMap leggiFile(File nomeFile) throws IOException {
+    public HashMap<Integer, ComprensorioGeografico> leggiFile(File nomeFile) throws IOException {
          try (BufferedReader br = new BufferedReader(new FileReader(nomeFile))) {
             String line;
             while ((line = br.readLine()) != null && !line.isEmpty()) {

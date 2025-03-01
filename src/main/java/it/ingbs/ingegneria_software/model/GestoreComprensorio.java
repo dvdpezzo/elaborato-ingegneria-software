@@ -79,7 +79,7 @@ public class GestoreComprensorio {
     */    
     private void configuraMappaComprensoriDaFile() {
        try {
-        mappaComprensori = (HashMap<Integer, ComprensorioGeografico>) gestoreFileComprensori.leggiFile(fileComprensori);
+        mappaComprensori = gestoreFileComprensori.leggiFile(fileComprensori);
     } catch (IOException e) {
         e.printStackTrace();
     }
@@ -112,7 +112,7 @@ public class GestoreComprensorio {
     */
     private void aggiungiComuneAlComprensorio() throws IOException{
         visualizzaComprensori();
-        boolean risposta=true;
+        boolean risposta;
         int codiceComprensorio = InputDati.leggiIntero("Inserisci il codice del comprensorio al quale si vuole aggiungere il comune:");					
             do{
                 if(controllaEsistenzaComprensorio(codiceComprensorio)){

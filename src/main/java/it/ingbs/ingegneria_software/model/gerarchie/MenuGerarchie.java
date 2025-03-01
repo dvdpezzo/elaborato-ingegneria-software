@@ -8,7 +8,7 @@ import it.ingbs.ingegneria_software.utilita_generale.MenuUtil;
 
 public class MenuGerarchie implements Runnable {
 
-private final static String[] VOCI_PRINCIPALI = {
+private static final String[] VOCI_PRINCIPALI = {
             "salva gerarchie",
             "aggiungi gerarchia",
             "rimuovi gerarchia",
@@ -16,10 +16,10 @@ private final static String[] VOCI_PRINCIPALI = {
             "modifica gerarchia"
     };
 
-    private static MenuUtil menuPrincipale;
+    private final MenuUtil menuPrincipale;
 
-    private static HashMap<String, Gerarchia> radici;
-    private File fileSalvataggio;
+    private final HashMap<String, Gerarchia> radici;
+    private final File fileSalvataggio;
 
     /**
      * Costruttore del GestoreGersrchie
@@ -28,7 +28,7 @@ private final static String[] VOCI_PRINCIPALI = {
      * @param salvataggio file di salvataggio delle gerarchie
      */
     public MenuGerarchie(HashMap <String,Gerarchia> radici, File salvataggio) {
-        menuPrincipale = new MenuUtil("Gestione delle gerarchie", VOCI_PRINCIPALI);
+        this.menuPrincipale = new MenuUtil("Gestione delle gerarchie", VOCI_PRINCIPALI);
         this.radici = radici;
         this.fileSalvataggio = salvataggio;
     }
@@ -40,7 +40,8 @@ private final static String[] VOCI_PRINCIPALI = {
     public void run() {
         int scelta;
         do {
-            switch (scelta = menuPrincipale.scegli()) {
+            scelta = menuPrincipale.scegli();
+            switch (scelta) {
                 case 1: GestoreFileGerarchie.salvaAlbero(radici.values(), fileSalvataggio);
                 break;
                 case 2: GestoreGerarchie.aggiungiGerarchia(radici);

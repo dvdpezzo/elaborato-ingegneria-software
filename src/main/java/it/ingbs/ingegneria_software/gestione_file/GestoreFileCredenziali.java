@@ -24,6 +24,7 @@ public class GestoreFileCredenziali implements GestoreFile{
      * Permette di aggiungere nuove credenziali dalla mappa al file
      * @throws IOException file delle credenziali non esiste
      */
+    @Override
     public void salvaSuFile(File nomeFile) throws IOException {
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(nomeFile))) {
             for (HashMap.Entry<String,String> entry : mappaCredenziali.entrySet()) {
@@ -38,7 +39,8 @@ public class GestoreFileCredenziali implements GestoreFile{
      * nome utente e password
      * @throws IOException file delle credenziali non esiste
      */
-    public HashMap leggiFile(File nomeFile) throws IOException {
+    @Override
+    public HashMap<String, String> leggiFile(File nomeFile) throws IOException {
         try (BufferedReader br = new BufferedReader(new FileReader(nomeFile))) {
             String parola = br.readLine();
             do {

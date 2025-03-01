@@ -94,10 +94,7 @@ public class Categoria {
      * @return true se possiede figli, false se non li possiede
      */
     public boolean hasFiglio(Categoria cat){
-        if(cat.figli.size()!=0){
-            return true;
-        }
-        return false;
+        return !cat.figli.isEmpty();
     }
 
     /**
@@ -182,6 +179,7 @@ class Campo {
         this.obblig = ob;
     }
 
+    @Override
     public String toString() {
         return String.format("#%s%s", obblig ? "!" : "", nome);
     }

@@ -1,19 +1,24 @@
 package it.ingbs.ingegneria_software.model;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.HashMap;
+
 import it.ingbs.ingegneria_software.model.gerarchie.Categoria;
 import it.ingbs.ingegneria_software.utilita_generale.InputDati;
 import it.ingbs.ingegneria_software.utilita_generale.MenuUtil;
-import java.io.*;
 
 
 public class GestoreFattori {
     
-    public static String ERRORE_CATEGORIA ="Le categorie che hai inserito non sono categorie foglia!";
-    private static String CATEGORIA_PARTENZA="Inserisci il nome della categoria di partenza:";
-    private static String CATEGORIA_DESTINAZIONE="Inserisci il nome della categoria di destinazione:";
+    private static final String ERRORE_CATEGORIA ="Le categorie che hai inserito non sono categorie foglia!";
+    private static final String CATEGORIA_PARTENZA="Inserisci il nome della categoria di partenza:";
+    private static final String CATEGORIA_DESTINAZIONE="Inserisci il nome della categoria di destinazione:";
 
-    private HashMap<String,FattoriConversione> mappaFattori = new HashMap<String,FattoriConversione>();
+    private final HashMap<String,FattoriConversione> mappaFattori = new HashMap<>();
 
     File nomeFile = new File("src\\Data File\\elencoFattoriConversione.txt");
 
@@ -27,7 +32,7 @@ public class GestoreFattori {
      * @param valore indica il valore di conversione tra la prima e la seconda categoria 
      */
     private void assegnaFattoreConversione(Categoria cat1, Categoria cat2, double valore){
-        if(cat1.hasFiglio(cat1)==false && cat2.hasFiglio(cat2)==false){
+        if(cat1.hasFiglio(cat1) && cat2.hasFiglio(cat2)){
 
             String chiave = cat1.getNome()+"->"+cat2.getNome();
             FattoriConversione fattore = new FattoriConversione(valore, cat1, cat2);
@@ -64,7 +69,7 @@ public class GestoreFattori {
      * @param cat3 categoria delle quale voglio creare un valore 
      */
     public void fattoreDerivato(Categoria cat1, Categoria cat2, Categoria cat3){
-        if(cat1.hasFiglio(cat1)==false && cat2.hasFiglio(cat2)==false && cat3.hasFiglio(cat3)==false){
+        if(cat1.hasFiglio(cat1) && cat2.hasFiglio(cat2) && cat3.hasFiglio(cat3)){
             String controllo12 = cat1.getNome()+" -> "+cat2.getNome();
             String controllo23 = cat2.getNome()+" -> "+cat3.getNome();
             if(mappaFattori.containsKey(controllo12) && mappaFattori.containsKey(controllo23)){
@@ -175,7 +180,7 @@ public class GestoreFattori {
         String [] voci = {"Aggiungi nuovo fattore di conversione","Aggiunigi fattore di conversione derivato","Salva fattori di conversione",
         "Visualizza fattori di conversione"};
         MenuUtil menuFattori = new MenuUtil("AZIONI SUI FATTORI DI CONVERSIONE",voci);
-        int scelta=0;
+        int scelta;
         do{
            scelta=menuFattori.scegli();
            switch(scelta){

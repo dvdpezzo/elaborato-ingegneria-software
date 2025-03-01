@@ -7,7 +7,6 @@ import it.ingbs.ingegneria_software.gestione_file.GestoreFileGerarchie;
 import it.ingbs.ingegneria_software.model.Configuratore;
 import it.ingbs.ingegneria_software.model.GestoreComprensorio;
 import it.ingbs.ingegneria_software.model.gerarchie.Gerarchia;
-import it.ingbs.ingegneria_software.model.gerarchie.GestoreGerarchie;
 import it.ingbs.ingegneria_software.model.gerarchie.MenuGerarchie;
 import it.ingbs.ingegneria_software.utilita_generale.MenuUtil;
 
@@ -22,19 +21,17 @@ public class GestoreMenu {
       
     private final MenuUtil menuBackEnd = new MenuUtil("MENU BACK-END:", vociMenuBackEnd);
 
-    private GestoreComprensorio gestoreComprensorio = new GestoreComprensorio();
-    private GestoreGerarchie gestoreGerarchia = new GestoreGerarchie();
-    private HashMap<String, Gerarchia> radici = new HashMap<>();
+    private final GestoreComprensorio gestoreComprensorio = new GestoreComprensorio(); 
     // private GestoreFattoriConversione gestoreFattori = new GestoreFattoriConversione();
 
-    private File nomefile = new File("src\\Data_File\\elencoGerarchie.txt");
+    private final File nomefile = new File("src\\Data_File\\elencoGerarchie.txt");
 
 
     /*
      * nuovo menu back end dove il configuratore sceglie su quale oggetto lavorare 
      */
     public void backEnd (Configuratore configuratore) throws Exception {
-        int scelta=0;
+        int scelta;
         do {
             scelta = menuBackEnd.scegli();
             switch (scelta) { 
@@ -43,7 +40,7 @@ public class GestoreMenu {
                 break;
 
                 case 2:
-                radici = GestoreFileGerarchie.recuperaAlbero(nomefile);
+                HashMap<String, Gerarchia> radici = GestoreFileGerarchie.recuperaAlbero(nomefile);
                 MenuGerarchie menuGerarchie = new MenuGerarchie(radici, nomefile);
                 menuGerarchie.run();
                 break;
