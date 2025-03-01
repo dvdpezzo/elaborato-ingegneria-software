@@ -47,10 +47,7 @@ public class MenuAccesso {
     }
 
 
-    /**
-     * MENU DI ACCESSO DEL FRUITORE DOVE SCEGLIE SE ACCEDERE O REGISTRARSI 
-     * DA SPOSTARE NON VA BENE IN QUESTA CLASSE 
-     */
+
 
     public static void menuFruitore(){
         GestoreComprensorio gc = new GestoreComprensorio();

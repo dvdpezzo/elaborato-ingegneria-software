@@ -15,7 +15,6 @@ public class GestoreFruitori {
      */
     public void aggiungiFrutiore(Fruitore fr){
         listaFruitori.add(fr);
-
     }
 
     /*
@@ -26,7 +25,7 @@ public class GestoreFruitori {
     }
 
     /*
-     * visualizza elenco fruitori 
+     * visualizza elenco fruitori con informazioni annesse 
      */
     public void visualizzaFruitori(){
         for(Fruitore f : listaFruitori){
@@ -34,15 +33,20 @@ public class GestoreFruitori {
             f.infoFruitore();
         }
         }
-    }
+}
 
 
-    /*
-     * a)salvare i dati dei vari fruitori (nome utente, pass)
-     * b)salvare le mail dei fruitori
-     * c)salvare la lista dei vari fruitori 
-     * d)metodo che controlla l'unicità del nomeUtente (unico = no ripetuto tra fruitori e configuratori)
-     * e)metodi di utilità generale per l'esecuzione di questi compiti. 
-     */
+    
 
 
+
+     
+     /**
+      * 1)
+      * a)salvare i dati dei vari fruitori (nome utente, pass, comprensorio tutto sullo stesso file) guarda l'esempio delle gerarchie
+        b)CONTROLLO UNIVICO DEL NOME UTENTE
+       * crea una classe padre gestoreUtente che controlla se il nome utente è ripetuto oppure no
+         passo tutti  i fruitori e configuratori con mappa utente stringa (stringa è nomeutente)
+         Avrà un metodo che riempie la mappa prendendo eleco frutiori e configuratori con un metodo che contrlla il nume utente (boolean)
+
+      */
