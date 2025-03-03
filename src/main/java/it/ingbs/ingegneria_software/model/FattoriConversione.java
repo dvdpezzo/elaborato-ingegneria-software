@@ -5,8 +5,6 @@ import it.ingbs.ingegneria_software.model.gerarchie.Gerarchia;
 
 public class FattoriConversione {
     
-    private Gerarchia gerarchia1;
-    private Gerarchia gerarchia2;
     private Categoria cat1;
     private Categoria cat2;
     private double valore;

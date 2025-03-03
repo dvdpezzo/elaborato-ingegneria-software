@@ -141,11 +141,17 @@ public class GestoreFattori {
                
 
                 // Crea le categorie 
-                Categoria c1 = trovaCategoria(categoria1);
-                Categoria c2 = trovaCategoria(categoria2);
-                // Aggiungi il fattore di conversione alla mappa
-                FattoriConversione fattore = new FattoriConversione(valore, c2, c1);
-                mappaFattori.put(categoria1 + "->" + categoria2, fattore);
+                Categoria c1;
+                Categoria c2;
+                try {
+                    c1= getCategoria(categoria1);
+                    c2 = getCategoria(categoria2);
+                    FattoriConversione fattore = new FattoriConversione(valore, c2, c1);
+                    mappaFattori.put(categoria1 + "->" + categoria2, fattore);
+                    
+                } catch (CategoriaNotFoundException e) {
+                   e.printStackTrace();
+                }
                  }
              }
            }
@@ -161,7 +167,7 @@ public class GestoreFattori {
                try (FileWriter writer = new FileWriter(NOME_FILE)) {
             // Itera sulla mappa dei fattori di conversione e scrive ogni coppia su una riga
             for (FattoriConversione fattore : mappaFattori.values()) {
-                // Scrive la riga con le categorie e il valore del fattore
+            // Scrive la riga con le categorie e il valore del fattore
                 writer.append(fattore.getCat1().getNome() + " -> " +
                               fattore.getCat2().getNome() + ": " +
                               fattore.getValore() + "\n");
@@ -223,15 +229,18 @@ public class GestoreFattori {
         
         return gerarchiaRicercata.getCategoria(nomeCategoria);
     }
+
+
+    private Categoria getCategoria(String nomeCategoria) throws CategoriaNotFoundException {
+        for (Gerarchia gerarchia : gestoreGerarchie.getRadici().values()) {
+            Categoria categoria = gerarchia.getCategoria(nomeCategoria);
+            if (categoria != null) {
+                return categoria;
+            }
+        }
+        throw new CategoriaNotFoundException();
+    }
 }
 
-/*
 
-PER IL METODO NUOVO FATTORE: 
-Devo permettere al controllore di inserire il fattore di conversione
-         PROBLEMA: come conosce le varie categorie? 
-         SOLUZIONE: a) visualizzo le gerarchie ad ogni creazione, in questo modo posso vederle in tempo-reale e scrivere
-                    b) le visualizzo una sola volta all'inizio del menu, in questo modo divido la creazione della visualizzazione
-        
-         PROBLEMA: serve un metodo che trovi una categoira e la ritorni controllando che sia foglia (uso hasFiglio)
-                    */
+

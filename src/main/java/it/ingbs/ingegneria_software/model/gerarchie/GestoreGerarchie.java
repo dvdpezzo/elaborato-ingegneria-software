@@ -1,6 +1,7 @@
 package it.ingbs.ingegneria_software.model.gerarchie;
 
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import it.ingbs.ingegneria_software.Eccezioni.CategoriaNotFoundException;
@@ -44,6 +45,7 @@ public class GestoreGerarchie {
     private static final String VUOI_AGGIUNGERE_ALTRE_CATEGORIE = "vuoi aggiungere altre categorie? ";
     private static final String VUOI_AGGIUNGERE_ALTRI_CAMPI = "vuoi aggiungere altri Campi? ";
     private static final String VUOI_ELIMINARE_ALTRI_CAMPI = "vuoi eliminare altri campi? ";
+    
 
     private final HashMap<String, Gerarchia> radici;
     
@@ -110,6 +112,7 @@ public class GestoreGerarchie {
                 scelta = menuLavoro.scegli();
                 switch (scelta) {
                     case 1: addCategoria(radici.get(nomeGer.toUpperCase()));
+                            
                     break;
                     case 2: rimuoviCategoria(radici.get(nomeGer.toUpperCase()));
                     break;
@@ -245,4 +248,7 @@ public class GestoreGerarchie {
         GestoreFileGerarchie.salvaAlbero(radici.values());
     }
     
+    public HashMap<String, Gerarchia> getRadici() {
+        return radici;
+    }
 }
