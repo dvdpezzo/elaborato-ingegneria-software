@@ -1,3 +1,5 @@
+</MATEMATICA>, <lezioni di matematica>, <#!Stato di Conservazione #Descrizione Libera>
+<TEORIA>, <lezioni di teoria>, <MATEMATICA/MATEMATICA>, <#>
 </MUSICA>, <lezioni di musica>, <#!Stato di Conservazione #Descrizione Libera>
 <CHITARRA>, <lezioni di chitarra>, <MUSICA/MUSICA>, <#!Principianti #!Intermedi #!Esperti>
 <CHITARRA PRINCIPIANTI>, <lezioni di chitarra per principianti>, <MUSICA/CHITARRA>, <#>

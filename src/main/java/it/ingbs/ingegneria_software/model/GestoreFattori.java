@@ -11,20 +11,19 @@ import it.ingbs.ingegneria_software.Eccezioni.CategoriaNotFoundException;
 import it.ingbs.ingegneria_software.model.gerarchie.Categoria;
 import it.ingbs.ingegneria_software.model.gerarchie.Gerarchia;
 import it.ingbs.ingegneria_software.model.gerarchie.GestoreGerarchie;
-import it.ingbs.ingegneria_software.model.gerarchie.MenuGerarchie;
 import it.ingbs.ingegneria_software.utilita_generale.InputDati;
 import it.ingbs.ingegneria_software.utilita_generale.MenuUtil;
 
 
 public class GestoreFattori {
     
+    private static final String INSERISCI_IL_NOME_DELLA_GERARCHIA = "Inserisci il nome della Gerarchia:";
     private static final String ERRORE_CATEGORIA ="Le categorie che hai inserito non sono categorie foglia!";
-    private static final String CATEGORIA_PARTENZA="Inserisci il nome della categoria di partenza:";
-    private static final String CATEGORIA_DESTINAZIONE="Inserisci il nome della categoria di destinazione:";
+    private static final String CATEGORIA_RICERCATA ="Inserisci il nome della categoria ricercata:";
 
     private final HashMap<String,FattoriConversione> mappaFattori = new HashMap<>();
-
-    File nomeFile = new File("src\\Data File\\elencoFattoriConversione.txt");
+    private final GestoreGerarchie gestoreGerarchie = new GestoreGerarchie();
+    private final File nomeFile = new File("src\\Data File\\elencoFattoriConversione.txt");
 
 
     /**
@@ -91,32 +90,31 @@ public class GestoreFattori {
      */
     public void nuovoFattore(){
     
-        Categoria cat1 = trovaCategoria();
-
-        String str4 = InputDati.leggiStringaNonVuota("Inserisci il nome della Gerarchia2:");
-        Gerarchia ger2 = GestoreGerarchie.getGerarchia(str4);
-        String str2 = InputDati.leggiStringaNonVuota(CATEGORIA_DESTINAZIONE);
-        Categoria cat2= ger2.getCategoria(str2);
-        
-        double valore = InputDati.leggiDoubleLimitato("Inserisci il valore di conversione:", 0.5, 2);
-        assegnaFattoreConversione(cat1, cat2, valore);
+        try {
+            Categoria cat1 = trovaCategoria();
+            Categoria cat2 = trovaCategoria();
+            
+            double valore = InputDati.leggiDoubleLimitato("Inserisci il valore di conversione:", 0.5, 2);
+            assegnaFattoreConversione(cat1, cat2, valore);
+        } catch (CategoriaNotFoundException ex) {
+            System.out.println("Categoria non trovata");
+        }
     }
 
     /**
      * Chiede al configuratore quale fattore di convesione derivato vuole calcolare 
      */
     public void nuovoFattoreDerivato(){
-        visualizzaFattori();
-        String str1 = InputDati.leggiStringaNonVuota(CATEGORIA_PARTENZA);
-        Categoria cat1 = null; //metodo che ritorna la categoria
-        
-        String str2 =InputDati.leggiStringaNonVuota("Inserisci il nome della seconda categoria:");
-        Categoria cat2= null;
-
-        String str3 = InputDati.leggiStringaNonVuota(CATEGORIA_DESTINAZIONE);
-        
-        Categoria cat3 = null; 
-        fattoreDerivato(cat1, cat2, cat3);
+        try {
+            visualizzaFattori();
+            
+            Categoria cat1 = trovaCategoria();
+            Categoria cat2= trovaCategoria();            
+            Categoria cat3 = trovaCategoria();
+            fattoreDerivato(cat1, cat2, cat3);
+        } catch (CategoriaNotFoundException ex) {
+            System.out.println("Categoria non trovata");
+        }
     }
 
 
@@ -192,7 +190,7 @@ public class GestoreFattori {
            scelta=menuFattori.scegli();
            switch(scelta){
             case 1:
-                MenuGerarchie.stampaGerarchie();
+                gestoreGerarchie.stampaGerarchie();
             break;
             case 2:
               nuovoFattore();
@@ -213,17 +211,12 @@ public class GestoreFattori {
     }
 
     private Categoria trovaCategoria () throws CategoriaNotFoundException {
-        String str0 = InputDati.leggiStringaNonVuota("Inserisci il nome della Gerarchia1:");
-        Gerarchia ger1 = GestoreGerarchie.getGerarchia(str0);
-        String str1 = InputDati.leggiStringaNonVuota(CATEGORIA_PARTENZA);
-        Categoria cat1 = ger1.getCategoria(str1);
-        return cat1;
+        String str0 = InputDati.leggiStringaNonVuota(INSERISCI_IL_NOME_DELLA_GERARCHIA);
+        Gerarchia ger1 = gestoreGerarchie.getGerarchia(str0);
+        String str1 = InputDati.leggiStringaNonVuota(CATEGORIA_RICERCATA);
+        return ger1.getCategoria(str1);
     }
 }
-
-
-
-
 
 /*
 

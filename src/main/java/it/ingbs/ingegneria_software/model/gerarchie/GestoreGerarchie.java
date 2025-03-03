@@ -7,13 +7,14 @@ import it.ingbs.ingegneria_software.Eccezioni.CategoriaNotFoundException;
 import it.ingbs.ingegneria_software.Eccezioni.CategoriaOmonimaException;
 import it.ingbs.ingegneria_software.Eccezioni.IllegalCampoException;
 import it.ingbs.ingegneria_software.Eccezioni.PadreNotFoundException;
+import it.ingbs.ingegneria_software.gestione_file.GestoreFileGerarchie;
 import it.ingbs.ingegneria_software.utilita_generale.InputDati;
 import it.ingbs.ingegneria_software.utilita_generale.MenuUtil;
 
 public class GestoreGerarchie {
 
     private static final String ERRORE_RADICE_OMONIMA = "ERRORE: si sta tentanto di aggiungere una radice omonima";
-    private final static String[] VOCI_LAVORO = {"aggiungi categoria", "rimuovi categoria", "sposta categoria", "aggiungi campi a Categoria", "rimuovi campi a Categoria", "visualizza Gerarchia"};
+    private static final  String[] VOCI_LAVORO = {"aggiungi categoria", "rimuovi categoria", "sposta categoria", "aggiungi campi a Categoria", "rimuovi campi a Categoria", "visualizza Gerarchia"};
     private static final String NOME_DELLA_RADICE = "Nome della radice: ";
     private static final String DESCRIZIONE_DELLA_RADICE = "Descrizione della radice: ";
     private static final String VUOI_AGGIUNGERE_ALTRE_GERARCHIE = "vuoi aggiungere altre Gerarchie? ";
@@ -44,12 +45,20 @@ public class GestoreGerarchie {
     private static final String VUOI_AGGIUNGERE_ALTRI_CAMPI = "vuoi aggiungere altri Campi? ";
     private static final String VUOI_ELIMINARE_ALTRI_CAMPI = "vuoi eliminare altri campi? ";
 
+    private final HashMap<String, Gerarchia> radici;
+    
+
+    public GestoreGerarchie() {
+        this.radici = GestoreFileGerarchie.recuperaAlbero();
+    }
+        
+
     /**
      * Aggiunge le gerarchie al programma
      *
      * @param radici HashMap di tutte le radici presenti. HashMap fatta da copie nome della gerarchia-gerarchia
      */
-    protected static void aggiungiGerarchia(HashMap<String, Gerarchia> radici) {
+    protected void aggiungiGerarchia() {
         Gerarchia daAgg;
         String nome;
         String desc;
@@ -69,7 +78,7 @@ public class GestoreGerarchie {
         } while (InputDati.yesOrNo(VUOI_AGGIUNGERE_ALTRE_GERARCHIE));
     }
 
-    protected static void rimuoviGerarchia(HashMap<String, Gerarchia> radici) {
+    protected void rimuoviGerarchia() {
         String daRimuovere;
         do {
             System.out.println(radici.keySet());
@@ -88,7 +97,7 @@ public class GestoreGerarchie {
      * @param radici HashMap contenente tutte le radici
      */
 
-    public static void modificaGerarchia(HashMap<String, Gerarchia> radici) {
+    public void modificaGerarchia() {
         String nomeGer;
         MenuUtil menuLavoro = new MenuUtil(TITOLO_MENU_MODIFICA_GERARCHIA, VOCI_LAVORO);
         int scelta;
@@ -98,7 +107,8 @@ public class GestoreGerarchie {
 
         if (radici.containsKey(nomeGer.toUpperCase())) {
             do {
-                switch (scelta = menuLavoro.scegli()) {
+                scelta = menuLavoro.scegli();
+                switch (scelta) {
                     case 1: addCategoria(radici.get(nomeGer.toUpperCase()));
                     break;
                     case 2: rimuoviCategoria(radici.get(nomeGer.toUpperCase()));
@@ -118,7 +128,7 @@ public class GestoreGerarchie {
         } else System.out.println(ERRORE_MODIFICA_GERARCHIA_INESISTENTE);
     }
 
-    private static void addCategoria(Gerarchia radice) {
+    private void addCategoria(Gerarchia radice) {
         do {
             System.out.println(radice.toString());
             String nome, desc;
@@ -135,7 +145,7 @@ public class GestoreGerarchie {
         } while (InputDati.yesOrNo(VUOI_AGGIUNGERE_ALTRE_CATEGORIE));
     }
 
-    private static void rimuoviCategoria(Gerarchia radice) {
+    private void rimuoviCategoria(Gerarchia radice) {
         System.out.println(radice.toString());
         String nome = InputDati.leggiStringaNonVuota(CATEGORIA_DA_ELIMINARE);
         try {
@@ -150,7 +160,7 @@ public class GestoreGerarchie {
      * Sposta una categoria da un nodo a un altro, cambiando il riferimento al suo padre
      * @param radice gerarchia contente la categoria che si vuole spostare
      */
-    private static void spostaCategoria(Gerarchia radice) {
+    private void spostaCategoria(Gerarchia radice) {
         System.out.println(radice.toString());
         String nome, padre;
         nome = InputDati.leggiStringaNonVuota(QUALE_CATEGORIA_VUOI_SPOSTARE);
@@ -163,7 +173,7 @@ public class GestoreGerarchie {
         }
     }
 
-    private static void aggiungiCampi(Gerarchia radice) {
+    private void aggiungiCampi(Gerarchia radice) {
         String nomeCat, nomeCampo;
         boolean obb;
         System.out.println(radice.toString());
@@ -181,7 +191,7 @@ public class GestoreGerarchie {
 
     }
 
-    private static void rimuoviCampi(Gerarchia radice) {
+    private void rimuoviCampi(Gerarchia radice) {
         String nomeCat, nomeCampo;
         System.out.println(radice.toString());
         int scelta = InputDati.leggiIntero(SCELTA_ELIMINAZ_CAMPI, 1, 2);
@@ -206,6 +216,33 @@ public class GestoreGerarchie {
             System.out.println(e.getMessage());
         }
 
+    }
+
+    public Gerarchia getGerarchia(String nomeGerarchia) {
+        return radici.get(nomeGerarchia.toUpperCase());
+    }
+
+    public void stampaGerarchie() {
+        for (Gerarchia gerarchia : radici.values()) {
+            stampaGerarchia(gerarchia.getCategoriaRadice(), 0);
+        }
+    }
+
+    private void stampaGerarchia(Categoria categoria, int livello) {
+        // Stampa l'indentazione in base al livello
+        for (int i = 0; i < livello; i++) {
+            System.out.print("  ");
+        }
+        // Stampa il nome della categoria
+        System.out.println(categoria.getNome());
+        // Stampa le sottocategorie ricorsivamente
+        for (Categoria sottocategoria : categoria.getFigli()) {
+            stampaGerarchia(sottocategoria, livello + 1);
+        }
+    }
+
+    public void salvaGerarchie() {
+        GestoreFileGerarchie.salvaAlbero(radici.values());
     }
     
 }

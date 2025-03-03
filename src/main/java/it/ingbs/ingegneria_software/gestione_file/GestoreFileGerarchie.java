@@ -19,24 +19,23 @@ import it.ingbs.ingegneria_software.model.gerarchie.Gerarchia;
 public class GestoreFileGerarchie {
 
     private static final HashMap<String, Gerarchia> albero = new HashMap<>();
+    private static final File FILE_SALVATAGGIO = new File("src\\Data_File\\elencoGerarchie.txt");
 
     /**
      * Recupera gli alberi di tutte le gerarchie da un file
      *
-     * @param fileAlbero file di testo contenente le gerarchie
      * @return l'albero sotto-forma di HashMap, nel quale ogni elemento è rappresentato dalla coppia
      * nome della categoria-categoria
      *
-     * @throws FileNotFoundException quando non trova il file di caricamento
-     * @throws IOException quando si verifica un errore di lettura del file
+     * 
      */
-    public static HashMap<String, Gerarchia> recuperaAlbero(File fileAlbero) throws Exception {
+    public static HashMap<String, Gerarchia> recuperaAlbero() {
 
-        try (FileReader f = new FileReader(fileAlbero)) {
+        try (FileReader f = new FileReader(FILE_SALVATAGGIO)) {
             BufferedReader fileSalvato = new BufferedReader(f);
             String line;
             while ((line = fileSalvato.readLine()) != null)
-                caricaCategoria(line);
+                caricaCategoria(line);                
 
         } catch (FileNotFoundException e) {
             System.out.println("File non trovato!");
@@ -50,9 +49,9 @@ public class GestoreFileGerarchie {
      * Metodo di supporto al metodo recuperaAlbero, permette di caricare la singola categoria
      *
      * @param line numero della linea del file dell'albero
-     * @throws Exception quando non è stato possibile recuperare l'albero o c'è un errore di lettura
+     * 
      */
-    private static void caricaCategoria(String line) throws Exception {
+    private static void caricaCategoria(String line) {
 
         line = line.substring(1, line.length() - 1);
         ArrayList<String> elementi = new ArrayList<>((Arrays.stream(line.split(">, <")))
@@ -77,8 +76,7 @@ public class GestoreFileGerarchie {
             }
 
         } catch (Exception e) {
-            e.printStackTrace();
-            throw new Exception("Non è stato possibile recuperare l'albero. " +
+            System.out.println("Non è stato possibile recuperare l'albero. " +
                     "Errore di lettura: la sintassi del file potrebbe non essere corretta");
         }
 
@@ -96,10 +94,10 @@ public class GestoreFileGerarchie {
      * Salva gli alberi di tutte gerarchie su file
      *
      * @param albero collezione di tutte le gerarchie presenti
-     * @param file file sul quale vengono salvati tutti gli alberi
+     * 
      */
-    public static void salvaAlbero(Collection<Gerarchia> albero, File file) {
-        try (FileWriter out = new FileWriter(file)) {
+    public static void salvaAlbero(Collection<Gerarchia> albero) {
+        try (FileWriter out = new FileWriter(FILE_SALVATAGGIO)) {
             for (Gerarchia gerarchia : albero) {
                 Categoria radice = gerarchia.getCategoriaRadice();
                 out.append(scriviRadice(radice)).append("\n");

@@ -1,12 +1,8 @@
 package it.ingbs.ingegneria_software.controller;
 
-import java.io.File;
-import java.util.HashMap;
-
-import it.ingbs.ingegneria_software.gestione_file.GestoreFileGerarchie;
 import it.ingbs.ingegneria_software.model.Configuratore;
 import it.ingbs.ingegneria_software.model.GestoreComprensorio;
-import it.ingbs.ingegneria_software.model.gerarchie.Gerarchia;
+import it.ingbs.ingegneria_software.model.GestoreFattori;
 import it.ingbs.ingegneria_software.model.gerarchie.MenuGerarchie;
 import it.ingbs.ingegneria_software.utilita_generale.MenuUtil;
 
@@ -22,9 +18,9 @@ public class GestoreMenu {
     private final MenuUtil menuBackEnd = new MenuUtil("MENU BACK-END:", vociMenuBackEnd);
 
     private final GestoreComprensorio gestoreComprensorio = new GestoreComprensorio(); 
-    // private GestoreFattoriConversione gestoreFattori = new GestoreFattoriConversione();
+    private final GestoreFattori gestoreFattori = new GestoreFattori();
 
-    private final File nomefile = new File("src\\Data_File\\elencoGerarchie.txt");
+
 
 
     /*
@@ -40,8 +36,7 @@ public class GestoreMenu {
                 break;
 
                 case 2:
-                HashMap<String, Gerarchia> radici = GestoreFileGerarchie.recuperaAlbero(nomefile);
-                MenuGerarchie menuGerarchie = new MenuGerarchie(radici, nomefile);
+                MenuGerarchie menuGerarchie = new MenuGerarchie();
                 menuGerarchie.run();
                 break;
 
@@ -50,7 +45,7 @@ public class GestoreMenu {
                 break;
 
                 case 4:
-               // gestoreFattori.modificaFattori();
+                gestoreFattori.modificaFattori();
                 break;
             }
         }while(scelta!=0);
