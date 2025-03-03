@@ -113,7 +113,7 @@ public class Gerarchia {
         if (sottoCategorie.containsKey(nomeCategoria.toUpperCase()))
             return sottoCategorie.get(nomeCategoria.toUpperCase());
         else
-            throw new CategoriaNotFoundException();
+            return null;
     }
 
     public Categoria getCategoriaRadice() {
