@@ -23,7 +23,7 @@ public class GestoreFattori {
 
     private final HashMap<String,FattoriConversione> mappaFattori = new HashMap<>();
     private final GestoreGerarchie gestoreGerarchie = new GestoreGerarchie();
-    private final File nomeFile = new File("src\\Data File\\elencoFattoriConversione.txt");
+    private static final File NOME_FILE = new File("src\\Data_File\\elencoFattoriConversione.txt");
 
 
     /**
@@ -93,6 +93,7 @@ public class GestoreFattori {
         try {
             Categoria cat1, cat2;
             do { 
+                
                 cat1 = trovaCategoria();
                 cat2 = trovaCategoria();
             } while (cat1.hasFiglio(cat1) && cat2.hasFiglio(cat2));
@@ -123,12 +124,12 @@ public class GestoreFattori {
 
     /**
      * legge da file i fattori e li aggiunge alla mappa dei fattori 
-     * @param nomeFile nome del file dove vengono salvati i fattori di conversione
+     * @param NOME_FILE nome del file dove vengono salvati i fattori di conversione
      * @throws IOException
      */
 
-    public void leggiFileFattori(String nomeFile) throws IOException {
-    try (BufferedReader reader = new BufferedReader(new FileReader(nomeFile))) {
+    public void leggiFileFattori() throws IOException {
+    try (BufferedReader reader = new BufferedReader(new FileReader(NOME_FILE))) {
         String line;
         while ((line = reader.readLine()) != null) {
             // Processa ogni riga del file 
@@ -137,12 +138,11 @@ public class GestoreFattori {
                 String categoria1 = parts[0].trim();
                 String categoria2 = parts[1].trim();
                 double valore = Double.parseDouble(parts[2].trim());
-                String descrizione1 = parts[3].trim();
-                String descrizione2 = parts[4].trim();
+               
 
                 // Crea le categorie 
-                Categoria c1 = new Categoria(categoria1,descrizione1); 
-                Categoria c2 = new Categoria(categoria2,descrizione2);
+                Categoria c1 = trovaCategoria(categoria1);
+                Categoria c2 = trovaCategoria(categoria2);
                 // Aggiungi il fattore di conversione alla mappa
                 FattoriConversione fattore = new FattoriConversione(valore, c2, c1);
                 mappaFattori.put(categoria1 + "->" + categoria2, fattore);
@@ -157,8 +157,8 @@ public class GestoreFattori {
        * @param nomeFile2 nome del file sul quale vengono salvati i fattori 
               * @throws IOException
               */
-             public void salvaFattori(File nomeFile2) throws IOException {
-               try (FileWriter writer = new FileWriter(nomeFile2)) {
+             public void salvaFattori() throws IOException {
+               try (FileWriter writer = new FileWriter(NOME_FILE)) {
             // Itera sulla mappa dei fattori di conversione e scrive ogni coppia su una riga
             for (FattoriConversione fattore : mappaFattori.values()) {
                 // Scrive la riga con le categorie e il valore del fattore
@@ -175,7 +175,7 @@ public class GestoreFattori {
      */
     private void visualizzaFattori(){
         for (String stringa : mappaFattori.keySet() ) {
-            System.out.println(stringa);
+            System.out.println(stringa + " : " + mappaFattori.get(stringa).getValore());
         }
      }
 
@@ -191,6 +191,7 @@ public class GestoreFattori {
         int scelta;
         do{
            scelta=menuFattori.scegli();
+           leggiFileFattori();
            switch(scelta){
             case 1:
                 gestoreGerarchie.stampaGerarchie();
@@ -203,7 +204,7 @@ public class GestoreFattori {
             break;
 
             case 4:
-             salvaFattori(nomeFile);
+             salvaFattori();
              break;
 
             case 5: 

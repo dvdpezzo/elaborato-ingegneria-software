@@ -5,6 +5,9 @@
 <CHITARRA PRINCIPIANTI>, <lezioni di chitarra per principianti>, <MUSICA/CHITARRA>, <#>
 <PIANOFORTE>, <lezioni di piano>, <MUSICA/MUSICA>, <#!base>
 <PIANOFORTE ESPERTI>, <lezioni di pianoforte per esperti>, <MUSICA/PIANOFORTE>, <#>
+</FISICA>, <lezioni di fisica>, <#!Stato di Conservazione #Descrizione Libera>
+<ESERCIZI>, <es>, <FISICA/FISICA>, <#>
+<TERMODINAMICA>, <es>, <FISICA/FISICA>, >
 </ARTE>, <lezioni di arte>, <#!Stato di Conservazione #Descrizione Libera>
 <PRATICA>, <lezione di pratica>, <ARTE/ARTE>, <#!Scultura #Descrizione Libera>
 <PRATICA SCULTURA>, <lezione di pratica di scultura>, <ARTE/PRATICA>, <#!Principianti #!Intermedi #!Esperti>
