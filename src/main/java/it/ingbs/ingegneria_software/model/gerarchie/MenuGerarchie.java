@@ -4,6 +4,7 @@ import it.ingbs.ingegneria_software.utilita_generale.MenuUtil;
 
 public class MenuGerarchie implements Runnable {
 
+private static final String TITOLO_MENU = "Gestione delle gerarchie";
 private static final String[] VOCI_PRINCIPALI = {
             "salva gerarchie",
             "aggiungi gerarchia",
@@ -13,17 +14,13 @@ private static final String[] VOCI_PRINCIPALI = {
     };
 
     private final MenuUtil menuPrincipale;
-
     private final GestoreGerarchie gestoreGerarchie;
 
     /**
-     * Costruttore del GestoreGersrchie
-     *
-     * @param radici HshMap contenente tutte le gerarchie
-     * @param salvataggio file di salvataggio delle gerarchie
+     * Costruttore Menu Gerarchie
      */
     public MenuGerarchie() {
-        this.menuPrincipale = new MenuUtil("Gestione delle gerarchie", VOCI_PRINCIPALI);
+        this.menuPrincipale = new MenuUtil(TITOLO_MENU, VOCI_PRINCIPALI);
         this.gestoreGerarchie = new GestoreGerarchie();        
     }
 

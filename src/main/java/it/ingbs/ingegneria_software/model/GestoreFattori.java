@@ -35,7 +35,7 @@ public class GestoreFattori {
      * @param valore indica il valore di conversione tra la prima e la seconda categoria 
      */
     private void assegnaFattoreConversione(Categoria cat1, Categoria cat2, double valore){
-        if(cat1.hasFiglio(cat1) && cat2.hasFiglio(cat2)){
+        if(!(cat1.hasFiglio(cat1) && cat2.hasFiglio(cat2))){
 
             String chiave = cat1.getNome()+"->"+cat2.getNome();
             FattoriConversione fattore = new FattoriConversione(valore, cat1, cat2);
@@ -91,8 +91,11 @@ public class GestoreFattori {
     public void nuovoFattore(){
     
         try {
-            Categoria cat1 = trovaCategoria();
-            Categoria cat2 = trovaCategoria();
+            Categoria cat1, cat2;
+            do { 
+                cat1 = trovaCategoria();
+                cat2 = trovaCategoria();
+            } while (cat1.hasFiglio(cat1) && cat2.hasFiglio(cat2));
             
             double valore = InputDati.leggiDoubleLimitato("Inserisci il valore di conversione:", 0.5, 2);
             assegnaFattoreConversione(cat1, cat2, valore);
@@ -210,11 +213,14 @@ public class GestoreFattori {
         }while(scelta!=0);
     }
 
+    //aggiungere controllo per gerarchie e categorie inesistenti
     private Categoria trovaCategoria () throws CategoriaNotFoundException {
-        String str0 = InputDati.leggiStringaNonVuota(INSERISCI_IL_NOME_DELLA_GERARCHIA);
-        Gerarchia ger1 = gestoreGerarchie.getGerarchia(str0);
-        String str1 = InputDati.leggiStringaNonVuota(CATEGORIA_RICERCATA);
-        return ger1.getCategoria(str1);
+        
+        String nomeGerarchia = InputDati.leggiStringaNonVuota(INSERISCI_IL_NOME_DELLA_GERARCHIA);
+        Gerarchia gerarchiaRicercata = gestoreGerarchie.getGerarchia(nomeGerarchia);
+        String nomeCategoria = InputDati.leggiStringaNonVuota(CATEGORIA_RICERCATA);
+        
+        return gerarchiaRicercata.getCategoria(nomeCategoria);
     }
 }
 
