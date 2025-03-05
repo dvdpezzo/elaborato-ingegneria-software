@@ -1,0 +1,107 @@
+@startuml
+
+!define ENTITY
+!define CLASS
+!define INTERFACE
+
+package it.ingbs.ingegneria_software.model {
+    class Main {
+        +main(String[] args)
+    }
+    class Configuratore
+    class Utente
+}
+
+package it.ingbs.ingegneria_software.controller {
+    class GestoreMenu {
+        +backEnd(Configuratore configuratore)
+        +frontEnd(Utente utente)
+    }
+}
+
+package it.ingbs.ingegneria_software.gestione_accesso {
+    class MenuAccesso {
+        +loginConfiguratore(): Utente
+    }
+    class GestoreAccesso {
+        +accessoConfiguratore(String nomeUtente, String passwordUtente): Configuratore
+    }
+}
+
+package it.ingbs.ingegneria_software.gestione_file {
+    class GestoreFileCredenziali {
+        +salvaSuFile(File file)
+        +leggiFile(File file): HashMap<String, String>
+    }
+    class GestoreFileComprensori {
+        +salvaSuFile(File file)
+        +leggiFile(File file): HashMap<Integer, ComprensorioGeografico>
+    }
+    class GestoreFileGerarchie {
+        +recuperaAlbero(): HashMap<String, Gerarchia>
+        +salvaAlbero(Collection<Gerarchia> albero)
+    }
+}
+
+package it.ingbs.ingegneria_software.model.comprensori {
+    class ComprensorioGeografico {
+        +getListaComuni(): String
+    }
+}
+
+package it.ingbs.ingegneria_software.model.gerarchie {
+    class Categoria {
+        +getNome(): String
+        +getDescrizione(): String
+        +getFigli(): List<Categoria>
+        +addCampoNativo(String campo, boolean obbligatorio)
+        +eliminaCampiNativi()
+        +eliminaCampoNativo(String campo)
+    }
+    class Gerarchia {
+        +getCategoriaRadice(): Categoria
+        +addSottocategoria(String nome, String descrizione, String padre)
+        +rimuoviCategoria(String nome)
+        +spostaCategoria(String nome, String padre)
+        +getCategoria(String nome): Categoria
+    }
+    class GestoreGerarchie {
+        +aggiungiGerarchia()
+        +rimuoviGerarchia()
+        +modificaGerarchia()
+        +getGerarchia(String nomeGerarchia): Gerarchia
+        +stampaGerarchie()
+        +salvaGerarchie()
+    }
+}
+
+Main --> GestoreMenu
+Main --> MenuAccesso
+Main --> Configuratore
+Main --> Utente
+
+GestoreMenu --> Configuratore
+GestoreMenu --> Utente
+
+MenuAccesso --> Utente
+
+GestoreAccesso --> Configuratore
+GestoreAccesso --> GestoreFileCredenziali
+GestoreAccesso --> GestoreFileComprensori
+GestoreAccesso --> GestoreFileGerarchie
+
+GestoreFileCredenziali --> File
+GestoreFileComprensori --> File
+GestoreFileGerarchie --> File
+
+GestoreFileComprensori --> ComprensorioGeografico
+
+GestoreFileGerarchie --> Gerarchia
+GestoreFileGerarchie --> Categoria
+
+Gerarchia --> Categoria
+
+GestoreGerarchie --> Gerarchia
+GestoreGerarchie --> Categoria
+
+@enduml
