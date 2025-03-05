@@ -1,42 +1,45 @@
 package it.ingbs.ingegneria_software.model;
 
+import it.ingbs.ingegneria_software.model.gerarchie.Categoria;
+import it.ingbs.ingegneria_software.model.gerarchie.Gerarchia;
+
 public class FattoriConversione {
     
-    private CategoriaFoglia categoria1;
-    private CategoriaFoglia categoria2;
+    private Categoria cat1;
+    private Categoria cat2;
     private double valore;
 
 
 
-    public FattoriConversione(double valore, CategoriaFoglia foglia1, CategoriaFoglia foglia2) {
+    public FattoriConversione(double valore, Categoria foglia1, Categoria foglia2) {
         this.valore = valore;
-        this.categoria1 = foglia1;
-        this.categoria2 = foglia2;
+        this.cat1 = foglia1;
+        this.cat2 = foglia2;
     }
 
-
-
-    public CategoriaFoglia getCategoria1() {
-        return categoria1;
+    
+    public Categoria getCat1() {
+        return cat1;
     }
 
-
-
-    public CategoriaFoglia getCategoria2() {
-        return categoria2;
+    public Categoria getCat2() {
+        return cat2;
     }
-
-
 
     public double getValore() {
         return valore;
     }
 
+
+
+
     
 
-    /*
-     * OSS: visto che il fattore di conversione lo inserisce il Configuratore metto la mappa nella classe configuratore
-     */
+
+    
+
+    
+     
 
 
 }

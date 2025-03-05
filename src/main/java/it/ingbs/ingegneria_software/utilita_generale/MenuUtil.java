@@ -11,6 +11,7 @@ public class MenuUtil
   private static final String CORNICE = "--------------------------------";
   private static final String VOCE_USCITA = "\n0\tEsci\n";
   private static final String RICHIESTA_INSERIMENTO = "Digita il numero dell'opzione desiderata > ";
+  
 
   private final String titolo;
   private final String [] voci;

@@ -5,6 +5,8 @@ import it.ingbs.ingegneria_software.utilita_generale.InputDati;
 
 public class MenuAccesso {
 
+    private static final String INSERISCI_PASSWORD = "Inserisci password: ";
+    private static final String INSERIRE_NOME_UTENTE = "Inserire nome utente: ";
     private MenuAccesso() {
         throw new IllegalStateException("Utility class");
       }
@@ -16,8 +18,8 @@ public class MenuAccesso {
         GestoreAccesso gestoreAccesso = new GestoreAccesso();
         Configuratore result;
         do {
-            String nomeUtente= InputDati.leggiStringaNonVuota("Inserire nome utente: ");
-            String passUtente= InputDati.leggiStringaNonVuota("Inserisci password: ");
+            String nomeUtente= InputDati.leggiStringaNonVuota(INSERIRE_NOME_UTENTE);
+            String passUtente= InputDati.leggiStringaNonVuota(INSERISCI_PASSWORD);
             result = gestoreAccesso.accessoConfiguratore(nomeUtente, passUtente);
         } while (result == null);
         return result;
