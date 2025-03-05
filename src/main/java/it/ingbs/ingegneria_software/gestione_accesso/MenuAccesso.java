@@ -1,6 +1,6 @@
 package it.ingbs.ingegneria_software.gestione_accesso;
 
-import it.ingbs.ingegneria_software.model.Configuratore;
+import it.ingbs.ingegneria_software.model.utenti.Configuratore;
 import it.ingbs.ingegneria_software.utilita_generale.InputDati;
 
 public class MenuAccesso {
@@ -11,6 +11,7 @@ public class MenuAccesso {
         throw new IllegalStateException("Utility class");
       }
     /**
+     * Metodo per effettuare il login come configuratore
      * chiede all'utente di inserire le credenziali per accedere al sistema
      * @return Configuratore valido se le credenziali sono corrette
      */

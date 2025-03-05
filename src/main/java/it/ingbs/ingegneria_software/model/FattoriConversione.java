@@ -1,7 +1,6 @@
 package it.ingbs.ingegneria_software.model;
 
 import it.ingbs.ingegneria_software.model.gerarchie.Categoria;
-import it.ingbs.ingegneria_software.model.gerarchie.Gerarchia;
 
 public class FattoriConversione {
     

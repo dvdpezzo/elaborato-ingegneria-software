@@ -1,4 +1,4 @@
-package it.ingbs.ingegneria_software.model;
+package it.ingbs.ingegneria_software.model.comprensori;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -11,19 +11,19 @@ public class ComprensorioGeografico {
 
     private static final String COMUNI = " Comuni = [";
     private static final String CODICE = "Codice = ";
-    private static final String COMUNE_GIÀ_PRESENTE_NEL_COMPRENSORIO_GEOGRAFICO = "Comune già presente nel comprensorio geografico.";
+    private static final String COMUNE_GIA_PRESENTE_NEL_COMPRENSORIO_GEOGRAFICO = "Comune già presente nel comprensorio geografico.";
     private static final String COMUNE_AGGIUNTO_CON_SUCCESSO_AL_COMPRENSORIO = "Comune %s aggiunto con successo al comprensorio %d";
-    private final int codice;
+    private final int codiceComprensorio ;
     private List<String> listaComuni = new ArrayList<>();
     private final Random random = new Random();
-    private GestoreComuni gestoreComuni = new GestoreComuni();
+    private final GestoreComuni gestoreComuni = new GestoreComuni();
     
     
     /**
      * Costruttore per quando creo nuovo (assegna codice random)
      */
     public ComprensorioGeografico(List<String> listaComuni){
-        this.codice=generaCodice();
+        this.codiceComprensorio=generaCodice();
         this.listaComuni=listaComuni;
     }
 
@@ -31,7 +31,7 @@ public class ComprensorioGeografico {
      * Costruttore per quando prendo da file
      */
     public ComprensorioGeografico(int codice, String listaComuni) {
-        this.codice = codice;
+        this.codiceComprensorio = codice;
         this.listaComuni = parseComuni(listaComuni);
     }
 
@@ -51,7 +51,7 @@ public class ComprensorioGeografico {
     }
 
     public int getCodice() {
-        return codice;
+        return codiceComprensorio;
     }
   
     /**
@@ -74,7 +74,7 @@ public class ComprensorioGeografico {
             gestoreComuni.visualizzaComuni();
             System.out.println(String.format(COMUNE_AGGIUNTO_CON_SUCCESSO_AL_COMPRENSORIO, nomeComune, getCodice()));
         } else {
-            System.out.println(COMUNE_GIÀ_PRESENTE_NEL_COMPRENSORIO_GEOGRAFICO);
+            System.out.println(COMUNE_GIA_PRESENTE_NEL_COMPRENSORIO_GEOGRAFICO);
         }
     }
     

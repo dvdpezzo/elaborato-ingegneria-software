@@ -191,7 +191,7 @@ public class GestoreFattori {
      * menu che permette di eseguire operazioni sui fattori di conversione
      */
     public void modificaFattori() throws IOException{
-        String [] voci = {"Visualizza gerarchie", "Aggiungi nuovo fattore di conversione","Aggiunigi fattore di conversione derivato","Salva fattori di conversione",
+        String [] voci = {"Visualizza gerarchie", "Aggiungi nuovo fattore di conversione","Aggiungi fattore di conversione derivato","Salva fattori di conversione",
         "Visualizza fattori di conversione"};
         MenuUtil menuFattori = new MenuUtil("AZIONI SUI FATTORI DI CONVERSIONE",voci);
         int scelta;

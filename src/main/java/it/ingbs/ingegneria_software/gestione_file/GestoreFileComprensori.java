@@ -8,45 +8,68 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.HashMap;
 
-import it.ingbs.ingegneria_software.model.ComprensorioGeografico;
+import it.ingbs.ingegneria_software.model.comprensori.ComprensorioGeografico;
 
+/**
+ * Classe che gestisce la lettura e scrittura dei comprensori geografici su file.
+ */
 public class GestoreFileComprensori implements GestoreFile {
 
-    private HashMap<Integer, ComprensorioGeografico> mappaComprensori; 
+    private static final String ERRORE_LETTURA_FILE = "Errore durante la lettura del file";
+    private static final String SPAZIO = " ";
 
+    private HashMap<Integer, ComprensorioGeografico> mappaComprensori;
+
+    /**
+     * Costruttore della classe GestoreFileComprensori.
+     *
+     * @param mappaComprensori la mappa dei comprensori geografici
+     */
     public GestoreFileComprensori(HashMap<Integer, ComprensorioGeografico> mappaComprensori) {
         this.mappaComprensori = mappaComprensori;
     }
+
+    /**
+     * Salva i comprensori geografici su file.
+     *
+     * @param file il file su cui salvare i comprensori
+     * @throws IOException se si verifica un errore durante la scrittura del file
+     */
     @Override
-    public void salvaSuFile(File nomeFile) throws IOException {
-       try {
-            BufferedWriter bw = new BufferedWriter(new FileWriter(nomeFile));
-            for (HashMap.Entry<Integer,ComprensorioGeografico> entry : mappaComprensori.entrySet()){
-                String comprensorio = entry.getKey()+ " "+ entry.getValue().getListaComuni();
+    public void salvaSuFile(File file) throws IOException {
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(file))) {
+            for (HashMap.Entry<Integer, ComprensorioGeografico> entry : mappaComprensori.entrySet()) {
+                String comprensorio = entry.getKey() + SPAZIO + entry.getValue().getListaComuni();
                 bw.write(comprensorio);
                 bw.newLine();
             }
-            bw.close();
         } catch (IOException ex) {
+            throw new IOException(ERRORE_LETTURA_FILE, ex);
         }
     }
 
+    /**
+     * Legge i comprensori geografici da un file.
+     *
+     * @param file il file da cui leggere i comprensori
+     * @return la mappa dei comprensori geografici letti dal file
+     * @throws IOException se si verifica un errore durante la lettura del file
+     */
     @Override
-    public HashMap<Integer, ComprensorioGeografico> leggiFile(File nomeFile) throws IOException {
-         try (BufferedReader br = new BufferedReader(new FileReader(nomeFile))) {
-            String line;
-            while ((line = br.readLine()) != null && !line.isEmpty()) {
-                String[] parts = line.split(" ");
-                int codice = Integer.parseInt(parts[0]);
-                String listaComuni = line.substring(parts[0].length() + 1); // Extract the list of comuni from the remaining part of the line
+    public HashMap<Integer, ComprensorioGeografico> leggiFile(File file) throws IOException {
+        try (BufferedReader br = new BufferedReader(new FileReader(file))) {
+            String linea;
+            while ((linea = br.readLine()) != null && !linea.isEmpty()) {
+                String[] parti = linea.split(SPAZIO);
+                int codice = Integer.parseInt(parti[0]);
+                String listaComuni = linea.substring(parti[0].length() + 1);
                 ComprensorioGeografico comprensorio = new ComprensorioGeografico(codice, listaComuni);
                 mappaComprensori.put(codice, comprensorio);
             }
         } catch (IOException e) {
-            // Log the exception or handle it in a meaningful way
-            System.out.println("Error reading file");
+            System.out.println(ERRORE_LETTURA_FILE);
+            throw e;
         }
         return mappaComprensori;
     }
-
 }
