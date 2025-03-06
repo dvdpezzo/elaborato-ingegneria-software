@@ -14,6 +14,12 @@ public class GestoreConfiguratori {
     public GestoreConfiguratori(GestoreFileCredenziali gestoreFileCredenziali) {
          this.mappaConfiguratori = setMappaConfiguratori(gestoreFileCredenziali.getMappaCredenziali());
     }
+
+    /**
+     * Converte la mappa nome utente e pass in una mappa nomeUtente e configuratore
+     * @param mappaCredenziali mappa string - string con nome utente e pass
+     * @return mappa contenente nomeUtente e configuratore 
+     */
     private Map<String, Configuratore> setMappaConfiguratori (Map<String, String> mappaCredenziali) {
         for (Map.Entry<String, String> entry : mappaCredenziali.entrySet()) {
             String nome = entry.getKey();
@@ -43,6 +49,7 @@ public class GestoreConfiguratori {
         mappaConfiguratori.put(newUtente.getNomeUtente(), newUtente);
         return newUtente;        
     }
+
 
 
 }

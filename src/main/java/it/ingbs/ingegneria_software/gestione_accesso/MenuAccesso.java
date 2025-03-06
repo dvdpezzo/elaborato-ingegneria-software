@@ -1,6 +1,6 @@
 package it.ingbs.ingegneria_software.gestione_accesso;
 
-import it.ingbs.ingegneria_software.model.ComprensorioGeografico;
+import it.ingbs.ingegneria_software.controller.GestoreMenu;
 import it.ingbs.ingegneria_software.model.Configuratore;
 import it.ingbs.ingegneria_software.model.Fruitore;
 import it.ingbs.ingegneria_software.model.GestoreComprensorio;
@@ -38,19 +38,27 @@ public class MenuAccesso {
     public static Fruitore loginFruitore(){
         GestoreAccesso gestoreAccesso = new GestoreAccesso();
         Fruitore result=null;
-        do{ String nomeUtente= InputDati.leggiStringaNonVuota(INSERIRE_NOME_UTENTE);
+        do{
+
+        String nomeUtente= InputDati.leggiStringaNonVuota(INSERIRE_NOME_UTENTE);
         String passUtente= InputDati.leggiStringaNonVuota(INSERISCI_PASSWORD);
         result = gestoreAccesso.accessoFruitore(nomeUtente, passUtente);
 
         }while(result==null);
+
         return result;
     }
 
 
 
-
-    public static void menuFruitore(){
+    /**
+     * menu per l'accesso del fruitore
+          * @throws Exception 
+          */
+     
+         public static void menuFruitore() throws Exception{
         GestoreComprensorio gc = new GestoreComprensorio();
+        GestoreMenu sistemaGenerale = new GestoreMenu();
         final String [] VOCI ={"ACCESSO UTENTE","REGISTRAZIONE UTENTE"};
         MenuUtil menu = new MenuUtil("Seleziona la modalità di accesso:", VOCI);
         boolean valore = true;
@@ -58,32 +66,27 @@ public class MenuAccesso {
             int opzione = menu.scegli();
             switch(opzione){
                 case 1:
-                loginFruitore();
+                Fruitore fruit = loginFruitore();
+                if(fruit instanceof Fruitore){
+                 sistemaGenerale.frontEnd((Fruitore) fruit);
+                }
                 valore=false;
                 break;
 
                 case 2:
-                //primo acccesso utente, con scelta del comprensorio e inserimento della mail
-                 gc.visualizzaComprensori();
-                 int code = InputDati.leggiIntero("Inserisci il codice del tuo comprensorio:");
-                 ComprensorioGeografico comprensorio =gc.getComprensorio(code);
-                 if(comprensorio==null) 
-                 {
-                    System.out.println("IL CODICE DEL COMPRENSORIO INSERITO E ERRATO!");
-                    break;
-                 }
-
-                 String email = InputDati.leggiStringaNonVuota("Inserisci la tua email:");
-                 String nomeUtente = InputDati.leggiStringaNonVuota("Inserisci il tuo nome utente:");
-                 //controllo sul nome utente ancora da inserire
-                 String pass = InputDati.leggiStringa("Inserisci la tua password:");
-                 new Fruitore(nomeUtente,pass,comprensorio,email);
-                 valore=false;
-                 break;
+                GestoreAccesso gestoreAccesso = new GestoreAccesso();
+                Fruitore result = gestoreAccesso.registrazioneNuovoFruitore();
+                if(result instanceof Fruitore){
+                    sistemaGenerale.frontEnd((Fruitore) result);
+                   }
+                valore=false;
+                break;
             }
         }while(valore);
 
 
     }
+
+
 
 }

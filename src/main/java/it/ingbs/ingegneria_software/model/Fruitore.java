@@ -24,7 +24,6 @@ public class Fruitore extends Utente{
     public ComprensorioGeografico getComprensorio() {
         return comprensorio;
     }
-
     
     /**
      * visualizza a video le informazioni di un utente

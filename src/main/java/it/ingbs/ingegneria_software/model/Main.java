@@ -2,6 +2,7 @@ package it.ingbs.ingegneria_software.model;
 
 import it.ingbs.ingegneria_software.controller.GestoreMenu;
 import it.ingbs.ingegneria_software.gestione_accesso.MenuAccesso;
+import it.ingbs.ingegneria_software.utilita_generale.MenuUtil;
 
 public class Main {
 	
@@ -11,22 +12,33 @@ public class Main {
 		//creazione istanza del sistema generale:
 		GestoreMenu sistemaGenerale = new GestoreMenu();
 
+	/**
+     * menu per l'accesso del fruitore o configuratore
+     */
+
+	 final String [] VOCI ={"ACCESSO CONFIGURATORE","ACCESSO FRUITORE"};
+	 MenuUtil menu = new MenuUtil("Seleziona la tua identità", VOCI);
+	 boolean valore = true; 
+	 do{
+		 int opzione = menu.scegli();
+		 switch(opzione){
+			 case 1: 
+			 Utente configuratore = MenuAccesso.loginConfiguratore();
+			 if(configuratore instanceof Configuratore){
+				sistemaGenerale.backEnd((Configuratore) configuratore);
+			 }
+			 break; 
+
+			 case 2: 
+			 MenuAccesso.menuFruitore();
+			 break; 
+		 }
+	 }while(valore);
 		
-		Utente configuratore = MenuAccesso.loginConfiguratore();
 
-		Utente fruitore = MenuAccesso.loginFruitore();
 
-		//da rivedere il modo in cui differenzia utente da configuratore, nella versione 2
-
-		if (configuratore instanceof Configuratore){
-			//se utente è di tipo Configuratore, richiama il menu back-end:
-            sistemaGenerale.backEnd((Configuratore) configuratore);
-		} else {
-			
-			sistemaGenerale.frontEnd((Fruitore) fruitore);
-		}
-		
-
-	}
-
+  
+    } 
 }
+
+

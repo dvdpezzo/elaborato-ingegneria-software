@@ -171,7 +171,7 @@ public class GestoreComprensorio {
                 case 2: aggiungiComprensorio();
                 break;
 
-           //   case 3: rimuoviComprensorio();
+              //  case 3: rimuoviComprensorio();
 
                 case 4: salvaMappaComprensoriSuFile();
                 break;

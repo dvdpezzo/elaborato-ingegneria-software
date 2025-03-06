@@ -8,17 +8,20 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.HashMap;
 
+
+
 /**
  * classe usata per la gestione del file di accesso dei configuratori e fruitori:
  * deve solo leggere i file e inserirli nella mappa, o viceversa leggere la mappa e inserirli nel file 
 */
 public class GestoreFileCredenziali implements GestoreFile{
     
-    private HashMap<String, String> mappaCredenziali; 
+    private HashMap<String, String> mappaCredenziali;  
 
     public GestoreFileCredenziali(HashMap<String, String> mappaCredenziali) {
         this.mappaCredenziali = mappaCredenziali;
     }
+   
 
     /**
      * Permette di aggiungere nuove credenziali dalla mappa al file
@@ -38,7 +41,7 @@ public class GestoreFileCredenziali implements GestoreFile{
      * nome utente e password
      * @throws IOException file delle credenziali non esiste
      */
-    public HashMap leggiFile(File nomeFile) throws IOException {
+    public HashMap<String,String> leggiFile(File nomeFile) throws IOException {
         try (BufferedReader br = new BufferedReader(new FileReader(nomeFile))) {
             String parola = br.readLine();
             do {
@@ -68,4 +71,7 @@ public class GestoreFileCredenziali implements GestoreFile{
         this.mappaCredenziali = mappaCredenziali;
     }
 
+    
+
+   
 }
