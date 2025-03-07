@@ -56,7 +56,7 @@ public class GestoreFileComuni implements GestoreFile {
                 String [] datiComune = parola.split(" ");
                 Integer num = Integer.parseInt(datiComune[0]);
                 String nome = datiComune[1];
-                mappaComuni.put(num,nome); 
+                mappaComuni.put(num,nome.toUpperCase()); 
                 parola = br.readLine();
             }while(parola!=null && !parola.equals("\n")&& !parola.equals(""));
         }

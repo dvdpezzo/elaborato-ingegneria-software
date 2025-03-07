@@ -6,29 +6,34 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
-
 public class ComprensorioGeografico {
 
     private static final String COMUNI = " Comuni = [";
     private static final String CODICE = "Codice = ";
     private static final String COMUNE_GIA_PRESENTE_NEL_COMPRENSORIO_GEOGRAFICO = "Comune già presente nel comprensorio geografico.";
     private static final String COMUNE_AGGIUNTO_CON_SUCCESSO_AL_COMPRENSORIO = "Comune %s aggiunto con successo al comprensorio %d";
-    private final int codiceComprensorio ;
+    private static final String ERRORE_COMUNE_NON_TROVATO = "Comune non trovato!";
+
+    private final int codiceComprensorio;
     private List<String> listaComuni = new ArrayList<>();
     private final Random random = new Random();
     private final GestoreComuni gestoreComuni = new GestoreComuni();
-    
-    
+
     /**
-     * Costruttore per quando creo nuovo (assegna codice random)
+     * Costruttore per creare un nuovo comprensorio con un codice randomico.
+     *
+     * @param listaComuni la lista dei comuni del comprensorio
      */
-    public ComprensorioGeografico(List<String> listaComuni){
-        this.codiceComprensorio=generaCodice();
-        this.listaComuni=listaComuni;
+    public ComprensorioGeografico(List<String> listaComuni) {
+        this.codiceComprensorio = generaCodice();
+        this.listaComuni = listaComuni;
     }
 
     /**
-     * Costruttore per quando prendo da file
+     * Costruttore per creare un comprensorio da file.
+     *
+     * @param codice il codice del comprensorio
+     * @param listaComuni la lista dei comuni del comprensorio in formato stringa
      */
     public ComprensorioGeografico(int codice, String listaComuni) {
         this.codiceComprensorio = codice;
@@ -36,48 +41,57 @@ public class ComprensorioGeografico {
     }
 
     /**
-     * Analizza una rappresentazione di stringa di un elenco di comuni in una List<String>.
+     * Analizza una stringa di un elenco di comuni in una List<String>.
      *
-     * <p>La stringa di input dovrebbe essere nel formato "[comune1, comune2, ..., comuneN]".
-     * La funzione rimuove le parentesi quadre e divide la stringa dove trova virgole per ottenere
-     * una serie di nomi di comuni. Quindi converte l'array in un List<String> e lo restituisce.
-     * 
-     * @param listaComuni una rappresentazione di stringa di un elenco di comuni.
-     * @return List<String> contenente i nomi dei comuni analizzati.
+     * @param listaComuni stringa di un elenco di comuni
+     * @return List<String> contenente i nomi dei comuni analizzati
      */
     private List<String> parseComuni(String listaComuni) {
         String[] comuniArray = listaComuni.substring(1, listaComuni.length() - 1).split(", ");
         return new ArrayList<>(Arrays.asList(comuniArray));
     }
 
+    /**
+     * Restituisce il codice del comprensorio.
+     *
+     * @return il codice del comprensorio
+     */
     public int getCodice() {
         return codiceComprensorio;
     }
-  
+
     /**
-     * genera codice randomico per Comprensorio
+     * Genera un codice randomico per il comprensorio.
+     *
      * @return codice generato tra 0 e 9999
      */
-    private int generaCodice(){        
+    private int generaCodice() {
         return random.nextInt(9999);
     }
 
     /**
-     * aggiunge comune alla listaComuni se non già presente, altrimenti comunica messaggio d'errore
-     * @throws IOException 
+     * Aggiunge un nuovo comune alla lista dei comuni se non già presente.
+     *
+     * @param nomeComuneDaAggiungere il nome del comune da aggiungere
+     * @throws IOException se si verifica un errore durante la scrittura del file
      */
-    public void aggiungiComuneNuovo(String nomeComune) throws IOException {
+    public void aggiungiComuneNuovo(String nomeComuneDaAggiungere) throws IOException {
+        String nomeComune = nomeComuneDaAggiungere.toUpperCase();
         if (!listaComuni.contains(nomeComune)) {
             listaComuni.add(nomeComune);
-            gestoreComuni.aggiungiComune(new Comuni(nomeComune)); //aggiungo il comune all'elenco dei comuni e lo visualizzo per verifica. 
+            gestoreComuni.aggiungiComune(new Comuni(nomeComune));
             gestoreComuni.scriviComuni();
-            gestoreComuni.visualizzaComuni();
             System.out.println(String.format(COMUNE_AGGIUNTO_CON_SUCCESSO_AL_COMPRENSORIO, nomeComune, getCodice()));
         } else {
             System.out.println(COMUNE_GIA_PRESENTE_NEL_COMPRENSORIO_GEOGRAFICO);
         }
     }
-    
+
+    /**
+     * Restituisce la lista dei comuni del comprensorio.
+     *
+     * @return la lista dei comuni
+     */
     public List<String> getListaComuni() {
         return listaComuni;
     }
@@ -87,16 +101,15 @@ public class ComprensorioGeografico {
         StringBuilder sb = new StringBuilder();
         sb.append(CODICE).append(getCodice()).append(COMUNI);
         for (String comune : getListaComuni()) {
-            sb.append(comune).append(", ");
+            sb.append(comune.toUpperCase()).append(", ");
         }
         if (sb.length() > 2) {
-            sb.setLength(sb.length() - 2); 
+            sb.setLength(sb.length() - 2);
         }
         sb.append("]");
         return sb.toString();
     }
 
-    
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {
@@ -108,5 +121,4 @@ public class ComprensorioGeografico {
         ComprensorioGeografico other = (ComprensorioGeografico) obj;
         return this.listaComuni.equals(other.listaComuni);
     }
-
 }

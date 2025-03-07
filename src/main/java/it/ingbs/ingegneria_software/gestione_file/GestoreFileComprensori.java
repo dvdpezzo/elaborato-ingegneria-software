@@ -7,6 +7,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.stream.Collectors;
 
 import it.ingbs.ingegneria_software.model.comprensori.ComprensorioGeografico;
 
@@ -39,7 +40,9 @@ public class GestoreFileComprensori implements GestoreFile {
     public void salvaSuFile(File file) throws IOException {
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(file))) {
             for (HashMap.Entry<Integer, ComprensorioGeografico> entry : mappaComprensori.entrySet()) {
-                String comprensorio = entry.getKey() + SPAZIO + entry.getValue().getListaComuni();
+                String comprensorio = entry.getKey() + " [" + entry.getValue().getListaComuni().stream()
+                    .map(String::toUpperCase)
+                    .collect(Collectors.joining(", ")) + "]";
                 bw.write(comprensorio);
                 bw.newLine();
             }
@@ -63,7 +66,7 @@ public class GestoreFileComprensori implements GestoreFile {
                 String[] parti = linea.split(SPAZIO);
                 int codice = Integer.parseInt(parti[0]);
                 String listaComuni = linea.substring(parti[0].length() + 1);
-                ComprensorioGeografico comprensorio = new ComprensorioGeografico(codice, listaComuni);
+                ComprensorioGeografico comprensorio = new ComprensorioGeografico(codice, listaComuni.toUpperCase());
                 mappaComprensori.put(codice, comprensorio);
             }
         } catch (IOException e) {

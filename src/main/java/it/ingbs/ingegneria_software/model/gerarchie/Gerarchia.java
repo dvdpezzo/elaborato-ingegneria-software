@@ -10,8 +10,7 @@ import it.ingbs.ingegneria_software.Eccezioni.PadreNotFoundException;
 //copiata da progetto simone. 
 public class Gerarchia {
     
-    private static final String DESCRIZIONE_LIBERA = "Descrizione Libera";
-    private static final String STATO_DI_CONSERVAZIONE = "Stato di Conservazione";
+    private static final String CAMPO = "Campo";
     private final HashMap<String, Categoria> sottoCategorie;
     private final Categoria categoriaRadice;
 
@@ -24,8 +23,8 @@ public class Gerarchia {
     public Gerarchia(String nome, String desc) {
         Categoria radice = new Categoria(nome.toUpperCase(), desc);
         try {
-            radice.addCampoNativo(STATO_DI_CONSERVAZIONE, true);
-            radice.addCampoNativo(DESCRIZIONE_LIBERA, false);
+            radice.addCampoNativo(CAMPO, true);
+            radice.addCampoNativo(desc, false);
 
         } catch (IllegalCampoException e) {
             e.printStackTrace();
