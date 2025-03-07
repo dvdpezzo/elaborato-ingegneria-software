@@ -70,6 +70,7 @@ public class GestoreFruitori {
         String pass = InputDati.leggiStringa("Inserisci la tua password:");
         Fruitore newFruitore = new Fruitore(nomeUtente,pass,comprensorio,email);
         mappaFruitori.put(newFruitore.getNomeUtente(),newFruitore);
+        salvaSuFileFruitori();
         return newFruitore;
 
     }
