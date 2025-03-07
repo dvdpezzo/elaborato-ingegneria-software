@@ -69,7 +69,7 @@ public class GestoreFileGerarchie {
             } else {
                 Categoria nuovaCategoria = new Categoria(elementi.get(0), elementi.get(1));
                 for (String campo : recuperaCampi(elementi.get(3))) {
-                    nuovaCategoria.addCampoNativo(campo.startsWith("!") ? campo.substring(1) : campo, campo.startsWith("!"));
+                    nuovaCategoria.addCampoNativo(campo);
                 }
                 ArrayList<String> padre = new ArrayList<>(Arrays.stream(elementi.get(2).split(SEPARATORE_PADRE))
                         .collect(Collectors.toList()));

@@ -12,6 +12,7 @@ import it.ingbs.ingegneria_software.utilita_generale.MenuUtil;
 
 public class GestoreGerarchie {
 
+    private static final String VUOI_AGGIUNGERE_UNA_DESCRIZIONE = "Vuoi aggiungere una descrizione?";
     private static final String ERRORE_RADICE_OMONIMA = "ERRORE: si sta tentando di aggiungere una radice omonima";
     private static final String[] VOCI_LAVORO = {"aggiungi categoria", "rimuovi categoria", "sposta categoria", "aggiungi campi a Categoria", "rimuovi campi a Categoria", "visualizza Gerarchia"};
     private static final String NOME_DELLA_RADICE = "Nome della radice: ";
@@ -60,7 +61,12 @@ public class GestoreGerarchie {
 
         do {
             nome = InputDati.leggiStringaNonVuota(NOME_DELLA_RADICE);
-            descrizione = InputDati.leggiStringaNonVuota(DESCRIZIONE_DELLA_RADICE);
+            boolean risposta = InputDati.yesOrNo(VUOI_AGGIUNGERE_UNA_DESCRIZIONE);
+            if (risposta) {
+                descrizione = InputDati.leggiStringaNonVuota(DESCRIZIONE_DELLA_RADICE);
+            } else {
+                descrizione = "";
+            }
             nuovaGerarchia = new Gerarchia(nome, descrizione);
 
             if (radici.containsKey(nome.toUpperCase())) {
@@ -142,11 +148,16 @@ public class GestoreGerarchie {
             System.out.println(gerarchia.toString());
             String nome, descrizione;
             nome = InputDati.leggiStringaNonVuota(NOME_CATEGORIA);
-            descrizione = InputDati.leggiStringaNonVuota(DESCRIZIONE_CATEGORIA);
+            boolean risposta = InputDati.yesOrNo(VUOI_AGGIUNGERE_UNA_DESCRIZIONE);
+            if (risposta) {
+                descrizione = InputDati.leggiStringaNonVuota(DESCRIZIONE_CATEGORIA);
+            } else {
+                descrizione = " ";
+            }
             String padre = InputDati.leggiStringaNonVuota(CHI_E_IL_PADRE);
             try {
                 gerarchia.addSottocategoria(nome.toUpperCase(), descrizione, padre);
-                gerarchia.getCategoria(nome.toUpperCase()).addCampoNativo("", false); // Aggiunge un campo nativo vuoto
+                gerarchia.getCategoria(nome.toUpperCase()).addCampoNativo(" "); // Aggiunge un campo nativo vuoto
                 System.out.printf((CATEGORIA_S_AGGIUNTA) + "%n", nome);
             } catch (PadreNotFoundException | CategoriaOmonimaException | CategoriaNotFoundException | IllegalCampoException e) {
                 System.out.println(e.getMessage());
@@ -195,14 +206,12 @@ public class GestoreGerarchie {
      */
     private void aggiungiCampi(Gerarchia gerarchia) {
         String nomeCategoria, nomeCampo;
-        boolean obbligatorio;
         System.out.println(gerarchia.toString());
         nomeCategoria = InputDati.leggiStringaNonVuota(CATEGORIA_DA_MODIFICARE);
         do {
             nomeCampo = InputDati.leggiStringaNonVuota(NOME_DEL_CAMPO);
-            obbligatorio = InputDati.yesOrNo(OBBLIGATORIO);
             try {
-                gerarchia.getCategoria(nomeCategoria).addCampoNativo(nomeCampo, obbligatorio);
+                gerarchia.getCategoria(nomeCategoria).addCampoNativo(nomeCampo);
                 System.out.printf((CAMPO_S_CORRETTAMENTE_AGGIUNTO) + "%n", nomeCampo);
             } catch (IllegalCampoException | CategoriaNotFoundException e) {
                 System.out.println(e.getMessage());
@@ -223,7 +232,7 @@ public class GestoreGerarchie {
         try {
             if (scelta == 1) {
                 gerarchia.getCategoria(nomeCategoria).eliminaCampiNativi();
-                gerarchia.getCategoria(nomeCategoria).addCampoNativo("", false); // Aggiunge un campo vuoto
+                gerarchia.getCategoria(nomeCategoria).addCampoNativo(" "); // Aggiunge un campo vuoto
                 System.out.println(CAMPI_NATIVI_ELIMINATI);
             } else {
                 System.out.println(gerarchia.getCategoria(nomeCategoria).stampaCampiNativi());
@@ -233,7 +242,7 @@ public class GestoreGerarchie {
                     System.out.println(CAMPO_NATIVO_ELIMINATO);
                 } while (InputDati.yesOrNo(VUOI_ELIMINARE_ALTRI_CAMPI));
                 if (gerarchia.getCategoria(nomeCategoria).getCampiNativi().isEmpty()) {
-                    gerarchia.getCategoria(nomeCategoria).addCampoNativo("", false); // Aggiunge un campo vuoto se non ci sono più campi
+                    gerarchia.getCategoria(nomeCategoria).addCampoNativo(" "); // Aggiunge un campo vuoto se non ci sono più campi
                 }
             }
         } catch (Exception e) {

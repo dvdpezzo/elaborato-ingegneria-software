@@ -103,12 +103,15 @@ public class Categoria {
      * @param nome nome del campo
      * @param obb  obbligatorietà del campo
      */
-    public void addCampoNativo(String nome, boolean obb) throws IllegalCampoException {
+    public void addCampoNativo(String nome) throws IllegalCampoException {
         for (Campo c : this.getCampi()) {
-            if (c.nome.equals(nome))
+            if (c.nome.equalsIgnoreCase(nome)){
                 throw new IllegalCampoException();
+            }else if (c.nome.equals(" ") || c.nome.equals("")){
+                campiNativi.clear();
+            }
         }
-        campiNativi.add(new Campo(nome, obb));
+        campiNativi.add(new Campo(nome));
     }
 
     /**
@@ -165,23 +168,20 @@ public class Categoria {
 
 class Campo {
     String nome;
-    boolean obblig;
 
     /**
      * Costruttore del campo
      *
      * @param n nome del campo
-     * @param ob booleano che indica se la compilazione del campo è obbligatoria o meno
      */
 
-    public Campo(String n, boolean ob) {
+    public Campo(String n) {
         this.nome = n;
-        this.obblig = ob;
     }
 
     @Override
     public String toString() {
-        return String.format("#%s%s", obblig ? "!" : "", nome);
+        return String.format("#%s", nome);
     }
   
    }
