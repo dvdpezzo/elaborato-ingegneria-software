@@ -8,6 +8,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.HashMap;
 
+import it.ingbs.ingegneria_software.model.GestoreUtente;
+
 
 
 /**
@@ -17,6 +19,7 @@ import java.util.HashMap;
 public class GestoreFileCredenziali implements GestoreFile{
     
     private HashMap<String, String> mappaCredenziali;  
+    GestoreUtente gu = new GestoreUtente();
 
     public GestoreFileCredenziali(HashMap<String, String> mappaCredenziali) {
         this.mappaCredenziali = mappaCredenziali;
@@ -49,6 +52,7 @@ public class GestoreFileCredenziali implements GestoreFile{
                 String nome = dati[0];
                 String pass = dati[1];
                 mappaCredenziali.put(nome,pass); 
+                gu.aggiungiUtente(nome);
                 parola = br.readLine();               
             } while (parola!=null && !parola.equals("\n"));
         }

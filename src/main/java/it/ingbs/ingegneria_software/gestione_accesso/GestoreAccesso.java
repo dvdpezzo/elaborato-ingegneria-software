@@ -83,7 +83,7 @@ public class GestoreAccesso {
         Configuratore newUtente = gestoreConfiguratori.creaUtenteConfiguratore();
         aggiungiCredenzialiConfAllaMappa(newUtente.getNomeUtente(), newUtente.getPassword());
         //aggiunge utente e nickname alla mappa del controllo di GestoreUtenti 
-        gestoreUtente.aggiungiUtente(newUtente,newUtente.getNomeUtente());   
+        gestoreUtente.aggiungiUtente(newUtente.getNomeUtente());   
         return newUtente;
     }
     /**
@@ -161,7 +161,7 @@ public class GestoreAccesso {
         Fruitore newUtente = gestoreFruitori.creaUtenteFruitore();
         aggiungiCredenzialiFruitAllaMappa(newUtente.getNomeUtente(), newUtente.getPassword());
         //aggiunge utente e nickname alla mappa del controllo di GestoreUtenti
-        gestoreUtente.aggiungiUtente(newUtente,newUtente.getNomeUtente());   
+        gestoreUtente.aggiungiUtente(newUtente.getNomeUtente());   
         return newUtente;
     }
 

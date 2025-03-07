@@ -1,12 +1,13 @@
 package it.ingbs.ingegneria_software.model;
 
 import java.io.File;
-import java.util.HashMap;
+import java.util.*;
 
 public class GestoreUtente {
 
     //mappa che contiene configuratori e fruitori con il loro nome utente 
-    HashMap<Utente,String> mappaUtenti = new HashMap<Utente,String>();
+    ArrayList<String> elencoNomi = new ArrayList<String>();
+
     
 
     /**
@@ -14,8 +15,8 @@ public class GestoreUtente {
      * @param utente utente aggiunto 
      * @param nomeUtente nome utente dell'utente 
      */
-    public void aggiungiUtente(Utente utente, String nomeUtente){
-        mappaUtenti.put(utente,nomeUtente);
+    public void aggiungiUtente(String nomeUtente){
+        elencoNomi.add(nomeUtente);
     }
 
     /**
@@ -25,13 +26,12 @@ public class GestoreUtente {
      */
     public boolean controlloUtente(String nomeUtente){
 
-        for(String nome : mappaUtenti.values()){
-            if(nome.equals(nomeUtente)){
+        for(int i=0; i<elencoNomi.size();i++){
+            if(elencoNomi.get(i).equals(nomeUtente)){
                 return true;
             }
         }
         return false; 
-
     }
 
     /**

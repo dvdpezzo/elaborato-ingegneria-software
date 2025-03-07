@@ -65,7 +65,7 @@ public class GestoreFruitori {
         String nomeUtente; 
         do{
             nomeUtente= InputDati.leggiStringaNonVuota("Inserisci il tuo nome utente:");
-        }while(!gu.controlloUtente(nomeUtente));
+        }while(gu.controlloUtente(nomeUtente));
 
         String pass = InputDati.leggiStringa("Inserisci la tua password:");
         Fruitore newFruitore = new Fruitore(nomeUtente,pass,comprensorio,email);
