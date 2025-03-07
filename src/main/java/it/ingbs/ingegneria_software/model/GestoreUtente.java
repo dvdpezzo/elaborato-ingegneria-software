@@ -1,6 +1,6 @@
 package it.ingbs.ingegneria_software.model;
 
-import java.io.File;
+
 import java.util.*;
 
 public class GestoreUtente {
@@ -32,20 +32,5 @@ public class GestoreUtente {
             }
         }
         return false; 
-    }
-
-    /**
-     * Deve leggere il file configuratori e fruitori per aggiungere i nomi + utente alla mappa
-     * @param nomeFile
-     */
-    public void riempiMappa(File nomeFile){
-
-
-    }
-
-
-
-
-    
-    
+    }    
 }
