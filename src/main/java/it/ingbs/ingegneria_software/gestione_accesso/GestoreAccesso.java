@@ -165,8 +165,4 @@ public class GestoreAccesso {
         return newUtente;
     }
 
-
-    /**
-     * DEVO MODIFICARE ALCUNI DI QUESTI METODI IN MODO DA PERMETTERE IL SALVATAGGIO SU FILE DI TUTTI I DATI DEL FRUITORE 
-     */
 }

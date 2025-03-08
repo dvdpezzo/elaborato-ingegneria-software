@@ -52,6 +52,7 @@ public class GestoreFileCredenziali implements GestoreFile{
                 String nome = dati[0];
                 String pass = dati[1];
                 mappaCredenziali.put(nome,pass); 
+                //aggiungo il nome utente all'arraylist di GestoreUtenti per il controllo sul nickname
                 gu.aggiungiUtente(nome);
                 parola = br.readLine();               
             } while (parola!=null && !parola.equals("\n"));
