@@ -21,9 +21,14 @@ public class GestoreFattori {
     private static final String ERRORE_CATEGORIA ="Le categorie che hai inserito non sono categorie foglia!";
     private static final String CATEGORIA_RICERCATA ="Inserisci il nome della categoria ricercata:";
 
-    private final HashMap<String,FattoriConversione> mappaFattori = new HashMap<>();
-    private final GestoreGerarchie gestoreGerarchie = new GestoreGerarchie();
+    private final HashMap<String,FattoriConversione> mappaFattori;
+    private final GestoreGerarchie gestoreGerarchie;
     private static final File NOME_FILE = new File("src\\Data_File\\elencoFattoriConversione.txt");
+
+    public GestoreFattori() {
+        this.mappaFattori = new HashMap<>();
+        this.gestoreGerarchie = new GestoreGerarchie();
+    }
 
 
     /**
@@ -98,6 +103,7 @@ public class GestoreFattori {
             
             double valore = InputDati.leggiDoubleLimitato("Inserisci il valore di conversione:", 0.5, 2);
             assegnaFattoreConversione(cat1, cat2, valore);
+            System.out.println("Fattori di conversione creati");
         } catch (CategoriaNotFoundException ex) {
             System.out.println("Categoria non trovata");
         }
@@ -116,6 +122,7 @@ public class GestoreFattori {
                 cat3 = trovaCategoria();
             } while(cat1.hasFiglio(cat1) || cat2.hasFiglio(cat2) || cat3.hasFiglio(cat3));
             fattoreDerivato(cat1, cat2, cat3);
+            System.out.println("Fattore di conversione derivato creato");
         } catch (CategoriaNotFoundException ex) {
             System.out.println("Categoria non trovata");
         }
@@ -158,22 +165,25 @@ public class GestoreFattori {
       }
 
 
-      /**
-       * Scrive su file i vari fattori di conversione
-       * @param nomeFile2 nome del file sul quale vengono salvati i fattori 
-              * @throws IOException
-              */
-             public void salvaFattori() throws IOException {
-               try (FileWriter writer = new FileWriter(NOME_FILE)) {
+        /**
+        * Scrive su file i vari fattori di conversione
+        * @param nomeFile2 nome del file sul quale vengono salvati i fattori 
+        * @throws IOException
+        */
+        public void salvaFattori() throws IOException {
+            try (FileWriter writer = new FileWriter(NOME_FILE)) {
             // Itera sulla mappa dei fattori di conversione e scrive ogni coppia su una riga
             for (FattoriConversione fattore : mappaFattori.values()) {
             // Scrive la riga con le categorie e il valore del fattore
                 writer.append(fattore.getCat1().getNome() + " -> " +
                               fattore.getCat2().getNome() + ": " +
                               fattore.getValore() + "\n");
+                }            
+            }
+            finally {
+                System.out.println("Fattori di conversione salvati");
             }
         }
-    }
 
 
     /**
@@ -191,7 +201,7 @@ public class GestoreFattori {
      * menu che permette di eseguire operazioni sui fattori di conversione
      */
     public void modificaFattori() throws IOException{
-        String [] voci = {"Visualizza gerarchie", "Aggiungi nuovo fattore di conversione","Aggiungi fattore di conversione derivato","Salva fattori di conversione",
+        String [] voci = {"Visualizza gerarchie", "Aggiungi nuovo fattore di conversione","Aggiungi fattore di conversione derivato", "Rimuovi fattore" ,"Salva fattori di conversione",
         "Visualizza fattori di conversione"};
         MenuUtil menuFattori = new MenuUtil("AZIONI SUI FATTORI DI CONVERSIONE",voci);
         int scelta;
@@ -208,12 +218,15 @@ public class GestoreFattori {
             case 3: 
               nuovoFattoreDerivato();
             break;
-
             case 4:
+                rimuoviFattore();
+            break;
+
+            case 5:
              salvaFattori();
              break;
 
-            case 5: 
+            case 6: 
              visualizzaFattori();
             break;
            }
@@ -239,6 +252,16 @@ public class GestoreFattori {
             }
         }
         throw new CategoriaNotFoundException();
+    }
+
+    private void rimuoviFattore() throws IOException {
+        visualizzaFattori();
+        String fat1 = InputDati.leggiStringaNonVuota("Da quale categoria vuoi rimuovere il fattore? ");
+        String fat2 = InputDati.leggiStringaNonVuota("Verso quale categoria vuoi rimuovere il fattore? ");
+        mappaFattori.remove(fat1.toUpperCase()+"->"+fat2.toUpperCase());
+        mappaFattori.remove(fat2.toUpperCase()+"->"+fat1.toUpperCase());
+        System.out.println("Fattore rimosso");
+        salvaFattori();
     }
 }
 
