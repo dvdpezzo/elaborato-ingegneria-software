@@ -191,22 +191,25 @@ public class GestoreComprensorio {
      * @throws IOException se si verifica un errore di I/O
      */
     public void modificaComprensori() throws IOException {
-        String[] voci = { "Aggiungi comune al comprensorio: ", "Aggiungi Comprensorio: ", "Rimuovi Comprensorio: ", "Salva Cambiamenti: " };
+        String[] voci = { "Visualizza comprensori","Aggiungi comune al comprensorio: ", "Aggiungi Comprensorio: ", "Rimuovi Comprensorio: ", "Salva Cambiamenti: " };
         MenuUtil menuComprensorio = new MenuUtil("AZIONI SUI COMPRENSORI", voci);
         int scelta = 0;
         do {
             scelta = menuComprensorio.scegli();
             switch (scelta) {
                 case 1:
-                    aggiungiComuneAlComprensorio();
+                    visualizzaComprensori();
                     break;
                 case 2:
-                    aggiungiComprensorio();
+                    aggiungiComuneAlComprensorio();
                     break;
                 case 3:
-                    rimuoviComprensorio();
+                    aggiungiComprensorio();
                     break;
                 case 4:
+                    rimuoviComprensorio();
+                    break;
+                case 5:
                     salvaMappaComprensoriSuFile();
                     break;
             }

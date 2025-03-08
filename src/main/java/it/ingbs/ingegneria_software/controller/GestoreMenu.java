@@ -12,7 +12,7 @@ import it.ingbs.ingegneria_software.utilita_generale.MenuUtil;
 public class GestoreMenu {
     
     
-    private final String[] vociMenuBackEnd = new String[]{"GESTIONE COMPRENSORI","GESTIONE GERARCHIE","VISUALIZZA COMPRENSORI","GESTIONE FATTORI CONVERSIONE"};      
+    private final String[] vociMenuBackEnd = new String[]{"GESTIONE COMPRENSORI","GESTIONE GERARCHIE","GESTIONE FATTORI CONVERSIONE"};      
     private final MenuUtil menuBackEnd = new MenuUtil("MENU BACK-END:", vociMenuBackEnd);
 
     private final GestoreComprensorio gestoreComprensorio = new GestoreComprensorio(); 
@@ -33,10 +33,6 @@ public class GestoreMenu {
                 break;
 
                 case 3:
-                gestoreComprensorio.visualizzaComprensori();
-                break;
-
-                case 4:
                 gestoreFattori.modificaFattori();
                 break;
             }
