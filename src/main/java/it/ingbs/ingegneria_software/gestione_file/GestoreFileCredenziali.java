@@ -19,10 +19,11 @@ import it.ingbs.ingegneria_software.model.GestoreUtente;
 public class GestoreFileCredenziali implements GestoreFile{
     
     private HashMap<String, String> mappaCredenziali;  
-    GestoreUtente gu = new GestoreUtente();
+    private GestoreUtente gu;
 
-    public GestoreFileCredenziali(HashMap<String, String> mappaCredenziali) {
+    public GestoreFileCredenziali(HashMap<String, String> mappaCredenziali, GestoreUtente gu) {
         this.mappaCredenziali = mappaCredenziali;
+        this.gu = gu;
     }
    
 

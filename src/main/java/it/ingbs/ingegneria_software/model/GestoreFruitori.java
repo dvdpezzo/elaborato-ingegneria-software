@@ -17,7 +17,7 @@ public class GestoreFruitori {
     private HashMap<String,Fruitore> mappaFruitori = new HashMap<String,Fruitore>();
     private HashMap<String,String> mappaPass = new HashMap<String,String>();
     private GestoreComprensorio gc = new GestoreComprensorio();
-    private GestoreUtente gu = new GestoreUtente();
+    private GestoreUtente gu;
     private final File datiFruitori = new File("src\\File_di_accesso\\datiFruitori.txt");
 
 
@@ -26,8 +26,9 @@ public class GestoreFruitori {
      * Non posso prendre una mappa ma i dati del fruitore
      * @param gestoreCredenziali
      */
-    public GestoreFruitori(GestoreFileCredenziali gestoreCredenziali){
+    public GestoreFruitori(GestoreFileCredenziali gestoreCredenziali,GestoreUtente gu){
         this.mappaFruitori = leggiFileFruitori();
+        this.gu = gu;
     }
           
         
@@ -134,7 +135,7 @@ public class GestoreFruitori {
                 mappaPass.put(nome,pass);
                 mappaFruitori.put(nome,new Fruitore(nome, pass, cg, mail));
                 parola = br.readLine();
-            } while(parola!=null && parola.equals("\n"));
+            } while(parola!=null && !parola.equals("\n"));
 
          }catch(Exception ex){
                ex.printStackTrace();

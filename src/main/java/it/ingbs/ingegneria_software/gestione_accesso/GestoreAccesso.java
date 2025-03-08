@@ -38,8 +38,8 @@ public class GestoreAccesso {
     
 
     public GestoreAccesso() {       
-        this.gestoreFileConf = new GestoreFileCredenziali(mappaCredenzialiConf);
-        this.gestoreFileFruit = new GestoreFileCredenziali(mappaCredenzialiFrui);        
+        this.gestoreFileConf = new GestoreFileCredenziali(mappaCredenzialiConf,gestoreUtente);
+        this.gestoreFileFruit = new GestoreFileCredenziali(mappaCredenzialiFrui,gestoreUtente);        
         try {
             mappaCredenzialiConf = gestoreFileConf.leggiFile(fileConfiguratori);
             mappaCredenzialiFrui = gestoreFileFruit.leggiFile(fileFruitori);
@@ -47,7 +47,7 @@ public class GestoreAccesso {
             System.out.println(String.format(FILE_NON_TROVATO, e.getMessage()));
         }
         this.gestoreConfiguratori = new GestoreConfiguratori(gestoreFileConf);
-        this.gestoreFruitori = new GestoreFruitori(gestoreFileFruit);  
+        this.gestoreFruitori = new GestoreFruitori(gestoreFileFruit,gestoreUtente);  
     }
 
     /**
