@@ -72,17 +72,16 @@ public class GestoreFattori {
      * @param cat3 categoria delle quale voglio creare un valore 
      */
     public void fattoreDerivato(Categoria cat1, Categoria cat2, Categoria cat3){
-        if(cat1.hasFiglio(cat1) && cat2.hasFiglio(cat2) && cat3.hasFiglio(cat3)){
-            String controllo12 = cat1.getNome()+" -> "+cat2.getNome();
-            String controllo23 = cat2.getNome()+" -> "+cat3.getNome();
-            if(mappaFattori.containsKey(controllo12) && mappaFattori.containsKey(controllo23)){
-                double val1 = mappaFattori.get(controllo12).getValore();
-                double val2= mappaFattori.get(controllo23).getValore();
-                double valDerivato =val1*val2;
+        String controllo12 = cat1.getNome()+"->"+cat2.getNome();
+        String controllo23 = cat2.getNome()+"->"+cat3.getNome();
+        if(mappaFattori.containsKey(controllo12) && mappaFattori.containsKey(controllo23)){
+            double val1 = mappaFattori.get(controllo12).getValore();
+            double val2= mappaFattori.get(controllo23).getValore();
+            double valDerivato = val1*val2;
 
-                assegnaFattoreConversione(cat1, cat3, valDerivato);
-            }
+            assegnaFattoreConversione(cat1, cat3, valDerivato);
         }
+        
     }
 
     /**
@@ -92,11 +91,10 @@ public class GestoreFattori {
     
         try {
             Categoria cat1, cat2;
-            do { 
-                
+            do {                
                 cat1 = trovaCategoria();
                 cat2 = trovaCategoria();
-            } while (cat1.hasFiglio(cat1) && cat2.hasFiglio(cat2));
+            } while (cat1.hasFiglio(cat1) || cat2.hasFiglio(cat2));
             
             double valore = InputDati.leggiDoubleLimitato("Inserisci il valore di conversione:", 0.5, 2);
             assegnaFattoreConversione(cat1, cat2, valore);
@@ -111,10 +109,12 @@ public class GestoreFattori {
     public void nuovoFattoreDerivato(){
         try {
             visualizzaFattori();
-            
-            Categoria cat1 = trovaCategoria();
-            Categoria cat2= trovaCategoria();            
-            Categoria cat3 = trovaCategoria();
+            Categoria cat1, cat2, cat3;
+            do{
+                cat1 = trovaCategoria();
+                cat2= trovaCategoria();            
+                cat3 = trovaCategoria();
+            } while(cat1.hasFiglio(cat1) || cat2.hasFiglio(cat2) || cat3.hasFiglio(cat3));
             fattoreDerivato(cat1, cat2, cat3);
         } catch (CategoriaNotFoundException ex) {
             System.out.println("Categoria non trovata");

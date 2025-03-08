@@ -6,7 +6,8 @@
 <PIANOFORTE>, <lezioni di piano>, <MUSICA/MUSICA>, <#base>
 <PIANOFORTE ESPERTI>, <lezioni di pianoforte per esperti>, <MUSICA/PIANOFORTE>, <#>
 </FISICA>, <lezioni di fisica>, <#Radice #lezioni di fisica>
-<TEORIA DI FISICA>, < >, <FISICA/FISICA>, <# >
+<LEZIONI DI TEORIA>, < >, <FISICA/FISICA>, <#intermedi #principianti>
+<LEZIONI DI PRATICA>, < >, <FISICA/FISICA>, <# >
 </ARTE>, <lezioni di arte>, <#Radice #lezioni di arte>
 <PRATICA>, <lezione di pratica>, <ARTE/ARTE>, <#Scultura #Descrizione Libera>
 <PRATICA SCULTURA>, <lezione di pratica di scultura>, <ARTE/PRATICA>, <#Principianti #Intermedi #Esperti>
