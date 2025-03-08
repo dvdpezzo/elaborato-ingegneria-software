@@ -9,8 +9,13 @@ import it.ingbs.ingegneria_software.utilita_generale.InputDati;
 
 public class GestoreFruitori {
 
-    private HashMap<String,Fruitore> mappaFruitori = new HashMap();
-    private HashMap<String,String> mappaPass = new HashMap();
+    private static final String MSG_PASS = "Inserisci la tua password:";
+    private static final String MSG_NOME_UTENTE = "Inserisci il tuo nome utente:";
+    private static final String MSG_EMAIL = "Inserisci la tua email:";
+    private static final String ERRORE_COMPRENSORIO = "IL CODICE DEL COMPRENSORIO INSERITO E ERRATO!";
+    private static final String MSG_COD_COMPRENSORIO = "Inserisci il codice del tuo comprensorio:";
+    private HashMap<String,Fruitore> mappaFruitori = new HashMap<String,Fruitore>();
+    private HashMap<String,String> mappaPass = new HashMap<String,String>();
     private GestoreComprensorio gc = new GestoreComprensorio();
     private GestoreUtente gu = new GestoreUtente();
     private final File datiFruitori = new File("src\\File_di_accesso\\datiFruitori.txt");
@@ -50,24 +55,25 @@ public class GestoreFruitori {
      * @return il fruitore creato 
      */
     public Fruitore creaUtenteFruitore() {
+        leggiFileFruitori();
         gc.visualizzaComprensori();
         ComprensorioGeografico comprensorio;
         do{
-        int code = InputDati.leggiIntero("Inserisci il codice del tuo comprensorio:");
+        int code = InputDati.leggiIntero(MSG_COD_COMPRENSORIO);
         comprensorio =gc.getComprensorio(code);
            if(comprensorio==null) 
             {
-              System.out.println("IL CODICE DEL COMPRENSORIO INSERITO E ERRATO!");
+              System.out.println(ERRORE_COMPRENSORIO);
             }
         }while(comprensorio==null);
 
-        String email = InputDati.leggiStringaNonVuota("Inserisci la tua email:");
+        String email = InputDati.leggiStringaNonVuota(MSG_EMAIL);
         String nomeUtente; 
         do{
-            nomeUtente= InputDati.leggiStringaNonVuota("Inserisci il tuo nome utente:");
+            nomeUtente= InputDati.leggiStringaNonVuota(MSG_NOME_UTENTE);
         }while(gu.controlloUtente(nomeUtente));
 
-        String pass = InputDati.leggiStringa("Inserisci la tua password:");
+        String pass = InputDati.leggiStringa(MSG_PASS);
         Fruitore newFruitore = new Fruitore(nomeUtente,pass,comprensorio,email);
         mappaFruitori.put(newFruitore.getNomeUtente(),newFruitore);
         salvaSuFileFruitori();

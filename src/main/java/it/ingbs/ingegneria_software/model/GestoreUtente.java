@@ -5,6 +5,7 @@ import java.util.*;
 
 public class GestoreUtente {
 
+    private static final String MSG_ERORE_NOME_UTENTE = "Nome Utente già Utilizzato, si prega di inserire un altro";
     //mappa che contiene configuratori e fruitori con il loro nome utente 
     ArrayList<String> elencoNomi = new ArrayList<String>();
 
@@ -28,6 +29,7 @@ public class GestoreUtente {
 
         for(int i=0; i<elencoNomi.size();i++){
             if(elencoNomi.get(i).equalsIgnoreCase(nomeUtente)){
+                System.out.println(MSG_ERORE_NOME_UTENTE);
                 return true;
             }
         }
