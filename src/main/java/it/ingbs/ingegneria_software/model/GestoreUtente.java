@@ -26,7 +26,7 @@ public class GestoreUtente {
      */
     public boolean controlloUtente(String nomeUtente){
 
-        for(int i=0; i<=elencoNomi.size();i++){
+        for(int i=0; i<elencoNomi.size();i++){
             if(elencoNomi.get(i).equalsIgnoreCase(nomeUtente)){
                 return true;
             }
