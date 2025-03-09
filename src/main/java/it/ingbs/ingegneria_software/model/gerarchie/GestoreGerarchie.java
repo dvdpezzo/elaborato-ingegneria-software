@@ -56,23 +56,23 @@ public class GestoreGerarchie {
      */
     protected void aggiungiGerarchia() {
         Gerarchia nuovaGerarchia;
-        String nome;
-        String descrizione;
+        String nomeRadice;
+        String descrizioneRadice;
 
         do {
-            nome = InputDati.leggiStringaNonVuota(NOME_DELLA_RADICE);
-            boolean risposta = InputDati.yesOrNo(VUOI_AGGIUNGERE_UNA_DESCRIZIONE);
-            if (risposta) {
-                descrizione = InputDati.leggiStringaNonVuota(DESCRIZIONE_DELLA_RADICE);
+            nomeRadice = InputDati.leggiStringaNonVuota(NOME_DELLA_RADICE);
+            boolean aggiungiDescrizione = InputDati.yesOrNo(VUOI_AGGIUNGERE_UNA_DESCRIZIONE);
+            if (aggiungiDescrizione) {
+                descrizioneRadice = InputDati.leggiStringaNonVuota(DESCRIZIONE_DELLA_RADICE);
             } else {
-                descrizione = "";
+                descrizioneRadice = "";
             }
-            nuovaGerarchia = new Gerarchia(nome, descrizione);
+            nuovaGerarchia = new Gerarchia(nomeRadice, descrizioneRadice);
 
-            if (radici.containsKey(nome.toUpperCase())) {
+            if (radici.containsKey(nomeRadice.toUpperCase())) {
                 System.out.println(ERRORE_RADICE_OMONIMA);
             } else {
-                radici.put(nome.toUpperCase(), nuovaGerarchia);
+                radici.put(nomeRadice.toUpperCase(), nuovaGerarchia);
                 System.out.println(RADICE_AGGIUNTA);
             }
 
@@ -146,19 +146,19 @@ public class GestoreGerarchie {
     private void aggiungiCategoria(Gerarchia gerarchia) {
         do {
             System.out.println(gerarchia.toString());
-            String nome, descrizione;
-            nome = InputDati.leggiStringaNonVuota(NOME_CATEGORIA);
-            boolean risposta = InputDati.yesOrNo(VUOI_AGGIUNGERE_UNA_DESCRIZIONE);
-            if (risposta) {
-                descrizione = InputDati.leggiStringaNonVuota(DESCRIZIONE_CATEGORIA);
+            String nomeCategoria, descrizioneCategoria;
+            nomeCategoria = InputDati.leggiStringaNonVuota(NOME_CATEGORIA);
+            boolean aggiungiDescrizione = InputDati.yesOrNo(VUOI_AGGIUNGERE_UNA_DESCRIZIONE);
+            if (aggiungiDescrizione) {
+                descrizioneCategoria = InputDati.leggiStringaNonVuota(DESCRIZIONE_CATEGORIA);
             } else {
-                descrizione = " ";
+                descrizioneCategoria = " ";
             }
-            String padre = InputDati.leggiStringaNonVuota(CHI_E_IL_PADRE);
+            String nomePadre = InputDati.leggiStringaNonVuota(CHI_E_IL_PADRE);
             try {
-                gerarchia.addSottocategoria(nome.toUpperCase(), descrizione, padre);
-                gerarchia.getCategoria(nome.toUpperCase()).addCampoNativo(" "); // Aggiunge un campo nativo vuoto
-                System.out.printf((CATEGORIA_S_AGGIUNTA) + "%n", nome);
+                gerarchia.addSottocategoria(nomeCategoria.toUpperCase(), descrizioneCategoria, nomePadre);
+                gerarchia.getCategoria(nomeCategoria.toUpperCase()).addCampoNativo(" "); // Aggiunge un campo nativo vuoto
+                System.out.printf((CATEGORIA_S_AGGIUNTA) + "%n", nomeCategoria);
             } catch (PadreNotFoundException | CategoriaOmonimaException | CategoriaNotFoundException | IllegalCampoException e) {
                 System.out.println(e.getMessage());
             }
@@ -172,10 +172,10 @@ public class GestoreGerarchie {
      */
     private void rimuoviCategoria(Gerarchia gerarchia) {
         System.out.println(gerarchia.toString());
-        String nome = InputDati.leggiStringaNonVuota(CATEGORIA_DA_ELIMINARE);
+        String nomeCategoria = InputDati.leggiStringaNonVuota(CATEGORIA_DA_ELIMINARE);
         try {
-            gerarchia.rimuoviCategoria(nome);
-            System.out.printf((CATEGORIA_S_RIMOSSA) + "%n", nome);
+            gerarchia.rimuoviCategoria(nomeCategoria);
+            System.out.printf((CATEGORIA_S_RIMOSSA) + "%n", nomeCategoria);
         } catch (CategoriaNotFoundException e) {
             System.out.println(e.getMessage());
         }
@@ -188,12 +188,12 @@ public class GestoreGerarchie {
      */
     private void spostaCategoria(Gerarchia gerarchia) {
         System.out.println(gerarchia.toString());
-        String nome, padre;
-        nome = InputDati.leggiStringaNonVuota(QUALE_CATEGORIA_VUOI_SPOSTARE);
-        padre = InputDati.leggiStringaNonVuota(NUOVA_CATEGORIA_PADRE);
+        String nomeCategoria, nomeNuovoPadre;
+        nomeCategoria = InputDati.leggiStringaNonVuota(QUALE_CATEGORIA_VUOI_SPOSTARE);
+        nomeNuovoPadre = InputDati.leggiStringaNonVuota(NUOVA_CATEGORIA_PADRE);
         try {
-            gerarchia.spostaCategoria(nome, padre);
-            System.out.printf((CATEGORIA_S_ORA_E_UNA_SOTTO_CATEGORIA_DI_S) + "%n", nome, padre);
+            gerarchia.spostaCategoria(nomeCategoria, nomeNuovoPadre);
+            System.out.printf((CATEGORIA_S_ORA_E_UNA_SOTTO_CATEGORIA_DI_S) + "%n", nomeCategoria, nomeNuovoPadre);
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }

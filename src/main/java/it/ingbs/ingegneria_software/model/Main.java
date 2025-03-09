@@ -23,7 +23,6 @@ public class Main {
             sistemaGenerale.backEnd((Configuratore) utente);
 		} else {
 			//altrimenti richiama il menu utente:
-			//sistemaGenerale.frontEnd();
 		}
 		
 
