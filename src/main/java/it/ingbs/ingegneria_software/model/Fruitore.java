@@ -1,19 +1,19 @@
 package it.ingbs.ingegneria_software.model;
 
-import java.util.logging.Logger;
+import it.ingbs.ingegneria_software.model.utenti.Utente;
 
-public class Fruitore extends Utente {
-    
-    
-   private final GestoreComprensorio gestoreComprensorio;
-   private static final Logger LOGGER = Logger.getLogger(Fruitore.class.getName());
-   private ComprensorioGeografico comprensorio;
-   private String email;
+import it.ingbs.ingegneria_software.model.comprensori.GestoreComprensorio;
+
+import it.ingbs.ingegneria_software.model.comprensori.ComprensorioGeografico;
+
+public class Fruitore extends Utente{
+
+    private final GestoreComprensorio gestoreComprensorio;
+    private ComprensorioGeografico comprensorio;
+    private String email;
 
 
-
-
-   /*
+    /*
     * Creo un nuovo oggetto Fruitore
     */
     public Fruitore(String nomeUtente, String passUtente, ComprensorioGeografico comprensorio,String email){
@@ -21,11 +21,7 @@ public class Fruitore extends Utente {
         this.comprensorio=comprensorio;
         this.gestoreComprensorio = new GestoreComprensorio();
         this.email=email;
-        
     }
-
-
-
 
     public String getEmail() {
         return email;
@@ -34,12 +30,9 @@ public class Fruitore extends Utente {
     public ComprensorioGeografico getComprensorio() {
         return comprensorio;
     }
-
-
-
-
-    /*
-     * stampa le informazion riguardanti un oggetto fruitore
+    
+    /**
+     * visualizza a video le informazioni di un utente
      */
     public void infoFruitore(){
         StringBuffer sb = new StringBuffer();
@@ -47,6 +40,10 @@ public class Fruitore extends Utente {
         sb.append((this.getPassword()));
         sb.append((this.getComprensorio().toString()));
         sb.append((this.getEmail()));
+        sb.toString();
      }
+        
+
     
+
 }
