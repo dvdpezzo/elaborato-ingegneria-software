@@ -76,10 +76,10 @@ public class GestoreMenu {
                 break;
 
                 case 2:
-                    Categoria catRichieta = cercaCatFoglia();
+                    Categoria catRichiesta = cercaCatFoglia();
                     Categoria catOfferta = cercaCatFoglia();
                     int numOre = InputDati.leggiInteroConMinimo("Di quante ore necessiti?", 0);
-                    gr.creaRichiesta(catRichieta,catOfferta, numOre, fruitore);
+                    gr.creaRichiesta(catRichiesta,catOfferta, numOre, fruitore).toString();
                 break;
 
         }
@@ -90,9 +90,10 @@ public class GestoreMenu {
     private Categoria cercaCatFoglia() throws CategoriaNotFoundException {
         Categoria catCercata;
         do{
-        String nomeRichiesta = InputDati.leggiStringaNonVuota("Inserisci il nome della categoria di cui hai bisogno");
+        String nomeRichiesta = InputDati.leggiStringaNonVuota("Inserisci il nome della categoria di cui hai bisogno")
+                                                      .toUpperCase();
         catCercata = gestoreFattori.getCategoria(nomeRichiesta);
-        }while(catCercata!=null);
+        }while(catCercata==null);
         return catCercata;
     }
     

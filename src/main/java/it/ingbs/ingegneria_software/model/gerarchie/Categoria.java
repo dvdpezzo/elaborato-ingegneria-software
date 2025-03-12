@@ -14,7 +14,7 @@ public class Categoria {
     private final Vector<Categoria> figli;
     private String nome;
     private Categoria padre;
-    private GestoreFattori gf = new GestoreFattori();
+    private GestoreFattori gf;
     /**
      * Costruttore della categoria
      *
@@ -237,7 +237,7 @@ public class Categoria {
      * @return il valore del fattore di conversione 
      */
     public Double getFattore(Categoria catAssociata){
-        String nomeFattore = this.getNome()+"->"+catAssociata.getNome();   
+        String nomeFattore = this.getNome().toUpperCase()+"->"+catAssociata.getNome().toUpperCase();   
         return gf.getFattore(nomeFattore);
     }
 }
