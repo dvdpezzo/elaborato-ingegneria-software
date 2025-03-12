@@ -37,6 +37,8 @@ public class GestoreRichieste {
         return nuovaRichiesta;
     }
 
+    
+
 
 
   /*   VERSIONE 4 

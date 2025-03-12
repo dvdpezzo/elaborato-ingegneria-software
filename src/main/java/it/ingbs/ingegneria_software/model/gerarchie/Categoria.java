@@ -5,6 +5,7 @@ import java.util.Vector;
 
 import it.ingbs.ingegneria_software.Eccezioni.CampoNotFoundException;
 import it.ingbs.ingegneria_software.Eccezioni.IllegalCampoException;
+import it.ingbs.ingegneria_software.model.GestoreFattori;
 
 public class Categoria {
 
@@ -13,7 +14,7 @@ public class Categoria {
     private final Vector<Categoria> figli;
     private String nome;
     private Categoria padre;
-
+    private GestoreFattori gf = new GestoreFattori();
     /**
      * Costruttore della categoria
      *
@@ -228,6 +229,16 @@ public class Categoria {
      */
     public Vector<Categoria> getFigli() {
         return figli;
+    }
+
+    /**
+     * 
+     * @param catAssociata categoria associata al fattore di conversione
+     * @return il valore del fattore di conversione 
+     */
+    public Double getFattore(Categoria catAssociata){
+        String nomeFattore = this.getNome()+"->"+catAssociata.getNome();   
+        return gf.getFattore(nomeFattore);
     }
 }
 

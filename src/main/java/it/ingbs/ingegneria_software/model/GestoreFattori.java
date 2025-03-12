@@ -243,7 +243,7 @@ public class GestoreFattori {
      * @return la categoria con il nome specificato
      * @throws CategoriaNotFoundException se la categoria non è stata trovata
      */
-    private Categoria getCategoria(String nomeCategoria) throws CategoriaNotFoundException {
+    public Categoria getCategoria(String nomeCategoria) throws CategoriaNotFoundException {
         for (Gerarchia gerarchia : gestoreGerarchie.getRadici().values()) {
             Categoria categoria = gerarchia.getCategoria(nomeCategoria);
             if (categoria != null) {
@@ -265,5 +265,16 @@ public class GestoreFattori {
         mappaFattori.remove(nomeCategoria2.toUpperCase() + "->" + nomeCategoria1.toUpperCase());
         System.out.println(FATTORE_RIMOSSO);
         salvaFattori();
+    }
+
+
+    
+
+
+    /*
+     * ritorna il valore del fattore di conversione data la sua stringa 
+     */
+    public Double getFattore(String nomeFattore){
+         return  mappaFattori.get(nomeFattore).getValoreConversione();
     }
 }

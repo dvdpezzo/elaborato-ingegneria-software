@@ -38,14 +38,63 @@ public class RichiestaScambio {
         this.stato = stato;
     }
 
+    
 
+
+    public Categoria getCatRichiesta() {
+        return catRichiesta;
+    }
+
+    public void setCatRichiesta(Categoria catRichiesta) {
+        this.catRichiesta = catRichiesta;
+    }
+
+    public Categoria getCatOfferta() {
+        return catOfferta;
+    }
+
+    public void setCatOfferta(Categoria catOfferta) {
+        this.catOfferta = catOfferta;
+    }
+
+    public int getOreRichieste() {
+        return oreRichieste;
+    }
+
+    public void setOreRichieste(int oreRichieste) {
+        this.oreRichieste = oreRichieste;
+    }
+
+    public int getOreOffertte() {
+        return oreOffertte;
+    }
+
+    public void setOreOffertte(int oreOffertte) {
+        this.oreOffertte = oreOffertte;
+    }
+
+    /**
+     * 
+     * @param catRichiesta categoria richiesta dal fruitore
+     * @param catOfferta  categorie offerta dal fruitore
+     * @param oreRichieste numero di ore che vengono richieste dal fruitore per la categoria richiesta
+     * @return numero di ore che il fruitore deve offrire
+     */
     public int calcolaOreOfferte(Categoria catRichiesta, Categoria catOfferta, int oreRichieste){
-        
-        return 0; 
+        return (int) ((catOfferta.getFattore(catRichiesta))*oreRichieste);
     }
 
     public Fruitore getFr() {
         return fr;
+    }
+
+
+    
+    public String toString(){
+        StringBuffer sb = new StringBuffer();
+         sb.append("Richiesta: [" + catRichiesta.getNome()+","+getOreRichieste()+"]");
+         sb.append("Offerta: ["+catOfferta.getNome()+","+getOreOffertte()+"]");
+         return sb.toString();
     }
     
     

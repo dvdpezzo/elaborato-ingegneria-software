@@ -3,13 +3,17 @@ package it.ingbs.ingegneria_software.controller;
 import java.io.File;
 import java.util.HashMap;
 
+import it.ingbs.ingegneria_software.Eccezioni.CategoriaNotFoundException;
 import it.ingbs.ingegneria_software.model.Fruitore;
 import it.ingbs.ingegneria_software.model.GestoreFattori;
+import it.ingbs.ingegneria_software.model.GestoreRichieste;
 import it.ingbs.ingegneria_software.model.comprensori.GestoreComprensorio;
+import it.ingbs.ingegneria_software.model.gerarchie.Categoria;
 import it.ingbs.ingegneria_software.model.gerarchie.Gerarchia;
 import it.ingbs.ingegneria_software.model.gerarchie.GestoreGerarchie;
  import it.ingbs.ingegneria_software.model.gerarchie.MenuGerarchie;
 import it.ingbs.ingegneria_software.model.utenti.Configuratore;
+import it.ingbs.ingegneria_software.utilita_generale.InputDati;
 import it.ingbs.ingegneria_software.utilita_generale.MenuUtil;
 
 /*
@@ -20,7 +24,7 @@ public class GestoreMenu {
     
     private final String[] vociMenuBackEnd = new String[]{"GESTIONE COMPRENSORI","GESTIONE GERARCHIE","GESTIONE FATTORI CONVERSIONE"};
 
-    private final String[] vociMenuFrontEnd = new String[]{"Visualizza Gerarchie"};
+    private final String[] vociMenuFrontEnd = new String[]{"Visualizza Gerarchie","Effettua una richiesta"};
       
     private final MenuUtil menuBackEnd = new MenuUtil("MENU BACK-END:", vociMenuBackEnd);
 
@@ -31,6 +35,7 @@ public class GestoreMenu {
     private HashMap<String, Gerarchia> radici = new HashMap<>();
     private File nomefile = new File("elaborato-ingegneria-software\\src\\Data_File\\elencoGerarchie.txt");
     private final GestoreFattori gestoreFattori = new GestoreFattori();
+    private final GestoreRichieste gr = new GestoreRichieste();
 
     public void backEnd (Configuratore configuratore) throws Exception {
         int scelta;
@@ -70,9 +75,26 @@ public class GestoreMenu {
                 gestoreGerarchia.stampaGerarchie();
                 break;
 
+                case 2:
+                    Categoria catRichieta = cercaCatFoglia();
+                    Categoria catOfferta = cercaCatFoglia();
+                    int numOre = InputDati.leggiInteroConMinimo("Di quante ore necessiti?", 0);
+                    gr.creaRichiesta(catRichieta,catOfferta, numOre, fruitore);
+                break;
+
         }
      }while(scelta!=0);
   }
+
+
+    private Categoria cercaCatFoglia() throws CategoriaNotFoundException {
+        Categoria catCercata;
+        do{
+        String nomeRichiesta = InputDati.leggiStringaNonVuota("Inserisci il nome della categoria di cui hai bisogno");
+        catCercata = gestoreFattori.getCategoria(nomeRichiesta);
+        }while(catCercata!=null);
+        return catCercata;
+    }
     
 
 
