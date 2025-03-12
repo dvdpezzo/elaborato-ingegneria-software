@@ -3,7 +3,7 @@ package it.ingbs.ingegneria_software.model;
 import java.util.HashMap;
 import java.util.Map;
 
-import it.ingbs.ingegneria_software.gestione_accesso.GestoreFileCredenziali;
+import it.ingbs.ingegneria_software.gestione_file.GestoreFileCredenziali;
 import it.ingbs.ingegneria_software.utilita_generale.InputDati;
 
 
@@ -14,6 +14,12 @@ public class GestoreConfiguratori {
     public GestoreConfiguratori(GestoreFileCredenziali gestoreFileCredenziali) {
          this.mappaConfiguratori = setMappaConfiguratori(gestoreFileCredenziali.getMappaCredenziali());
     }
+
+    /**
+     * Converte la mappa nome utente e pass in una mappa nomeUtente e configuratore
+     * @param mappaCredenziali mappa string - string con nome utente e pass
+     * @return mappa contenente nomeUtente e configuratore 
+     */
     private Map<String, Configuratore> setMappaConfiguratori (Map<String, String> mappaCredenziali) {
         for (Map.Entry<String, String> entry : mappaCredenziali.entrySet()) {
             String nome = entry.getKey();
@@ -43,6 +49,7 @@ public class GestoreConfiguratori {
         mappaConfiguratori.put(newUtente.getNomeUtente(), newUtente);
         return newUtente;        
     }
+
 
 
 }
