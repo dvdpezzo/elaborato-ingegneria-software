@@ -1,14 +1,17 @@
 package it.ingbs.ingegneria_software.model;
 
+import java.io.*;
 import java.util.*;
+import java.util.Map.Entry;
 
 import it.ingbs.ingegneria_software.model.gerarchie.Categoria;
-import it.ingbs.ingegneria_software.model.gerarchie.GestoreGerarchie;
+
+
 
 public class GestoreRichieste {
     
-    private HashMap<Fruitore,RichiestaScambio> mappaRichieste = new HashMap<Fruitore,RichiestaScambio>();
-    private GestoreGerarchie gg = new GestoreGerarchie();
+    private HashMap<Fruitore,ArrayList<RichiestaScambio>> mappaRichieste = new HashMap<Fruitore,ArrayList<RichiestaScambio>>();
+   private final File fileRichieste = new File("src\\Data_File\\elencoRichieste.txt");
 
 
     /**
@@ -16,12 +19,14 @@ public class GestoreRichieste {
      * @param r richiesta che viene aggiunta alla mappa
      */
     public void aggiungiRichiesta(RichiestaScambio r){
-        mappaRichieste.put(r.getFr(),r);
+        mappaRichieste.put(r.getFr(),);
     }
 
-    public int calcolaOre(Categoria cat1, Categoria cat2, int ore){
-      return 0;
-    }
+
+
+    public void rimuoviRichiesta(RichiestaScambio r){
+        mappaRichieste.remove(r.getFr(),r);
+     }
 
     /**
      * 
@@ -37,7 +42,33 @@ public class GestoreRichieste {
         return nuovaRichiesta;
     }
 
-    
+
+    public void salvaSuFile() {
+    try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileRichieste, true))) {
+        for (Entry<Fruitore, RichiestaScambio> entry : mappaRichieste.entrySet()) {
+            Fruitore fruitore = entry.getKey();
+            RichiestaScambio richiesta = entry.getValue();
+            writer.write("Fruitore: " + fruitore.getNomeUtente() + "\n");
+            writer.write(richiesta.toString() + "\n");
+            writer.write("\n");
+        }
+    } catch (IOException e) {
+        e.printStackTrace();
+    }
+}
+
+   public HashMap<Fruitore,RichiestaScambio> getMappa(){
+     return mappaRichieste;
+   }
+
+    public void setMappa(HashMap<Fruitore,RichiestaScambio> mappa){
+         mappaRichieste = mappa;
+    }
+
+
+
+
+
 
 
 

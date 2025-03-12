@@ -15,6 +15,7 @@ import it.ingbs.ingegneria_software.model.gerarchie.Gerarchia;
 import it.ingbs.ingegneria_software.model.gerarchie.GestoreGerarchie;
  import it.ingbs.ingegneria_software.model.gerarchie.MenuGerarchie;
 import it.ingbs.ingegneria_software.model.utenti.Configuratore;
+import it.ingbs.ingegneria_software.model.utenti.GestoreFruitori;
 import it.ingbs.ingegneria_software.utilita_generale.InputDati;
 import it.ingbs.ingegneria_software.utilita_generale.MenuUtil;
 
@@ -78,12 +79,7 @@ public class GestoreMenu {
                 break;
 
                 case 2:
-                    Categoria catRichiesta = cercaCatFoglia();
-                    Categoria catOfferta = cercaCatFoglia();
-                    int numOre = InputDati.leggiInteroConMinimo("Di quante ore necessiti?", 0);
-                    Double fattoreConversione = gestoreFattori.getFattore(catRichiesta.getNome().toUpperCase()+"->"+catOfferta.getNome().toUpperCase());
-                    RichiestaScambio richiestaNuova = gr.creaRichiesta(catRichiesta,catOfferta, numOre, fruitore, fattoreConversione);
-                    System.out.println(richiestaNuova.toString());
+                    nuovaRichiesta(fruitore);
                 break;
 
         }
@@ -91,6 +87,33 @@ public class GestoreMenu {
   }
 
 
+  /**
+   * 
+   * @param fruitore soggetto che crea una richiesta di scambio di prestazione
+   * @throws CategoriaNotFoundException
+   */
+    private void nuovaRichiesta(Fruitore fruitore) throws CategoriaNotFoundException {
+        Categoria catRichiesta = cercaCatFoglia();
+        Categoria catOfferta = cercaCatFoglia();
+        int numOre = InputDati.leggiInteroConMinimo("Di quante ore necessiti?", 0);
+        Double fattoreConversione = gestoreFattori.getFattore(catRichiesta.getNome().toUpperCase()+"->"+catOfferta.getNome().toUpperCase());
+        RichiestaScambio richiestaNuova = gr.creaRichiesta(catRichiesta,catOfferta, numOre, fruitore, fattoreConversione);
+        System.out.println(richiestaNuova.toString());
+        boolean salva = InputDati.yesOrNo("Vuoi salvare la richiesta?");
+        if(!salva){
+           gr.rimuoviRichiesta(richiestaNuova);
+          }else{
+            gr.salvaSuFile();
+          }
+        
+    }
+
+
+    /**
+     * 
+     * @return la categoria cercata
+     * @throws CategoriaNotFoundException
+     */
     private Categoria cercaCatFoglia() throws CategoriaNotFoundException {
         Categoria catCercata;
         do{
