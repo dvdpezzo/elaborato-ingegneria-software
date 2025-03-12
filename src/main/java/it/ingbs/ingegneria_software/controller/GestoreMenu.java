@@ -4,8 +4,8 @@ import java.io.File;
 import java.util.HashMap;
 
 import it.ingbs.ingegneria_software.model.Fruitore;
-import it.ingbs.ingegneria_software.model.GestoreComprensorio;
 import it.ingbs.ingegneria_software.model.GestoreFattori;
+import it.ingbs.ingegneria_software.model.comprensori.GestoreComprensorio;
 import it.ingbs.ingegneria_software.model.gerarchie.Gerarchia;
  import it.ingbs.ingegneria_software.model.gerarchie.GestoreGerarchie;
 import it.ingbs.ingegneria_software.model.gerarchie.MenuGerarchie;

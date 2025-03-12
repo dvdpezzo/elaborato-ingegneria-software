@@ -1,5 +1,9 @@
 package it.ingbs.ingegneria_software.model;
 
+import it.ingbs.ingegneria_software.model.comprensori.ComprensorioGeografico;
+import it.ingbs.ingegneria_software.model.comprensori.GestoreComprensorio;
+import it.ingbs.ingegneria_software.model.utenti.Utente;
+
 public class Fruitore extends Utente{
 
     private final GestoreComprensorio gestoreComprensorio;

@@ -4,6 +4,8 @@ import java.io.*;
 import java.util.HashMap;
 
 import it.ingbs.ingegneria_software.gestione_file.GestoreFileCredenziali;
+import it.ingbs.ingegneria_software.model.comprensori.ComprensorioGeografico;
+import it.ingbs.ingegneria_software.model.comprensori.GestoreComprensorio;
 import it.ingbs.ingegneria_software.utilita_generale.InputDati;
 
 
