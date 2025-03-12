@@ -3,12 +3,12 @@ package it.ingbs.ingegneria_software.controller;
 import java.io.File;
 import java.util.HashMap;
 
-import it.ingbs.ingegneria_software.gestione_file.GestoreFileGerarchie;
 import it.ingbs.ingegneria_software.model.Fruitore;
+import it.ingbs.ingegneria_software.model.GestoreFattori;
 import it.ingbs.ingegneria_software.model.comprensori.GestoreComprensorio;
 import it.ingbs.ingegneria_software.model.gerarchie.Gerarchia;
- import it.ingbs.ingegneria_software.model.gerarchie.GestoreGerarchie;
-import it.ingbs.ingegneria_software.model.gerarchie.MenuGerarchie;
+import it.ingbs.ingegneria_software.model.gerarchie.GestoreGerarchie;
+ import it.ingbs.ingegneria_software.model.gerarchie.MenuGerarchie;
 import it.ingbs.ingegneria_software.model.utenti.Configuratore;
 import it.ingbs.ingegneria_software.utilita_generale.MenuUtil;
 
@@ -29,16 +29,11 @@ public class GestoreMenu {
     private GestoreComprensorio gestoreComprensorio = new GestoreComprensorio();
     private GestoreGerarchie gestoreGerarchia = new GestoreGerarchie();
     private HashMap<String, Gerarchia> radici = new HashMap<>();
-    // private GestoreFattoriConversione gestoreFattori = new GestoreFattoriConversione();
-
     private File nomefile = new File("elaborato-ingegneria-software\\src\\Data_File\\elencoGerarchie.txt");
+    private final GestoreFattori gestoreFattori = new GestoreFattori();
 
-
-    /*
-     * nuovo menu back end dove il configuratore sceglie su quale oggetto lavorare 
-     */
     public void backEnd (Configuratore configuratore) throws Exception {
-        int scelta=0;
+        int scelta;
         do {
             scelta = menuBackEnd.scegli();
             switch (scelta) { 
@@ -47,13 +42,12 @@ public class GestoreMenu {
                 break;
 
                 case 2:
-                radici = GestoreFileGerarchie.recuperaAlbero(nomefile);
-                MenuGerarchie menuGerarchie = new MenuGerarchie(radici, nomefile);
+                MenuGerarchie menuGerarchie = new MenuGerarchie();
                 menuGerarchie.run();
                 break;
 
                 case 3:
-                  //gestoreFattori.modificaFattori();
+                gestoreFattori.modificaFattori();
                 break;
             }
         }while(scelta!=0);
@@ -67,13 +61,13 @@ public class GestoreMenu {
      */
 
     public void frontEnd(Fruitore fruitore) throws Exception{
-        int scelta=0;
+        int scelta;
 
         do{
             scelta=menuFrontEnd.scegli();
             switch(scelta){
                 case 1: 
-                //visualizzaGerarchie()
+                gestoreGerarchia.stampaGerarchie();
                 break;
 
         }

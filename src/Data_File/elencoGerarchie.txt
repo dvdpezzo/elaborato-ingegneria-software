@@ -1,3 +1,28 @@
-</ARTE>, <lezioni di arte>, <#!Stato di Conservazione #Descrizione Libera>
-<PRATICA>, <lezione di pratica>, <ARTE/ARTE>, >
-</LINGUE>, <null>, <#!Stato di Conservazione #Descrizione Libera>
+</MATEMATICA>, <lezioni di matematica>, <#Radice #lezioni di matematica>
+<ALGEBRA>, <lezioni di algebra>, <MATEMATICA/MATEMATICA>, <#Principianti #Intermedi>
+<GEOMETRIA>, <lezioni di geometria>, <MATEMATICA/MATEMATICA>, <#Intermedi #Avanzati>
+<ALGEBRA LINEARE>, <lezioni di algebra lineare>, <MATEMATICA/ALGEBRA>, <#Principianti>
+<ALGEBRA ASTRATTA>, <lezioni di algebra astratta>, <MATEMATICA/ALGEBRA>, <#Intermedi>
+<GEOMETRIA EUCLIDEA>, <lezioni di geometria euclidea>, <MATEMATICA/GEOMETRIA>, <#Intermedi>
+<GEOMETRIA NON EUCLIDEA>, <lezioni di geometria non euclidea>, <MATEMATICA/GEOMETRIA>, <#Avanzati>
+</MUSICA>, <lezioni di musica>, <#Radice #lezioni di musica>
+<STRUMENTI A CORDA>, <lezioni di strumenti a corda>, <MUSICA/MUSICA>, <#Principianti #Intermedi>
+<STRUMENTI A FIATO>, <lezioni di strumenti a fiato>, <MUSICA/MUSICA>, <#Intermedi #Avanzati>
+<CHITARRA>, <lezioni di chitarra>, <MUSICA/STRUMENTI A CORDA>, <#Principianti>
+<VIOLINO>, <lezioni di violino>, <MUSICA/STRUMENTI A CORDA>, <#Intermedi>
+<FLAUTO>, <lezioni di flauto>, <MUSICA/STRUMENTI A FIATO>, <#Intermedi>
+<TROMBA>, <lezioni di tromba>, <MUSICA/STRUMENTI A FIATO>, <#Avanzati>
+</SCIENZE>, <lezioni di scienze>, <#Radice #lezioni di scienze>
+<BIOLOGIA>, <lezioni di biologia>, <SCIENZE/SCIENZE>, <#Principianti #Intermedi>
+<FISICA>, <lezioni di fisica>, <SCIENZE/SCIENZE>, <#Intermedi #Avanzati>
+<GENETICA>, <lezioni di genetica>, <SCIENZE/BIOLOGIA>, <#Principianti>
+<ECOLOGIA>, <lezioni di ecologia>, <SCIENZE/BIOLOGIA>, <#Intermedi>
+<MECCANICA>, <lezioni di meccanica>, <SCIENZE/FISICA>, <#Intermedi>
+<OTTICA>, <lezioni di ottica>, <SCIENZE/FISICA>, <#Avanzati>
+</LINGUE>, <lezioni di lingue>, <#Radice #lezioni di lingue>
+<INGLESE>, <lezioni di inglese>, <LINGUE/LINGUE>, <#Principianti #Intermedi>
+<FRANCESE>, <lezioni di francese>, <LINGUE/LINGUE>, <#Intermedi #Avanzati>
+<INGLESE BASE>, <lezioni di inglese base>, <LINGUE/INGLESE>, <#Principianti>
+<INGLESE AVANZATO>, <lezioni di inglese avanzato>, <LINGUE/INGLESE>, <#Intermedi>
+<FRANCESE BASE>, <lezioni di francese base>, <LINGUE/FRANCESE>, <#Intermedi>
+<FRANCESE AVANZATO>, <lezioni di francese avanzato>, <LINGUE/FRANCESE>, <#Avanzati>

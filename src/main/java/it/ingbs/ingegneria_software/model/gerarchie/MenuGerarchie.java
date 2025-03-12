@@ -1,63 +1,56 @@
 package it.ingbs.ingegneria_software.model.gerarchie;
 
-import java.io.File;
-import java.util.HashMap;
-
-import it.ingbs.ingegneria_software.gestione_file.GestoreFileGerarchie;
 import it.ingbs.ingegneria_software.utilita_generale.MenuUtil;
 
 public class MenuGerarchie implements Runnable {
 
-private final static String[] VOCI_PRINCIPALI = {
-            "salva gerarchie",
-            "aggiungi gerarchia",
-            "rimuovi gerarchia",
-            "visualizza gerarchie presenti",
-            "modifica gerarchia"
+    private static final String TITOLO_MENU = "Gestione delle gerarchie";
+    private static final String[] VOCI_PRINCIPALI = {
+            "Salva gerarchie",
+            "Aggiungi gerarchia",
+            "Rimuovi gerarchia",
+            "Visualizza gerarchie presenti",
+            "Modifica gerarchia"
     };
 
-    private static MenuUtil menuPrincipale;
-
-    private static HashMap<String, Gerarchia> radici;
-    private File fileSalvataggio;
+    private final MenuUtil menuPrincipale;
+    private final GestoreGerarchie gestoreGerarchie;
 
     /**
-     * Costruttore del GestoreGersrchie
-     *
-     * @param radici HshMap contenente tutte le gerarchie
-     * @param salvataggio file di salvataggio delle gerarchie
+     * Costruttore del Menu Gerarchie.
      */
-    public MenuGerarchie(HashMap <String,Gerarchia> radici, File salvataggio) {
-        menuPrincipale = new MenuUtil("Gestione delle gerarchie", VOCI_PRINCIPALI);
-        this.radici = radici;
-        this.fileSalvataggio = salvataggio;
+    public MenuGerarchie() {
+        this.menuPrincipale = new MenuUtil(TITOLO_MENU, VOCI_PRINCIPALI);
+        this.gestoreGerarchie = new GestoreGerarchie();
     }
 
     /**
-     * Menù per la gestione delle gerarchie
+     * Menù per la gestione delle gerarchie.
      */
     @Override
     public void run() {
-        int scelta;
+        int sceltaUtente;
         do {
-            switch (scelta = menuPrincipale.scegli()) {
-                case 1: GestoreFileGerarchie.salvaAlbero(radici.values(), fileSalvataggio);
-                break;
-                case 2: GestoreGerarchie.aggiungiGerarchia(radici);
-                break;
-                case 3: GestoreGerarchie.rimuoviGerarchia(radici);
-                break;
-                case 4: stampaGerarchie();
-                break;
-                case 5: GestoreGerarchie.modificaGerarchia(radici);
-                break;
+            sceltaUtente = menuPrincipale.scegli();
+            switch (sceltaUtente) {
+                case 1:
+                    gestoreGerarchie.salvaGerarchie();
+                    break;
+                case 2:
+                    gestoreGerarchie.aggiungiGerarchia();
+                    break;
+                case 3:
+                    gestoreGerarchie.rimuoviGerarchia();
+                    break;
+                case 4:
+                    gestoreGerarchie.stampaGerarchie();
+                    break;
+                case 5:
+                    gestoreGerarchie.modificaGerarchia();
+                    break;
+                default:
+                    break;
             }
-        } while (scelta != 0);
-    }
-
-    private void stampaGerarchie() {
-        for (String g : radici.keySet())
-            System.out.println(g + " ");
-
+        } while (sceltaUtente != 0);
     }
 }

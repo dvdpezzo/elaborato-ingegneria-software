@@ -1,214 +1,269 @@
 package it.ingbs.ingegneria_software.model;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.HashMap;
+
+import it.ingbs.ingegneria_software.Eccezioni.CategoriaNotFoundException;
 import it.ingbs.ingegneria_software.model.gerarchie.Categoria;
+import it.ingbs.ingegneria_software.model.gerarchie.Gerarchia;
+import it.ingbs.ingegneria_software.model.gerarchie.GestoreGerarchie;
 import it.ingbs.ingegneria_software.utilita_generale.InputDati;
 import it.ingbs.ingegneria_software.utilita_generale.MenuUtil;
-import java.io.*;
-
 
 public class GestoreFattori {
-    
-    public static String ERRORE_CATEGORIA ="Le categorie che hai inserito non sono categorie foglia!";
-    private static String CATEGORIA_PARTENZA="Inserisci il nome della categoria di partenza:";
-    private static String CATEGORIA_DESTINAZIONE="Inserisci il nome della categoria di destinazione:";
 
-    private HashMap<String,FattoriConversione> mappaFattori = new HashMap<String,FattoriConversione>();
+    private static final String INSERISCI_IL_NOME_DELLA_GERARCHIA = "Inserisci il nome della Gerarchia:";
+    private static final String ERRORE_CATEGORIA = "Le categorie che hai inserito non sono categorie foglia!";
+    private static final String CATEGORIA_RICERCATA = "Inserisci il nome della categoria ricercata:";
+    private static final String INSERISCI_VALORE_CONVERSIONE = "Inserisci il valore di conversione:";
+    private static final String CATEGORIA_NON_TROVATA = "Categoria non trovata";
+    private static final String FATTORI_CONVERSIONE_CREATI = "Fattori di conversione creati";
+    private static final String FATTORI_CONVERSIONE_SALVATI = "Fattori di conversione salvati";
+    private static final String FATTORI_CONVERSIONE_DERIVATO_CREATI = "Fattore di conversione derivato creato";
+    private static final String RIMUOVI_FATTORE_DA = "Da quale categoria vuoi rimuovere il fattore? ";
+    private static final String RIMUOVI_FATTORE_VERSO = "Verso quale categoria vuoi rimuovere il fattore? ";
+    private static final String FATTORE_RIMOSSO = "Fattore rimosso";
 
-    File nomeFile = new File("src\\Data File\\elencoFattoriConversione.txt");
+    private final HashMap<String, FattoriConversione> mappaFattori;
+    private final GestoreGerarchie gestoreGerarchie;
+    private static final File NOME_FILE = new File("src\\Data_File\\elencoFattoriConversione.txt");
 
+    public GestoreFattori() {
+        this.mappaFattori = new HashMap<>();
+        this.gestoreGerarchie = new GestoreGerarchie();
+    }
 
     /**
-     * Creo un fattore di conversione e lo inserisco nella mappa dei fattori 
-     * e in automatico creo quello opposto
+     * Crea un fattore di conversione e lo inserisce nella mappa dei fattori 
+     * e in automatico crea quello opposto
      * 
-     * @param cat1 prima categoria inserita 
-     * @param cat2 seconda categoria inserita 
-     * @param valore indica il valore di conversione tra la prima e la seconda categoria 
+     * @param categoria1 prima categoria inserita 
+     * @param categoria2 seconda categoria inserita 
+     * @param valoreConversione indica il valore di conversione tra la prima e la seconda categoria 
      */
-    private void assegnaFattoreConversione(Categoria cat1, Categoria cat2, double valore){
-        if(cat1.hasFiglio(cat1)==false && cat2.hasFiglio(cat2)==false){
+    private void assegnaFattoreConversione(Categoria categoria1, Categoria categoria2, double valoreConversione) {
+        if (!(categoria1.hasFiglio(categoria1) && categoria2.hasFiglio(categoria2))) {
 
-            String chiave = cat1.getNome()+"->"+cat2.getNome();
-            FattoriConversione fattore = new FattoriConversione(valore, cat1, cat2);
-            mappaFattori.put(chiave,fattore);
-            
+            String chiave = categoria1.getNome() + "->" + categoria2.getNome();
+            FattoriConversione fattore = new FattoriConversione(valoreConversione, categoria1, categoria2);
+            mappaFattori.put(chiave, fattore);
+
             //creo in automatico il fattore opposto 
-            fattoreOpposto(cat1,cat2,valore);
+            fattoreOpposto(categoria1, categoria2, valoreConversione);
 
-        }
-        else{
+        } else {
             System.out.println(ERRORE_CATEGORIA);
         }
     }
 
     /**
-     * Creo il fattore di conversione opposto rispetto a quello inserito nel metodo assegnaFattoreConversione()
+     * Crea il fattore di conversione opposto rispetto a quello inserito nel metodo assegnaFattoreConversione()
      * 
-     * @param cat1 
-     * @param cat2
-     * @param valore
+     * @param categoria1 
+     * @param categoria2
+     * @param valoreConversione
      */
-    private void fattoreOpposto(Categoria cat1, Categoria cat2, double valore){
+    private void fattoreOpposto(Categoria categoria1, Categoria categoria2, double valoreConversione) {
 
-        String chiaveOpposta = cat2.getNome()+"->"+cat1.getNome();
-        FattoriConversione fatOpposto = new FattoriConversione(1/valore, cat2, cat1);
-        mappaFattori.put(chiaveOpposta,fatOpposto);
+        String chiaveOpposta = categoria2.getNome() + "->" + categoria1.getNome();
+        FattoriConversione fattoreOpposto = new FattoriConversione(1 / valoreConversione, categoria2, categoria1);
+        mappaFattori.put(chiaveOpposta, fattoreOpposto);
     }
 
+    /**
+     * Crea un fattore di conversione derivandolo da due fattori già esistenti
+     * @param categoria1 categoria dalla quale prendo il valore
+     * @param categoria2 categoria dalla quale prendo il valore 
+     * @param categoria3 categoria delle quale voglio creare un valore 
+     */
+    public void fattoreDerivato(Categoria categoria1, Categoria categoria2, Categoria categoria3) {
+        String chiave12 = categoria1.getNome() + "->" + categoria2.getNome();
+        String chiave23 = categoria2.getNome() + "->" + categoria3.getNome();
+        if (mappaFattori.containsKey(chiave12) && mappaFattori.containsKey(chiave23)) {
+            double valoreConversione1 = mappaFattori.get(chiave12).getValoreConversione();
+            double valoreConversione2 = mappaFattori.get(chiave23).getValoreConversione();
+            double valoreDerivato = valoreConversione1 * valoreConversione2;
+
+            assegnaFattoreConversione(categoria1, categoria3, valoreDerivato);
+        }
+    }
 
     /**
-     * Creo un fattore di conversione derivandolo da due fattori già esistenti
-     * @param cat1 categoria dalla quale prendo il valore
-     * @param cat2 categoria dalla quale prendo il valore 
-     * @param cat3 categoria delle quale voglio creare un valore 
+     * Chiede al configuratore quale fattore di conversione vuole creare 
      */
-    public void fattoreDerivato(Categoria cat1, Categoria cat2, Categoria cat3){
-        if(cat1.hasFiglio(cat1)==false && cat2.hasFiglio(cat2)==false && cat3.hasFiglio(cat3)==false){
-            String controllo12 = cat1.getNome()+" -> "+cat2.getNome();
-            String controllo23 = cat2.getNome()+" -> "+cat3.getNome();
-            if(mappaFattori.containsKey(controllo12) && mappaFattori.containsKey(controllo23)){
-                double val1 = mappaFattori.get(controllo12).getValore();
-                double val2= mappaFattori.get(controllo23).getValore();
-                double valDerivato =val1*val2;
+    public void nuovoFattore() {
 
-                assegnaFattoreConversione(cat1, cat3, valDerivato);
+        try {
+            Categoria categoria1, categoria2;
+            do {
+                categoria1 = trovaCategoria();
+                categoria2 = trovaCategoria();
+            } while (categoria1.hasFiglio(categoria1) || categoria2.hasFiglio(categoria2));
+
+            double valoreConversione = InputDati.leggiDoubleLimitato(INSERISCI_VALORE_CONVERSIONE, 0.5, 2);
+            assegnaFattoreConversione(categoria1, categoria2, valoreConversione);
+            System.out.println(FATTORI_CONVERSIONE_CREATI);
+        } catch (CategoriaNotFoundException ex) {
+            System.out.println(CATEGORIA_NON_TROVATA);
+        }
+    }
+
+    /**
+     * Chiede al configuratore quale fattore di conversione derivato vuole calcolare 
+     */
+    public void nuovoFattoreDerivato() {
+        try {
+            visualizzaFattori();
+            Categoria categoria1, categoria2, categoria3;
+            do {
+                categoria1 = trovaCategoria();
+                categoria2 = trovaCategoria();
+                categoria3 = trovaCategoria();
+            } while (categoria1.hasFiglio(categoria1) || categoria2.hasFiglio(categoria2) || categoria3.hasFiglio(categoria3));
+            fattoreDerivato(categoria1, categoria2, categoria3);
+            System.out.println(FATTORI_CONVERSIONE_DERIVATO_CREATI);
+        } catch (CategoriaNotFoundException ex) {
+            System.out.println(CATEGORIA_NON_TROVATA);
+        }
+    }
+
+    /**
+     * Legge da file i fattori e li aggiunge alla mappa dei fattori 
+     * @throws IOException
+     */
+    public void leggiFileFattori() throws IOException {
+        try (BufferedReader reader = new BufferedReader(new FileReader(NOME_FILE))) {
+            String linea;
+            while ((linea = reader.readLine()) != null) {
+                // Processa ogni riga del file 
+                String[] parti = linea.split(" -> |: | [ | / | ]");  // Divide la riga in base ai separatori 
+                if (parti.length == 3) {
+                    String nomeCategoria1 = parti[0].trim();
+                    String nomeCategoria2 = parti[1].trim();
+                    double valore = Double.parseDouble(parti[2].trim());
+
+                    // Crea le categorie 
+                    Categoria categoria1;
+                    Categoria categoria2;
+                    try {
+                        categoria1 = getCategoria(nomeCategoria1);
+                        categoria2 = getCategoria(nomeCategoria2);
+                        FattoriConversione fattore = new FattoriConversione(valore, categoria2, categoria1);
+                        mappaFattori.put(nomeCategoria1 + "->" + nomeCategoria2, fattore);
+                    } catch (CategoriaNotFoundException e) {
+                        e.printStackTrace();
+                    }
+                }
             }
         }
     }
 
     /**
-     * chiede al configuratore quale fattore di conversione vuole creare 
-     */
-    public void nuovoFattore(){
-    
-        String str1 = InputDati.leggiStringaNonVuota(CATEGORIA_PARTENZA);
-        Categoria cat1 = null; 
-        String str2 = InputDati.leggiStringaNonVuota(CATEGORIA_DESTINAZIONE);
-        Categoria cat2=null;
-        double valore = InputDati.leggiDoubleLimitato("Inserisci il valore di conversione:", 0.5, 2);
-        assegnaFattoreConversione(cat1, cat2, valore);
-    }
-
-    /**
-     * Chiede al configuratore quale fattore di convesione derivato vuole calcolare 
-     */
-    public void nuovoFattoreDerivato(){
-        visualizzaFattori();
-        String str1 = InputDati.leggiStringaNonVuota(CATEGORIA_PARTENZA);
-        Categoria cat1 = null; //metodo che ritorna la categoria
-        
-        String str2 =InputDati.leggiStringaNonVuota("Inserisci il nome della seconda categoria:");
-        Categoria cat2= null;
-
-        String str3 = InputDati.leggiStringaNonVuota(CATEGORIA_DESTINAZIONE);
-        
-        Categoria cat3 = null; 
-        fattoreDerivato(cat1, cat2, cat3);
-    }
-
-
-    /**
-     * legge da file i fattori e li aggiunge alla mappa dei fattori 
-     * @param nomeFile nome del file dove vengono salvati i fattori di conversione
+     * Scrive su file i vari fattori di conversione
      * @throws IOException
      */
-
-    public void leggiFileFattori(String nomeFile) throws IOException {
-    try (BufferedReader reader = new BufferedReader(new FileReader(nomeFile))) {
-        String line;
-        while ((line = reader.readLine()) != null) {
-            // Processa ogni riga del file 
-            String[] parts = line.split(" -> |: | [ | / | ]");  // Divide la riga in base ai separatori 
-            if (parts.length == 3) {
-                String categoria1 = parts[0].trim();
-                String categoria2 = parts[1].trim();
-                double valore = Double.parseDouble(parts[2].trim());
-                String descrizione1 = parts[3].trim();
-                String descrizione2 = parts[4].trim();
-
-                // Crea le categorie 
-                Categoria c1 = new Categoria(categoria1,descrizione1); 
-                Categoria c2 = new Categoria(categoria2,descrizione2);
-                // Aggiungi il fattore di conversione alla mappa
-                FattoriConversione fattore = new FattoriConversione(valore, c2, c1);
-                mappaFattori.put(categoria1 + "->" + categoria2, fattore);
-                 }
-             }
-           }
-      }
-
-
-      /**
-       * Scrive su file i vari fattori di conversione
-       * @param nomeFile2 nome del file sul quale vengono salvati i fattori 
-              * @throws IOException
-              */
-             public void salvaFattori(File nomeFile2) throws IOException {
-               try (FileWriter writer = new FileWriter(nomeFile2)) {
+    public void salvaFattori() throws IOException {
+        try (FileWriter writer = new FileWriter(NOME_FILE)) {
             // Itera sulla mappa dei fattori di conversione e scrive ogni coppia su una riga
             for (FattoriConversione fattore : mappaFattori.values()) {
                 // Scrive la riga con le categorie e il valore del fattore
-                writer.append(fattore.getCat1().getNome() + " -> " +
-                              fattore.getCat2().getNome() + ": " +
-                              fattore.getValore() + "\n");
+                writer.append(fattore.getCategoria1().getNome() + " -> " +
+                        fattore.getCategoria2().getNome() + ": " +
+                        fattore.getValoreConversione() + "\n");
             }
+        } finally {
+            System.out.println(FATTORI_CONVERSIONE_SALVATI);
         }
     }
-
 
     /**
-     * visualizza tutti i fattori di conversione
+     * Visualizza tutti i fattori di conversione
      */
-    private void visualizzaFattori(){
-        for (String stringa : mappaFattori.keySet() ) {
-            System.out.println(stringa);
+    private void visualizzaFattori() {
+        for (String chiave : mappaFattori.keySet()) {
+            System.out.println(chiave + " : " + mappaFattori.get(chiave).getValoreConversione());
         }
-     }
-
-
+    }
 
     /*
-     * menu che permette di eseguire operazioni sui fattori di conversione
+     * Menu che permette di eseguire operazioni sui fattori di conversione
      */
-    public void modificaFattori() throws IOException{
-        String [] voci = {"Aggiungi nuovo fattore di conversione","Aggiunigi fattore di conversione derivato","Salva fattori di conversione",
-        "Visualizza fattori di conversione"};
-        MenuUtil menuFattori = new MenuUtil("AZIONI SUI FATTORI DI CONVERSIONE",voci);
-        int scelta=0;
-        do{
-           scelta=menuFattori.scegli();
-           switch(scelta){
-            case 1:
-              nuovoFattore();
-            break;
-            case 2: 
-              nuovoFattoreDerivato();
-            break;
+    public void modificaFattori() throws IOException {
+        String[] voci = { "Visualizza gerarchie", "Aggiungi nuovo fattore di conversione", "Aggiungi fattore di conversione derivato", "Rimuovi fattore", "Salva fattori di conversione",
+                "Visualizza fattori di conversione" };
+        MenuUtil menuFattori = new MenuUtil("AZIONI SUI FATTORI DI CONVERSIONE", voci);
+        int scelta;
+        do {
+            scelta = menuFattori.scegli();
+            leggiFileFattori();
+            switch (scelta) {
+                case 1:
+                    gestoreGerarchie.stampaGerarchie();
+                    break;
+                case 2:
+                    nuovoFattore();
+                    break;
+                case 3:
+                    nuovoFattoreDerivato();
+                    break;
+                case 4:
+                    rimuoviFattore();
+                    break;
+                case 5:
+                    salvaFattori();
+                    break;
+                case 6:
+                    visualizzaFattori();
+                    break;
+            }
+        } while (scelta != 0);
+    }
 
-            case 3:
-             salvaFattori(nomeFile);
-             break;
+    /**
+     * Trova la categoria inserita dall'utente
+     * @return la categoria inserita dall'utente
+     * @throws CategoriaNotFoundException
+     */
+    private Categoria trovaCategoria() throws CategoriaNotFoundException {
 
-            case 4: 
-             visualizzaFattori();
-            break;
-           }
-        }while(scelta!=0);
+        String nomeGerarchia = InputDati.leggiStringaNonVuota(INSERISCI_IL_NOME_DELLA_GERARCHIA);
+        Gerarchia gerarchiaRicercata = gestoreGerarchie.getGerarchia(nomeGerarchia);
+        String nomeCategoria = InputDati.leggiStringaNonVuota(CATEGORIA_RICERCATA);
+
+        return gerarchiaRicercata.getCategoria(nomeCategoria);
+    }
+
+    /**
+     * Restituisce la categoria con il nome specificato
+     * @param nomeCategoria il nome della categoria da cercare
+     * @return la categoria con il nome specificato
+     * @throws CategoriaNotFoundException se la categoria non è stata trovata
+     */
+    private Categoria getCategoria(String nomeCategoria) throws CategoriaNotFoundException {
+        for (Gerarchia gerarchia : gestoreGerarchie.getRadici().values()) {
+            Categoria categoria = gerarchia.getCategoria(nomeCategoria);
+            if (categoria != null) {
+                return categoria;
+            }
+        }
+        throw new CategoriaNotFoundException();
+    }
+
+    /**
+     * Rimuove un fattore di conversione dalla mappa dei fattori
+     * @throws IOException 
+     */
+    private void rimuoviFattore() throws IOException {
+        visualizzaFattori();
+        String nomeCategoria1 = InputDati.leggiStringaNonVuota(RIMUOVI_FATTORE_DA);
+        String nomeCategoria2 = InputDati.leggiStringaNonVuota(RIMUOVI_FATTORE_VERSO);
+        mappaFattori.remove(nomeCategoria1.toUpperCase() + "->" + nomeCategoria2.toUpperCase());
+        mappaFattori.remove(nomeCategoria2.toUpperCase() + "->" + nomeCategoria1.toUpperCase());
+        System.out.println(FATTORE_RIMOSSO);
+        salvaFattori();
     }
 }
-
-
-
-
-
-/*
-
-PER IL METODO NUOVO FATTORE: 
-Devo permettere al controllore di inserire il fattore di conversione
-         PROBLEMA: come conosce le varie categorie? 
-         SOLUZIONE: a) visualizzo le gerarchie ad ogni creazione, in questo modo posso vederle in tempo-reale e scrivere
-                    b) le visualizzo una sola volta all'inizio del menu, in questo modo divido la creazione della visualizzazione
-        
-         PROBLEMA: serve un metodo che trovi una categoira e la ritorni controllando che sia foglia (uso hasFiglio)
-                    */

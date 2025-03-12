@@ -7,23 +7,23 @@ import it.ingbs.ingegneria_software.Eccezioni.CategoriaOmonimaException;
 import it.ingbs.ingegneria_software.Eccezioni.IllegalCampoException;
 import it.ingbs.ingegneria_software.Eccezioni.PadreNotFoundException;
 
-
-public class Gerarchia {
+ public class Gerarchia {
     
+    private static final String CAMPO_RADICE = "Radice";
     private final HashMap<String, Categoria> sottoCategorie;
     private final Categoria categoriaRadice;
 
     /**
      * costruttore della Gerarchia
-     *
+     * crea una categoria radice e aggiunge due campi nativi predefiniti
      * @param nome nome della categoria radice
      * @param desc descrizione della categoria radice
      */
     public Gerarchia(String nome, String desc) {
         Categoria radice = new Categoria(nome.toUpperCase(), desc);
         try {
-            radice.addCampoNativo("Stato di Conservazione", true);
-            radice.addCampoNativo("Descrizione Libera", false);
+            radice.addCampoNativo(CAMPO_RADICE);
+            radice.addCampoNativo(desc);
 
         } catch (IllegalCampoException e) {
             e.printStackTrace();
@@ -111,7 +111,7 @@ public class Gerarchia {
         if (sottoCategorie.containsKey(nomeCategoria.toUpperCase()))
             return sottoCategorie.get(nomeCategoria.toUpperCase());
         else
-            throw new CategoriaNotFoundException();
+            return null;
     }
 
     public Categoria getCategoriaRadice() {

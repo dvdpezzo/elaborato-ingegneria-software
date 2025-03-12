@@ -28,35 +28,73 @@ public class Categoria {
         this.figli = new Vector<>();
     }
 
+    /**
+     * Restituisce il padre della categoria.
+     *
+     * @return il padre della categoria
+     */
     public Categoria getPadre() {
         return this.padre;
     }
 
+    /**
+     * Imposta il padre della categoria.
+     *
+     * @param padre il padre della categoria
+     */
     public void setPadre(Categoria padre) {
         this.padre = padre;
     }
 
-    public void addFiglio(Categoria nuova) {
-        this.figli.add(nuova);
+    /**
+     * Aggiunge un figlio alla categoria.
+     *
+     * @param nuovaCategoria la nuova categoria da aggiungere come figlio
+     */
+    public void addFiglio(Categoria nuovaCategoria) {
+        this.figli.add(nuovaCategoria);
+        nuovaCategoria.setPadre(this);
     }
 
-    public void removeFiglio(Categoria daRimuovere) {
-        this.figli.remove(daRimuovere);
+    /**
+     * Rimuove un figlio dalla categoria.
+     *
+     * @param categoriaDaRimuovere la categoria da rimuovere
+     */
+    public void removeFiglio(Categoria categoriaDaRimuovere) {
+        this.figli.remove(categoriaDaRimuovere);
+        categoriaDaRimuovere.setPadre(null);
     }
 
+    /**
+     * Elimina tutti i campi nativi della categoria.
+     */
     public void eliminaCampiNativi() {
-        this.campiNativi.removeAllElements();
+        this.campiNativi.clear();
     }
 
+    /**
+     * Elimina un campo nativo specifico dalla categoria.
+     *
+     * @param nomeCampo il nome del campo da eliminare
+     * @throws CampoNotFoundException se il campo non viene trovato
+     */
     public void eliminaCampoNativo(String nomeCampo) throws CampoNotFoundException {
-        Campo daEliminare = this.getCampoNativo(nomeCampo);
-        this.campiNativi.remove(daEliminare);
+        Campo campoDaEliminare = this.getCampoNativo(nomeCampo);
+        this.campiNativi.remove(campoDaEliminare);
     }
 
+    /**
+     * Restituisce un campo nativo specifico della categoria.
+     *
+     * @param nome il nome del campo
+     * @return il campo nativo
+     * @throws CampoNotFoundException se il campo non viene trovato
+     */
     public Campo getCampoNativo(String nome) throws CampoNotFoundException {
-        for (Campo c : campiNativi) {
-            if (c.nome.equalsIgnoreCase(nome))
-                return c;
+        for (Campo campo : campiNativi) {
+            if (campo.nome.equalsIgnoreCase(nome))
+                return campo;
         }
         throw new CampoNotFoundException();
     }
@@ -64,57 +102,56 @@ public class Categoria {
     /**
      * Stampa una rappresentazione grafica dell'albero generato.
      * Un contatore tiene traccia del livello del nodo e, in base a questo valore, il metodo imposta quante indentazioni
-     * iniziali presenta il suddetto nodo
+     * iniziali presenta il suddetto nodo.
      * Ogni nodo presenta una descrizione della categoria, in particolare il nome e i suoi campi nativi tra parentesi.
      *
-     * @param count contatore del livello del nodo dell'albero
+     * @param livello contatore del livello del nodo dell'albero
      * @return stringa con una rappresentazione grafica dell'albero
      */
-    public String toString(int count) {
+    public String toString(int livello) {
         StringBuilder sb = new StringBuilder();
         sb.append(nome);
         sb.append(this.stampaCampiNativi());
         sb.append("\n");
-        count++;
+        livello++;
         for (Categoria figlio : figli) {
-            String repeated = new String(new char[count]).replace("\0", "\t");
-            
-            sb.append(repeated);
-            sb.append(figlio.toString(count));
+            String indentazione = new String(new char[livello]).replace("\0", "\t");
+            sb.append(indentazione);
+            sb.append(figlio.toString(livello));
         }
         return sb.toString();
     }
 
     /**
-     * Controlla se una categoria possiede dei figli (se size>0 ha figli)
-     * 
-     * @param cat categoria presa in considerazine
+     * Controlla se una categoria possiede dei figli.
+     *
+     * @param categoria la categoria da controllare
      * @return true se possiede figli, false se non li possiede
      */
-    public boolean hasFiglio(Categoria cat){
-        if(cat.figli.size()!=0){
-            return true;
-        }
-        return false;
+    public boolean hasFiglio(Categoria categoria) {
+        return !categoria.figli.isEmpty();
     }
 
     /**
-     * aggiunge campi alla categoria da cui viene invocato
+     * Aggiunge un campo nativo alla categoria.
      *
-     * @param nome nome del campo
-     * @param obb  obbligatorietà del campo
+     * @param nome il nome del campo
+     * @throws IllegalCampoException se il campo è duplicato o non valido
      */
-    public void addCampoNativo(String nome, boolean obb) throws IllegalCampoException {
-        for (Campo c : this.getCampi()) {
-            if (c.nome.equals(nome))
+    public void addCampoNativo(String nome) throws IllegalCampoException {
+        for (Campo campo : this.getCampi()) {
+            if (campo.nome.equalsIgnoreCase(nome)) {
                 throw new IllegalCampoException();
+            } else if (campo.nome.equals(" ") || campo.nome.equals("")) {
+                campiNativi.clear();
+            }
         }
-        campiNativi.add(new Campo(nome, obb));
+        campiNativi.add(new Campo(nome));
     }
 
     /**
-     * Restituisce tutti i campi ereditati di una categoria
-     * Se la categoria selezionata è una radice allora restituisce i suoi campi nativi
+     * Restituisce tutti i campi ereditati di una categoria.
+     * Se la categoria selezionata è una radice, allora restituisce i suoi campi nativi.
      *
      * @return un Vector con i campi ereditati
      */
@@ -122,19 +159,25 @@ public class Categoria {
         Vector<Campo> campiEreditati;
         if (padre != null) {
             campiEreditati = padre.getCampi();
-        } else return new Vector<>(campiNativi);
+        } else {
+            return new Vector<>(campiNativi);
+        }
 
         campiEreditati.addAll(campiNativi);
 
         return campiEreditati;
-
     }
 
+    /**
+     * Stampa i campi nativi della categoria.
+     *
+     * @return una stringa con i campi nativi della categoria
+     */
     public String stampaCampiNativi() {
         StringBuilder sb = new StringBuilder();
         sb.append("[ ");
-        for (Campo c : campiNativi) {
-            sb.append(c.nome).append(", ");
+        for (Campo campo : campiNativi) {
+            sb.append(campo.nome).append(", ");
         }
         if (sb.length() > 3)
             sb.deleteCharAt(sb.length() - 2);
@@ -142,46 +185,66 @@ public class Categoria {
         return sb.toString();
     }
 
+    /**
+     * Restituisce i campi nativi della categoria.
+     *
+     * @return una collezione di campi nativi
+     */
     public Collection<Campo> getCampiNativi() {
         return campiNativi;
     }
 
+    /**
+     * Restituisce il nome della categoria.
+     *
+     * @return il nome della categoria
+     */
     public String getNome() {
         return nome;
     }
 
+    /**
+     * Imposta il nome della categoria.
+     *
+     * @param nuovoNome il nuovo nome della categoria
+     */
     public void setNome(String nuovoNome) {
         this.nome = nuovoNome;
     }
 
+    /**
+     * Restituisce la descrizione della categoria.
+     *
+     * @return la descrizione della categoria
+     */
     public String getDescrizione() {
         return descrizione;
     }
 
+    /**
+     * Restituisce i figli della categoria.
+     *
+     * @return un Vector con i figli della categoria
+     */
     public Vector<Categoria> getFigli() {
         return figli;
     }
 }
 
-
 class Campo {
     String nome;
-    boolean obblig;
 
     /**
      * Costruttore del campo
      *
-     * @param n nome del campo
-     * @param ob booleano che indica se la compilazione del campo è obbligatoria o meno
+     * @param nome nome del campo
      */
-
-    public Campo(String n, boolean ob) {
-        this.nome = n;
-        this.obblig = ob;
+    public Campo(String nome) {
+        this.nome = nome;
     }
 
+    @Override
     public String toString() {
-        return String.format("#%s%s", obblig ? "!" : "", nome);
+        return String.format("#%s", nome);
     }
-  
-   }
+}
