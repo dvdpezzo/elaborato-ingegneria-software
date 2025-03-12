@@ -2,6 +2,8 @@ package it.ingbs.ingegneria_software.model;
 
 import it.ingbs.ingegneria_software.controller.GestoreMenu;
 import it.ingbs.ingegneria_software.gestione_accesso.MenuAccesso;
+import it.ingbs.ingegneria_software.model.utenti.Configuratore;
+import it.ingbs.ingegneria_software.model.utenti.Utente;
 import it.ingbs.ingegneria_software.utilita_generale.MenuUtil;
 
 public class Main {

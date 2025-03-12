@@ -8,7 +8,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.HashMap;
 
-import it.ingbs.ingegneria_software.model.GestoreUtente;
+import it.ingbs.ingegneria_software.model.utenti.GestoreUtente;
 
 
 

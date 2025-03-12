@@ -1,4 +1,4 @@
-package it.ingbs.ingegneria_software.model;
+package it.ingbs.ingegneria_software.model.utenti;
 
 public class Utente {
     private String nomeUtente ;

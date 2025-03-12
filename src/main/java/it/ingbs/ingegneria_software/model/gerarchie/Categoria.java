@@ -1,10 +1,11 @@
 package it.ingbs.ingegneria_software.model.gerarchie;
 
-import java.util.*;
-import it.ingbs.ingegneria_software.Eccezioni.*;
+import java.util.Collection;
+import java.util.Vector;
 
+import it.ingbs.ingegneria_software.Eccezioni.CampoNotFoundException;
+import it.ingbs.ingegneria_software.Eccezioni.IllegalCampoException;
 
-//copiata da progetto Simone
 public class Categoria {
 
     private final String descrizione;

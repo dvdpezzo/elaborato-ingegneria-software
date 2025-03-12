@@ -1,5 +1,4 @@
-package it.ingbs.ingegneria_software.model;
-
+package it.ingbs.ingegneria_software.model.comprensori;
 
 public class Comuni {
 

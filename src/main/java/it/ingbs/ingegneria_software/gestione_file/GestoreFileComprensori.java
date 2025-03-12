@@ -8,7 +8,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.HashMap;
 
-import it.ingbs.ingegneria_software.model.ComprensorioGeografico;
+import it.ingbs.ingegneria_software.model.comprensori.ComprensorioGeografico;
 
 public class GestoreFileComprensori implements GestoreFile {
 

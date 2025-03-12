@@ -5,11 +5,11 @@ import java.io.IOException;
 import java.util.HashMap;
 
 import it.ingbs.ingegneria_software.gestione_file.GestoreFileCredenziali;
-import it.ingbs.ingegneria_software.model.Configuratore;
 import it.ingbs.ingegneria_software.model.Fruitore;
-import it.ingbs.ingegneria_software.model.GestoreConfiguratori;
-import it.ingbs.ingegneria_software.model.GestoreFruitori;
-import it.ingbs.ingegneria_software.model.GestoreUtente;
+import it.ingbs.ingegneria_software.model.utenti.Configuratore;
+import it.ingbs.ingegneria_software.model.utenti.GestoreConfiguratori;
+import it.ingbs.ingegneria_software.model.utenti.GestoreFruitori;
+import it.ingbs.ingegneria_software.model.utenti.GestoreUtente;
 
 /**
  * Classe che si occupa solo della gestione della mappa delle credenziali
