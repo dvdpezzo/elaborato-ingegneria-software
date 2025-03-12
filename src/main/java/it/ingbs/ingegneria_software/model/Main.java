@@ -1,30 +1,13 @@
 package it.ingbs.ingegneria_software.model;
 
-import java.io.IOException;
-import java.util.logging.*;
 import it.ingbs.ingegneria_software.controller.GestoreMenu;
 import it.ingbs.ingegneria_software.gestione_accesso.MenuAccesso;
+import it.ingbs.ingegneria_software.model.utenti.Configuratore;
+import it.ingbs.ingegneria_software.model.utenti.Utente;
 
 public class Main {
-	//setup logger: non toccare
-	static {
-        Logger rootLogger = Logger.getLogger("");
-        rootLogger.setLevel(Level.INFO);
-        for (Handler handler : rootLogger.getHandlers()) {
-            if (handler instanceof ConsoleHandler) {
-                handler.setFormatter(new SimpleFormatter() {
-                    @Override
-                    public synchronized String format(java.util.logging.LogRecord aRecord) {
-                        return String.format("%s%s%n", 
-                                             aRecord.getMessage(), 
-                                             aRecord.getThrown() == null ? "" : aRecord.getThrown().toString());
-                    }
-                });
-            }
-        }
-    }
 	
-	public static void main(String[] args) throws IOException {
+	public static void main(String[] args) throws Exception {
 
 
 		//creazione istanza del sistema generale:
@@ -40,7 +23,6 @@ public class Main {
             sistemaGenerale.backEnd((Configuratore) utente);
 		} else {
 			//altrimenti richiama il menu utente:
-			//sistemaGenerale.frontEnd();
 		}
 		
 

@@ -1,5 +1,0 @@
-7313 [Iseo, Pisogne, Sulzano, Romano, Lucca, Lecco]
-1811 [Genova, Pisogne, Sulzano, Bolgare]
-3460 [Marone, Sale, Sulzano]
-8427 [Bergamo, Genova, Sal]
-4524 [Brescia, Bergamo, Milano]
