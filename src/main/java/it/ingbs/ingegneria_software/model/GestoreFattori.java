@@ -35,6 +35,13 @@ public class GestoreFattori {
     public GestoreFattori() {
         this.mappaFattori = new HashMap<>();
         this.gestoreGerarchie = new GestoreGerarchie();
+        try {
+            leggiFileFattori();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        
     }
 
     /**

@@ -4,9 +4,11 @@ import java.io.File;
 import java.util.HashMap;
 
 import it.ingbs.ingegneria_software.Eccezioni.CategoriaNotFoundException;
+import it.ingbs.ingegneria_software.model.FattoriConversione;
 import it.ingbs.ingegneria_software.model.Fruitore;
 import it.ingbs.ingegneria_software.model.GestoreFattori;
 import it.ingbs.ingegneria_software.model.GestoreRichieste;
+import it.ingbs.ingegneria_software.model.RichiestaScambio;
 import it.ingbs.ingegneria_software.model.comprensori.GestoreComprensorio;
 import it.ingbs.ingegneria_software.model.gerarchie.Categoria;
 import it.ingbs.ingegneria_software.model.gerarchie.Gerarchia;
@@ -79,7 +81,9 @@ public class GestoreMenu {
                     Categoria catRichiesta = cercaCatFoglia();
                     Categoria catOfferta = cercaCatFoglia();
                     int numOre = InputDati.leggiInteroConMinimo("Di quante ore necessiti?", 0);
-                    gr.creaRichiesta(catRichiesta,catOfferta, numOre, fruitore).toString();
+                    Double fattoreConversione = gestoreFattori.getFattore(catRichiesta.getNome().toUpperCase()+"->"+catOfferta.getNome().toUpperCase());
+                    RichiestaScambio richiestaNuova = gr.creaRichiesta(catRichiesta,catOfferta, numOre, fruitore, fattoreConversione);
+                    System.out.println(richiestaNuova.toString());
                 break;
 
         }

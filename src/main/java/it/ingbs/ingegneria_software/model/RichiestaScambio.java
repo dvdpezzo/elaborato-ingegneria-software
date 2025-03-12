@@ -9,7 +9,7 @@ public class RichiestaScambio {
     private Categoria catOfferta; 
     private Fruitore fr; 
     private int oreRichieste; 
-    private int oreOffertte;
+    private int oreOfferte;
     private boolean stato;
 
     /**
@@ -20,12 +20,12 @@ public class RichiestaScambio {
      * @param fr   soggetto che esegue la richiesta (Fruitore)
      */
 
-    public RichiestaScambio(Categoria catRichiesta,int ore,Categoria catOfferta, Fruitore fr){
+    public RichiestaScambio(Categoria catRichiesta,int ore,Categoria catOfferta, Fruitore fr, Double fattoreConv){
         this.catRichiesta = catRichiesta; 
         this.catOfferta  = catOfferta; 
         this.fr=fr;
         this.oreRichieste=ore; 
-        this.oreOffertte = calcolaOreOfferte(catRichiesta,catOfferta,oreRichieste);
+        this.oreOfferte = calcolaOreOfferte(fattoreConv, oreRichieste);
         this.stato=true;
     }
 
@@ -65,12 +65,12 @@ public class RichiestaScambio {
         this.oreRichieste = oreRichieste;
     }
 
-    public int getOreOffertte() {
-        return oreOffertte;
+    public int getOreOfferte() {
+        return oreOfferte;
     }
 
-    public void setOreOffertte(int oreOffertte) {
-        this.oreOffertte = oreOffertte;
+    public void setOreOfferte(int oreOffertte) {
+        this.oreOfferte = oreOffertte;
     }
 
     /**
@@ -80,8 +80,8 @@ public class RichiestaScambio {
      * @param oreRichieste numero di ore che vengono richieste dal fruitore per la categoria richiesta
      * @return numero di ore che il fruitore deve offrire
      */
-    public int calcolaOreOfferte(Categoria catRichiesta, Categoria catOfferta, int oreRichieste){
-        return (int) ((catOfferta.getFattore(catRichiesta))*oreRichieste);
+    public int calcolaOreOfferte(Double fattoreConv, int oreRichieste){
+        return (int) (fattoreConv*oreRichieste);
     }
 
     public Fruitore getFr() {
@@ -89,11 +89,12 @@ public class RichiestaScambio {
     }
 
 
-    
+    @Override
     public String toString(){
         StringBuffer sb = new StringBuffer();
          sb.append("Richiesta: [" + catRichiesta.getNome()+","+getOreRichieste()+"]");
-         sb.append("Offerta: ["+catOfferta.getNome()+","+getOreOffertte()+"]");
+         sb.append("\n");
+         sb.append("Offerta: ["+catOfferta.getNome()+","+getOreOfferte()+"]");
          return sb.toString();
     }
     

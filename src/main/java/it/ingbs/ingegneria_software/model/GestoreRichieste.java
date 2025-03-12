@@ -31,8 +31,8 @@ public class GestoreRichieste {
      * @param fr   soggetto che effettua la richiesta
      * @return     la richiesta effettuata 
      */
-    public RichiestaScambio creaRichiesta(Categoria cat1, Categoria cat2, int ore, Fruitore fr) {
-        RichiestaScambio nuovaRichiesta = new RichiestaScambio(cat1, ore, cat2, fr);
+    public RichiestaScambio creaRichiesta(Categoria cat1, Categoria cat2, int ore, Fruitore fr, Double fattoreConv) {
+        RichiestaScambio nuovaRichiesta = new RichiestaScambio(cat1, ore, cat2, fr, fattoreConv);
         aggiungiRichiesta(nuovaRichiesta);
         return nuovaRichiesta;
     }
