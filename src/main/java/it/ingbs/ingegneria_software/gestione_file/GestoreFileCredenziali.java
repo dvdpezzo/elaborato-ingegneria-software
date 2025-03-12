@@ -8,6 +8,10 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.HashMap;
 
+import it.ingbs.ingegneria_software.model.GestoreUtente;
+
+
+
 /**
  * Classe usata per la gestione del file di accesso dei configuratori e fruitori:
  * deve solo leggere i file e inserirli nella mappa, o viceversa leggere la mappa e inserirli nel file.
@@ -17,16 +21,19 @@ public class GestoreFileCredenziali implements GestoreFile {
     private static final String SPAZIO = " ";
     private static final String ERRORE_FILE_CREDENZIALI = "Errore durante la lettura del file delle credenziali";
 
-    private HashMap<String, String> mappaCredenziali;
+    private HashMap<String, String> mappaCredenziali; 
+    private GestoreUtente gu;
 
     /**
      * Costruttore della classe GestoreFileCredenziali.
      *
      * @param mappaCredenziali la mappa delle credenziali
      */
-    public GestoreFileCredenziali(HashMap<String, String> mappaCredenziali) {
+    public GestoreFileCredenziali(HashMap<String, String> mappaCredenziali, GestoreUtente gu) {
         this.mappaCredenziali = mappaCredenziali;
+        this.gu = gu;
     }
+   
 
     /**
      * Permette di aggiungere nuove credenziali dalla mappa al file.
@@ -53,19 +60,18 @@ public class GestoreFileCredenziali implements GestoreFile {
      * @return la mappa delle credenziali lette dal file
      * @throws IOException se si verifica un errore durante la lettura del file
      */
-    @Override
-    public HashMap<String, String> leggiFile(File file) throws IOException {
-        try (BufferedReader br = new BufferedReader(new FileReader(file))) {
-            String linea;
-            while ((linea = br.readLine()) != null && !linea.isEmpty()) {
-                String[] dati = linea.split(SPAZIO);
-                String nomeUtente = dati[0];
-                String password = dati[1];
-                mappaCredenziali.put(nomeUtente, password);
-            }
-        } catch (IOException e) {
-            System.out.println(ERRORE_FILE_CREDENZIALI);
-            throw e;
+    public HashMap<String,String> leggiFile(File nomeFile) throws IOException {
+        try (BufferedReader br = new BufferedReader(new FileReader(nomeFile))) {
+            String parola = br.readLine();
+            do {
+                String [] dati = parola.split(" ");
+                String nome = dati[0];
+                String pass = dati[1];
+                mappaCredenziali.put(nome,pass); 
+                //aggiungo il nome utente all'arraylist di GestoreUtenti per il controllo sul nickname
+                gu.aggiungiUtente(nome);
+                parola = br.readLine();               
+            } while (parola!=null && !parola.equals("\n"));
         }
         return mappaCredenziali;
     }
@@ -87,4 +93,5 @@ public class GestoreFileCredenziali implements GestoreFile {
     public void setMappaCredenziali(HashMap<String, String> mappaCredenziali) {
         this.mappaCredenziali = mappaCredenziali;
     }
+
 }

@@ -6,7 +6,10 @@ import java.util.HashMap;
 
 import it.ingbs.ingegneria_software.gestione_file.GestoreFileCredenziali;
 import it.ingbs.ingegneria_software.model.utenti.Configuratore;
+import it.ingbs.ingegneria_software.model.Fruitore;
 import it.ingbs.ingegneria_software.model.utenti.GestoreConfiguratori;
+import it.ingbs.ingegneria_software.model.GestoreFruitori;
+import it.ingbs.ingegneria_software.model.GestoreUtente;
 
 /**
  * Classe che si occupa della gestione della mappa delle credenziali.
@@ -14,32 +17,42 @@ import it.ingbs.ingegneria_software.model.utenti.GestoreConfiguratori;
 public class GestoreAccesso {
 
     private static final String FILE_ASSENTE = "File assente";
-    private static final String MESSAGGIO_CREAZIONE_CREDENZIALI = "Sei stato reindirizzato alla creazione del tuo Nome utente e Password personali:";
-    private static final String ERRORE_CREDENZIALI_ERRATE = "ERRORE! Nome Utente o password errati!";
+    private static final String SEI_STASTO_REINDIRIZZATO_ALLA_CREAZIONE_DEL_TUO_NOME_UTENTE_E_PASSWORD_PERSONALI = "Sei stasto reindirizzato alla creazione del tuo Nome utente e Password personali:";
+    private static final String ERRORE_NOME_UTENTE_O_PASSWORD_ERRATI = "ERRORE! Nome Utente o password errati!";
+    private static final String ACCESSO_EFFETTUATO_CORRETAMENTE = "Accesso effettuato corretamente!";
+    private static final String ERRORE_CREDENZIALI_ERRATE = "ERRORE! Credenziali errate!";
+    private static final String FILE_NON_TROVATO = "File non trovato: %s";
     private static final String MESSAGGIO_ACCESSO_CORRETTO = "Accesso effettuato correttamente!";
-    private static final String MESSAGGIO_FILE_NON_TROVATO = "File non trovato: %s";
-    private static final String PERCORSO_FILE_CREDENZIALI = "src\\File_di_accesso\\credenzialiConfiguratori.txt";
-    private static final String UTENTE_DEFAULT = "admin";
-    private static final String PASS_DEFAULT = "admin";
-
-    private File fileConfiguratori = new File(PERCORSO_FILE_CREDENZIALI);
-    private HashMap<String, String> mappaCredenzialiUtenti = new HashMap<>();
-    private GestoreFileCredenziali gestoreFile;
+    private static final String FILE_DI_ACCESSO_CREDENZIALI_FRUITORI_TXT = "src\\File_di_accesso\\credenzialiFruitori.txt";
+    private static final String MESSAGGIO_CREAZIONE_CREDENZIALI = "Creazione delle credenziali in corso...";
+    private static final String FILE_DI_ACCESSO_CREDENZIALI_CONFIGURATORI_TXT = "src\\File_di_accesso\\credenzialiConfiguratori.txt";
+    private static final String UTENTE_DEFAULT="admin";
+    private static final String PASS_DEFAULT="admin";
+    
+    private File fileConfiguratori = new File(FILE_DI_ACCESSO_CREDENZIALI_CONFIGURATORI_TXT);
+    private File fileFruitori = new File(FILE_DI_ACCESSO_CREDENZIALI_FRUITORI_TXT);
+    private HashMap<String, String> mappaCredenzialiConf = new HashMap<>();
+    private HashMap<String,String> mappaCredenzialiFrui = new HashMap<>();
+    private GestoreFileCredenziali gestoreFileConf;
+    private GestoreFileCredenziali gestoreFileFruit;
     private final GestoreConfiguratori gestoreConfiguratori;
+    private final GestoreFruitori gestoreFruitori; 
+    private final GestoreUtente gestoreUtente = new GestoreUtente(); 
+    
 
-    /**
-     * Costruttore della classe GestoreAccesso.
-     * Inizializza il gestore delle credenziali e legge le credenziali dal file.
-     */
-    public GestoreAccesso() {
-        this.gestoreFile = new GestoreFileCredenziali(mappaCredenzialiUtenti);
+    public GestoreAccesso() {       
+        this.gestoreFileConf = new GestoreFileCredenziali(mappaCredenzialiConf,gestoreUtente);
+        this.gestoreFileFruit = new GestoreFileCredenziali(mappaCredenzialiFrui,gestoreUtente);        
         try {
-            mappaCredenzialiUtenti = gestoreFile.leggiFile(fileConfiguratori);
+            mappaCredenzialiConf = gestoreFileConf.leggiFile(fileConfiguratori);
+            mappaCredenzialiFrui = gestoreFileFruit.leggiFile(fileFruitori);
         } catch (IOException e) {
-            System.out.println(String.format(MESSAGGIO_FILE_NON_TROVATO, e.getMessage()));
+            System.out.println(String.format(FILE_NON_TROVATO, e.getMessage()));
         }
-        this.gestoreConfiguratori = new GestoreConfiguratori(gestoreFile);
+        this.gestoreConfiguratori = new GestoreConfiguratori(gestoreFileConf);
+        this.gestoreFruitori = new GestoreFruitori(gestoreFileFruit,gestoreUtente);  
     }
+
 
     /**
      * Permette l'accesso al configuratore: controlla prima di tutto che non sia il primo accesso,
@@ -53,7 +66,7 @@ public class GestoreAccesso {
         if (nomeUtente.equals(UTENTE_DEFAULT) && passwordUtente.equals(PASS_DEFAULT)) {
             return registrazioneNuovoConfiguratore();
         } else {
-            if (controlloEsistenzaCredenziali(nomeUtente, passwordUtente)) {
+            if (controlloEsistenzaConfiguratore(nomeUtente, passwordUtente)) {
                 Configuratore configuratoreEsistente = gestoreConfiguratori.trovaConfiguratore(nomeUtente);
                 System.out.println(MESSAGGIO_ACCESSO_CORRETTO);
                 return configuratoreEsistente;
@@ -72,7 +85,9 @@ public class GestoreAccesso {
     private Configuratore registrazioneNuovoConfiguratore() {
         System.out.println(MESSAGGIO_CREAZIONE_CREDENZIALI);
         Configuratore nuovoConfiguratore = gestoreConfiguratori.creaUtenteConfiguratore();
-        aggiungiCredenzialiAllaMappa(nuovoConfiguratore.getNomeUtente(), nuovoConfiguratore.getPassword());
+        aggiungiCredenzialiConfAllaMappa(nuovoConfiguratore.getNomeUtente(), nuovoConfiguratore.getPassword());
+        //aggiunge utente e nickname alla mappa del controllo di GestoreUtenti 
+        gestoreUtente.aggiungiUtente(nuovoConfiguratore.getNomeUtente());   
         return nuovoConfiguratore;
     }
 
@@ -82,10 +97,10 @@ public class GestoreAccesso {
      * @param nomeUtente il nome utente da aggiungere
      * @param password la password da aggiungere
      */
-    private void aggiungiCredenzialiAllaMappa(String nomeUtente, String password) {
-        mappaCredenzialiUtenti.put(nomeUtente, password);
+    private void aggiungiCredenzialiConfAllaMappa(String nomeUtente, String password) {
+        mappaCredenzialiConf.put(nomeUtente, password);
         try {
-            gestoreFile.salvaSuFile(fileConfiguratori);
+            gestoreFileConf.salvaSuFile(fileConfiguratori);
         } catch (IOException e) {
             System.out.println(FILE_ASSENTE);
         }
@@ -98,7 +113,62 @@ public class GestoreAccesso {
      * @param password la password inserita
      * @return true se le credenziali sono corrette, false altrimenti
      */
-    private boolean controlloEsistenzaCredenziali(String nomeUtente, String password) {
-        return mappaCredenzialiUtenti.containsKey(nomeUtente) && mappaCredenzialiUtenti.get(nomeUtente).equals(password);
+    private boolean controlloEsistenzaConfiguratore (String nomeUtente, String pass){
+        return mappaCredenzialiConf.containsKey(nomeUtente) && mappaCredenzialiConf.containsValue(pass);
+    }   
+
+
+//-------------------------------------------------- PARTE SUL FRUITORE -----------------------------------------------
+
+    public Fruitore accessoFruitore(String nomeUtente, String pass){
+        if(controlloEsistenzaFruitore(nomeUtente,pass)){
+            Fruitore existingFruitore = gestoreFruitori.trovaFruitore(nomeUtente);
+                System.out.println(ACCESSO_EFFETTUATO_CORRETAMENTE);
+                return existingFruitore;
+        }
+        else{
+            System.out.println(ERRORE_NOME_UTENTE_O_PASSWORD_ERRATI);
+            return null;
+        }
     }
+
+    /**
+     * Controlla se i dati inseriti sono corretti
+     * @param nomeUtente
+     * @param pass password
+     * @return restituisce vero se li trova falso se non li trova 
+     */
+    private boolean controlloEsistenzaFruitore(String nomeUtente,String pass){
+        return mappaCredenzialiFrui.containsKey(nomeUtente) && mappaCredenzialiFrui.containsValue(pass);
+    }
+
+
+     /**
+     * Aggiunge nome utente e password nella mappa e le salva sul file
+     * @param nomeUtente 
+     * @param pass password
+     * @throws IOException 
+     */
+    private void aggiungiCredenzialiFruitAllaMappa(String nomeUtente, String pass) {
+        mappaCredenzialiFrui.put(nomeUtente, pass);
+        try {
+            gestoreFileFruit.salvaSuFile(fileFruitori);
+        } catch (IOException e) {
+            System.out.println(FILE_ASSENTE);
+        }
+    }
+
+    /**
+     * Effettua la registrazione di un nuovo utente fruitore 
+     * @return
+     */
+    public Fruitore registrazioneNuovoFruitore () {
+        System.out.println(SEI_STASTO_REINDIRIZZATO_ALLA_CREAZIONE_DEL_TUO_NOME_UTENTE_E_PASSWORD_PERSONALI);
+        Fruitore newUtente = gestoreFruitori.creaUtenteFruitore();
+        aggiungiCredenzialiFruitAllaMappa(newUtente.getNomeUtente(), newUtente.getPassword());
+        //aggiunge utente e nickname alla mappa del controllo di GestoreUtenti
+        gestoreUtente.aggiungiUtente(newUtente.getNomeUtente());   
+        return newUtente;
+    }
+
 }
