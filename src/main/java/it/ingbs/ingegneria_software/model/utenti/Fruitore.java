@@ -1,6 +1,4 @@
-package it.ingbs.ingegneria_software.model;
-
-import it.ingbs.ingegneria_software.model.utenti.Utente;
+package it.ingbs.ingegneria_software.model.utenti;
 
 import it.ingbs.ingegneria_software.model.comprensori.GestoreComprensorio;
 

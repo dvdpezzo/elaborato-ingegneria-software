@@ -1,6 +1,7 @@
-package it.ingbs.ingegneria_software.model;
+package it.ingbs.ingegneria_software.model.fattori;
 
 import java.util.HashMap;
+
 import it.ingbs.ingegneria_software.model.gerarchie.Categoria;
 import it.ingbs.ingegneria_software.utilita_generale.InputDati;
 import it.ingbs.ingegneria_software.utilita_generale.MenuUtil;

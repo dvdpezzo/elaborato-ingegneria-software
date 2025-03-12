@@ -1,9 +1,9 @@
 package it.ingbs.ingegneria_software.gestione_accesso;
 
 import it.ingbs.ingegneria_software.controller.GestoreMenu;
-import it.ingbs.ingegneria_software.model.Fruitore;
 import it.ingbs.ingegneria_software.model.comprensori.GestoreComprensorio;
 import it.ingbs.ingegneria_software.model.utenti.Configuratore;
+import it.ingbs.ingegneria_software.model.utenti.Fruitore;
 import it.ingbs.ingegneria_software.utilita_generale.InputDati;
 import it.ingbs.ingegneria_software.utilita_generale.MenuUtil;
 

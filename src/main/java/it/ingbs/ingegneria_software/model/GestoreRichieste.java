@@ -3,6 +3,7 @@ package it.ingbs.ingegneria_software.model;
 import java.util.*;
 
 import it.ingbs.ingegneria_software.model.gerarchie.Categoria;
+import it.ingbs.ingegneria_software.model.utenti.Fruitore;
 
 public class GestoreRichieste {
     

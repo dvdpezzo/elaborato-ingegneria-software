@@ -5,8 +5,8 @@ import java.io.IOException;
 import java.util.HashMap;
 
 import it.ingbs.ingegneria_software.gestione_file.GestoreFileCredenziali;
-import it.ingbs.ingegneria_software.model.Fruitore;
 import it.ingbs.ingegneria_software.model.utenti.Configuratore;
+import it.ingbs.ingegneria_software.model.utenti.Fruitore;
 import it.ingbs.ingegneria_software.model.utenti.GestoreConfiguratori;
 import it.ingbs.ingegneria_software.model.utenti.GestoreFruitori;
 import it.ingbs.ingegneria_software.model.utenti.GestoreUtente;
