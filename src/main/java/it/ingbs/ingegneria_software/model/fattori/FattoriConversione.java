@@ -1,4 +1,4 @@
-package it.ingbs.ingegneria_software.model;
+package it.ingbs.ingegneria_software.model.fattori;
 
 import it.ingbs.ingegneria_software.model.gerarchie.Categoria;
 

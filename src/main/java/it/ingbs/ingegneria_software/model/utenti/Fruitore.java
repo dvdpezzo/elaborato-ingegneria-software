@@ -1,16 +1,20 @@
-package it.ingbs.ingegneria_software.model;
-
-import it.ingbs.ingegneria_software.model.utenti.Utente;
+package it.ingbs.ingegneria_software.model.utenti;
 
 import it.ingbs.ingegneria_software.model.comprensori.GestoreComprensorio;
 
+import java.util.ArrayList;
+
+import it.ingbs.ingegneria_software.model.RichiestaScambio;
 import it.ingbs.ingegneria_software.model.comprensori.ComprensorioGeografico;
+
 
 public class Fruitore extends Utente{
 
     private final GestoreComprensorio gestoreComprensorio;
     private ComprensorioGeografico comprensorio;
     private String email;
+    private ArrayList<RichiestaScambio> elencoRichieste = new ArrayList<RichiestaScambio>();
+
 
 
     /*
@@ -42,6 +46,8 @@ public class Fruitore extends Utente{
         sb.append((this.getEmail()));
         sb.toString();
      }
+
+     
         
 
     

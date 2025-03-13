@@ -4,17 +4,17 @@ import java.io.File;
 import java.util.HashMap;
 
 import it.ingbs.ingegneria_software.Eccezioni.CategoriaNotFoundException;
-import it.ingbs.ingegneria_software.model.FattoriConversione;
-import it.ingbs.ingegneria_software.model.Fruitore;
-import it.ingbs.ingegneria_software.model.GestoreFattori;
 import it.ingbs.ingegneria_software.model.GestoreRichieste;
 import it.ingbs.ingegneria_software.model.RichiestaScambio;
 import it.ingbs.ingegneria_software.model.comprensori.GestoreComprensorio;
+import it.ingbs.ingegneria_software.model.fattori.FattoriConversione;
+import it.ingbs.ingegneria_software.model.fattori.GestoreFattori;
 import it.ingbs.ingegneria_software.model.gerarchie.Categoria;
 import it.ingbs.ingegneria_software.model.gerarchie.Gerarchia;
 import it.ingbs.ingegneria_software.model.gerarchie.GestoreGerarchie;
  import it.ingbs.ingegneria_software.model.gerarchie.MenuGerarchie;
 import it.ingbs.ingegneria_software.model.utenti.Configuratore;
+import it.ingbs.ingegneria_software.model.utenti.Fruitore;
 import it.ingbs.ingegneria_software.model.utenti.GestoreFruitori;
 import it.ingbs.ingegneria_software.utilita_generale.InputDati;
 import it.ingbs.ingegneria_software.utilita_generale.MenuUtil;
@@ -81,7 +81,6 @@ public class GestoreMenu {
                 case 2:
                     nuovaRichiesta(fruitore);
                 break;
-
         }
      }while(scelta!=0);
   }

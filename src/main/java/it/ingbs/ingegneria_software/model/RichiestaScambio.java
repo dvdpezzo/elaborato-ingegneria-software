@@ -1,6 +1,7 @@
 package it.ingbs.ingegneria_software.model;
 
 import it.ingbs.ingegneria_software.model.gerarchie.Categoria;
+import it.ingbs.ingegneria_software.model.utenti.Fruitore;
 
 
 public class RichiestaScambio {
@@ -37,10 +38,7 @@ public class RichiestaScambio {
     public void setStato(boolean stato) {
         this.stato = stato;
     }
-
     
-
-
     public Categoria getCatRichiesta() {
         return catRichiesta;
     }

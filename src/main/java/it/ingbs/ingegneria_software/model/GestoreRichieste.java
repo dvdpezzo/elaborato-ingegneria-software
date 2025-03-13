@@ -5,13 +5,14 @@ import java.util.*;
 import java.util.Map.Entry;
 
 import it.ingbs.ingegneria_software.model.gerarchie.Categoria;
+import it.ingbs.ingegneria_software.model.utenti.Fruitore;
 
 
 
 public class GestoreRichieste {
     
-    private HashMap<Fruitore,ArrayList<RichiestaScambio>> mappaRichieste = new HashMap<Fruitore,ArrayList<RichiestaScambio>>();
-   private final File fileRichieste = new File("src\\Data_File\\elencoRichieste.txt");
+    private HashMap<Fruitore,RichiestaScambio> mappaRichieste = new HashMap<Fruitore,RichiestaScambio>();
+    private final File fileRichieste = new File("src\\Data_File\\elencoRichieste.txt");
 
 
     /**
@@ -19,7 +20,7 @@ public class GestoreRichieste {
      * @param r richiesta che viene aggiunta alla mappa
      */
     public void aggiungiRichiesta(RichiestaScambio r){
-        mappaRichieste.put(r.getFr(),);
+        mappaRichieste.put(r.getFr(),r);
     }
 
 
@@ -57,6 +58,10 @@ public class GestoreRichieste {
     }
 }
 
+/*
+ * IL PROBLEMA E LA LETTURA DA FILE VISTO CHE NON HO MODO DI IDENTIFICARE IL FRUITORE
+ */
+
    public HashMap<Fruitore,RichiestaScambio> getMappa(){
      return mappaRichieste;
    }
@@ -64,6 +69,7 @@ public class GestoreRichieste {
     public void setMappa(HashMap<Fruitore,RichiestaScambio> mappa){
          mappaRichieste = mappa;
     }
+
 
 
 

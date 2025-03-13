@@ -2,7 +2,8 @@ Fruitore: Lu
 Richiesta: [GENETICA,10]
 Offerta: [ECOLOGIA,16]
 
+
 Fruitore: Lu
-Richiesta: [GENETICA,8]
-Offerta: [ECOLOGIA,13]
+Richiesta: [GENETICA,10]
+Offerta: [ECOLOGIA,16]
 

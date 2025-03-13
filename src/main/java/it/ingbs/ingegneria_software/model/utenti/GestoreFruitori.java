@@ -5,12 +5,11 @@ import java.util.HashMap;
 
 import it.ingbs.ingegneria_software.Eccezioni.CategoriaNotFoundException;
 import it.ingbs.ingegneria_software.gestione_file.GestoreFileCredenziali;
-import it.ingbs.ingegneria_software.model.Fruitore;
-import it.ingbs.ingegneria_software.model.GestoreFattori;
 import it.ingbs.ingegneria_software.model.GestoreRichieste;
 import it.ingbs.ingegneria_software.model.RichiestaScambio;
 import it.ingbs.ingegneria_software.model.comprensori.ComprensorioGeografico;
 import it.ingbs.ingegneria_software.model.comprensori.GestoreComprensorio;
+import it.ingbs.ingegneria_software.model.fattori.GestoreFattori;
 import it.ingbs.ingegneria_software.model.gerarchie.Categoria;
 import it.ingbs.ingegneria_software.utilita_generale.InputDati;
 

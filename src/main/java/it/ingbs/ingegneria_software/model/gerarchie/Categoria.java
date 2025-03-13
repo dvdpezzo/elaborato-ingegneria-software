@@ -5,7 +5,7 @@ import java.util.Vector;
 
 import it.ingbs.ingegneria_software.Eccezioni.CampoNotFoundException;
 import it.ingbs.ingegneria_software.Eccezioni.IllegalCampoException;
-import it.ingbs.ingegneria_software.model.GestoreFattori;
+import it.ingbs.ingegneria_software.model.fattori.GestoreFattori;
 
 public class Categoria {
 
