@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.HashMap;
 
 import it.ingbs.ingegneria_software.Eccezioni.CategoriaNotFoundException;
+import it.ingbs.ingegneria_software.model.GestoreFileRichieste;
 import it.ingbs.ingegneria_software.model.GestoreRichieste;
 import it.ingbs.ingegneria_software.model.RichiestaScambio;
 import it.ingbs.ingegneria_software.model.comprensori.GestoreComprensorio;
@@ -38,7 +39,8 @@ public class GestoreMenu {
     private HashMap<String, Gerarchia> radici = new HashMap<>();
     private File nomefile = new File("elaborato-ingegneria-software\\src\\Data_File\\elencoGerarchie.txt");
     private final GestoreFattori gestoreFattori = new GestoreFattori();
-    private final GestoreRichieste gr = new GestoreRichieste();
+    private final GestoreRichieste gr = null;
+    private final GestoreFileRichieste gfr = new GestoreFileRichieste();
 
     public void backEnd (Configuratore configuratore) throws Exception {
         int scelta;
@@ -102,7 +104,7 @@ public class GestoreMenu {
         if(!salva){
            gr.rimuoviRichiesta(richiestaNuova);
           }else{
-            gr.salvaSuFile();
+            gfr.salvaSuFile();
           }
         
     }

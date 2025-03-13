@@ -27,6 +27,7 @@ public class GestoreFruitori {
      * @param gestoreCredenziali
      */
     public GestoreFruitori(GestoreFileCredenziali gestoreCredenziali,GestoreUtente gu){
+        this.mappaFruitori=leggiFileFruitori();
         this.gu = gu;
     }
           
@@ -110,6 +111,34 @@ public class GestoreFruitori {
         } catch (IOException exception) {
             exception.printStackTrace();
         }
+    }
+
+     /*
+     * legge da file i dati dei fruitori
+     */
+    public HashMap<String,Fruitore> leggiFileFruitori(){
+
+        try(
+            BufferedReader br = new BufferedReader(new FileReader(datiFruitori))
+           ){
+            String parola = br.readLine();
+            do{
+                String [] dati = parola.split(" ");
+                String nome = dati[0];
+                String pass = dati[1];
+                String mail = dati[2];
+                String comprensorio = dati[3];
+                int codice = Integer.parseInt(comprensorio);
+                ComprensorioGeografico cg = gc.getComprensorio(codice);
+                mappaPass.put(nome,pass);
+                mappaFruitori.put(nome,new Fruitore(nome, pass, cg, mail));
+                parola = br.readLine();
+            } while(parola!=null && !parola.equals("\n"));
+
+         }catch(Exception ex){
+               ex.printStackTrace();
+               }
+            return mappaFruitori;
     }
 
 }
