@@ -300,4 +300,21 @@ public class GestoreGerarchie {
     public HashMap<String, Gerarchia> getRadici() {
         return radici;
     }
+
+    /**
+     *  Restituisce la categoria con il nome specificato.
+     * @param string il nome della categoria
+     * @return la categoria con il nome specificato
+          * @throws CategoriaNotFoundException 
+          */
+         public Categoria getCategoriaRichiesta(String string) throws CategoriaNotFoundException {
+        for (Gerarchia g : radici.values()) {
+             Categoria c = g.getCategoria(string);
+            if (c.getNome().equals(string)) {
+                return c;
+            }
+        }
+        return null;
+     }
 }
+

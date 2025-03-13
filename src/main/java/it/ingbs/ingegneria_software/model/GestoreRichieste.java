@@ -1,9 +1,8 @@
 package it.ingbs.ingegneria_software.model;
 
-import java.io.*;
 import java.util.*;
-import java.util.Map.Entry;
 
+import it.ingbs.ingegneria_software.Eccezioni.CategoriaNotFoundException;
 import it.ingbs.ingegneria_software.model.gerarchie.Categoria;
 import it.ingbs.ingegneria_software.model.utenti.Fruitore;
 
@@ -11,80 +10,64 @@ import it.ingbs.ingegneria_software.model.utenti.Fruitore;
 
 public class GestoreRichieste {
     
-    private HashMap<Fruitore,RichiestaScambio> mappaRichieste = new HashMap<Fruitore,RichiestaScambio>();
-    private final File fileRichieste = new File("src\\Data_File\\elencoRichieste.txt");
+    private HashMap<Fruitore,List<RichiestaScambio>> mappaRichieste = new HashMap<Fruitore,List<RichiestaScambio>>();
+    GestoreFileRichieste gestoreFileRichieste;
 
 
-    /**
-     * aggiunge alla mappa una richiesta 
-     * @param r richiesta che viene aggiunta alla mappa
-     */
-    public void aggiungiRichiesta(RichiestaScambio r){
-        mappaRichieste.put(r.getFr(),r);
+    public GestoreRichieste(GestoreFileRichieste gestoreFileRichieste) throws CategoriaNotFoundException{
+        gestoreFileRichieste.leggiDaFile();
     }
 
-
-
-    public void rimuoviRichiesta(RichiestaScambio r){
-        mappaRichieste.remove(r.getFr(),r);
-     }
-
     /**
-     * 
-     * @param cat1 richiesta dal fruitore
-     * @param cat2 offerta del fuitore
-     * @param ore  richieste dal fruitore
-     * @param fr   soggetto che effettua la richiesta
-     * @return     la richiesta effettuata 
+     * Metodo che aggiunge una richiesta di scambio alla mappa delle richieste s
+     * @param fr fruitore che effettua la richiesta
+     * @param rs richiesta effeeuttata
      */
-    public RichiestaScambio creaRichiesta(Categoria cat1, Categoria cat2, int ore, Fruitore fr, Double fattoreConv) {
-        RichiestaScambio nuovaRichiesta = new RichiestaScambio(cat1, ore, cat2, fr, fattoreConv);
-        aggiungiRichiesta(nuovaRichiesta);
-        return nuovaRichiesta;
-    }
-
-
-    public void salvaSuFile() {
-    try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileRichieste, true))) {
-        for (Entry<Fruitore, RichiestaScambio> entry : mappaRichieste.entrySet()) {
-            Fruitore fruitore = entry.getKey();
-            RichiestaScambio richiesta = entry.getValue();
-            writer.write("Fruitore: " + fruitore.getNomeUtente() + "\n");
-            writer.write(richiesta.toString() + "\n");
-            writer.write("\n");
+    public void addRichiesta(Fruitore fr, RichiestaScambio rs){
+        if(mappaRichieste.containsKey(fr)){
+            mappaRichieste.get(fr).add(rs);
+        }else{
+            List<RichiestaScambio> lista = new ArrayList<RichiestaScambio>();
+            lista.add(rs);
+            mappaRichieste.put(fr, lista);
+            gestoreFileRichieste.salvaSuFile();
         }
-    } catch (IOException e) {
-        e.printStackTrace();
     }
-}
+    
+    /**
+     * Metodo che rimuove una richiesta di scambio dalla mappa delle richieste
+     * @param richiestaNuova richiesta da rimuovere
+     */
+    public void rimuoviRichiesta(RichiestaScambio richiestaNuova) {
+        for (Map.Entry<Fruitore, List<RichiestaScambio>> entry : mappaRichieste.entrySet()) {
+            if (entry.getValue().contains(richiestaNuova)) {
+                entry.getValue().remove(richiestaNuova);
+                gestoreFileRichieste.salvaSuFile();
+            }
+        }
+    }
+    /**
+     * Metodo che crea una richiesta di scambio
+     * @param catRichiesta  categoria richiesta dal fruitore
+     * @param catOfferta    categorie offerta dal fruitore
+     * @param numOre        numero di ore che vengono richieste
+     * @param fruitore     fruitore che effettua la richiesta
+     * @param fattoreConversione fattore di conversione tra le due categorie
+     * @return
+     */
+    public RichiestaScambio creaRichiesta(Categoria catRichiesta, Categoria catOfferta, int numOre, Fruitore fruitore,
+            Double fattoreConversione) {
 
-/*
- * IL PROBLEMA E LA LETTURA DA FILE VISTO CHE NON HO MODO DI IDENTIFICARE IL FRUITORE
- */
-
-   public HashMap<Fruitore,RichiestaScambio> getMappa(){
-     return mappaRichieste;
-   }
-
-    public void setMappa(HashMap<Fruitore,RichiestaScambio> mappa){
-         mappaRichieste = mappa;
+        RichiestaScambio richiesta = new RichiestaScambio(catRichiesta, numOre, catOfferta, fruitore, fattoreConversione);
+        addRichiesta(fruitore, richiesta);
+        return richiesta;
     }
 
-
-
-
-
-
-
-
-
-  /*   VERSIONE 4 
-     public boolean compatibile(){
-        return true; 
+    /*
+     * Metodo che restituisce la mappa delle richieste
+     */
+    public HashMap<Fruitore, List<RichiestaScambio>> getMappaRichieste(){
+        return mappaRichieste;
     }
-
-    */
-
-
     
 }

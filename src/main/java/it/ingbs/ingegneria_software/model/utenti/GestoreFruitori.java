@@ -3,14 +3,9 @@ package it.ingbs.ingegneria_software.model.utenti;
 import java.io.*;
 import java.util.HashMap;
 
-import it.ingbs.ingegneria_software.Eccezioni.CategoriaNotFoundException;
 import it.ingbs.ingegneria_software.gestione_file.GestoreFileCredenziali;
-import it.ingbs.ingegneria_software.model.GestoreRichieste;
-import it.ingbs.ingegneria_software.model.RichiestaScambio;
 import it.ingbs.ingegneria_software.model.comprensori.ComprensorioGeografico;
 import it.ingbs.ingegneria_software.model.comprensori.GestoreComprensorio;
-import it.ingbs.ingegneria_software.model.fattori.GestoreFattori;
-import it.ingbs.ingegneria_software.model.gerarchie.Categoria;
 import it.ingbs.ingegneria_software.utilita_generale.InputDati;
 
 
@@ -26,26 +21,12 @@ public class GestoreFruitori {
     private GestoreComprensorio gc = new GestoreComprensorio();
     private GestoreUtente gu;
     private final File datiFruitori = new File("src\\File_di_accesso\\datiFruitori.txt");
-    private final File fileRichieste = new File("src\\Data_File\\elencoRichieste.txt");
-    private GestoreFattori gfa;
-    private GestoreRichieste gr;
             
-            
-
     /**
      * Non posso prendre una mappa ma i dati del fruitore
      * @param gestoreCredenziali
      */
     public GestoreFruitori(GestoreFileCredenziali gestoreCredenziali,GestoreUtente gu){
-        this.mappaFruitori = leggiFileFruitori();
-        try {
-            gfa = new GestoreFattori();
-            gr = new GestoreRichieste();
-            leggiDaFile(gfa, gr);
-        } catch (CategoriaNotFoundException e) {
-            
-            System.out.println("File vuoto");
-        }
         this.gu = gu;
     }
           
@@ -74,7 +55,6 @@ public class GestoreFruitori {
      * @return il fruitore creato 
      */
     public Fruitore creaUtenteFruitore() {
-        leggiFileFruitori();
         gc.visualizzaComprensori();
         ComprensorioGeografico comprensorio;
         do{
@@ -132,67 +112,4 @@ public class GestoreFruitori {
         }
     }
 
-
-    /*
-     * legge da file i dati dei fruitori
-     */
-    public HashMap<String,Fruitore> leggiFileFruitori(){
-
-        try(
-            BufferedReader br = new BufferedReader(new FileReader(datiFruitori))
-           ){
-            String parola = br.readLine();
-            do{
-                String [] dati = parola.split(" ");
-                String nome = dati[0];
-                String pass = dati[1];
-                String mail = dati[2];
-                String comprensorio = dati[3];
-                int codice = Integer.parseInt(comprensorio);
-                ComprensorioGeografico cg = gc.getComprensorio(codice);
-                mappaPass.put(nome,pass);
-                mappaFruitori.put(nome,new Fruitore(nome, pass, cg, mail));
-                parola = br.readLine();
-            } while(parola!=null && !parola.equals("\n"));
-
-         }catch(Exception ex){
-               ex.printStackTrace();
-               }
-            return mappaFruitori;
-    }
-
-
-//-------------------------METODI PER LA GESTIONE DELLE RICHIESTE----------------------------------------------
-    /**
-     * LETTURA DAL File DELLE RICHIESTE
-     * @param gfa
-     * @throws CategoriaNotFoundException
-     */
-    public void leggiDaFile(GestoreFattori gfa,GestoreRichieste gr) throws CategoriaNotFoundException {
-         HashMap<Fruitore,RichiestaScambio> mappaRichieste = gr.getMappa();
-    try (BufferedReader reader = new BufferedReader(new FileReader(fileRichieste))) {
-        String line;
-        Fruitore currentFruitore = null;
-        while ((line = reader.readLine()) != null) {
-            if (line.startsWith("Fruitore: ")) {
-                String nomeFruitore = line.substring(10);
-                currentFruitore = trovaFruitore(nomeFruitore); 
-            } else if (line.startsWith("Richiesta: [")) {
-                String[] richiestaParts = line.substring(11, line.length() - 1).split(",");
-                Categoria catRichiesta = gfa.getCategoria(richiestaParts[0]); 
-                int oreRichieste = Integer.parseInt(richiestaParts[1]);
-                line = reader.readLine(); // Read the next line for Offerta
-                String[] offertaParts = line.substring(9, line.length() - 1).split(",");
-                Categoria catOfferta = gfa.getCategoria(offertaParts[0]); 
-                int oreOfferte = Integer.parseInt(offertaParts[1]);
-                Double fattore = (double) (oreRichieste/oreOfferte);
-                RichiestaScambio richiesta = new RichiestaScambio(catRichiesta, oreRichieste, catOfferta, currentFruitore, fattore); 
-                mappaRichieste.put(currentFruitore, richiesta);
-            }
-            gr.setMappa(mappaRichieste);
-        }
-    } catch (IOException e) {
-        e.printStackTrace();
-    }
-}
 }
