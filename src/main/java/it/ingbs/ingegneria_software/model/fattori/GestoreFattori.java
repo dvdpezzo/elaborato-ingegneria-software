@@ -257,7 +257,7 @@ public class GestoreFattori {
                 return categoria;
             }
         }
-        throw new CategoriaNotFoundException();
+       return null;
     }
 
     /**
