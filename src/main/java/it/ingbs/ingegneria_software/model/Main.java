@@ -54,6 +54,7 @@ public class Main {
                         break;
                 }
             } while (opzione != 0);
+            gestoreFile.creaSalvataggio();
 
         } catch (IOException ex) {
             System.out.println("Errore nel caricamento dei dati");

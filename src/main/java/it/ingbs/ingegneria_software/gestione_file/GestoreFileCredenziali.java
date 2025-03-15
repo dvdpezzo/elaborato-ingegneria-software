@@ -33,6 +33,7 @@ public class GestoreFileCredenziali {
                 bw.write(utente);
                 bw.newLine();
             }
+            System.out.println("Credenziali salvate correttamente");
         }
     }
     /**

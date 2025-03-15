@@ -29,7 +29,7 @@ public class MenuAccesso {
     }
 
 
-     /**
+    /**
      * chiede all'utente di inserire le credenziali per accedere al sistema
      * @return Fruitore valido se le credenziali sono corrette
      */
@@ -46,8 +46,8 @@ public class MenuAccesso {
 
     /**
      * menu per l'accesso del fruitore
-          * @throws Exception 
-          */
+     * @throws Exception 
+     */
      
     public void menuFruitore(GestoreMenu sistemaGenerale) throws Exception {
         final String[] VOCI = {"ACCESSO UTENTE", "REGISTRAZIONE UTENTE"};

@@ -38,6 +38,7 @@ public class GestoreFileComuni {
                 bw.write(comune);
                 bw.newLine();
             }
+            System.out.println("Comuni salvati correttamente");
         }
     }
 

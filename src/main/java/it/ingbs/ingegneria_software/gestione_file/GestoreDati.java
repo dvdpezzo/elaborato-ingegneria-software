@@ -92,12 +92,28 @@ public class GestoreDati {
         for (String chiave : fattori.keySet()) {
             Double valore = fattori.get(chiave);
             String[] categorieLette = chiave.split("->");
-            Categoria categoria1 = this.categorie.get(categorieLette[0].trim());
-            Categoria categoria2 = this.categorie.get(categorieLette[1].trim());
+            Categoria categoria1 = trovaCategoria(categorieLette[0].trim());
+            Categoria categoria2 = trovaCategoria(categorieLette[1].trim());
             FattoriConversione fattoreConversione = new FattoriConversione(valore, categoria1, categoria2);
             mappaFattori.put(chiave, fattoreConversione);
         }
         this.fattori = mappaFattori;
+    }
+
+    /**
+     * Trova una categoria tra tutte le gerarchie.
+     *
+     * @param nomeCategoria il nome della categoria da trovare
+     * @return la categoria trovata, o null se non trovata
+     */
+    private Categoria trovaCategoria(String nomeCategoria) {
+        for (Gerarchia gerarchia : gerarchie.values()) {
+            Categoria categoria = gerarchia.getCategoria(nomeCategoria);
+            if (categoria != null) {
+                return categoria;
+            }
+        }
+        return null;
     }
 
     public HashMap<Fruitore, List<RichiestaScambio>> getRichieste() {
@@ -133,14 +149,6 @@ public class GestoreDati {
 
     public void setDatiFruitori(HashMap<String, Fruitore> datiFruitore) {
         this.datiFruitori = datiFruitore;
-    }
-
-    private boolean controlloEsistenzaConfiguratore(String nomeUtente, String pass) {
-        return credenzialiConfiguratori.containsKey(nomeUtente) && credenzialiConfiguratori.get(nomeUtente).equals(pass);
-    }
-
-    private boolean controlloEsistenzaFruitore(String nomeUtente, String pass) {
-        return credenzialiFruitori.containsKey(nomeUtente) && credenzialiFruitori.get(nomeUtente).equals(pass);
     }
 
     public ArrayList<String> getUtenti() {

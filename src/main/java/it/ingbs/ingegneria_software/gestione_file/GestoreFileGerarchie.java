@@ -23,7 +23,7 @@ public class GestoreFileGerarchie {
     private static final String ERRORE_FILE_NON_TROVATO = "File non trovato!";
     private static final String ERRORE_LETTURA_FILE = "Errore di lettura del file";
     private static final String ERRORE_RECUPERO_ALBERO = "Non è stato possibile recuperare l'albero. Errore di lettura: la sintassi del file potrebbe non essere corretta";
-    private static final String SALVATAGGIO_RIUSCITO = "Salvataggio riuscito";
+    private static final String SALVATAGGIO_RIUSCITO = "Gerarchie salvate correttamente";
     private static final String SPAZIO = ", ";
     private static final String PREFISSO_GERARCHIA = "/";
     private static final String SEPARATORE_CAMPI = ">, <";
@@ -113,8 +113,8 @@ public class GestoreFileGerarchie {
             for (Gerarchia gerarchia : albero) {
                 Categoria radice = gerarchia.getCategoriaRadice();
                 out.append(scriviRadice(radice)).append("\n");
-                System.out.println(SALVATAGGIO_RIUSCITO );
             }
+            System.out.println(SALVATAGGIO_RIUSCITO );
         } catch (IOException e) {
             e.printStackTrace();
         }

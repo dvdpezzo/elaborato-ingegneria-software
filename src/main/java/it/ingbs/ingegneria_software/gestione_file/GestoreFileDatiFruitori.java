@@ -30,6 +30,7 @@ public class GestoreFileDatiFruitori {
                 entry.getValue().getComprensorio());
                 bw.newLine();
             }
+            System.out.println("Dati fruitori salvati correttamente");
         } catch (IOException exception) {
             exception.printStackTrace();
         }

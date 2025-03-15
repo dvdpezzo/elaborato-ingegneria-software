@@ -105,6 +105,12 @@ public class GestoreAccesso {
 
 //-------------------------------------------------- PARTE SUL FRUITORE -----------------------------------------------
 
+    /**
+     * permette l'accesso al fruitore: controlla le credenziali e se sono valide, permette l'accesso
+     * @param nomeUtente nome
+     * @param pass password
+     * @return Fruitore 
+     */
     public Fruitore accessoFruitore(String nomeUtente, String pass){
         if(controlloEsistenzaFruitore(nomeUtente,pass)){
             Fruitore existingFruitore = gestoreFruitori.trovaFruitore(nomeUtente);
@@ -153,6 +159,9 @@ public class GestoreAccesso {
         return newUtente;
     }
 
+    /**
+     * Carica i dati dei fruitori
+     */
     public void caricaDatiFruitori() {
         this.mappaDatiFruitori = gestoreDati.getDatiFruitori();
     }

@@ -26,6 +26,10 @@ public class GestoreFileRichieste {
      * Metodo che salva la mappa delle richieste su file
      */
     public void salvaSuFile(HashMap<Fruitore, List<RichiestaScambio>> mappaRichieste) {
+        if (mappaRichieste.isEmpty()) {
+            System.out.println("Non sono presenti richieste.");
+            return;
+        }
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileRichieste))) {
             for (Map.Entry<Fruitore, List<RichiestaScambio>> entry : mappaRichieste.entrySet()) {
                 Fruitore fruitore = entry.getKey();
@@ -34,6 +38,7 @@ public class GestoreFileRichieste {
                     writer.write(richiesta.toString() + "\n");
                 }
             }
+            System.out.println("Richieste salvate correttamente");
         } catch (IOException e) {
             e.printStackTrace();
         }

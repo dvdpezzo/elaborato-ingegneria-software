@@ -105,9 +105,9 @@ import it.ingbs.ingegneria_software.Eccezioni.PadreNotFoundException;
      *
      * @param nomeCategoria nome della categoria da cercare
      * @return categoria cercata
-     * @throws CategoriaNotFoundException se non viene trovata una categoria col nome specificato
+     * 
      */
-    public Categoria getCategoria(String nomeCategoria) throws CategoriaNotFoundException {            
+    public Categoria getCategoria(String nomeCategoria) {            
         if (sottoCategorie.containsKey(nomeCategoria.toUpperCase()))
             return sottoCategorie.get(nomeCategoria.toUpperCase());
         else

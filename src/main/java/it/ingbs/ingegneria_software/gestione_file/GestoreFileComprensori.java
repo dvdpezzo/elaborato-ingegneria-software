@@ -45,6 +45,7 @@ public class GestoreFileComprensori{
                 bw.write(comprensorio);
                 bw.newLine();
             }
+            System.out.println("Comprensori salvati correttamente");
         } catch (IOException ex) {
             throw new IOException(ERRORE_LETTURA_FILE, ex);
         }
