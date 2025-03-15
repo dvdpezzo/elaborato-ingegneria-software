@@ -306,8 +306,8 @@ public class GestoreGerarchie {
      *  Restituisce la categoria con il nome specificato.
      * @param string il nome della categoria
      * @return la categoria con il nome specificato
-          * @throws CategoriaNotFoundException 
-          */
+     * @throws CategoriaNotFoundException 
+     */
          public Categoria getCategoriaRichiesta(String string) throws CategoriaNotFoundException {
         for (Gerarchia g : radici.values()) {
              Categoria c = g.getCategoria(string);
