@@ -27,17 +27,17 @@ public class Main {
             gestoreFile.caricaSalvataggio();
             GestoreDati gestoreDati = gestoreFile.getGestoreDati();
 
-			//creazione oggetti principali
+            //creazione oggetti principali
             GestoreGerarchie gestoreGerarchie = new GestoreGerarchie(gestoreDati.getGerarchie(), gestoreFile);
             GestoreFattori gestoreFattori = new GestoreFattori(gestoreDati.getFattori(), gestoreGerarchie, gestoreFile);
             GestoreComprensorio gestoreComprensorio = new GestoreComprensorio(gestoreDati.getComprensori(), gestoreFile);
             GestoreRichieste gestoreRichieste = new GestoreRichieste(gestoreFile, gestoreDati.getRichieste());
             GestoreMenu sistemaGenerale = new GestoreMenu(gestoreGerarchie, gestoreFattori, gestoreComprensorio, gestoreRichieste);
-			GestoreAccesso sistemaAccesso = new GestoreAccesso(gestoreDati, gestoreFile, gestoreComprensorio);
+            GestoreAccesso sistemaAccesso = new GestoreAccesso(gestoreDati, gestoreFile, gestoreComprensorio);
             sistemaAccesso.caricaDatiFruitori();
-			
-			//Creazione MenuAccesso
-			MenuAccesso menuAccesso = new MenuAccesso(sistemaAccesso);
+
+            //Creazione MenuAccesso
+            MenuAccesso menuAccesso = new MenuAccesso(sistemaAccesso);
             int opzione;
             do {
                 opzione = menu.scegli();

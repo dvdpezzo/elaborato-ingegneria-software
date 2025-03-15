@@ -1,5 +1,6 @@
 package it.ingbs.ingegneria_software.gestione_file;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 
@@ -27,19 +28,70 @@ public class GestoreFile {
 
     private final GestoreDati gestoreDati = new GestoreDati();
 
+    private boolean isFileEmpty(File file) {
+        return file.length() == 0;
+    }
+
     /**
      * Carica i dati salvati su file.
      * @throws IOException se si verifica un errore durante la lettura dei file.
      */
     public void caricaSalvataggio() throws IOException {
-        gestoreDati.setComuni(gestoreFileComuni.leggiFile());
-        gestoreDati.setComprensori(gestoreFileComprensori.leggiFile());
-        gestoreDati.setGerarchie(gestoreFileGerarchie.recuperaAlbero());
-        gestoreDati.setCredenzialiConfiguratori(gestoreFileCredConfiguratori.leggiFile());
-        gestoreDati.setCredenzialiFruitori(gestoreFileCredFruitori.leggiFile());
-        gestoreDati.setDatiFruitori(gestoreFileDatiFruitori.leggiFile());
-        gestoreDati.setFattori(gestoreFileFattori.leggiFile());
-        gestoreDati.setRichieste(gestoreFileRichieste.leggiFile());
+        File comuniFile = new File(FILE_COMUNI);
+        if (!isFileEmpty(comuniFile)) {
+            gestoreDati.setComuni(gestoreFileComuni.leggiFile());
+        } else {
+            System.err.println("Il file dei comuni è vuoto.");
+        }
+
+        File comprensoriFile = new File(FILE_COMPRENSORI);
+        if (!isFileEmpty(comprensoriFile)) {
+            gestoreDati.setComprensori(gestoreFileComprensori.leggiFile());
+        } else {
+            System.err.println("Il file dei comprensori è vuoto.");
+        }
+
+        File gerarchieFile = new File(FILE_GERARCHIE);
+        if (!isFileEmpty(gerarchieFile)) {
+            gestoreDati.setGerarchie(gestoreFileGerarchie.recuperaAlbero());
+        } else {
+            System.err.println("Il file delle gerarchie è vuoto.");
+        }
+
+        File credenzialiConfiguratoriFile = new File(FILE_CREDENZIALI_CONFIGURATORI);
+        if (!isFileEmpty(credenzialiConfiguratoriFile)) {
+            gestoreDati.setCredenzialiConfiguratori(gestoreFileCredConfiguratori.leggiFile());
+        } else {
+            System.err.println("Il file delle credenziali dei configuratori è vuoto.");
+        }
+
+        File credenzialiFruitoriFile = new File(FILE_CREDENZIALI_FRUITORI);
+        if (!isFileEmpty(credenzialiFruitoriFile)) {
+            gestoreDati.setCredenzialiFruitori(gestoreFileCredFruitori.leggiFile());
+        } else {
+            System.err.println("Il file delle credenziali dei fruitori è vuoto.");
+        }
+
+        File datiFruitoriFile = new File(DATI_FRUITORI);
+        if (!isFileEmpty(datiFruitoriFile)) {
+            gestoreDati.setDatiFruitori(gestoreFileDatiFruitori.leggiFile());
+        } else {
+            System.err.println("Il file dei dati dei fruitori è vuoto.");
+        }
+
+        File fattoriFile = new File(FILE_FATTORI);
+        if (!isFileEmpty(fattoriFile)) {
+            gestoreDati.setFattori(gestoreFileFattori.leggiFile());
+        } else {
+            System.err.println("Il file dei fattori di conversione è vuoto.");
+        }
+
+        File richiesteFile = new File(FILE_RICHIESTE);
+        if (!isFileEmpty(richiesteFile)) {
+            gestoreDati.setRichieste(gestoreFileRichieste.leggiFile());
+        } else {
+            System.err.println("Il file delle richieste è vuoto.");
+        }
     }
 
     /**
@@ -141,7 +193,11 @@ public class GestoreFile {
      * Salva i dati dei fruitori su file.
      */
     public void salvaDatiFruitori() {
-        gestoreFileDatiFruitori.salvaSuFile(gestoreDati.getDatiFruitori());
+        try {
+            gestoreFileDatiFruitori.salvaSuFile(gestoreDati.getDatiFruitori());
+        } catch (IOException ex) {
+            System.err.println("Errore durante il salvataggio dei dati dei fruitori: " + ex.getMessage());
+        }
     }
 
     /**
@@ -149,6 +205,11 @@ public class GestoreFile {
      * @return una mappa contenente i dati dei fruitori.
      */
     public HashMap<String, Fruitore> caricaDatiFruitori() {
+        File file = new File(DATI_FRUITORI);
+        if (isFileEmpty(file)) {
+            System.err.println("Il file dei dati dei fruitori è vuoto.");
+            return new HashMap<>();
+        }
         return gestoreFileDatiFruitori.leggiFile();
     }
 }

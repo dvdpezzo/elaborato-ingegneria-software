@@ -130,12 +130,18 @@ public class GestoreDati {
         for (String nomeFruitore : richieste.keySet()) {
             Fruitore fruitore = datiFruitori.get(nomeFruitore);
             List<RichiestaScambio> listaRichieste = new ArrayList<>();
-            for (String richiesta : richieste.get(nomeFruitore)) {
-                String[] parts = richiesta.replace("Richiesta: [", "").replace("Offerta: [", "").replace("]", "").split(", ");
-                String nomeCategoriaRichiesta = parts[0];
-                int numOre = Integer.parseInt(parts[1]);
-                Categoria categoria = categorie.get(nomeCategoriaRichiesta);
-                RichiestaScambio richiestaScambio = new RichiestaScambio(categoria, numOre, categoria, fruitore, 1.0); // Assumendo un fattore di conversione di 1.0
+            List<String> richiesteFruitore = richieste.get(nomeFruitore);
+            for (int i = 0; i < richiesteFruitore.size(); i += 2) {
+                String richiesta = richiesteFruitore.get(i).replace("Richiesta: [", "").replace("]", "").trim();
+                String offerta = richiesteFruitore.get(i + 1).replace("Offerta: [", "").replace("]", "").trim();
+                String[] richiestaParts = richiesta.split(",");
+                String[] offertaParts = offerta.split(",");
+                Categoria catRichiesta = categorie.get(richiestaParts[0].trim());
+                int oreRichieste = Integer.parseInt(richiestaParts[1].trim());
+                Categoria catOfferta = categorie.get(offertaParts[0].trim());
+                int oreOfferte = Integer.parseInt(offertaParts[1].trim());
+                Double fattoreConv = (double) oreOfferte / oreRichieste;
+                RichiestaScambio richiestaScambio = new RichiestaScambio(catRichiesta, oreRichieste, catOfferta, fruitore, fattoreConv);
                 listaRichieste.add(richiestaScambio);
             }
             mappaRichieste.put(fruitore, listaRichieste);

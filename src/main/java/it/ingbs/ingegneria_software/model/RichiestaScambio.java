@@ -21,13 +21,13 @@ public class RichiestaScambio {
      * @param fr   soggetto che esegue la richiesta (Fruitore)
      */
 
-    public RichiestaScambio(Categoria catRichiesta,int ore,Categoria catOfferta, Fruitore fr, Double fattoreConv){
-        this.catRichiesta = catRichiesta; 
-        this.catOfferta  = catOfferta; 
-        this.fr=fr;
-        this.oreRichieste=ore; 
-        this.oreOfferte = calcolaOreOfferte(fattoreConv, oreRichieste);
-        this.stato=true;
+    public RichiestaScambio(Categoria catRichiesta, int ore, Categoria catOfferta, Fruitore fr, Double fattoreConv) {
+        this.catRichiesta = catRichiesta;
+        this.catOfferta = catOfferta;
+        this.fr = fr;
+        this.oreRichieste = ore;
+        this.oreOfferte = calcolaOreOfferte(fattoreConv, ore);
+        this.stato = true;
     }
 
     public boolean getStato(){
@@ -99,6 +99,6 @@ public class RichiestaScambio {
     
 
 
-    
+
     
 }

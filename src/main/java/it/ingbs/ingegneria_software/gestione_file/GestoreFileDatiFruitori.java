@@ -21,24 +21,16 @@ public class GestoreFileDatiFruitori {
     /**
      * Salva i dati dei fruitori su file 
      */
-    public void salvaSuFile(HashMap<String,Fruitore> mappaFruitori){
-        try(
-           BufferedWriter bw = new BufferedWriter(new FileWriter(fileDati))
-           ){
-            for(HashMap.Entry<String,Fruitore> entry : mappaFruitori.entrySet()){
-                bw.write(entry.getKey() + " " +entry.getValue().getPassword() +" "+entry.getValue().getEmail()+" "+
-                entry.getValue().getComprensorio());
+    public void salvaSuFile(HashMap<String,Fruitore> mappaFruitori) throws IOException {
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(fileDati))) {
+            for (HashMap.Entry<String,Fruitore> entry : mappaFruitori.entrySet()) {
+                bw.write(entry.getKey() + " " + entry.getValue().getPassword() + " " + entry.getValue().getEmail() + " " +
+                        entry.getValue().getComprensorio());
                 bw.newLine();
             }
             System.out.println("Dati fruitori salvati correttamente");
-        } catch (IOException exception) {
-            exception.printStackTrace();
         }
     }
-
-     /*
-     * legge da file i dati dei fruitori
-     */
     public HashMap<String, Fruitore> leggiFile() {
         HashMap<String, Fruitore> mappaFruitori = new HashMap<>();
         try (BufferedReader br = new BufferedReader(new FileReader(fileDati))) {

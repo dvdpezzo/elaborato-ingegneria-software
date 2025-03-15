@@ -46,6 +46,7 @@ public class GestoreRichieste {
             if (entry.getValue().contains(richiestaNuova)) {
                 entry.getValue().remove(richiestaNuova);
                 gestoreFile.salvaRichieste();
+                break;
             }
         }
     }

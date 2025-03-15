@@ -33,8 +33,8 @@ public class GestoreFileRichieste {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileRichieste))) {
             for (Map.Entry<Fruitore, List<RichiestaScambio>> entry : mappaRichieste.entrySet()) {
                 Fruitore fruitore = entry.getKey();
+                writer.write("Fruitore: " + fruitore.getNomeUtente() + "\n");
                 for (RichiestaScambio richiesta : entry.getValue()) {
-                    writer.write(fruitore.getNomeUtente() + "\n");
                     writer.write(richiesta.toString() + "\n");
                 }
             }

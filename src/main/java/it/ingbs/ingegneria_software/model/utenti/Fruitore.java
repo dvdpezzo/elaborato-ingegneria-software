@@ -4,14 +4,13 @@ package it.ingbs.ingegneria_software.model.utenti;
 import java.util.ArrayList;
 
 import it.ingbs.ingegneria_software.model.RichiestaScambio;
-import it.ingbs.ingegneria_software.model.comprensori.ComprensorioGeografico;
 
 
 public class Fruitore extends Utente{
 
-    private int codiceComprensorio ;
-    private String email;
-    private ArrayList<RichiestaScambio> elencoRichieste = new ArrayList<RichiestaScambio>();
+    private final int codiceComprensorio ;
+    private final String email;
+    private final ArrayList<RichiestaScambio> elencoRichieste = new ArrayList<>();
 
 
 
