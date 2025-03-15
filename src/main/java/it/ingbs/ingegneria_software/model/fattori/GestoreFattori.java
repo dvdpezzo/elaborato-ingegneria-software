@@ -1,13 +1,10 @@
 package it.ingbs.ingegneria_software.model.fattori;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.util.HashMap;
 
 import it.ingbs.ingegneria_software.Eccezioni.CategoriaNotFoundException;
+import it.ingbs.ingegneria_software.gestione_file.GestoreFile;
 import it.ingbs.ingegneria_software.model.gerarchie.Categoria;
 import it.ingbs.ingegneria_software.model.gerarchie.Gerarchia;
 import it.ingbs.ingegneria_software.model.gerarchie.GestoreGerarchie;
@@ -30,18 +27,12 @@ public class GestoreFattori {
 
     private final HashMap<String, FattoriConversione> mappaFattori;
     private final GestoreGerarchie gestoreGerarchie;
-    private static final File NOME_FILE = new File("src\\Data_File\\elencoFattoriConversione.txt");
+    private final GestoreFile gestoreFile;
 
-    public GestoreFattori() {
-        this.mappaFattori = new HashMap<>();
-        this.gestoreGerarchie = new GestoreGerarchie();
-        try {
-            leggiFileFattori();
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-        
+    public GestoreFattori(HashMap<String, FattoriConversione> mappaFattori, GestoreGerarchie gestoreGerarchie, GestoreFile gestoreFile) {
+        this.mappaFattori = mappaFattori;
+        this.gestoreGerarchie = gestoreGerarchie;
+        this.gestoreFile = gestoreFile;
     }
 
     /**
@@ -138,54 +129,6 @@ public class GestoreFattori {
         }
     }
 
-    /**
-     * Legge da file i fattori e li aggiunge alla mappa dei fattori 
-     * @throws IOException
-     */
-    public void leggiFileFattori() throws IOException {
-        try (BufferedReader reader = new BufferedReader(new FileReader(NOME_FILE))) {
-            String linea;
-            while ((linea = reader.readLine()) != null) {
-                // Processa ogni riga del file 
-                String[] parti = linea.split(" -> |: | [ | / | ]");  // Divide la riga in base ai separatori 
-                if (parti.length == 3) {
-                    String nomeCategoria1 = parti[0].trim();
-                    String nomeCategoria2 = parti[1].trim();
-                    double valore = Double.parseDouble(parti[2].trim());
-
-                    // Crea le categorie 
-                    Categoria categoria1;
-                    Categoria categoria2;
-                    try {
-                        categoria1 = getCategoria(nomeCategoria1);
-                        categoria2 = getCategoria(nomeCategoria2);
-                        FattoriConversione fattore = new FattoriConversione(valore, categoria2, categoria1);
-                        mappaFattori.put(nomeCategoria1 + "->" + nomeCategoria2, fattore);
-                    } catch (CategoriaNotFoundException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-        }
-    }
-
-    /**
-     * Scrive su file i vari fattori di conversione
-     * @throws IOException
-     */
-    public void salvaFattori() throws IOException {
-        try (FileWriter writer = new FileWriter(NOME_FILE)) {
-            // Itera sulla mappa dei fattori di conversione e scrive ogni coppia su una riga
-            for (FattoriConversione fattore : mappaFattori.values()) {
-                // Scrive la riga con le categorie e il valore del fattore
-                writer.append(fattore.getCategoria1().getNome() + " -> " +
-                        fattore.getCategoria2().getNome() + ": " +
-                        fattore.getValoreConversione() + "\n");
-            }
-        } finally {
-            System.out.println(FATTORI_CONVERSIONE_SALVATI);
-        }
-    }
 
     /**
      * Visualizza tutti i fattori di conversione
@@ -206,7 +149,6 @@ public class GestoreFattori {
         int scelta;
         do {
             scelta = menuFattori.scegli();
-            leggiFileFattori();
             switch (scelta) {
                 case 1:
                     gestoreGerarchie.stampaGerarchie();
@@ -228,6 +170,14 @@ public class GestoreFattori {
                     break;
             }
         } while (scelta != 0);
+    }
+
+    /**
+     * Salva i fattori di conversione su file.
+     */
+    private void salvaFattori() {
+        gestoreFile.salvaFattori();
+        System.out.println(FATTORI_CONVERSIONE_SALVATI);
     }
 
     /**
@@ -273,9 +223,6 @@ public class GestoreFattori {
         System.out.println(FATTORE_RIMOSSO);
         salvaFattori();
     }
-
-
-    
 
 
     /*

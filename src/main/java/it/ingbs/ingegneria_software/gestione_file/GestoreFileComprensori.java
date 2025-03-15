@@ -14,20 +14,20 @@ import it.ingbs.ingegneria_software.model.comprensori.ComprensorioGeografico;
 /**
  * Classe che gestisce la lettura e scrittura dei comprensori geografici su file.
  */
-public class GestoreFileComprensori implements GestoreFile {
+public class GestoreFileComprensori{
 
     private static final String ERRORE_LETTURA_FILE = "Errore durante la lettura del file";
     private static final String SPAZIO = " ";
 
-    private HashMap<Integer, ComprensorioGeografico> mappaComprensori;
+    private final File fileComprensori;
 
     /**
      * Costruttore della classe GestoreFileComprensori.
      *
      * @param mappaComprensori la mappa dei comprensori geografici
      */
-    public GestoreFileComprensori(HashMap<Integer, ComprensorioGeografico> mappaComprensori) {
-        this.mappaComprensori = mappaComprensori;
+    public GestoreFileComprensori(String nomeFile) {
+        this.fileComprensori = new File(nomeFile);
     }
 
     /**
@@ -36,9 +36,8 @@ public class GestoreFileComprensori implements GestoreFile {
      * @param file il file su cui salvare i comprensori
      * @throws IOException se si verifica un errore durante la scrittura del file
      */
-    @Override
-    public void salvaSuFile(File file) throws IOException {
-        try (BufferedWriter bw = new BufferedWriter(new FileWriter(file))) {
+    public void salvaSuFile(HashMap<Integer, ComprensorioGeografico> mappaComprensori) throws IOException {
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(fileComprensori))) {
             for (HashMap.Entry<Integer, ComprensorioGeografico> entry : mappaComprensori.entrySet()) {
                 String comprensorio = entry.getKey() + " [" + entry.getValue().getListaComuni().stream()
                     .map(String::toUpperCase)
@@ -58,9 +57,9 @@ public class GestoreFileComprensori implements GestoreFile {
      * @return la mappa dei comprensori geografici letti dal file
      * @throws IOException se si verifica un errore durante la lettura del file
      */
-    @Override
-    public HashMap<Integer, ComprensorioGeografico> leggiFile(File file) throws IOException {
-        try (BufferedReader br = new BufferedReader(new FileReader(file))) {
+    public HashMap<Integer, ComprensorioGeografico> leggiFile() throws IOException {
+        HashMap<Integer, ComprensorioGeografico> mappaComprensori = new HashMap<>();
+        try (BufferedReader br = new BufferedReader(new FileReader(fileComprensori))) {
             String linea;
             while ((linea = br.readLine()) != null && !linea.isEmpty()) {
                 String[] parti = linea.split(SPAZIO);

@@ -1,10 +1,11 @@
 package it.ingbs.ingegneria_software.gestione_accesso;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 
-import it.ingbs.ingegneria_software.gestione_file.GestoreFileCredenziali;
+import it.ingbs.ingegneria_software.gestione_file.GestoreDati;
+import it.ingbs.ingegneria_software.gestione_file.GestoreFile;
+import it.ingbs.ingegneria_software.model.comprensori.GestoreComprensorio;
 import it.ingbs.ingegneria_software.model.utenti.Configuratore;
 import it.ingbs.ingegneria_software.model.utenti.Fruitore;
 import it.ingbs.ingegneria_software.model.utenti.GestoreConfiguratori;
@@ -16,38 +17,32 @@ import it.ingbs.ingegneria_software.model.utenti.GestoreUtente;
  */
 public class GestoreAccesso {
 
-    private static final String FILE_ASSENTE = "File assente";
     private static final String SEI_STASTO_REINDIRIZZATO_ALLA_CREAZIONE_DEL_TUO_NOME_UTENTE_E_PASSWORD_PERSONALI = "Sei stasto reindirizzato alla creazione del tuo Nome utente e Password personali:";
     private static final String ERRORE_NOME_UTENTE_O_PASSWORD_ERRATI = "ERRORE! Nome Utente o password errati!";
     private static final String ACCESSO_EFFETTUATO_CORRETAMENTE = "Accesso effettuato corretamente!";
-    private static final String FILE_NON_TROVATO = "File non trovato: %s";
-    private static final String FILE_DI_ACCESSO_CREDENZIALI_FRUITORI_TXT = "src\\File_di_accesso\\credenzialiFruitori.txt";
-    private static final String FILE_DI_ACCESSO_CREDENZIALI_CONFIGURATORI_TXT = "src\\File_di_accesso\\credenzialiConfiguratori.txt";
     private static final String UTENTE_DEFAULT="admin";
     private static final String PASS_DEFAULT="admin";
     
-    private File fileConfiguratori = new File(FILE_DI_ACCESSO_CREDENZIALI_CONFIGURATORI_TXT);
-    private File fileFruitori = new File(FILE_DI_ACCESSO_CREDENZIALI_FRUITORI_TXT);
-    private HashMap<String, String> mappaCredenzialiConf = new HashMap<>();
-    private HashMap<String,String> mappaCredenzialiFrui = new HashMap<>();
-    private GestoreFileCredenziali gestoreFileConf;
-    private GestoreFileCredenziali gestoreFileFruit;
+    private final HashMap<String, String> mappaCredenzialiConf;
+    private final HashMap<String,String> mappaCredenzialiFrui;
+    private HashMap<String, Fruitore> mappaDatiFruitori;
+    private final GestoreFile gestoreFile;
     private final GestoreConfiguratori gestoreConfiguratori;
     private final GestoreFruitori gestoreFruitori; 
-    private final GestoreUtente gestoreUtente = new GestoreUtente(); 
+    private final GestoreUtente gestoreUtente;
+    private final GestoreComprensorio gestoreComprensorio;
+    private final GestoreDati gestoreDati;
     
 
-    public GestoreAccesso() {       
-        this.gestoreFileConf = new GestoreFileCredenziali(mappaCredenzialiConf,gestoreUtente);
-        this.gestoreFileFruit = new GestoreFileCredenziali(mappaCredenzialiFrui,gestoreUtente);        
-        try {
-            mappaCredenzialiConf = gestoreFileConf.leggiFile(fileConfiguratori);
-            mappaCredenzialiFrui = gestoreFileFruit.leggiFile(fileFruitori);
-        } catch (IOException e) {
-            System.out.println(String.format(FILE_NON_TROVATO, e.getMessage()));
-        }
-        this.gestoreConfiguratori = new GestoreConfiguratori(gestoreFileConf);
-        this.gestoreFruitori = new GestoreFruitori(gestoreFileFruit,gestoreUtente);  
+    public GestoreAccesso(GestoreDati gestoreDati, GestoreFile gestoreFile, GestoreComprensorio gestoreComprensorio) {
+        this.gestoreDati = gestoreDati;
+        this.gestoreUtente = new GestoreUtente(gestoreDati.getUtenti());
+        this.mappaCredenzialiConf = gestoreDati.getCredenzialiConfiguratori();
+        this.mappaCredenzialiFrui = gestoreDati.getCredenzialiFruitori();
+        this.gestoreFile = gestoreFile;
+        this.gestoreConfiguratori = new GestoreConfiguratori(gestoreDati);
+        this.gestoreComprensorio = gestoreComprensorio;
+        this.gestoreFruitori = new GestoreFruitori(gestoreUtente, gestoreDati, gestoreComprensorio);
     }
 
     /**
@@ -94,11 +89,7 @@ public class GestoreAccesso {
      */
     private void aggiungiCredenzialiConfAllaMappa(String nomeUtente, String pass) {
         mappaCredenzialiConf.put(nomeUtente, pass);
-        try {
-            gestoreFileConf.salvaSuFile(fileConfiguratori);
-        } catch (IOException e) {
-            System.out.println(FILE_ASSENTE);
-        }
+        gestoreFile.salvaCredenzialiConfiguratori();
     }
 
     /**
@@ -108,7 +99,7 @@ public class GestoreAccesso {
      * @return restituisce vero se li trova, altrimenti falso
      */
     private boolean controlloEsistenzaConfiguratore (String nomeUtente, String pass){
-        return mappaCredenzialiConf.containsKey(nomeUtente) && mappaCredenzialiConf.containsValue(pass);
+        return mappaCredenzialiConf.containsKey(nomeUtente) && mappaCredenzialiConf.get(nomeUtente).equals(pass);
     }   
 
 
@@ -133,7 +124,7 @@ public class GestoreAccesso {
      * @return restituisce vero se li trova falso se non li trova 
      */
     private boolean controlloEsistenzaFruitore(String nomeUtente,String pass){
-        return mappaCredenzialiFrui.containsKey(nomeUtente) && mappaCredenzialiFrui.containsValue(pass);
+        return mappaCredenzialiFrui.containsKey(nomeUtente) && mappaCredenzialiFrui.get(nomeUtente).equals(pass);
     }
 
 
@@ -145,11 +136,8 @@ public class GestoreAccesso {
      */
     private void aggiungiCredenzialiFruitAllaMappa(String nomeUtente, String pass) {
         mappaCredenzialiFrui.put(nomeUtente, pass);
-        try {
-            gestoreFileFruit.salvaSuFile(fileFruitori);
-        } catch (IOException e) {
-            System.out.println(FILE_ASSENTE);
-        }
+        gestoreFile.salvaCredenzialiFruitori();
+        gestoreFile.salvaDatiFruitori();
     }
 
     /**
@@ -165,4 +153,10 @@ public class GestoreAccesso {
         return newUtente;
     }
 
+    public void caricaDatiFruitori() {
+        this.mappaDatiFruitori = gestoreDati.getDatiFruitori();
+    }
+
+
+    
 }

@@ -3,16 +3,18 @@ package it.ingbs.ingegneria_software.model.utenti;
 import java.util.HashMap;
 import java.util.Map;
 
-import it.ingbs.ingegneria_software.gestione_file.GestoreFileCredenziali;
+import it.ingbs.ingegneria_software.gestione_file.GestoreDati;
 import it.ingbs.ingegneria_software.utilita_generale.InputDati;
 
 
 public class GestoreConfiguratori {
 
     private Map<String, Configuratore> mappaConfiguratori = new HashMap<>();
+    private GestoreDati gestoreDati;
 
-    public GestoreConfiguratori(GestoreFileCredenziali gestoreFileCredenziali) {
-         this.mappaConfiguratori = setMappaConfiguratori(gestoreFileCredenziali.getMappaCredenziali());
+    public GestoreConfiguratori(GestoreDati gestoreDati) {
+        this.gestoreDati = gestoreDati;
+        this.mappaConfiguratori = setMappaConfiguratori(gestoreDati.getCredenzialiConfiguratori());
     }
 
     /**

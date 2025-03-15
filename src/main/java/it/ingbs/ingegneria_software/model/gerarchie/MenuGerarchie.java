@@ -19,9 +19,9 @@ public class MenuGerarchie implements Runnable {
     /**
      * Costruttore del Menu Gerarchie.
      */
-    public MenuGerarchie() {
+    public MenuGerarchie(GestoreGerarchie gestoreGerarchie) {
         this.menuPrincipale = new MenuUtil(TITOLO_MENU, VOCI_PRINCIPALI);
-        this.gestoreGerarchie = new GestoreGerarchie();
+        this.gestoreGerarchie = gestoreGerarchie;
     }
 
     /**

@@ -12,27 +12,27 @@ import java.util.Map;
 /**
  * Classe che gestisce la lettura e scrittura dei comuni su file.
  */
-public class GestoreFileComuni implements GestoreFile {
-
-    private HashMap<Integer, String> mappaComuni; 
+public class GestoreFileComuni {
+    
+    private final File fileComuni;
 
     /**
      * Costruttore della classe GestoreFileComuni.
      *
      * @param mappaComuni la mappa dei comuni
      */
-    public GestoreFileComuni(HashMap<Integer, String> mappaComuni) {
-        this.mappaComuni = mappaComuni;
+    public GestoreFileComuni(String nomeFile) {
+        this.fileComuni = new File(nomeFile);
     }
+    
     /**
      * Salva i comuni su file.
      *
      * @param file il file su cui salvare i comuni
      * @throws IOException se si verifica un errore durante la scrittura del file
      */
-    @Override
-    public void salvaSuFile(File nomeFile) throws IOException {
-        try (BufferedWriter bw = new BufferedWriter(new FileWriter(nomeFile))) {
+    public void salvaSuFile(HashMap<Integer, String> mappaComuni) throws IOException {
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(fileComuni))){
             for (Map.Entry<Integer,String> entry : mappaComuni.entrySet()) {
                 String comune = entry.getKey() +" "+entry.getValue();
                 bw.write(comune);
@@ -48,13 +48,13 @@ public class GestoreFileComuni implements GestoreFile {
      * @return la mappa dei comuni letti dal file
      * @throws IOException se si verifica un errore durante la lettura del file
      */
-    @Override
-    public HashMap leggiFile(File nomeFile) throws IOException {
-        try (BufferedReader br = new BufferedReader(new FileReader(nomeFile))){
+    public HashMap<Integer, String> leggiFile() throws IOException {
+        HashMap<Integer, String> mappaComuni = new HashMap<>();
+        try (BufferedReader br = new BufferedReader(new FileReader(fileComuni))){
             String parola = br.readLine();
             do{
                 String [] datiComune = parola.split(" ");
-                Integer num = Integer.parseInt(datiComune[0]);
+                int num = Integer.parseInt(datiComune[0]);
                 String nome = datiComune[1];
                 mappaComuni.put(num,nome.toUpperCase()); 
                 parola = br.readLine();

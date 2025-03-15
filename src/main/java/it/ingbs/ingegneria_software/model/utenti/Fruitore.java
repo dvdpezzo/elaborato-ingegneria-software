@@ -9,7 +9,7 @@ import it.ingbs.ingegneria_software.model.comprensori.ComprensorioGeografico;
 
 public class Fruitore extends Utente{
 
-    private ComprensorioGeografico comprensorio;
+    private int codiceComprensorio ;
     private String email;
     private ArrayList<RichiestaScambio> elencoRichieste = new ArrayList<RichiestaScambio>();
 
@@ -18,9 +18,9 @@ public class Fruitore extends Utente{
     /*
     * Creo un nuovo oggetto Fruitore
     */
-    public Fruitore(String nomeUtente, String passUtente, ComprensorioGeografico comprensorio,String email){
+    public Fruitore(String nomeUtente, String passUtente, int codiceComprensorio ,String email){
         super(nomeUtente, passUtente);
-        this.comprensorio=comprensorio;
+        this.codiceComprensorio= codiceComprensorio;
         this.email=email;
     }
 
@@ -28,8 +28,8 @@ public class Fruitore extends Utente{
         return email;
     }
 
-    public ComprensorioGeografico getComprensorio() {
-        return comprensorio;
+    public int getComprensorio() {
+        return codiceComprensorio;
     }
     
     /**
@@ -39,7 +39,7 @@ public class Fruitore extends Utente{
         StringBuffer sb = new StringBuffer();
         sb.append(this.getNomeUtente());
         sb.append((this.getPassword()));
-        sb.append((this.getComprensorio().toString()));
+        sb.append(String.valueOf(this.getComprensorio()));
         sb.append((this.getEmail()));
         sb.toString();
      }

@@ -1,13 +1,12 @@
 package it.ingbs.ingegneria_software.model.comprensori;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
-import it.ingbs.ingegneria_software.gestione_file.GestoreFileComprensori;
+import it.ingbs.ingegneria_software.gestione_file.GestoreFile;
 import it.ingbs.ingegneria_software.utilita_generale.InputDati;
 import it.ingbs.ingegneria_software.utilita_generale.MenuUtil;
 
@@ -23,20 +22,17 @@ public class GestoreComprensorio {
     private static final String INSERISCI_IL_CODICE_DEL_COMPRENSORIO_AL_QUALE_SI_VUOLE_AGGIUNGERE_IL_COMUNE = "Inserisci il codice del comprensorio al quale si vuole aggiungere il comune:";
     private static final String INSERISCI_IL_NOME_DEL_COMUNE = "Inserisci il nome del comune:";
     private static final String VUOI_AGGIUNGERE_UN_ALTRO_COMUNE = "Vuoi aggiungere un altro comune?";
-    private static final String ELENCO_COMPRENSORI_TXT = "src\\Data_File\\elencoComprensori.txt";
     private static final int MIN_NUMERO_COMUNI_COMPRENSORIO = 3;
 
-    private HashMap<Integer, ComprensorioGeografico> mappaComprensori;
-    private final File fileComprensori = new File(ELENCO_COMPRENSORI_TXT);
-    private final GestoreFileComprensori gestoreFileComprensori;
+    private final HashMap<Integer, ComprensorioGeografico> mappaComprensori;
+    private final GestoreFile gestoreFile ;
 
     /**
      * Costruttore che legge i comprensori dal file e li carica nella mappa.
      */
-    public GestoreComprensorio() {
-        this.mappaComprensori = new HashMap<>();
-        this.gestoreFileComprensori = new GestoreFileComprensori(this.mappaComprensori);
-        configuraMappaComprensoriDaFile();
+    public GestoreComprensorio(HashMap<Integer, ComprensorioGeografico> mappaComprensori, GestoreFile gestoreFile) {
+        this.mappaComprensori = mappaComprensori;
+        this.gestoreFile = gestoreFile;
     }
 
     /**
@@ -91,22 +87,7 @@ public class GestoreComprensorio {
      * Salva la mappa dei comprensori su file.
      */
     private void salvaMappaComprensoriSuFile() {
-        try {
-            gestoreFileComprensori.salvaSuFile(fileComprensori);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    /**
-     * Legge la mappa dei comprensori da file.
-     */
-    private void configuraMappaComprensoriDaFile() {
-        try {
-            mappaComprensori = gestoreFileComprensori.leggiFile(fileComprensori);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        gestoreFile.salvaComprensori();
     }
 
     /**
@@ -175,11 +156,11 @@ public class GestoreComprensorio {
      */
     public ComprensorioGeografico creaComprensorioGeografico() {
         List<String> listaComuni = new LinkedList<>();
-        GestoreComuni gc = new GestoreComuni();
+        GestoreComuni gestoreComuni = new GestoreComuni(gestoreFile);
 
-        gc.stampaComuni();
+        gestoreComuni.stampaComuni();
 
-        gc.inserimentoComuni(listaComuni, MIN_NUMERO_COMUNI_COMPRENSORIO);
+        gestoreComuni.inserimentoComuni(listaComuni, MIN_NUMERO_COMUNI_COMPRENSORIO);
 
         Collections.sort(listaComuni);
         return new ComprensorioGeografico(listaComuni);

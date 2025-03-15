@@ -4,9 +4,9 @@ import it.ingbs.ingegneria_software.model.gerarchie.Categoria;
 
 public class FattoriConversione {
     
-    private Categoria categoria1;
-    private Categoria categoria2;
-    private double valoreConversione;
+    private final Categoria categoria1;
+    private final Categoria categoria2;
+    private final double valoreConversione;
 
     /**
      * Costruttore della classe FattoriConversione.

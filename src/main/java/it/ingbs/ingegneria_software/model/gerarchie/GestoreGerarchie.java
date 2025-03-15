@@ -6,7 +6,7 @@ import it.ingbs.ingegneria_software.Eccezioni.CategoriaNotFoundException;
 import it.ingbs.ingegneria_software.Eccezioni.CategoriaOmonimaException;
 import it.ingbs.ingegneria_software.Eccezioni.IllegalCampoException;
 import it.ingbs.ingegneria_software.Eccezioni.PadreNotFoundException;
-import it.ingbs.ingegneria_software.gestione_file.GestoreFileGerarchie;
+import it.ingbs.ingegneria_software.gestione_file.GestoreFile;
 import it.ingbs.ingegneria_software.utilita_generale.InputDati;
 import it.ingbs.ingegneria_software.utilita_generale.MenuUtil;
 
@@ -28,7 +28,6 @@ public class GestoreGerarchie {
     private static final String CATEGORIA_DA_ELIMINARE = "Nome Categoria da eliminare: ";
     private static final String CATEGORIA_DA_MODIFICARE = "Nome Categoria che si vuole modificare: ";
     private static final String NOME_DEL_CAMPO = "Nome del campo: ";
-    private static final String OBBLIGATORIO = "È obbligatorio? ";
     private static final String RADICE_AGGIUNTA = "Radice aggiunta!";
     private static final String RADICE_S_RIMOSSA = "Radice %s rimossa!";
     private static final String TITOLO_MENU_MODIFICA_GERARCHIA = "Cosa desideri fare?";
@@ -46,9 +45,11 @@ public class GestoreGerarchie {
     private static final String VUOI_ELIMINARE_ALTRI_CAMPI = "Vuoi eliminare altri campi? ";
 
     private final HashMap<String, Gerarchia> radici;
+    private final GestoreFile gestoreFile;
 
-    public GestoreGerarchie() {
-        this.radici = GestoreFileGerarchie.recuperaAlbero();
+    public GestoreGerarchie(HashMap<String, Gerarchia> radici, GestoreFile gestoreFile) {
+        this.radici = radici;
+        this.gestoreFile = gestoreFile;
     }
 
     /**
@@ -289,7 +290,7 @@ public class GestoreGerarchie {
      * Salva tutte le gerarchie su file.
      */
     public void salvaGerarchie() {
-        GestoreFileGerarchie.salvaAlbero(radici.values());
+        gestoreFile.salvaGerarchie();
     }
 
     /**

@@ -1,34 +1,25 @@
 package it.ingbs.ingegneria_software.model.comprensori;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import it.ingbs.ingegneria_software.gestione_file.GestoreFileComuni;
+import it.ingbs.ingegneria_software.gestione_file.GestoreFile;
 import it.ingbs.ingegneria_software.utilita_generale.InputDati;
 
 public class GestoreComuni {
 
     private static final String ERRORE_COMUNE_NON_TROVATO = "Comune non trovato!";
-    private static final String ERRORE_LETTURA_FILE = "Errore durante la lettura dei comuni dal file.";
-    private static final String FILE_COMUNI_PATH = "src\\Data_File\\elencoComuni.txt";
     private static final String MSG_COMUNE_GIA_INSERITO = "Questo comune è già stato inserito!";
     private static final String MSG_INPUT_OUT_OF_RANGE = "Input out of range. Please enter a valid comune number:";
     private static final String MSG_INSERISCI_NUMERO_COMUNE = "Inserisci il numero del %d° comune:";
 
-    private final File fileComuni = new File(FILE_COMUNI_PATH);
     private final HashMap<Integer, String> mappaComuni = new HashMap<>();
-    private final GestoreFileComuni gestoreFileComuni;
+    private final GestoreFile gestoreFile;
 
-    public GestoreComuni() {
-        this.gestoreFileComuni = new GestoreFileComuni(this.mappaComuni);
-        try {
-            gestoreFileComuni.leggiFile(fileComuni);
-        } catch (IOException e) {
-            System.out.println(ERRORE_LETTURA_FILE);
-        }
+    public GestoreComuni(GestoreFile gestoreFile) {
+        this.gestoreFile = gestoreFile;
     }
 
     /**
@@ -87,7 +78,7 @@ public class GestoreComuni {
      * @throws IOException se si verifica un errore durante la scrittura del file
      */
     public void scriviComuni() throws IOException {
-        gestoreFileComuni.salvaSuFile(fileComuni);
+        gestoreFile.salvaComuni();
     }
 
     /**
