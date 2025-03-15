@@ -160,7 +160,7 @@ public class GestoreGerarchie {
                 gerarchia.addSottocategoria(nomeCategoria.toUpperCase(), descrizioneCategoria, nomePadre);
                 gerarchia.getCategoria(nomeCategoria.toUpperCase()).addCampoNativo(" "); // Aggiunge un campo nativo vuoto
                 System.out.printf((CATEGORIA_S_AGGIUNTA) + "%n", nomeCategoria);
-            } catch (PadreNotFoundException | CategoriaOmonimaException | CategoriaNotFoundException | IllegalCampoException e) {
+            } catch (PadreNotFoundException | CategoriaOmonimaException | IllegalCampoException e) {
                 System.out.println(e.getMessage());
             }
         } while (InputDati.yesOrNo(VUOI_AGGIUNGERE_ALTRE_CATEGORIE));
@@ -214,7 +214,7 @@ public class GestoreGerarchie {
             try {
                 gerarchia.getCategoria(nomeCategoria).addCampoNativo(nomeCampo);
                 System.out.printf((CAMPO_S_CORRETTAMENTE_AGGIUNTO) + "%n", nomeCampo);
-            } catch (IllegalCampoException | CategoriaNotFoundException e) {
+            } catch (IllegalCampoException e) {
                 System.out.println(e.getMessage());
             }
         } while (InputDati.yesOrNo(VUOI_AGGIUNGERE_ALTRI_CAMPI));
