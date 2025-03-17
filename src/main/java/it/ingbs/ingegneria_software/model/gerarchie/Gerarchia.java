@@ -154,5 +154,10 @@ import it.ingbs.ingegneria_software.Eccezioni.PadreNotFoundException;
         return c.toString(0);
     }
 
+    
+    public HashMap<String, Categoria> getSottoCategorie() {
+        return sottoCategorie;
+    }
+    
    
 }
