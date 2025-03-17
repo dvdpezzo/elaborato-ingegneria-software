@@ -57,10 +57,18 @@ public class GestoreDati {
 
     public void setGerarchie(HashMap<String, Gerarchia> gerarchie) {
         this.gerarchie = gerarchie;
+        setCategorie();
     }
     
-    public void setCategorie(HashMap<String, Categoria> categorie) {
-        this.categorie = categorie;
+    public HashMap<String, Categoria> getCategorie() {
+        return categorie;
+    }
+    public void setCategorie() {
+        for(Gerarchia g : gerarchie.values()) {
+            for(Categoria c : g.getSottoCategorie().values()) {
+                this.categorie.put(c.getNome(), c);
+            }
+        }
     }
 
     public HashMap<String, String> getCredenzialiConfiguratori() {
@@ -132,8 +140,8 @@ public class GestoreDati {
             List<RichiestaScambio> listaRichieste = new ArrayList<>();
             List<String> richiesteFruitore = richieste.get(nomeFruitore);
             for (int i = 0; i < richiesteFruitore.size(); i += 2) {
-                String richiesta = richiesteFruitore.get(i).replace("Richiesta: [", "").replace("]", "").trim();
-                String offerta = richiesteFruitore.get(i + 1).replace("Offerta: [", "").replace("]", "").trim();
+                String richiesta = richiesteFruitore.get(i).replace("Richiesta: [[", "").replace("]", "").trim();
+                String offerta = richiesteFruitore.get(i + 1).replace("Offerta: [[", "").replace("]", "").trim();
                 String[] richiestaParts = richiesta.split(",");
                 String[] offertaParts = offerta.split(",");
                 Categoria catRichiesta = categorie.get(richiestaParts[0].trim());
