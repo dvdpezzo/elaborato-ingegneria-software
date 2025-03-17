@@ -121,5 +121,20 @@ public class GestoreRichieste {
     public HashMap<Fruitore, List<RichiestaScambio>> getMappaRichieste(){
         return mappaRichieste;
     }
+
+
+    /**
+     * Metodo che visualizza le richieste effettuate da un fruitore
+     * @param fruitore fruitore che effettua la richiesta
+     */
+    public void visualizzaRichieste(Fruitore fruitore) {
+        if (mappaRichieste.containsKey(fruitore)) {
+            for (RichiestaScambio richiesta : mappaRichieste.get(fruitore)) {
+                System.out.println(richiesta.toString());
+            }
+        } else {
+            System.out.println("Non hai effettuato nessuna richiesta.");
+        }
+    }
     
 }

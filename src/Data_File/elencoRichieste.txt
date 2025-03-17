@@ -1,0 +1,5 @@
+Fruitore: Lu
+Richiesta: [GENETICA,10]
+Offerta: [ECOLOGIA,16]
+Richiesta: [INGLESE BASE,4]
+Offerta: [FRANCESE BASE,4]

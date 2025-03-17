@@ -17,7 +17,7 @@ public class GestoreMenu {
     
     
     private final String[] vociMenuBackEnd = new String[]{"GESTIONE GERARCHIE","GESTIONE FATTORI CONVERSIONE","GESTIONE COMPRENSORI"};
-    private final String[] vociMenuFrontEnd = new String[]{"Visualizza Gerarchie","Effettua una richiesta"};      
+    private final String[] vociMenuFrontEnd = new String[]{"Visualizza Gerarchie","Effettua una richiesta","Visualizza richieste"};      
     private final MenuUtil menuBackEnd = new MenuUtil("MENU BACK-END:", vociMenuBackEnd);
     private final MenuUtil menuFrontEnd = new MenuUtil("MENU FRONT END",vociMenuFrontEnd);
     private final GestoreGerarchie gestoreGerarchie ;
@@ -73,6 +73,10 @@ public class GestoreMenu {
 
                 case 2:
                     gestoreRichieste.nuovaRichiesta(fruitore);
+                    break;
+                
+                case 3:
+                    gestoreRichieste.visualizzaRichieste(fruitore);
                     break;
             }
         } while (scelta != 0);
