@@ -98,6 +98,22 @@ public class RichiestaScambio {
          sb.append("Stato: "+getStato().toString());
          return sb.toString();
     }
+
+
+
+    /**
+     * Metodo che verifica se una richiesta di scambio è compatibile con un'altra
+     * @param richiesta richiesta di scambio da confrontare
+     * @return true se le due richieste sono compatibili, false altrimenti
+     */
+    public boolean trovaRichiestaScambio(RichiestaScambio richiesta){
+        if(richiesta.getCatRichiesta().equals(catOfferta) && richiesta.getCatOfferta().equals(catRichiesta) && 
+            richiesta.getOreRichieste() == oreOfferte && richiesta.getOreOfferte() == oreRichieste &&
+               richiesta.getStato().equals(Stato.Aperto)){
+            return true;
+        }
+        return false;
+    }
     
     
 

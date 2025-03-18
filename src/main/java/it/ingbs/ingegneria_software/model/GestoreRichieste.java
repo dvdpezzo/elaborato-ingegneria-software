@@ -71,8 +71,9 @@ public class GestoreRichieste {
      * Metodo che crea una nuova richiesta di scambio
      * @param fruitore soggetto che crea una richiesta di scambio di prestazione
      * @throws CategoriaNotFoundException
+     * @return la richiesta creata
      */
-    public void nuovaRichiesta(Fruitore fruitore) throws CategoriaNotFoundException {
+    public RichiestaScambio nuovaRichiesta(Fruitore fruitore) throws CategoriaNotFoundException {
         Categoria catRichiesta = cercaCatFoglia();
         Categoria catOfferta = cercaCatFoglia();
         int numOre = InputDati.leggiInteroConMinimo("Di quante ore necessiti?", 0);
@@ -81,7 +82,6 @@ public class GestoreRichieste {
         String chiaveConversione = catRichiesta.getNome().toUpperCase() + "->" + catOfferta.getNome().toUpperCase();
         if (!gestoreFile.getGestoreDati().getFattori().containsKey(chiaveConversione)) {
             System.out.println("Non esiste un fattore di conversione tra le categorie selezionate.");
-            return;
         }
         
         Double fattoreConversione = gestoreFile.getGestoreDati().getFattori().get(chiaveConversione).getValoreConversione();
@@ -91,8 +91,10 @@ public class GestoreRichieste {
         boolean salva = InputDati.yesOrNo("Vuoi salvare la richiesta?");
         if (!salva) {
             rimuoviRichiesta(richiestaNuova);
+            return null;
         } else {
             gestoreFile.salvaRichieste();
+            return richiestaNuova;
         }
     }
 
@@ -174,5 +176,29 @@ public class GestoreRichieste {
         return richieste.get(scelta - 1);
        
     }
-    
+
+
+    /**
+     * Metodo che permette di valutare una richiesta di scambio
+     * @param fruitore1 fruitore che effettua la richiesta
+     * @param richiesta richiesta da valutare
+     */
+    public void valutazioneRichiesta(Fruitore fruitore1, RichiestaScambio richiesta) {
+        for (Fruitore fruitore2 : mappaRichieste.keySet()) {
+            if(fruitore2.getComprensorio()==(fruitore1.getComprensorio())){
+                for(RichiestaScambio richiestaDaTrovare : mappaRichieste.get(fruitore2)){
+                    if(richiestaDaTrovare.trovaRichiestaScambio(richiesta)){
+                        richiesta.setStato(Stato.Chiuso);
+                        richiestaDaTrovare.setStato(Stato.Chiuso);
+                        gestoreFile.salvaRichieste();
+                    }
+                }
+            
+            }  
+         
+        
+        }
+
+    }
+
 }

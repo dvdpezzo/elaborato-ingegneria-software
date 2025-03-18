@@ -73,7 +73,8 @@ public class GestoreMenu {
                     break;
 
                 case 2:
-                    gestoreRichieste.nuovaRichiesta(fruitore);
+                    RichiestaScambio nuovaRichiesta = gestoreRichieste.nuovaRichiesta(fruitore);
+                    gestoreRichieste.valutazioneRichiesta(fruitore, nuovaRichiesta);
                     break;
                 
                 case 3:
