@@ -145,10 +145,34 @@ public class GestoreRichieste {
      */
     public void ritiraRichiesta(Fruitore fruitore, RichiestaScambio richiesta) {
         if (mappaRichieste.containsKey(fruitore)) {
-            ((RichiestaScambio) mappaRichieste.get(fruitore)).setStato(Stato.Ritirato);
+             for(RichiestaScambio richiestaScambio : mappaRichieste.get(fruitore)){
+                 if(richiestaScambio.equals(richiesta)){
+                       richiestaScambio.setStato(Stato.Ritirato);
+                    }
+             }
         }
         System.out.println("Richiesta ritirata con successo.");
         gestoreFile.salvaRichieste();
+    }
+
+    /**
+     * Metodo che permette di scegliere una richiesta di scambio
+     * @param fruitore fruitore che effettua la richiesta
+     * @return  la richiesta scelta
+     */
+    public RichiestaScambio scegliRichiesta(Fruitore fruitore) {
+        List<RichiestaScambio> richieste = mappaRichieste.get(fruitore);
+        if (richieste == null || richieste.isEmpty()) {
+            System.out.println("Non hai effettuato nessuna richiesta.");
+            return null;
+        }
+        System.out.println("Ecco le tue richieste:");
+        for (int i = 0; i < richieste.size(); i++) {
+            System.out.println((i + 1) + ") " + richieste.get(i).toString());
+        }
+        int scelta = InputDati.leggiInteroConMinimo("Quale richiesta vuoi ritirare?", 1);
+        return richieste.get(scelta - 1);
+       
     }
     
 }

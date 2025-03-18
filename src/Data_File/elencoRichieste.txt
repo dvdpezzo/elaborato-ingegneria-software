@@ -4,4 +4,4 @@ Offerta: [FRANCESE BASE,10]
 Stato: Aperto
 Richiesta: [GENETICA,10]
 Offerta: [ECOLOGIA,16]
-Stato: Aperto
+Stato: Ritirato

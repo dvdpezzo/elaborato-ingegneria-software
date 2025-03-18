@@ -2,6 +2,7 @@ package it.ingbs.ingegneria_software.controller;
 
 
 import it.ingbs.ingegneria_software.model.GestoreRichieste;
+import it.ingbs.ingegneria_software.model.RichiestaScambio;
 import it.ingbs.ingegneria_software.model.comprensori.GestoreComprensorio;
 import it.ingbs.ingegneria_software.model.fattori.GestoreFattori;
 import it.ingbs.ingegneria_software.model.gerarchie.GestoreGerarchie;
@@ -17,7 +18,7 @@ public class GestoreMenu {
     
     
     private final String[] vociMenuBackEnd = new String[]{"GESTIONE GERARCHIE","GESTIONE FATTORI CONVERSIONE","GESTIONE COMPRENSORI"};
-    private final String[] vociMenuFrontEnd = new String[]{"Visualizza Gerarchie","Effettua una richiesta","Visualizza richieste"};      
+    private final String[] vociMenuFrontEnd = new String[]{"Visualizza Gerarchie","Effettua una richiesta","Visualizza richieste","Ritira una richiesta"};      
     private final MenuUtil menuBackEnd = new MenuUtil("MENU BACK-END:", vociMenuBackEnd);
     private final MenuUtil menuFrontEnd = new MenuUtil("MENU FRONT END",vociMenuFrontEnd);
     private final GestoreGerarchie gestoreGerarchie ;
@@ -77,6 +78,11 @@ public class GestoreMenu {
                 
                 case 3:
                     gestoreRichieste.visualizzaRichieste(fruitore);
+                    break;
+                
+                case 4: 
+                    RichiestaScambio richiesta =gestoreRichieste.scegliRichiesta(fruitore);
+                    gestoreRichieste.ritiraRichiesta(fruitore,richiesta);
                     break;
             }
         } while (scelta != 0);
