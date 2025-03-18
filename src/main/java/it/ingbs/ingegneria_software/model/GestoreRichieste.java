@@ -178,27 +178,49 @@ public class GestoreRichieste {
     }
 
 
+    //METODO DA MODIFICARE PER LA VALUTAZIONE DELLA RICHIESTA CICLICA 
+
     /**
-     * Metodo che permette di valutare una richiesta di scambio
+     * Metodo che permette di valutare una richiesta di scambio in modo ciclico.
+     * Se una richiesta A soddisfa una richiesta C e la richiesta C soddisfa una richiesta B,
+     * allora tutte le richieste A, B e C vengono chiuse.
+     *
      * @param fruitore1 fruitore che effettua la richiesta
      * @param richiesta richiesta da valutare
      */
     public void valutazioneRichiesta(Fruitore fruitore1, RichiestaScambio richiesta) {
-        for (Fruitore fruitore2 : mappaRichieste.keySet()) {
-            if(fruitore2.getComprensorio()==(fruitore1.getComprensorio())){
-                for(RichiestaScambio richiestaDaTrovare : mappaRichieste.get(fruitore2)){
-                    if(richiestaDaTrovare.trovaRichiestaScambio(richiesta)){
-                        richiesta.setStato(Stato.Chiuso);
-                        richiestaDaTrovare.setStato(Stato.Chiuso);
-                        gestoreFile.salvaRichieste();
+        List<RichiestaScambio> richiesteDaChiudere = new ArrayList<>();
+        richiesteDaChiudere.add(richiesta);
+
+        // Cerca ciclicamente richieste collegate
+        boolean cicloTrovato;
+        do {
+            cicloTrovato = false;
+            for (Fruitore fruitore2 : mappaRichieste.keySet()) {
+                if (fruitore2.getComprensorio() == fruitore1.getComprensorio()) {
+                    for (RichiestaScambio richiestaDaTrovare : mappaRichieste.get(fruitore2)) {
+                        if(richiestaDaTrovare.getStato() == Stato.Aperto) {
+                            for (RichiestaScambio richiestaCorrente : richiesteDaChiudere) {
+                                if (richiestaDaTrovare.trovaRichiestaScambio(richiestaCorrente) 
+                                        && !richiesteDaChiudere.contains(richiestaDaTrovare)) {
+                                    richiesteDaChiudere.add(richiestaDaTrovare);
+                                    cicloTrovato = true;
+                                }
+                            
+                            }   
+                        }
                     }
                 }
-            
-            }  
-         
-        
+            }
+        } while (cicloTrovato);
+
+        // Chiudi tutte le richieste trovate
+        for (RichiestaScambio richiestaDaChiudere : richiesteDaChiudere) {
+            richiestaDaChiudere.setStato(Stato.Chiuso);
         }
 
+        // Salva le modifiche
+        gestoreFile.salvaRichieste();
     }
 
 }

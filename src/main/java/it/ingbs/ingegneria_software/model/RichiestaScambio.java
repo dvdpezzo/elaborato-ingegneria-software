@@ -37,6 +37,9 @@ public class RichiestaScambio {
     }
 
     public void setStato(Stato stato){
+        if(getStato().equals(Stato.Chiuso)){
+            this.stato = Stato.Chiuso;
+        }
         this.stato = stato; 
     }
     
@@ -88,6 +91,11 @@ public class RichiestaScambio {
     }
 
 
+    /**
+     * Metodo che restituisce una stringa contenente le informazioni della richiesta di scambio
+     * @return stringa contenente le informazioni della richiesta di scambio
+     */
+     
     @Override
     public String toString(){
         StringBuffer sb = new StringBuffer();
@@ -102,18 +110,24 @@ public class RichiestaScambio {
 
 
     /**
-     * Metodo che verifica se una richiesta di scambio è compatibile con un'altra
+     * Metodo che verifica se una richiesta di scambio è compatibile con un'altra.
+     * Due richieste sono compatibili se:
+     * - La categoria richiesta di una corrisponde alla categoria offerta dell'altra.
+     * - La categoria offerta di una corrisponde alla categoria richiesta dell'altra.
+     * - Le ore richieste e offerte corrispondono.
+     * - Lo stato della richiesta è "Aperto".
+     *
      * @param richiesta richiesta di scambio da confrontare
      * @return true se le due richieste sono compatibili, false altrimenti
      */
-    public boolean trovaRichiestaScambio(RichiestaScambio richiesta){
-        if(richiesta.getCatRichiesta().equals(catOfferta) && richiesta.getCatOfferta().equals(catRichiesta) && 
-            richiesta.getOreRichieste() == oreOfferte && richiesta.getOreOfferte() == oreRichieste &&
-               richiesta.getStato().equals(Stato.Aperto)){
-            return true;
-        }
-        return false;
+    public boolean trovaRichiestaScambio(RichiestaScambio richiesta) {
+        return richiesta.getCatRichiesta().equals(this.catOfferta) &&
+            richiesta.getCatOfferta().equals(this.catRichiesta) &&
+            richiesta.getOreRichieste() == this.oreOfferte &&
+            richiesta.getOreOfferte() == this.oreRichieste &&
+            richiesta.getStato().equals(Stato.Aperto);
     }
+
     
     
 
