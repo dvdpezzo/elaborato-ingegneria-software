@@ -1,7 +1,14 @@
+Fruitore: dvd1
+Richiesta: [FRANCESE BASE,10]
+Offerta: [INGLESE BASE,10]
+Stato: Chiuso
+Richiesta: [ECOLOGIA,3]
+Offerta: [GENETICA,1]
+Stato: Ritirato
 Fruitore: Lu
 Richiesta: [INGLESE BASE,10]
 Offerta: [FRANCESE BASE,10]
-Stato: Aperto
+Stato: Chiuso
 Richiesta: [GENETICA,10]
 Offerta: [ECOLOGIA,16]
 Stato: Ritirato
