@@ -11,7 +11,7 @@ public class RichiestaScambio {
     private Fruitore fr; 
     private int oreRichieste; 
     private int oreOfferte;
-    private boolean stato;
+    private Stato stato;
 
     /**
      * 
@@ -21,22 +21,23 @@ public class RichiestaScambio {
      * @param fr   soggetto che esegue la richiesta (Fruitore)
      */
 
-    public RichiestaScambio(Categoria catRichiesta, int ore, Categoria catOfferta, Fruitore fr, Double fattoreConv) {
+    public RichiestaScambio(Categoria catRichiesta, int ore, Categoria catOfferta, Fruitore fr, Double fattoreConv, Stato stato) {
         this.catRichiesta = catRichiesta;
         this.catOfferta = catOfferta;
         this.fr = fr;
         this.oreRichieste = ore;
         this.oreOfferte = calcolaOreOfferte(fattoreConv, ore);
-        this.stato = true;
+        this.stato = stato;
     }
 
-    public boolean getStato(){
+
+
+    public Stato getStato(){
         return stato; 
     }
 
-
-    public void setStato(boolean stato) {
-        this.stato = stato;
+    public void setStato(Stato stato){
+        this.stato = stato; 
     }
     
     public Categoria getCatRichiesta() {
@@ -93,6 +94,8 @@ public class RichiestaScambio {
          sb.append("Richiesta: [" + catRichiesta.getNome()+","+getOreRichieste()+"]");
          sb.append("\n");
          sb.append("Offerta: ["+catOfferta.getNome()+","+getOreOfferte()+"]");
+         sb.append("\n");
+         sb.append("Stato: "+getStato().toString());
          return sb.toString();
     }
     

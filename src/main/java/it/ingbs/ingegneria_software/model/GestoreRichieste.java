@@ -60,9 +60,9 @@ public class GestoreRichieste {
      * @return
      */
     public RichiestaScambio creaRichiesta(Categoria catRichiesta, Categoria catOfferta, int numOre, Fruitore fruitore,
-            Double fattoreConversione) {
+            Double fattoreConversione, Stato stato) {
 
-        RichiestaScambio richiesta = new RichiestaScambio(catRichiesta, numOre, catOfferta, fruitore, fattoreConversione);
+        RichiestaScambio richiesta = new RichiestaScambio(catRichiesta, numOre, catOfferta, fruitore, fattoreConversione,stato);
         addRichiesta(fruitore, richiesta);
         return richiesta;
     }
@@ -85,7 +85,8 @@ public class GestoreRichieste {
         }
         
         Double fattoreConversione = gestoreFile.getGestoreDati().getFattori().get(chiaveConversione).getValoreConversione();
-        RichiestaScambio richiestaNuova = creaRichiesta(catRichiesta, catOfferta, numOre, fruitore, fattoreConversione);
+        Stato stato = Stato.Aperto;
+        RichiestaScambio richiestaNuova = creaRichiesta(catRichiesta, catOfferta, numOre, fruitore, fattoreConversione,stato);
         System.out.println(richiestaNuova.toString());
         boolean salva = InputDati.yesOrNo("Vuoi salvare la richiesta?");
         if (!salva) {
@@ -135,6 +136,19 @@ public class GestoreRichieste {
         } else {
             System.out.println("Non hai effettuato nessuna richiesta.");
         }
+    }
+
+    /**
+     * Metodo che permette di ritirare una richiesta di scambio
+     * @param fruitore fruitore che esgue la richiesta
+     * @param richiesta richiesta da ritirare
+     */
+    public void ritiraRichiesta(Fruitore fruitore, RichiestaScambio richiesta) {
+        if (mappaRichieste.containsKey(fruitore)) {
+            ((RichiestaScambio) mappaRichieste.get(fruitore)).setStato(Stato.Ritirato);
+        }
+        System.out.println("Richiesta ritirata con successo.");
+        gestoreFile.salvaRichieste();
     }
     
 }
