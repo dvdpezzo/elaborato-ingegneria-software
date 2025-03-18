@@ -1,5 +1,7 @@
 Fruitore: Lu
+Richiesta: [INGLESE BASE,10]
+Offerta: [FRANCESE BASE,10]
+Stato: Aperto
 Richiesta: [GENETICA,10]
 Offerta: [ECOLOGIA,16]
-Richiesta: [INGLESE BASE,4]
-Offerta: [FRANCESE BASE,4]
+Stato: Ritirato

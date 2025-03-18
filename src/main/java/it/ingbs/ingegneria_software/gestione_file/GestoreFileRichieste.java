@@ -63,6 +63,9 @@ public class GestoreFileRichieste {
                 } else if (line.startsWith("Offerta: [")) {
                     String offerta = line.substring(9, line.length() - 1).trim();
                     mappaRichieste.computeIfAbsent(currentFruitore, k -> new ArrayList<>()).add("Offerta: [" + offerta + "]");
+                } else if (line.startsWith("Stato: ")) {
+                    String stato = line.substring(7).trim();
+                    mappaRichieste.computeIfAbsent(currentFruitore, k -> new ArrayList<>()).add("Stato: " + stato);
                 }
             }
         } catch (IOException e) {
@@ -71,4 +74,3 @@ public class GestoreFileRichieste {
         return mappaRichieste;
     }
 }
-
