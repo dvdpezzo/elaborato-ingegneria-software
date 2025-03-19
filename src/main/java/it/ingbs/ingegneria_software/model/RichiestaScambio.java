@@ -21,7 +21,7 @@ public class RichiestaScambio {
      * @param fr   soggetto che esegue la richiesta (Fruitore)
      */
 
-    public RichiestaScambio(Categoria catRichiesta, int ore, Categoria catOfferta, Fruitore fr, Double fattoreConv, Stato stato) {
+    public RichiestaScambio( Categoria catOfferta, int ore, Categoria catRichiesta, Fruitore fr, Double fattoreConv, Stato stato) {
         this.catRichiesta = catRichiesta;
         this.catOfferta = catOfferta;
         this.fr = fr;
@@ -109,29 +109,9 @@ public class RichiestaScambio {
 
 
 
-    /**
-     * Metodo che verifica se una richiesta di scambio è compatibile con un'altra.
-     * Due richieste sono compatibili se:
-     * - La categoria richiesta di una corrisponde alla categoria offerta dell'altra.
-     * - La categoria offerta di una corrisponde alla categoria richiesta dell'altra.
-     * - Le ore richieste e offerte corrispondono.
-     * - Lo stato della richiesta è "Aperto".
-     *
-     * @param richiesta richiesta di scambio da confrontare
-     * @return true se le due richieste sono compatibili, false altrimenti
-     */
-    public boolean trovaRichiestaScambio(RichiestaScambio richiesta) {
-        return richiesta.getCatRichiesta().equals(this.catOfferta) &&
-            richiesta.getCatOfferta().equals(this.catRichiesta) &&
-            richiesta.getOreRichieste() == this.oreOfferte &&
-            richiesta.getOreOfferte() == this.oreRichieste &&
-            richiesta.getStato().equals(Stato.Aperto);
+    public boolean soddisfaRichiesta(RichiestaScambio altraRichiesta) {
+        // Implementa la logica per verificare se questa richiesta soddisfa l'altra richiesta
+        return this.catOfferta.equals(altraRichiesta.getCatRichiesta()) && this.oreOfferte >= altraRichiesta.getOreRichieste();
     }
-
-    
-    
-
-
-
-    
+   
 }
