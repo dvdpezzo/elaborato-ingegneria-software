@@ -109,9 +109,14 @@ public class RichiestaScambio {
 
 
 
+    /**
+     * Metodo che verifica se questa richiesta soddisfa l'altra richiesta
+     * @param altraRichiesta richiesta da soddisfare
+     * @return true se questa richiesta soddisfa l'altra richiesta, false altrimenti
+     */
     public boolean soddisfaRichiesta(RichiestaScambio altraRichiesta) {
         // Implementa la logica per verificare se questa richiesta soddisfa l'altra richiesta
-        return this.catOfferta.equals(altraRichiesta.getCatRichiesta()) && this.oreOfferte >= altraRichiesta.getOreRichieste();
+        return this.catOfferta.equals(altraRichiesta.getCatRichiesta()) && this.oreOfferte == altraRichiesta.getOreRichieste();
     }
    
 }

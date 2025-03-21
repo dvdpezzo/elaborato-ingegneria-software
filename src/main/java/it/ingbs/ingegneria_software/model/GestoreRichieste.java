@@ -16,6 +16,7 @@ import it.ingbs.ingegneria_software.utilita_generale.InputDati;
 
 public class GestoreRichieste {
     private final HashMap<Fruitore, List<RichiestaScambio>> mappaRichieste;
+    private final HashMap<Fruitore, List<RichiestaScambio>> richiesteChiuse = new HashMap<>();
     private final GestoreFile gestoreFile;
 
     public GestoreRichieste(GestoreFile gestoreFileRichieste, HashMap<Fruitore, List<RichiestaScambio>> mappaRichieste) {
@@ -179,10 +180,6 @@ public class GestoreRichieste {
        
     }
 
-
-    //METODO DA MODIFICARE PER LA VALUTAZIONE DELLA RICHIESTA CICLICA 
-
-    
     public boolean valutazioneRichiesta(Fruitore proprietarioRichiesta, RichiestaScambio richiesta) {
         // prendo la mappa di tutte le richieste che hanno fruitori con lo stesso comprensorio di proprietario richiesta
         HashMap<Fruitore, List<RichiestaScambio>> mappaRichiesteComprensorio = new HashMap<>();
@@ -208,6 +205,8 @@ public class GestoreRichieste {
                 }
             }
         }
+        filtraRichieste();
+        gestoreFile.salvaRichieste();
 
         return richiestaPrincipaleSoddisfatta;
     }
@@ -233,4 +232,28 @@ public class GestoreRichieste {
         return false;
     }
 
+
+/**
+ * Metodo che filtra le richieste chiuse
+ */
+    private void filtraRichieste(){
+
+        for(Map.Entry<Fruitore, List<RichiestaScambio>> entry : mappaRichieste.entrySet()){
+            for(RichiestaScambio richiesta : entry.getValue()){
+                if(richiesta.getStato().equals(Stato.Chiuso)){
+                    if(richiesteChiuse.containsKey(entry.getKey())){
+                        richiesteChiuse.get(entry.getKey()).add(richiesta);
+                    }else{
+                        List<RichiestaScambio> lista = new ArrayList<>();
+                        lista.add(richiesta);
+                        richiesteChiuse.put(entry.getKey(), lista);
+                    }
+                }
+            }
+        }
+    }
+                    
+
+        
+    
 }
