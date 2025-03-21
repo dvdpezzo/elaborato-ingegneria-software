@@ -17,7 +17,7 @@ import it.ingbs.ingegneria_software.utilita_generale.MenuUtil;
 public class GestoreMenu {
     
     
-    private final String[] vociMenuBackEnd = new String[]{"GESTIONE GERARCHIE","GESTIONE FATTORI CONVERSIONE","GESTIONE COMPRENSORI"};
+    private final String[] vociMenuBackEnd = new String[]{"GESTIONE GERARCHIE","GESTIONE FATTORI CONVERSIONE","GESTIONE COMPRENSORI","GESTIONE RICHIESTE"};
     private final String[] vociMenuFrontEnd = new String[]{"Visualizza Gerarchie","Effettua una richiesta","Visualizza richieste","Ritira una richiesta"};      
     private final MenuUtil menuBackEnd = new MenuUtil("MENU BACK-END:", vociMenuBackEnd);
     private final MenuUtil menuFrontEnd = new MenuUtil("MENU FRONT END",vociMenuFrontEnd);
@@ -51,6 +51,9 @@ public class GestoreMenu {
 
                 case 3:
                 gestoreComprensorio.modificaComprensori();
+                break;
+                case 4:
+
                 break;
             }
         }while(scelta!=0);

@@ -2,8 +2,8 @@ Fruitore: zio
 Richiesta: [FRANCESE AVANZATO,10]
 Offerta: [FRANCESE BASE,10]
 Stato: Chiuso
-Richiesta: [VIOLINO,4]
-Offerta: [CHITARRA,2]
+Richiesta: [VIOLINO,3]
+Offerta: [CHITARRA,1]
 Stato: Aperto
 Fruitore: dvd1
 Richiesta: [FRANCESE BASE,10]

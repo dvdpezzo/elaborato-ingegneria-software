@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 import java.util.Set;
 
 import it.ingbs.ingegneria_software.Eccezioni.CategoriaNotFoundException;
@@ -16,8 +17,9 @@ import it.ingbs.ingegneria_software.utilita_generale.InputDati;
 
 public class GestoreRichieste {
     private final HashMap<Fruitore, List<RichiestaScambio>> mappaRichieste;
-    private final HashMap<Fruitore, List<RichiestaScambio>> richiesteChiuse = new HashMap<>();
+    private final HashMap<Integer, List<RichiestaScambio>> richiesteChiuse = new HashMap<>();
     private final GestoreFile gestoreFile;
+    private final Random random = new Random();
 
     public GestoreRichieste(GestoreFile gestoreFileRichieste, HashMap<Fruitore, List<RichiestaScambio>> mappaRichieste) {
         this.gestoreFile = gestoreFileRichieste;
@@ -199,13 +201,15 @@ public class GestoreRichieste {
                     for (RichiestaScambio richiestaCiclo : visited) {
                         richiestaCiclo.setStato(Stato.Chiuso);
                     }
+                    // Aggiunge il set di richieste chiuse alla mappa richiesteChiuse
+                    aggiungiRichiesteChiuse(visited);
                     if (visited.contains(richiesta)) {
                         richiestaPrincipaleSoddisfatta = true;
                     }
                 }
             }
         }
-        filtraRichieste();
+       // filtraRichieste();
         gestoreFile.salvaRichieste();
 
         return richiestaPrincipaleSoddisfatta;
@@ -233,27 +237,41 @@ public class GestoreRichieste {
     }
 
 
-/**
- * Metodo che filtra le richieste chiuse
- */
-    private void filtraRichieste(){
+    /**
+     * Metodo che genera un codice casuale
+     * @return
+     */   
+    private int generaCodiceRichiesta(){        
+        return random.nextInt(9999);
+    }
 
-        for(Map.Entry<Fruitore, List<RichiestaScambio>> entry : mappaRichieste.entrySet()){
-            for(RichiestaScambio richiesta : entry.getValue()){
-                if(richiesta.getStato().equals(Stato.Chiuso)){
-                    if(richiesteChiuse.containsKey(entry.getKey())){
-                        richiesteChiuse.get(entry.getKey()).add(richiesta);
-                    }else{
-                        List<RichiestaScambio> lista = new ArrayList<>();
-                        lista.add(richiesta);
-                        richiesteChiuse.put(entry.getKey(), lista);
-                    }
-                }
+    /**
+     * Metodo che aggiunge un set di richieste chiuse alla mappa richiesteChiuse.
+     * Genera un codice univoco per identificare il gruppo di richieste.
+     * Evita di aggiungere lo stesso set più volte.
+     *
+     * @param richiesteSet il set di richieste che si completano a vicenda
+     */
+    private void aggiungiRichiesteChiuse(Set<RichiestaScambio> richiesteSet) {
+        // Converte il set in una lista per confronti
+        List<RichiestaScambio> nuovaListaRichieste = new ArrayList<>(richiesteSet);
+
+        // Controlla se il set è già presente nella mappa
+        for (List<RichiestaScambio> listaEsistente : richiesteChiuse.values()) {
+            if (listaEsistente.containsAll(nuovaListaRichieste) && nuovaListaRichieste.containsAll(listaEsistente)) {
+                // Il set è già presente, non aggiungere duplicati
+                return;
             }
         }
-    }
-                    
 
-        
-    
+        // Genera un codice univoco e aggiunge il set alla mappa
+        int codiceUnivoco = generaCodiceRichiesta();
+        richiesteChiuse.put(codiceUnivoco, nuovaListaRichieste);
+    }
 }
+
+
+
+
+
+
