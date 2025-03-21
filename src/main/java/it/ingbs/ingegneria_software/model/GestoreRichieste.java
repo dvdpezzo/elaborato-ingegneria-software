@@ -25,6 +25,7 @@ public class GestoreRichieste implements Runnable{
     public GestoreRichieste(GestoreFile gestoreFileRichieste, HashMap<Fruitore, List<RichiestaScambio>> mappaRichieste) {
         this.gestoreFile = gestoreFileRichieste;
         this.mappaRichieste = mappaRichieste;
+        valutazioneRichieste();
     }
 
     /**
@@ -181,6 +182,19 @@ public class GestoreRichieste implements Runnable{
         int scelta = InputDati.leggiInteroConMinimo("Quale richiesta vuoi ritirare?", 1);
         return richieste.get(scelta - 1);
        
+    }
+
+    public void valutazioneRichieste(){
+        for(Map.Entry<Fruitore, List<RichiestaScambio>> entry : mappaRichieste.entrySet()){
+            for(RichiestaScambio richiesta : entry.getValue()){
+                if(richiesta.getStato() == Stato.Aperto){
+                    if(valutazioneRichiesta(entry.getKey(), richiesta)){
+                        richiesta.setStato(Stato.Chiuso);
+                    }
+                }
+            }
+        }
+        gestoreFile.salvaRichieste();
     }
 
     public boolean valutazioneRichiesta(Fruitore proprietarioRichiesta, RichiestaScambio richiesta) {
