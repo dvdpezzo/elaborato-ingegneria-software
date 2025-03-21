@@ -53,7 +53,7 @@ public class GestoreMenu {
                 gestoreComprensorio.modificaComprensori();
                 break;
                 case 4:
-
+                gestoreRichieste.run();
                 break;
             }
         }while(scelta!=0);
