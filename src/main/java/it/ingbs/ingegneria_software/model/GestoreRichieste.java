@@ -141,6 +141,7 @@ public class GestoreRichieste implements Runnable{
         if (mappaRichieste.containsKey(fruitore)) {
             for (RichiestaScambio richiesta : mappaRichieste.get(fruitore)) {
                 System.out.println(richiesta.toString());
+                
             }
         } else {
             System.out.println("Non hai effettuato nessuna richiesta.");
@@ -291,7 +292,9 @@ public class GestoreRichieste implements Runnable{
         for(Map.Entry<Integer, List<RichiestaScambio>> entry : richiesteChiuse.entrySet()){
             System.out.println("Codice richiesta: " + entry.getKey());
             for(RichiestaScambio richiesta : entry.getValue()){
-                System.out.println(richiesta.toString());
+
+                System.out.println(richiesta.getFr().getNomeUtente()+" "+richiesta.getFr().getEmail());
+                System.out.println(richiesta.toString()+"\n");
             }
         }
     }
