@@ -185,6 +185,9 @@ public class GestoreRichieste implements Runnable{
        
     }
 
+    /*
+     * Metodo che valuta tutte le richieste di scambio presenti nella mappaRichieste
+     */
     public void valutazioneRichieste(){
         for(Map.Entry<Fruitore, List<RichiestaScambio>> entry : mappaRichieste.entrySet()){
             for(RichiestaScambio richiesta : entry.getValue()){
@@ -198,6 +201,9 @@ public class GestoreRichieste implements Runnable{
         gestoreFile.salvaRichieste();
     }
 
+    /*
+     * Metodo che valuta una richiesta di scambio
+     */
     public boolean valutazioneRichiesta(Fruitore proprietarioRichiesta, RichiestaScambio richiesta) {
         // prendo la mappa di tutte le richieste che hanno fruitori con lo stesso comprensorio di proprietario richiesta
         HashMap<Fruitore, List<RichiestaScambio>> mappaRichiesteComprensorio = new HashMap<>();
@@ -231,6 +237,9 @@ public class GestoreRichieste implements Runnable{
         return richiestaPrincipaleSoddisfatta;
     }
 
+    /*
+     * Metodo che filtra le richieste
+     */
     private boolean isCyclic(RichiestaScambio richiesta, Set<RichiestaScambio> visited, HashMap<Fruitore, List<RichiestaScambio>> mappaRichiesteComprensorio) {
         if (visited.contains(richiesta)) {
             return true;
@@ -299,6 +308,9 @@ public class GestoreRichieste implements Runnable{
         }
     }
 
+    /**
+     * Metodo che visualizza le richieste di una categoria
+     */
     public void visualizzaRichiesteCategoria(){
         try {
             Categoria catCercata = cercaCatFoglia();
