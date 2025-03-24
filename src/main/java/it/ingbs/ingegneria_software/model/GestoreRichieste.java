@@ -299,6 +299,27 @@ public class GestoreRichieste implements Runnable{
         }
     }
 
+    public void visualizzaRichiesteCategoria(){
+        try {
+            Categoria catCercata = cercaCatFoglia();
+            for(Map.Entry<Fruitore, List<RichiestaScambio>> entry : mappaRichieste.entrySet()){
+                for(RichiestaScambio richiesta : entry.getValue()){
+                    if(richiesta.getCatRichiesta().equals(catCercata)){
+                        System.out.println(richiesta.getFr().getNomeUtente());
+                        System.out.println(richiesta.toString());
+                    }
+                    else if(richiesta.getCatOfferta().equals(catCercata)){
+                        System.out.println(richiesta.getFr().getNomeUtente());
+                        System.out.println(richiesta.toString());
+                     }
+                }
+            }
+        }catch (CategoriaNotFoundException e) {
+            e.printStackTrace();
+            }
+    }
+
+
     /**
      * Meenu delle richieste 
      */
@@ -313,7 +334,7 @@ public class GestoreRichieste implements Runnable{
                       visualizzaRichiesteChiuse();
                     break;
                 case 2:
-            
+                      visualizzaRichiesteCategoria();
                     break;
             }
         }while(scelta!=0);
