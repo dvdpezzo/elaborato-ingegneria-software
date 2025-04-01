@@ -1,14 +1,17 @@
 package it.ingbs.ingegneria_software.model.utenti;
 
 
-import java.util.*;
+import java.util.ArrayList;
 
 public class GestoreUtente {
 
     private static final String MSG_ERORE_NOME_UTENTE = "Nome Utente già Utilizzato, si prega di inserire un altro";
     //mappa che contiene configuratori e fruitori con il loro nome utente 
-    ArrayList<String> elencoNomi = new ArrayList<String>();
+    private final ArrayList<String> elencoNomi;
 
+    public GestoreUtente(ArrayList<String> elencoNomi) {
+        this.elencoNomi = elencoNomi;
+    }
     
 
     /**
