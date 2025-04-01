@@ -4,11 +4,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import it.ingbs.ingegneria_software.model.RichiestaScambio;
 import it.ingbs.ingegneria_software.model.comprensori.ComprensorioGeografico;
 import it.ingbs.ingegneria_software.model.fattori.FattoriConversione;
 import it.ingbs.ingegneria_software.model.gerarchie.Categoria;
 import it.ingbs.ingegneria_software.model.gerarchie.Gerarchia;
+import it.ingbs.ingegneria_software.model.richieste.RichiestaScambio;
 import it.ingbs.ingegneria_software.model.utenti.Fruitore;
 
 //classe contenente tutti i dati run-time

@@ -3,7 +3,7 @@ package it.ingbs.ingegneria_software.model.utenti;
 
 import java.util.ArrayList;
 
-import it.ingbs.ingegneria_software.model.RichiestaScambio;
+import it.ingbs.ingegneria_software.model.richieste.RichiestaScambio;
 
 
 public class Fruitore extends Utente{

@@ -1,4 +1,4 @@
-package it.ingbs.ingegneria_software.model;
+package it.ingbs.ingegneria_software.model.richieste;
 
 import it.ingbs.ingegneria_software.model.gerarchie.Categoria;
 import it.ingbs.ingegneria_software.model.utenti.Fruitore;

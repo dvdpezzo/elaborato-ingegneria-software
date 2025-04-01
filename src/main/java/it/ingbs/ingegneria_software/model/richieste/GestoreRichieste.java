@@ -1,4 +1,4 @@
-package it.ingbs.ingegneria_software.model;
+package it.ingbs.ingegneria_software.model.richieste;
 
 import java.util.ArrayList;
 import java.util.HashMap;

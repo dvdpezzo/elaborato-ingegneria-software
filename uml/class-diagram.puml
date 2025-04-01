@@ -1,118 +1,106 @@
-@startuml class-diagram-versione_3
-skinparam classAttributeIconSize 0
+@startuml class-diagram-versione_4
 
-package "it.ingbs.ingegneria_software.model.utenti" {
-    class Utente {
-        - nomeUtente : String
-        - password : String
-        + getNomeUtente() : String
-        + getPassword() : String
-    }
+!pragma layout smetana
+skinparam horizontalAlignment center
+skinparam wrapWidth 200
+skinparam maxMessageSize 200
 
-    class Configuratore {
-    }
-
-    class Fruitore {
-        - codiceComprensorio : int
-        - email : String
-        - elencoRichieste : ArrayList<RichiestaScambio>
-        + getEmail() : String
-        + getComprensorio() : int
-        + aggiungiRichiesta(rs : RichiestaScambio)
-        + getElencoRichieste() : ArrayList<RichiestaScambio>
-    }
-
-    Utente <|-- Configuratore
-    Utente <|-- Fruitore
-}
-
-package "it.ingbs.ingegneria_software.model" {
-    class RichiestaScambio {
-        - catRichiesta : Categoria
-        - catOfferta : Categoria
-        - fr : Fruitore
-        - oreRichieste : int
-        - oreOfferte : int
-        - stato : boolean
-        + calcolaOreOfferte(fattoreConv : Double, oreRichieste : int) : int
-        + getStato() : boolean
-        + setStato(stato : boolean)
-    }
-
-    class GestoreRichieste {
+package it.ingbs.ingegneria_software.model {
+    class Main {
+        +main(String[] args)
     }
 }
 
-package "it.ingbs.ingegneria_software.model.gerarchie" {
-    class Categoria {
-        - nome : String
-        - descrizione : String
-        - padre : Categoria
-        - figli : Vector<Categoria>
-        + getNome() : String
-        + getDescrizione() : String
-        + getPadre() : Categoria
-        + getFigli() : Vector<Categoria>
-    }
-
-    class Gerarchia {
-        - sottoCategorie : HashMap<String, Categoria>
-        - categoriaRadice : Categoria
-        + getCategoria(nomeCategoria : String) : Categoria
-        + getCategoriaRadice() : Categoria
-    }
-
-    Categoria "1" *-- "0..*" Categoria : figli
-    Gerarchia "1" *-- "1" Categoria : radice
-}
-
-package "it.ingbs.ingegneria_software.model.fattori" {
-    class FattoriConversione {
-        - categoria1 : Categoria
-        - categoria2 : Categoria
-        - valoreConversione : double
-        + getCategoria1() : Categoria
-        + getCategoria2() : Categoria
-        + getValoreConversione() : double
-    }
-}
-
-package "it.ingbs.ingegneria_software.model.comprensori" {
-    class ComprensorioGeografico {
-        - codice : int
-        - listaComuni : List<String>
-        + getCodice() : int
-        + getListaComuni() : List<String>
-    }
-
-    class Comuni {
-        - nome : String
-        - numero : Integer
-        + getNome() : String
-        + getNumero() : Integer
-    }
-}
-
-package "it.ingbs.ingegneria_software.gestione_file" {
-    class GestoreFile {
-        + caricaSalvataggio() : void
-        + salvaComuni() : void
-        + salvaComprensori() : void
-        + salvaGerarchie() : void
-    }
-}
-
-package "it.ingbs.ingegneria_software.controller" {
+package it.ingbs.ingegneria_software.controller {
     class GestoreMenu {
-        + backEnd(configuratore : Configuratore) : void
-        + frontEnd(fruitore : Fruitore) : void
+        +backEnd(Configuratore configuratore)
     }
 }
 
-Fruitore "1" *-- "0..*" RichiestaScambio : elencoRichieste
-RichiestaScambio "1" *-- "1" Categoria : catRichiesta
-RichiestaScambio "1" *-- "1" Categoria : catOfferta
-RichiestaScambio "1" *-- "1" Fruitore : fruitore
-FattoriConversione "1" *-- "1" Categoria : categoria1
-FattoriConversione "1" *-- "1" Categoria : categoria2
+package it.ingbs.ingegneria_software.gestione_accesso {
+    class GestoreAccesso {
+        +caricaDatiFruitori()
+    }
+    class MenuAccesso {
+        +loginConfiguratore(): Configuratore
+        +menuFruitore(GestoreMenu sistemaGenerale): void
+    }
+}
+
+package it.ingbs.ingegneria_software.gestione_file {
+    class GestoreDati {
+        +getCredenzialiConfiguratori(): HashMap<String, String>
+        +getCredenzialiFruitori(): HashMap<String, String>
+        +getDatiFruitori(): HashMap<String, Fruitore>
+        +setDatiFruitori(HashMap<String, Fruitore>)
+    }
+    class GestoreFile {
+        +caricaSalvataggio()
+        +creaSalvataggio()
+        +getGestoreDati(): GestoreDati
+    }
+}
+
+package it.ingbs.ingegneria_software.model.comprensori {
+    class ComprensorioGeografico {
+        +getCodice(): int
+    }
+    class GestoreComprensorio {
+        +visualizzaComprensori()
+        +getComprensorio(int codice): ComprensorioGeografico
+    }
+}
+
+package it.ingbs.ingegneria_software.model.utenti {
+    class Utente {
+        +getNomeUtente(): String
+        +setNomeUtente(String userName): void
+        +getPassword(): String
+        +setPassword(String password): void
+    }
+    class Configuratore {
+        +Configuratore(String nomeUtente, String passwordUtente)
+    }
+    class Fruitore {
+        +getEmail(): String
+        +getComprensorio(): int
+        +infoFruitore(): void
+        +aggiungiRichiesta(RichiestaScambio rs): void
+        +getElencoRichieste(): ArrayList<RichiestaScambio>
+    }
+    class GestoreUtente {
+        +aggiungiUtente(String nomeUtente): void
+        +controlloUtente(String nomeUtente): boolean
+    }
+    class GestoreFruitori {
+        +creaUtenteFruitore(): Fruitore
+        +aggiungiDati(String nomeUtente, String password): void
+        +visualizzaFruitori(): void
+        +trovaFruitore(String nomeUtente): Fruitore
+    }
+    class GestoreConfiguratori {
+        +creaUtenteConfiguratore(): Configuratore
+        +trovaConfiguratore(String nomeUtente): Configuratore
+    }
+}
+
+GestoreFile --> GestoreDati : "1"
+GestoreDati --> ComprensorioGeografico : "1..*"
+GestoreMenu --> Configuratore : "1"
+MenuAccesso --> GestoreAccesso : "1"
+MenuAccesso --> GestoreMenu : "1"
+GestoreAccesso --> GestoreDati : "1"
+GestoreAccesso --> GestoreFile : "1"
+GestoreComprensorio --> ComprensorioGeografico : "1..*"
+GestoreUtente --> Utente : "1..*"
+GestoreFruitori --> Fruitore : "1..*"
+GestoreFruitori --> GestoreUtente : "1"
+GestoreFruitori --> GestoreComprensorio : "1"
+GestoreFruitori --> GestoreDati : "1"
+GestoreConfiguratori --> Configuratore : "1..*"
+GestoreConfiguratori --> GestoreDati : "1"
+
+Utente <|-- Configuratore
+Utente <|-- Fruitore
+
 @enduml
