@@ -1,0 +1,118 @@
+@startuml class-diagram-versione_3
+skinparam classAttributeIconSize 0
+
+package "it.ingbs.ingegneria_software.model.utenti" {
+    class Utente {
+        - nomeUtente : String
+        - password : String
+        + getNomeUtente() : String
+        + getPassword() : String
+    }
+
+    class Configuratore {
+    }
+
+    class Fruitore {
+        - codiceComprensorio : int
+        - email : String
+        - elencoRichieste : ArrayList<RichiestaScambio>
+        + getEmail() : String
+        + getComprensorio() : int
+        + aggiungiRichiesta(rs : RichiestaScambio)
+        + getElencoRichieste() : ArrayList<RichiestaScambio>
+    }
+
+    Utente <|-- Configuratore
+    Utente <|-- Fruitore
+}
+
+package "it.ingbs.ingegneria_software.model" {
+    class RichiestaScambio {
+        - catRichiesta : Categoria
+        - catOfferta : Categoria
+        - fr : Fruitore
+        - oreRichieste : int
+        - oreOfferte : int
+        - stato : boolean
+        + calcolaOreOfferte(fattoreConv : Double, oreRichieste : int) : int
+        + getStato() : boolean
+        + setStato(stato : boolean)
+    }
+
+    class GestoreRichieste {
+    }
+}
+
+package "it.ingbs.ingegneria_software.model.gerarchie" {
+    class Categoria {
+        - nome : String
+        - descrizione : String
+        - padre : Categoria
+        - figli : Vector<Categoria>
+        + getNome() : String
+        + getDescrizione() : String
+        + getPadre() : Categoria
+        + getFigli() : Vector<Categoria>
+    }
+
+    class Gerarchia {
+        - sottoCategorie : HashMap<String, Categoria>
+        - categoriaRadice : Categoria
+        + getCategoria(nomeCategoria : String) : Categoria
+        + getCategoriaRadice() : Categoria
+    }
+
+    Categoria "1" *-- "0..*" Categoria : figli
+    Gerarchia "1" *-- "1" Categoria : radice
+}
+
+package "it.ingbs.ingegneria_software.model.fattori" {
+    class FattoriConversione {
+        - categoria1 : Categoria
+        - categoria2 : Categoria
+        - valoreConversione : double
+        + getCategoria1() : Categoria
+        + getCategoria2() : Categoria
+        + getValoreConversione() : double
+    }
+}
+
+package "it.ingbs.ingegneria_software.model.comprensori" {
+    class ComprensorioGeografico {
+        - codice : int
+        - listaComuni : List<String>
+        + getCodice() : int
+        + getListaComuni() : List<String>
+    }
+
+    class Comuni {
+        - nome : String
+        - numero : Integer
+        + getNome() : String
+        + getNumero() : Integer
+    }
+}
+
+package "it.ingbs.ingegneria_software.gestione_file" {
+    class GestoreFile {
+        + caricaSalvataggio() : void
+        + salvaComuni() : void
+        + salvaComprensori() : void
+        + salvaGerarchie() : void
+    }
+}
+
+package "it.ingbs.ingegneria_software.controller" {
+    class GestoreMenu {
+        + backEnd(configuratore : Configuratore) : void
+        + frontEnd(fruitore : Fruitore) : void
+    }
+}
+
+Fruitore "1" *-- "0..*" RichiestaScambio : elencoRichieste
+RichiestaScambio "1" *-- "1" Categoria : catRichiesta
+RichiestaScambio "1" *-- "1" Categoria : catOfferta
+RichiestaScambio "1" *-- "1" Fruitore : fruitore
+FattoriConversione "1" *-- "1" Categoria : categoria1
+FattoriConversione "1" *-- "1" Categoria : categoria2
+@enduml
