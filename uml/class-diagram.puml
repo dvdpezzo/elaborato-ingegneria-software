@@ -1,0 +1,141 @@
+@startuml class-diagram
+package it.ingbs.ingegneria_software.model {
+    class Main {
+        +main(String[] args)
+    }
+}
+
+package it.ingbs.ingegneria_software.controller {
+    class GestoreMenu {
+        +backEnd(Configuratore configuratore)
+    }
+}
+
+package it.ingbs.ingegneria_software.gestione_accesso {
+    class GestoreAccesso {
+        +caricaDatiFruitori()
+    }
+    class MenuAccesso {
+        +loginConfiguratore(): Utente
+        +menuFruitore(GestoreMenu sistemaGenerale)
+    }
+}
+
+package it.ingbs.ingegneria_software.gestione_file {
+    class GestoreDati {
+        +getComuni(): HashMap<Integer, String>
+        +getComprensori(): HashMap<Integer, ComprensorioGeografico>
+        +getGerarchie(): HashMap<String, Gerarchia>
+        +getFattori(): HashMap<String, FattoriConversione>
+        +getRichieste(): HashMap<Fruitore, List<RichiestaScambio>>
+    }
+    class GestoreFile {
+        +caricaSalvataggio()
+        +creaSalvataggio()
+        +getGestoreDati(): GestoreDati
+    }
+}
+
+package it.ingbs.ingegneria_software.model.comprensori {
+    class GestoreComprensorio {
+        +visualizzaComprensori()
+        +getComprensorio(int codice): ComprensorioGeografico
+    }
+    class ComprensorioGeografico {
+        +getListaComuni(): List<String>
+    }
+}
+
+package it.ingbs.ingegneria_software.model.gerarchie {
+    class GestoreGerarchie {
+        +stampaGerarchie()
+        +getGerarchia(String nome): Gerarchia
+    }
+    class Gerarchia {
+        +getCategoria(String nome): Categoria
+    }
+    class Categoria {
+        +getNome(): String
+        +getFigli(): Vector<Categoria>
+    }
+}
+
+package it.ingbs.ingegneria_software.model.fattori {
+    class GestoreFattori {
+        +modificaFattori()
+    }
+    class FattoriConversione {
+        +getValoreConversione(): double
+    }
+}
+
+package it.ingbs.ingegneria_software.model.utenti {
+    class Utente {
+        +getNomeUtente(): String
+        +getPassword(): String
+    }
+    class Configuratore extends Utente {
+    }
+    class Fruitore extends Utente {
+        +getComprensorio(): int
+        +getEmail(): String
+    }
+}
+
+package it.ingbs.ingegneria_software.model {
+    class GestoreRichieste {
+        +nuovaRichiesta(Fruitore fruitore): RichiestaScambio
+        +visualizzaRichieste(Fruitore fruitore)
+    }
+    class RichiestaScambio {
+        +getCatRichiesta(): Categoria
+        +getCatOfferta(): Categoria
+        +getFr(): Fruitore
+    }
+    enum Stato {
+        Aperto, Chiuso, Ritirato
+    }
+}
+
+GestoreMenu --> GestoreGerarchie
+GestoreMenu --> GestoreFattori
+GestoreMenu --> GestoreComprensorio
+GestoreMenu --> GestoreRichieste
+
+GestoreAccesso --> GestoreDati
+GestoreAccesso --> GestoreFile
+GestoreAccesso --> GestoreComprensorio
+
+MenuAccesso --> GestoreAccesso
+MenuAccesso --> GestoreMenu
+
+GestoreFile --> GestoreDati
+GestoreFile --> GestoreFileComuni
+GestoreFile --> GestoreFileComprensori
+GestoreFile --> GestoreFileGerarchie
+GestoreFile --> GestoreFileRichieste
+
+GestoreDati --> ComprensorioGeografico
+GestoreDati --> Gerarchia
+GestoreDati --> FattoriConversione
+GestoreDati --> RichiestaScambio
+
+GestoreComprensorio --> ComprensorioGeografico
+
+GestoreGerarchie --> Gerarchia
+Gerarchia --> Categoria
+Categoria --> Categoria : figli
+
+GestoreFattori --> FattoriConversione
+FattoriConversione --> Categoria
+
+GestoreRichieste --> RichiestaScambio
+RichiestaScambio --> Categoria
+RichiestaScambio --> Fruitore
+RichiestaScambio --> Stato
+
+Main --> GestoreFile
+Main --> GestoreDati
+Main --> GestoreMenu
+Main --> GestoreAccesso
+@enduml
