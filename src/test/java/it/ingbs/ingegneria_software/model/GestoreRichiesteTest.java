@@ -9,6 +9,9 @@ import org.junit.jupiter.api.Test;
 
 import it.ingbs.ingegneria_software.gestione_file.GestoreFile;
 import it.ingbs.ingegneria_software.model.gerarchie.Categoria;
+import it.ingbs.ingegneria_software.model.richieste.GestoreRichieste;
+import it.ingbs.ingegneria_software.model.richieste.RichiestaScambio;
+import it.ingbs.ingegneria_software.model.richieste.Stato;
 import it.ingbs.ingegneria_software.model.utenti.Fruitore;
 
 public class GestoreRichiesteTest {
