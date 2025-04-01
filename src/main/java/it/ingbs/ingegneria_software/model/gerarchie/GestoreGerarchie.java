@@ -6,7 +6,7 @@ import it.ingbs.ingegneria_software.Eccezioni.CategoriaNotFoundException;
 import it.ingbs.ingegneria_software.Eccezioni.CategoriaOmonimaException;
 import it.ingbs.ingegneria_software.Eccezioni.IllegalCampoException;
 import it.ingbs.ingegneria_software.Eccezioni.PadreNotFoundException;
-import it.ingbs.ingegneria_software.gestione_file.GestoreFileGerarchie;
+import it.ingbs.ingegneria_software.gestione_file.GestoreFile;
 import it.ingbs.ingegneria_software.utilita_generale.InputDati;
 import it.ingbs.ingegneria_software.utilita_generale.MenuUtil;
 
@@ -28,7 +28,6 @@ public class GestoreGerarchie {
     private static final String CATEGORIA_DA_ELIMINARE = "Nome Categoria da eliminare: ";
     private static final String CATEGORIA_DA_MODIFICARE = "Nome Categoria che si vuole modificare: ";
     private static final String NOME_DEL_CAMPO = "Nome del campo: ";
-    private static final String OBBLIGATORIO = "È obbligatorio? ";
     private static final String RADICE_AGGIUNTA = "Radice aggiunta!";
     private static final String RADICE_S_RIMOSSA = "Radice %s rimossa!";
     private static final String TITOLO_MENU_MODIFICA_GERARCHIA = "Cosa desideri fare?";
@@ -46,9 +45,11 @@ public class GestoreGerarchie {
     private static final String VUOI_ELIMINARE_ALTRI_CAMPI = "Vuoi eliminare altri campi? ";
 
     private final HashMap<String, Gerarchia> radici;
+    private final GestoreFile gestoreFile;
 
-    public GestoreGerarchie() {
-        this.radici = GestoreFileGerarchie.recuperaAlbero();
+    public GestoreGerarchie(HashMap<String, Gerarchia> radici, GestoreFile gestoreFile) {
+        this.radici = radici;
+        this.gestoreFile = gestoreFile;
     }
 
     /**
@@ -159,7 +160,7 @@ public class GestoreGerarchie {
                 gerarchia.addSottocategoria(nomeCategoria.toUpperCase(), descrizioneCategoria, nomePadre);
                 gerarchia.getCategoria(nomeCategoria.toUpperCase()).addCampoNativo(" "); // Aggiunge un campo nativo vuoto
                 System.out.printf((CATEGORIA_S_AGGIUNTA) + "%n", nomeCategoria);
-            } catch (PadreNotFoundException | CategoriaOmonimaException | CategoriaNotFoundException | IllegalCampoException e) {
+            } catch (PadreNotFoundException | CategoriaOmonimaException | IllegalCampoException e) {
                 System.out.println(e.getMessage());
             }
         } while (InputDati.yesOrNo(VUOI_AGGIUNGERE_ALTRE_CATEGORIE));
@@ -213,7 +214,7 @@ public class GestoreGerarchie {
             try {
                 gerarchia.getCategoria(nomeCategoria).addCampoNativo(nomeCampo);
                 System.out.printf((CAMPO_S_CORRETTAMENTE_AGGIUNTO) + "%n", nomeCampo);
-            } catch (IllegalCampoException | CategoriaNotFoundException e) {
+            } catch (IllegalCampoException e) {
                 System.out.println(e.getMessage());
             }
         } while (InputDati.yesOrNo(VUOI_AGGIUNGERE_ALTRI_CAMPI));
@@ -289,7 +290,7 @@ public class GestoreGerarchie {
      * Salva tutte le gerarchie su file.
      */
     public void salvaGerarchie() {
-        GestoreFileGerarchie.salvaAlbero(radici.values());
+        gestoreFile.salvaGerarchie();
     }
 
     /**
@@ -300,4 +301,20 @@ public class GestoreGerarchie {
     public HashMap<String, Gerarchia> getRadici() {
         return radici;
     }
+
+    /**
+     *  Restituisce la categoria con il nome specificato.
+     * @param string il nome della categoria
+     * @return la categoria con il nome specificato
+     * @throws CategoriaNotFoundException 
+     */
+         public Categoria getCategoriaRichiesta(String string) throws CategoriaNotFoundException {
+        for (Gerarchia g : radici.values()) {
+             Categoria c = g.getCategoria(string);
+            if (c.getNome().equals(string)) {
+                return c;
+            }
+        }
+        return null;
+     }
 }
