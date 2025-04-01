@@ -2,14 +2,13 @@ package it.ingbs.ingegneria_software.model.comprensori;
 
 public class Comuni {
 
-    GestoreComuni gc = new GestoreComuni();
     private String nome;
     private Integer numero=0;
 
 
-    public Comuni(String nome){
+    public Comuni(String nome, Integer numero) {
         this.nome=nome;
-        this.numero=gc.getLastNumero()+1;
+        this.numero=numero;
     }
 
 

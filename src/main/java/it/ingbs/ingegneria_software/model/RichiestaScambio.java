@@ -3,12 +3,14 @@ package it.ingbs.ingegneria_software.model;
 import it.ingbs.ingegneria_software.model.gerarchie.Categoria;
 import it.ingbs.ingegneria_software.model.utenti.Fruitore;
 
+
 public class RichiestaScambio {
 
-    private Categoria cat1; 
-    private Categoria cat2; 
+    private Categoria catRichiesta; 
+    private Categoria catOfferta; 
     private Fruitore fr; 
-    private int ore; 
+    private int oreRichieste; 
+    private int oreOfferte;
     private boolean stato;
 
     /**
@@ -19,32 +21,13 @@ public class RichiestaScambio {
      * @param fr   soggetto che esegue la richiesta (Fruitore)
      */
 
-    public RichiestaScambio(Categoria cat1,int ore,Categoria cat2, Fruitore fr){
-        this.cat1 = cat1; 
-        this.cat2  = cat2; 
-        this.fr=fr;
-        this.ore=ore; 
-        this.stato=true;
-    }
-
-
-    public Categoria getCat1() {
-        return cat1;
-    }
-
-
-    public Categoria getCat2() {
-        return cat2;
-    }
-
-
-    public Fruitore getFr() {
-        return fr;
-    }
-
-
-    public int getOre() {
-        return ore;
+    public RichiestaScambio(Categoria catRichiesta, int ore, Categoria catOfferta, Fruitore fr, Double fattoreConv) {
+        this.catRichiesta = catRichiesta;
+        this.catOfferta = catOfferta;
+        this.fr = fr;
+        this.oreRichieste = ore;
+        this.oreOfferte = calcolaOreOfferte(fattoreConv, ore);
+        this.stato = true;
     }
 
     public boolean getStato(){
@@ -55,11 +38,67 @@ public class RichiestaScambio {
     public void setStato(boolean stato) {
         this.stato = stato;
     }
+    
+    public Categoria getCatRichiesta() {
+        return catRichiesta;
+    }
 
+    public void setCatRichiesta(Categoria catRichiesta) {
+        this.catRichiesta = catRichiesta;
+    }
+
+    public Categoria getCatOfferta() {
+        return catOfferta;
+    }
+
+    public void setCatOfferta(Categoria catOfferta) {
+        this.catOfferta = catOfferta;
+    }
+
+    public int getOreRichieste() {
+        return oreRichieste;
+    }
+
+    public void setOreRichieste(int oreRichieste) {
+        this.oreRichieste = oreRichieste;
+    }
+
+    public int getOreOfferte() {
+        return oreOfferte;
+    }
+
+    public void setOreOfferte(int oreOffertte) {
+        this.oreOfferte = oreOffertte;
+    }
+
+    /**
+     * 
+     * @param catRichiesta categoria richiesta dal fruitore
+     * @param catOfferta  categorie offerta dal fruitore
+     * @param oreRichieste numero di ore che vengono richieste dal fruitore per la categoria richiesta
+     * @return numero di ore che il fruitore deve offrire
+     */
+    public int calcolaOreOfferte(Double fattoreConv, int oreRichieste){
+        return (int) (fattoreConv*oreRichieste);
+    }
+
+    public Fruitore getFr() {
+        return fr;
+    }
+
+
+    @Override
+    public String toString(){
+        StringBuffer sb = new StringBuffer();
+         sb.append("Richiesta: [" + catRichiesta.getNome()+","+getOreRichieste()+"]");
+         sb.append("\n");
+         sb.append("Offerta: ["+catOfferta.getNome()+","+getOreOfferte()+"]");
+         return sb.toString();
+    }
     
     
 
 
-    
+
     
 }

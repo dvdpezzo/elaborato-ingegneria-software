@@ -1,12 +1,10 @@
 package it.ingbs.ingegneria_software.controller;
 
-import java.io.File;
-import java.util.HashMap;
 
-import it.ingbs.ingegneria_software.gestione_file.GestoreFileGerarchie;
+import it.ingbs.ingegneria_software.model.GestoreRichieste;
 import it.ingbs.ingegneria_software.model.comprensori.GestoreComprensorio;
-import it.ingbs.ingegneria_software.model.gerarchie.Gerarchia;
- import it.ingbs.ingegneria_software.model.gerarchie.GestoreGerarchie;
+import it.ingbs.ingegneria_software.model.fattori.GestoreFattori;
+import it.ingbs.ingegneria_software.model.gerarchie.GestoreGerarchie;
 import it.ingbs.ingegneria_software.model.gerarchie.MenuGerarchie;
 import it.ingbs.ingegneria_software.model.utenti.Configuratore;
 import it.ingbs.ingegneria_software.model.utenti.Fruitore;
@@ -18,42 +16,40 @@ import it.ingbs.ingegneria_software.utilita_generale.MenuUtil;
 public class GestoreMenu {
     
     
-    private final String[] vociMenuBackEnd = new String[]{"GESTIONE COMPRENSORI","GESTIONE GERARCHIE","GESTIONE FATTORI CONVERSIONE"};
-
-    private final String[] vociMenuFrontEnd = new String[]{"Visualizza Gerarchie"};
-      
+    private final String[] vociMenuBackEnd = new String[]{"GESTIONE GERARCHIE","GESTIONE FATTORI CONVERSIONE","GESTIONE COMPRENSORI"};
+    private final String[] vociMenuFrontEnd = new String[]{"Visualizza Gerarchie","Effettua una richiesta","Visualizza richieste"};      
     private final MenuUtil menuBackEnd = new MenuUtil("MENU BACK-END:", vociMenuBackEnd);
-
     private final MenuUtil menuFrontEnd = new MenuUtil("MENU FRONT END",vociMenuFrontEnd);
+    private final GestoreGerarchie gestoreGerarchie ;
+    private final GestoreFattori gestoreFattori;
+    private final GestoreComprensorio gestoreComprensorio;
+    private final GestoreRichieste gestoreRichieste ;   
 
-    private GestoreComprensorio gestoreComprensorio = new GestoreComprensorio();
-    private GestoreGerarchie gestoreGerarchia = new GestoreGerarchie();
-    private HashMap<String, Gerarchia> radici = new HashMap<>();
-    // private GestoreFattoriConversione gestoreFattori = new GestoreFattoriConversione();
-
-    private File nomefile = new File("elaborato-ingegneria-software\\src\\Data_File\\elencoGerarchie.txt");
-
-
-    /*
-     * nuovo menu back end dove il configuratore sceglie su quale oggetto lavorare 
-     */
+    public GestoreMenu(GestoreGerarchie gestoreGerarchia, GestoreFattori gestoreFattori, GestoreComprensorio gestoreComprensorio, GestoreRichieste gestoreRichieste) {
+        this.gestoreGerarchie = gestoreGerarchia;
+        this.gestoreFattori = gestoreFattori;
+        this.gestoreComprensorio = gestoreComprensorio;
+        this.gestoreRichieste = gestoreRichieste;
+        
+    }
+   
     public void backEnd (Configuratore configuratore) throws Exception {
-        int scelta=0;
+        int scelta;
         do {
             scelta = menuBackEnd.scegli();
-            switch (scelta) { 
-                case 1:
-                gestoreComprensorio.modificaComprensori();
-                break;
+            switch (scelta) {            
 
-                case 2:
-                radici = GestoreFileGerarchie.recuperaAlbero(nomefile);
-                MenuGerarchie menuGerarchie = new MenuGerarchie(radici, nomefile);
+                case 1:
+                MenuGerarchie menuGerarchie = new MenuGerarchie(this.gestoreGerarchie);
                 menuGerarchie.run();
                 break;
 
+                case 2:
+                gestoreFattori.modificaFattori();
+                break;
+
                 case 3:
-                  //gestoreFattori.modificaFattori();
+                gestoreComprensorio.modificaComprensori();
                 break;
             }
         }while(scelta!=0);
@@ -66,20 +62,24 @@ public class GestoreMenu {
      * @throws Exception
      */
 
-    public void frontEnd(Fruitore fruitore) throws Exception{
-        int scelta=0;
+    public void frontEnd(Fruitore fruitore) throws Exception {
+        int scelta;
+        do {
+            scelta = menuFrontEnd.scegli();
+            switch (scelta) {
+                case 1:
+                    gestoreGerarchie.stampaGerarchie();
+                    break;
 
-        do{
-            scelta=menuFrontEnd.scegli();
-            switch(scelta){
-                case 1: 
-                //visualizzaGerarchie()
-                break;
-
-        }
-     }while(scelta!=0);
-  }
-    
-
+                case 2:
+                    gestoreRichieste.nuovaRichiesta(fruitore);
+                    break;
+                
+                case 3:
+                    gestoreRichieste.visualizzaRichieste(fruitore);
+                    break;
+            }
+        } while (scelta != 0);
+    }
 
 }
