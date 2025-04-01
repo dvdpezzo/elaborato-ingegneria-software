@@ -1,0 +1,195 @@
+@startuml class-diagram-versione_2
+
+package "it.ingbs.ingegneria_software.model.utenti" {
+    class Utente {
+        - nomeUtente : String
+        - password : String
+        + getNomeUtente() : String
+        + setNomeUtente(String) : void
+        + getPassword() : String
+        + setPassword(String) : void
+    }
+
+    class Configuratore extends Utente {
+        + Configuratore(String, String)
+    }
+
+    class Fruitore extends Utente {
+        - codiceComprensorio : int
+        - email : String
+        + getEmail() : String
+        + getComprensorio() : int
+        + infoFruitore() : void
+    }
+
+    class GestoreUtente {
+        - elencoNomi : ArrayList<String>
+        + aggiungiUtente(String) : void
+        + controlloUtente(String) : boolean
+    }
+
+    class GestoreConfiguratori {
+        - mappaConfiguratori : Map<String, Configuratore>
+        + trovaConfiguratore(String) : Configuratore
+        + creaUtenteConfiguratore() : Configuratore
+    }
+
+    class GestoreFruitori {
+        - mappaDatiFruitori : HashMap<String, Fruitore>
+        - mappaCredenziali : HashMap<String, String>
+        + creaUtenteFruitore() : Fruitore
+        + trovaFruitore(String) : Fruitore
+    }
+}
+
+package "it.ingbs.ingegneria_software.model.comprensori" {
+    class ComprensorioGeografico {
+        - codice : int
+        - listaComuni : List<String>
+        + getCodice() : int
+        + getListaComuni() : List<String>
+        + aggiungiComuneNuovo(String) : void
+    }
+
+    class Comuni {
+        - nome : String
+        - numero : Integer
+        + getNumero() : Integer
+        + getNome() : String
+        + setNome(String) : void
+    }
+
+    class GestoreComprensorio {
+        - mappaComprensori : HashMap<Integer, ComprensorioGeografico>
+        + aggiungiComprensorio() : void
+        + modificaComprensori() : void
+    }
+
+    class GestoreComuni {
+        - mappaComuni : HashMap<Integer, String>
+        + aggiungiComune(Comuni) : void
+        + scegliComune(int) : String
+    }
+}
+
+package "it.ingbs.ingegneria_software.model.gerarchie" {
+    class Categoria {
+        - nome : String
+        - descrizione : String
+        - campiNativi : Vector<Campo>
+        - figli : Vector<Categoria>
+        + getNome() : String
+        + getDescrizione() : String
+        + addCampoNativo(String) : void
+        + addFiglio(Categoria) : void
+    }
+
+    class Gerarchia {
+        - sottoCategorie : HashMap<String, Categoria>
+        - categoriaRadice : Categoria
+        + addSottocategoria(String, String, String) : void
+        + rimuoviCategoria(String) : void
+        + getCategoria(String) : Categoria
+    }
+
+    class GestoreGerarchie {
+        - radici : HashMap<String, Gerarchia>
+        + aggiungiGerarchia() : void
+        + modificaGerarchia() : void
+        + salvaGerarchie() : void
+    }
+}
+
+package "it.ingbs.ingegneria_software.model.fattori" {
+    class FattoriConversione {
+        - categoria1 : Categoria
+        - categoria2 : Categoria
+        - valoreConversione : double
+        + getCategoria1() : Categoria
+        + getCategoria2() : Categoria
+        + getValoreConversione() : double
+    }
+
+    class GestoreFattori {
+        - mappaFattori : HashMap<String, FattoriConversione>
+        + nuovoFattore() : void
+        + modificaFattori() : void
+    }
+}
+
+package "it.ingbs.ingegneria_software.controller" {
+    class GestoreMenu {
+        - menuBackEnd : MenuUtil
+        - menuFrontEnd : MenuUtil
+        + backEnd(Configuratore) : void
+        + frontEnd(Fruitore) : void
+    }
+}
+
+package "it.ingbs.ingegneria_software.gestione_accesso" {
+    class GestoreAccesso {
+        - mappaCredenzialiConf : HashMap<String, String>
+        - mappaCredenzialiFrui : HashMap<String, String>
+        + accessoConfiguratore(String, String) : Configuratore
+        + accessoFruitore(String, String) : Fruitore
+    }
+
+    class MenuAccesso {
+        + loginConfiguratore() : Configuratore
+        + loginFruitore(GestoreAccesso) : Fruitore
+    }
+}
+
+package "it.ingbs.ingegneria_software.gestione_file" {
+    class GestoreFile {
+        + caricaSalvataggio() : void
+        + creaSalvataggio() : void
+        + salvaComuni() : void
+        + salvaComprensori() : void
+    }
+
+    class GestoreDati {
+        - comuni : HashMap<Integer, String>
+        - comprensori : HashMap<Integer, ComprensorioGeografico>
+        - gerarchie : HashMap<String, Gerarchia>
+        + getComuni() : HashMap<Integer, String>
+        + getComprensori() : HashMap<Integer, ComprensorioGeografico>
+        + getGerarchie() : HashMap<String, Gerarchia>
+    }
+}
+
+package "it.ingbs.ingegneria_software.utilita_generale" {
+    class InputDati {
+        + leggiStringa(String) : String
+        + leggiIntero(String) : int
+        + leggiDouble(String) : double
+    }
+
+    class MenuUtil {
+        + scegli() : int
+        + stampaMenu() : void
+    }
+}
+
+Utente <|-- Configuratore
+Utente <|-- Fruitore
+GestoreUtente --> Utente
+GestoreConfiguratori --> Configuratore
+GestoreFruitori --> Fruitore
+GestoreComprensorio --> ComprensorioGeografico
+GestoreComuni --> Comuni
+Categoria <|-- Gerarchia
+GestoreGerarchie --> Gerarchia
+GestoreFattori --> FattoriConversione
+GestoreFattori --> Categoria
+GestoreMenu --> Configuratore
+GestoreMenu --> Fruitore
+GestoreAccesso --> Configuratore
+GestoreAccesso --> Fruitore
+MenuAccesso --> GestoreAccesso
+GestoreFile --> GestoreDati
+GestoreDati --> ComprensorioGeografico
+GestoreDati --> Gerarchia
+GestoreDati --> Categoria
+
+@enduml
