@@ -1,4 +1,4 @@
-@startuml class-diagram-versione_4
+@startuml class-diagram-versione_3
 
 !pragma layout smetana
 skinparam horizontalAlignment center
@@ -14,41 +14,271 @@ package it.ingbs.ingegneria_software.model {
 package it.ingbs.ingegneria_software.controller {
     class GestoreMenu {
         +backEnd(Configuratore configuratore)
+        +frontEnd(Fruitore fruitore)
     }
 }
 
 package it.ingbs.ingegneria_software.gestione_accesso {
     class GestoreAccesso {
+        +accessoConfiguratore(String nomeUtente, String passUtente): Configuratore
+        +registrazioneNuovoConfiguratore(): Configuratore
         +caricaDatiFruitori()
+        +accessoFruitore(String nomeUtente, String pass): Fruitore
+        +registrazioneNuovoFruitore(): Fruitore
+        -aggiungiCredenzialiConfAllaMappa(String nomeUtente, String pass)
+        -controlloEsistenzaConfiguratore(String nomeUtente, String pass): boolean
+        -aggiungiCredenzialiFruitAllaMappa(String nomeUtente, String pass)
+        -controlloEsistenzaFruitore(String nomeUtente, String pass): boolean
     }
     class MenuAccesso {
         +loginConfiguratore(): Configuratore
+        +loginFruitore(GestoreAccesso gestoreAccesso): Fruitore
         +menuFruitore(GestoreMenu sistemaGenerale): void
     }
 }
 
 package it.ingbs.ingegneria_software.gestione_file {
     class GestoreDati {
+        +getComuni(): HashMap<Integer, String>
+        +setComuni(HashMap<Integer, String>)
+        +getComprensori(): HashMap<Integer, ComprensorioGeografico>
+        +setComprensori(HashMap<Integer, ComprensorioGeografico>)
+        +getGerarchie(): HashMap<String, Gerarchia>
+        +setGerarchie(HashMap<String, Gerarchia>)
+        +getCategorie(): HashMap<String, Categoria>
+        +setCategorie()
         +getCredenzialiConfiguratori(): HashMap<String, String>
+        +setCredenzialiConfiguratori(HashMap<String, String>)
         +getCredenzialiFruitori(): HashMap<String, String>
+        +setCredenzialiFruitori(HashMap<String, String>)
+        +getFattori(): HashMap<String, FattoriConversione>
+        +setFattori(HashMap<String, Double>)
+        +getRichieste(): HashMap<Fruitore, List<RichiestaScambio>>
+        +setRichieste(HashMap<String, List<String>>)
         +getDatiFruitori(): HashMap<String, Fruitore>
         +setDatiFruitori(HashMap<String, Fruitore>)
+        +getUtenti(): ArrayList<String>
+        +setUtenti(HashMap<String, String>, HashMap<String, String>)
+        -trovaCategoria(String nomeCategoria): Categoria
     }
     class GestoreFile {
         +caricaSalvataggio()
         +creaSalvataggio()
         +getGestoreDati(): GestoreDati
+        +salvaComuni()
+        +salvaComprensori()
+        +salvaGerarchie()
+        +salvaCredenzialiConfiguratori()
+        +salvaCredenzialiFruitori()
+        +salvaFattori()
+        +salvaRichieste()
+        +salvaDatiFruitori()
+        +caricaDatiFruitori(): HashMap<String, Fruitore>
+        -isFileEmpty(File file): boolean
+    }
+    class GestoreFileComuni {
+        +salvaSuFile(HashMap<Integer, String>)
+        +leggiFile(): HashMap<Integer, String>
+    }
+    class GestoreFileComprensori {
+        +salvaSuFile(HashMap<Integer, ComprensorioGeografico>)
+        +leggiFile(): HashMap<Integer, ComprensorioGeografico>
+    }
+    class GestoreFileCredenziali {
+        +salvaSuFile(HashMap<String, String>)
+        +leggiFile(): HashMap<String, String>
+    }
+    class GestoreFileDatiFruitori {
+        +salvaSuFile(HashMap<String, Fruitore>)
+        +leggiFile(): HashMap<String, Fruitore>
+    }
+    class GestoreFileFattori {
+        +salvaSuFile(HashMap<String, FattoriConversione>)
+        +leggiFile(): HashMap<String, Double>
+    }
+    class GestoreFileGerarchie {
+        +recuperaAlbero(): HashMap<String, Gerarchia>
+        +salvaAlbero(Collection<Gerarchia>)
+        -caricaCategoria(String, HashMap<String, Gerarchia>)
+        -recuperaCampi(String): ArrayList<String>
+        -scriviRadice(Categoria): String
+        -scriviCategoria(Categoria, Categoria): String
+        -scriviCampi(Categoria): String
+    }
+    class GestoreFileRichieste {
+        +salvaSuFile(HashMap<Fruitore, List<RichiestaScambio>>)
+        +leggiFile(): HashMap<String, List<String>>
     }
 }
 
 package it.ingbs.ingegneria_software.model.comprensori {
     class ComprensorioGeografico {
         +getCodice(): int
+        +getListaComuni(): List<String>
+        +aggiungiComuneNuovo(String nomeComune)
+        -generaCodice(): int
+        -parseComuni(String listaComuni): List<String>
+    }
+    class Comuni {
+        +getNome(): String
+        +getNumero(): Integer
+        +setNome(String nome)
+        +equals(Object obj): boolean
     }
     class GestoreComprensorio {
+        +aggiungiComprensorio()
         +visualizzaComprensori()
+        +modificaComprensori()
         +getComprensorio(int codice): ComprensorioGeografico
+        +controllaEsistenzaComprensorio(int codiceComprensorio): boolean
+        -salvaMappaComprensoriSuFile()
+        -controlloComprensorioDuplicato(ComprensorioGeografico comprensorioNuovo): ComprensorioGeografico
+        -rimuoviComprensorio()
+        -aggiungiComuneAlComprensorio()
     }
+    class GestoreComuni {
+        +aggiungiComune(Comuni comune)
+        +visualizzaComuni()
+        +scegliComune(int n): String
+        +scriviComuni()
+        +stampaComuni()
+        +getLastNumero(): int
+        +inserimentoComuni(List<String> listaComuni, int n)
+        +rimuoviComune(int numeroComune): boolean
+        -controlloComuni(Comuni comune): boolean
+    }
+}
+
+package it.ingbs.ingegneria_software.model.fattori {
+    class FattoriConversione {
+        +getCategoria1(): Categoria
+        +getCategoria2(): Categoria
+        +getValoreConversione(): double
+        -categoria1: Categoria
+        -categoria2: Categoria
+        -valoreConversione: double
+    }
+    class GestoreFattori {
+        +nuovoFattore()
+        +modificaFattori()
+        +nuovoFattoreDerivato()
+        +fattoreDerivato(Categoria categoria1, Categoria categoria2, Categoria categoria3)
+        +getFattore(String nomeFattore): Double
+        -assegnaFattoreConversione(Categoria categoria1, Categoria categoria2, double valoreConversione)
+        -fattoreOpposto(Categoria categoria1, Categoria categoria2, double valoreConversione)
+        -visualizzaFattori()
+        -salvaFattori()
+        -trovaCategoria(): Categoria
+        -rimuoviFattore()
+        +getCategoria(String nomeCategoria): Categoria
+        -mappaFattori: HashMap<String, FattoriConversione>
+        -gestoreGerarchie: GestoreGerarchie
+        -gestoreFile: GestoreFile
+    }
+}
+
+package it.ingbs.ingegneria_software.model.gerarchie {
+    class Categoria {
+        +getNome(): String
+        +getDescrizione(): String
+        +getPadre(): Categoria
+        +getFigli(): List<Categoria>
+        +getCampiNativi(): List<String>
+        +addCampoNativo(String)
+        +eliminaCampiNativi()
+        +eliminaCampoNativo(String)
+        +getCampoNativo(String): Campo
+        +stampaCampiNativi(): String
+        +getCampi(): Vector<Campo>
+        +hasFiglio(Categoria): boolean
+        +toString(int livello): String
+        -nome: String
+        -descrizione: String
+        -padre: Categoria
+        -figli: Vector<Categoria>
+        -campiNativi: Vector<Campo>
+    }
+
+    class Campo {
+        +toString(): String
+        -nome: String
+    }
+
+    class Gerarchia {
+        +getCategoria(String nomeCategoria): Categoria
+        +getCategoriaRadice(): Categoria
+        +getSottoCategorie(): HashMap<String, Categoria>
+        +addSottocategoria(Categoria, String)
+        +addSottocategoria(String, String, String)
+        +rimuoviCategoria(String)
+        +spostaCategoria(String, String)
+        +toString(): String
+        +toString(String nomeCategoria): String
+        -categoriaRadice: Categoria
+        -sottoCategorie: HashMap<String, Categoria>
+    }
+
+    class GestoreGerarchie {
+        +aggiungiGerarchia()
+        +rimuoviGerarchia()
+        +modificaGerarchia()
+        +stampaGerarchie()
+        +salvaGerarchie()
+        +getGerarchia(String): Gerarchia
+        +getRadici(): HashMap<String, Gerarchia>
+        +getCategoriaRichiesta(String): Categoria
+        -stampaGerarchia(Categoria, int livello)
+        -radici: HashMap<String, Gerarchia>
+        -gestoreFile: GestoreFile
+        -rimuoviCategoria(Gerarchia)
+        -spostaCategoria(Gerarchia)
+        -aggiungiCampi(Gerarchia)
+        -rimuoviCampi(Gerarchia)
+    }
+
+    class MenuGerarchie {
+        +run()
+        -menuPrincipale: MenuUtil
+        -gestoreGerarchie: GestoreGerarchie
+        -TITOLO_MENU: String
+        -VOCI_PRINCIPALI: String[]
+    }
+}
+
+package it.ingbs.ingegneria_software.model.richieste {
+    class RichiestaScambio {
+        +getCatRichiesta(): Categoria
+        +getCatOfferta(): Categoria
+        +getOreRichieste(): int
+        +getOreOfferte(): int
+        +getFattoreConversione(): double
+        +getStato(): Stato
+        +soddisfaRichiesta(RichiestaScambio): boolean
+        +toString(): String
+        +calcolaOreOfferte(Double, int): int
+        -catRichiesta: Categoria
+        -catOfferta: Categoria
+        -fr: Fruitore
+        -oreRichieste: int
+        -oreOfferte: int
+        -stato: Stato
+        
+    }
+
+    class GestoreRichieste {
+        +addRichiesta(Fruitore fruitore, RichiestaScambio richiestaScambio)
+        +rimuoviRichiesta(RichiestaScambio)
+        +creaRichiesta(Categoria, Categoria, int, Fruitore, Double): RichiestaSCambio
+        +nuovaRichiesta(Fruitore): RichiestaScambio
+        +getMappaRichieste(): HashMap<Fruitore, List<RichiestaScambio>>
+        +visualizzaRichieste(Fruitore)
+        -cercaCatFoglia(): Categoria
+        -mappaRichieste: HashMap<Fruitore, List<RichiestaScambio>>
+        -richiesteChiuse: HashMap<Integer, List<RichiestaScambio>>
+        -gestoreFile: GestoreFile
+        -random: Random
+    }
+
 }
 
 package it.ingbs.ingegneria_software.model.utenti {
@@ -57,6 +287,8 @@ package it.ingbs.ingegneria_software.model.utenti {
         +setNomeUtente(String userName): void
         +getPassword(): String
         +setPassword(String password): void
+        -nomeUtente: String
+        -password: String
     }
     class Configuratore {
         +Configuratore(String nomeUtente, String passwordUtente)
@@ -67,38 +299,83 @@ package it.ingbs.ingegneria_software.model.utenti {
         +infoFruitore(): void
         +aggiungiRichiesta(RichiestaScambio rs): void
         +getElencoRichieste(): ArrayList<RichiestaScambio>
+        -codiceComprensorio: int
+        -email: String
+        -elencoRichieste: ArrayList<RichiestaScambio>
     }
     class GestoreUtente {
         +aggiungiUtente(String nomeUtente): void
         +controlloUtente(String nomeUtente): boolean
+        -elencoNomi: ArrayList<String>
+        -MSG_ERORE_NOME_UTENTE: String
     }
     class GestoreFruitori {
         +creaUtenteFruitore(): Fruitore
         +aggiungiDati(String nomeUtente, String password): void
         +visualizzaFruitori(): void
         +trovaFruitore(String nomeUtente): Fruitore
+        -emailEsistente(String email): boolean
+        -MSG_PASS: String
+        -MSG_NOME_UTENTE: String
+        -MSG_EMAIL: String
+        -ERRORE_COMPRENSORIO: String
+        -MSG_COD_COMPRENSORIO: String
+        -mappaDatiFruitori: HashMap<String, Fruitore>
+        -mappaCredenziali: HashMap<String, String>
+        -gestoreComprensorio: GestoreComprensorio
+        -gestoreUtente: GestoreUtente
+        -gestoreDati: GestoreDati
     }
     class GestoreConfiguratori {
         +creaUtenteConfiguratore(): Configuratore
         +trovaConfiguratore(String nomeUtente): Configuratore
+        -setMappaConfiguratori(Map<String, String>): Map<String, Configuratore>
+        -mappaConfiguratori: Map<String, Configuratore>
+        -gestoreDati: GestoreDati
     }
 }
 
 GestoreFile --> GestoreDati : "1"
 GestoreDati --> ComprensorioGeografico : "1..*"
+GestoreDati --> Gerarchia : "1..*"
+GestoreDati --> FattoriConversione : "1..*"
+GestoreDati --> RichiestaScambio : "1..*"
+GestoreDati --> Fruitore : "1..*"
+GestoreDati --> Categoria : "1..*"
+GestoreDati --> Utente : "1..*"
 GestoreMenu --> Configuratore : "1"
+GestoreMenu --> Fruitore : "1"
 MenuAccesso --> GestoreAccesso : "1"
 MenuAccesso --> GestoreMenu : "1"
 GestoreAccesso --> GestoreDati : "1"
 GestoreAccesso --> GestoreFile : "1"
+GestoreAccesso --> Configuratore : "1"
+GestoreAccesso --> Fruitore : "1"
 GestoreComprensorio --> ComprensorioGeografico : "1..*"
-GestoreUtente --> Utente : "1..*"
+GestoreComprensorio --> GestoreComuni : "1"
+GestoreComuni --> Comuni : "1..*"
+GestoreFattori --> FattoriConversione : "1..*"
+GestoreFattori --> Categoria : "1..*"
+GestoreFattori --> GestoreGerarchie : "1"
+GestoreFattori --> GestoreFile : "1"
+GestoreGerarchie --> Gerarchia : "1..*"
+GestoreGerarchie --> Categoria : "1..*"
+GestoreGerarchie --> GestoreFile : "1"
+GestoreRichieste --> RichiestaScambio : "1..*"
+GestoreRichieste --> Fruitore : "1..*"
+GestoreRichieste --> Categoria : "1..*"
+GestoreRichieste --> GestoreFile : "1"
+RichiestaScambio --> Categoria : "2"
+RichiestaScambio --> Fruitore : "1"
+GestoreConfiguratori --> Configuratore : "1..*"
+GestoreConfiguratori --> GestoreDati : "1"
 GestoreFruitori --> Fruitore : "1..*"
 GestoreFruitori --> GestoreUtente : "1"
 GestoreFruitori --> GestoreComprensorio : "1"
 GestoreFruitori --> GestoreDati : "1"
-GestoreConfiguratori --> Configuratore : "1..*"
-GestoreConfiguratori --> GestoreDati : "1"
+GestoreUtente --> Utente : "1..*"
+ComprensorioGeografico --> Comuni : "1..*"
+Categoria --> Campo : "1..*"
 
 Utente <|-- Configuratore
 Utente <|-- Fruitore

@@ -308,7 +308,7 @@ public class GestoreGerarchie {
      * @return la categoria con il nome specificato
      * @throws CategoriaNotFoundException 
      */
-         public Categoria getCategoriaRichiesta(String string) throws CategoriaNotFoundException {
+    public Categoria getCategoriaRichiesta(String string) throws CategoriaNotFoundException {
         for (Gerarchia g : radici.values()) {
              Categoria c = g.getCategoria(string);
             if (c.getNome().equals(string)) {
