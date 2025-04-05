@@ -14,7 +14,7 @@ public class GestoreGerarchie {
 
     private static final String VUOI_AGGIUNGERE_UNA_DESCRIZIONE = "Vuoi aggiungere una descrizione?";
     private static final String ERRORE_RADICE_OMONIMA = "ERRORE: si sta tentando di aggiungere una radice omonima";
-    private static final String[] VOCI_LAVORO = {"aggiungi categoria", "rimuovi categoria", "sposta categoria", "aggiungi campi a Categoria", "rimuovi campi a Categoria", "visualizza Gerarchia"};
+    private static final String[] VOCI_LAVORO = {"aggiungi categoria", "rimuovi categoria","aggiungi campi a Categoria", "rimuovi campi a Categoria", "visualizza Gerarchia"};
     private static final String NOME_DELLA_RADICE = "Nome della radice: ";
     private static final String DESCRIZIONE_DELLA_RADICE = "Descrizione della radice: ";
     private static final String VUOI_AGGIUNGERE_ALTRE_GERARCHIE = "Vuoi aggiungere altre Gerarchie? ";
@@ -120,15 +120,12 @@ public class GestoreGerarchie {
                         rimuoviCategoria(radici.get(nomeGerarchia.toUpperCase()));
                         break;
                     case 3:
-                        spostaCategoria(radici.get(nomeGerarchia.toUpperCase()));
-                        break;
-                    case 4:
                         aggiungiCampi(radici.get(nomeGerarchia.toUpperCase()));
                         break;
-                    case 5:
+                    case 4:
                         rimuoviCampi(radici.get(nomeGerarchia.toUpperCase()));
                         break;
-                    case 6:
+                    case 5:
                         System.out.println(radici.get(nomeGerarchia.toUpperCase()));
                         break;
                 }
@@ -178,24 +175,6 @@ public class GestoreGerarchie {
             gerarchia.rimuoviCategoria(nomeCategoria);
             System.out.printf((CATEGORIA_S_RIMOSSA) + "%n", nomeCategoria);
         } catch (CategoriaNotFoundException e) {
-            System.out.println(e.getMessage());
-        }
-    }
-
-    /**
-     * Sposta una categoria da un nodo a un altro, cambiando il riferimento al suo padre.
-     *
-     * @param gerarchia la gerarchia contenente la categoria che si vuole spostare
-     */
-    private void spostaCategoria(Gerarchia gerarchia) {
-        System.out.println(gerarchia.toString());
-        String nomeCategoria, nomeNuovoPadre;
-        nomeCategoria = InputDati.leggiStringaNonVuota(QUALE_CATEGORIA_VUOI_SPOSTARE);
-        nomeNuovoPadre = InputDati.leggiStringaNonVuota(NUOVA_CATEGORIA_PADRE);
-        try {
-            gerarchia.spostaCategoria(nomeCategoria, nomeNuovoPadre);
-            System.out.printf((CATEGORIA_S_ORA_E_UNA_SOTTO_CATEGORIA_DI_S) + "%n", nomeCategoria, nomeNuovoPadre);
-        } catch (Exception e) {
             System.out.println(e.getMessage());
         }
     }

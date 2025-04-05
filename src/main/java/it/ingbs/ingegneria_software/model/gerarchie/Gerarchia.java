@@ -119,26 +119,6 @@ import it.ingbs.ingegneria_software.Eccezioni.PadreNotFoundException;
     }
 
     /**
-     * Sposta una categoria da un punto a un altro dell'albero
-     * Cambiando il riferimento alla categoria padre della categoria selezionata
-     *
-     * @param cat nome della categoria da spostare
-     * @param padreNuovo nome della nuova categoria padre
-     * @throws CategoriaNotFoundException se non viene trovata una categoria col nome specificato
-     */
-
-    public void spostaCategoria(String cat, String padreNuovo) throws CategoriaNotFoundException {
-        Categoria daSpost, padre, padreN;
-        daSpost = this.getCategoria(cat);
-        padre = daSpost.getPadre();
-        padreN = getCategoria(padreNuovo);
-
-        padreN.addFiglio(daSpost);
-        padre.removeFiglio(daSpost);
-        daSpost.setPadre(padreN);
-    }
-
-    /**
      * ToString ricorsivo che partendo dalla radice visualizza l'albero della gerarchia, chiamando ricorsivamente il
      * metodo per ogni SottoCategoria figlia
      *
