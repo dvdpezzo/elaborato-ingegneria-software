@@ -156,12 +156,16 @@ public class GestoreRichieste implements Runnable{
     public void ritiraRichiesta(Fruitore fruitore, RichiestaScambio richiesta) {
         if (mappaRichieste.containsKey(fruitore)) {
              for(RichiestaScambio richiestaScambio : mappaRichieste.get(fruitore)){
-                 if(richiestaScambio.equals(richiesta)){
+                 if(richiestaScambio.equals(richiesta) && richiestaScambio.getStato()!= Stato.Chiuso){
                        richiestaScambio.setStato(Stato.Ritirato);
+                       System.out.println("Richiesta ritirata con successo.");
                     }
+                else{
+                    System.out.println("Richiesta non trovata o già chiusa.");
+                    return;
+                }
              }
         }
-        System.out.println("Richiesta ritirata con successo.");
         gestoreFile.salvaRichieste();
     }
 
