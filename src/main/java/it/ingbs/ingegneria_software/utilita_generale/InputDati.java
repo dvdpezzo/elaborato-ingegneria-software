@@ -16,6 +16,7 @@ public class InputDati
 		  private static final String ERRORE_STRINGA_VUOTA= "Attenzione: non hai inserito alcun carattere";
 		  private static final String ERRORE_MASSIMO= "Attenzione: e' richiesto un valore minore o uguale a ";
 		  private static final String MESSAGGIO_AMMISSIBILI= "Attenzione: i caratteri ammissibili sono: ";
+		  private static final String ERRORE_COMPRESO = "Attenzione: il valore che stai inserendo non nell'interevallo dei numeri ammessi";
 		  
 		  private static final char RISPOSTA_SI='S';
 		  private static final char RISPOSTA_NO='N';
@@ -225,22 +226,25 @@ public class InputDati
 		    
 		   return valoreLetto;
 		  }
-	  
 
 
-		  
-		  /* IDEA DEL CAZZO:
-		   * Cerco una categoriaFoglia e la ritorno 
-		   * Metodo di utilità generale messo in InputDati come test
-		   *
-		  public static CategoriaFoglia trovaCat(){
-			String nome = leggiStringaNonVuota("Inserisci il nome della categoria");
-			return catFoglia.cercaCatFoglia(nome);
-         }
-			
-		 */
+		  public static int leggiInteroLimitato(String messaggio, int minimo, int massimo)
+		  {
+		   boolean finito = false;
+		   int valoreLetto = 0;
+		   do
+			{
+			 valoreLetto = leggiIntero(messaggio);
+			 if (valoreLetto >= minimo && valoreLetto <= massimo)
+			  finito = true;
+			 else
+			 System.out.println(ERRORE_COMPRESO);
+			  lettore.nextLine();
+			} while (!finito);
 
-
-	 
-
+			return valoreLetto;
+		    
+		  }
 }
+
+

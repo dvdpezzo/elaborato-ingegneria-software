@@ -184,7 +184,7 @@ public class GestoreRichieste implements Runnable{
         for (int i = 0; i < richieste.size(); i++) {
             System.out.println((i + 1) + ") " + richieste.get(i).toString());
         }
-        int scelta = InputDati.leggiInteroConMinimo("Quale richiesta vuoi ritirare?", 1);
+        int scelta = InputDati.leggiInteroLimitato("Quale richiesta vuoi ritirare?", 1,richieste.size());
         return richieste.get(scelta - 1);
        
     }
