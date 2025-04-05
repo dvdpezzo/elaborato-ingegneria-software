@@ -89,6 +89,7 @@ public class GestoreRichieste implements Runnable{
         String chiaveConversione = catRichiesta.getNome().toUpperCase() + "->" + catOfferta.getNome().toUpperCase();
         if (!gestoreFile.getGestoreDati().getFattori().containsKey(chiaveConversione)) {
             System.out.println("Non esiste un fattore di conversione tra le categorie selezionate.");
+            return null; 
         }
         
         Double fattoreConversione = gestoreFile.getGestoreDati().getFattori().get(chiaveConversione).getValoreConversione();
