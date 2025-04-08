@@ -11,7 +11,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import it.ingbs.ingegneria_software.model.RichiestaScambio;
+import it.ingbs.ingegneria_software.model.richieste.RichiestaScambio;
 import it.ingbs.ingegneria_software.model.utenti.Fruitore;
 
 public class GestoreFileRichieste {
@@ -74,4 +74,3 @@ public class GestoreFileRichieste {
         return mappaRichieste;
     }
 }
-

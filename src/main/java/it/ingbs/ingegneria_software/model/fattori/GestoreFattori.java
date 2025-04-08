@@ -23,7 +23,6 @@ public class GestoreFattori {
     private static final String FATTORI_CONVERSIONE_DERIVATO_CREATI = "Fattore di conversione derivato creato";
     private static final String RIMUOVI_FATTORE_DA = "Da quale categoria vuoi rimuovere il fattore? ";
     private static final String RIMUOVI_FATTORE_VERSO = "Verso quale categoria vuoi rimuovere il fattore? ";
-    private static final String FATTORE_RIMOSSO = "Fattore rimosso";
 
     private final HashMap<String, FattoriConversione> mappaFattori;
     private final GestoreGerarchie gestoreGerarchie;
@@ -220,7 +219,6 @@ public class GestoreFattori {
         String nomeCategoria2 = InputDati.leggiStringaNonVuota(RIMUOVI_FATTORE_VERSO);
         mappaFattori.remove(nomeCategoria1.toUpperCase() + "->" + nomeCategoria2.toUpperCase());
         mappaFattori.remove(nomeCategoria2.toUpperCase() + "->" + nomeCategoria1.toUpperCase());
-        System.out.println(FATTORE_RIMOSSO);
         salvaFattori();
     }
 

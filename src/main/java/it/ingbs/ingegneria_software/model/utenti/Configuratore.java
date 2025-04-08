@@ -8,6 +8,7 @@ public class Configuratore extends Utente  {
         super(nomeUtente, passwordUtente);
     } 
     
+    
 
 
 

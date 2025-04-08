@@ -1,12 +1,13 @@
+
 package it.ingbs.ingegneria_software.controller;
 
 
-import it.ingbs.ingegneria_software.model.GestoreRichieste;
-import it.ingbs.ingegneria_software.model.RichiestaScambio;
 import it.ingbs.ingegneria_software.model.comprensori.GestoreComprensorio;
 import it.ingbs.ingegneria_software.model.fattori.GestoreFattori;
 import it.ingbs.ingegneria_software.model.gerarchie.GestoreGerarchie;
 import it.ingbs.ingegneria_software.model.gerarchie.MenuGerarchie;
+import it.ingbs.ingegneria_software.model.richieste.GestoreRichieste;
+import it.ingbs.ingegneria_software.model.richieste.RichiestaScambio;
 import it.ingbs.ingegneria_software.model.utenti.Configuratore;
 import it.ingbs.ingegneria_software.model.utenti.Fruitore;
 import it.ingbs.ingegneria_software.utilita_generale.MenuUtil;
@@ -17,7 +18,7 @@ import it.ingbs.ingegneria_software.utilita_generale.MenuUtil;
 public class GestoreMenu {
     
     
-    private final String[] vociMenuBackEnd = new String[]{"GESTIONE GERARCHIE","GESTIONE FATTORI CONVERSIONE","GESTIONE COMPRENSORI"};
+    private final String[] vociMenuBackEnd = new String[]{"GESTIONE GERARCHIE","GESTIONE FATTORI CONVERSIONE","GESTIONE COMPRENSORI","GESTIONE RICHIESTE"};
     private final String[] vociMenuFrontEnd = new String[]{"Visualizza Gerarchie","Effettua una richiesta","Visualizza richieste","Ritira una richiesta"};      
     private final MenuUtil menuBackEnd = new MenuUtil("MENU BACK-END:", vociMenuBackEnd);
     private final MenuUtil menuFrontEnd = new MenuUtil("MENU FRONT END",vociMenuFrontEnd);
@@ -52,6 +53,9 @@ public class GestoreMenu {
                 case 3:
                 gestoreComprensorio.modificaComprensori();
                 break;
+                case 4:
+                gestoreRichieste.run();
+                break;
             }
         }while(scelta!=0);
     }
@@ -73,7 +77,8 @@ public class GestoreMenu {
                     break;
 
                 case 2:
-                    gestoreRichieste.nuovaRichiesta(fruitore);
+                    RichiestaScambio nuovaRichiesta = gestoreRichieste.nuovaRichiesta(fruitore);
+                    gestoreRichieste.valutazioneRichiesta(fruitore, nuovaRichiesta);
                     break;
                 
                 case 3:

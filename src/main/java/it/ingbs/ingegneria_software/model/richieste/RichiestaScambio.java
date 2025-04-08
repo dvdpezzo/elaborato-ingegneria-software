@@ -1,4 +1,4 @@
-package it.ingbs.ingegneria_software.model;
+package it.ingbs.ingegneria_software.model.richieste;
 
 import it.ingbs.ingegneria_software.model.gerarchie.Categoria;
 import it.ingbs.ingegneria_software.model.utenti.Fruitore;
@@ -21,7 +21,7 @@ public class RichiestaScambio {
      * @param fr   soggetto che esegue la richiesta (Fruitore)
      */
 
-    public RichiestaScambio(Categoria catRichiesta, int ore, Categoria catOfferta, Fruitore fr, Double fattoreConv, Stato stato) {
+    public RichiestaScambio( Categoria catOfferta, int ore, Categoria catRichiesta, Fruitore fr, Double fattoreConv, Stato stato) {
         this.catRichiesta = catRichiesta;
         this.catOfferta = catOfferta;
         this.fr = fr;
@@ -37,6 +37,9 @@ public class RichiestaScambio {
     }
 
     public void setStato(Stato stato){
+        if(getStato().equals(Stato.Chiuso)){
+            this.stato = Stato.Chiuso;
+        }
         this.stato = stato; 
     }
     
@@ -88,6 +91,11 @@ public class RichiestaScambio {
     }
 
 
+    /**
+     * Metodo che restituisce una stringa contenente le informazioni della richiesta di scambio
+     * @return stringa contenente le informazioni della richiesta di scambio
+     */
+     
     @Override
     public String toString(){
         StringBuffer sb = new StringBuffer();
@@ -98,10 +106,17 @@ public class RichiestaScambio {
          sb.append("Stato: "+getStato().toString());
          return sb.toString();
     }
-    
-    
 
 
 
-    
+    /**
+     * Metodo che verifica se questa richiesta soddisfa l'altra richiesta
+     * @param altraRichiesta richiesta da soddisfare
+     * @return true se questa richiesta soddisfa l'altra richiesta, false altrimenti
+     */
+    public boolean soddisfaRichiesta(RichiestaScambio altraRichiesta) {
+        // Implementa la logica per verificare se questa richiesta soddisfa l'altra richiesta
+        return this.catOfferta.equals(altraRichiesta.getCatRichiesta()) && this.oreOfferte == altraRichiesta.getOreRichieste();
+    }
+   
 }
