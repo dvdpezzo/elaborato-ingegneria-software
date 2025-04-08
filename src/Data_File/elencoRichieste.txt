@@ -1,17 +1,3 @@
-Fruitore: Lu
-Richiesta: [GENETICA,10]
-Offerta: [ECOLOGIA,16]
-Stato: Ritirato
-Richiesta: [INGLESE BASE,10]
-Offerta: [FRANCESE AVANZATO,10]
-Stato: Chiuso
-Fruitore: dvd1
-Richiesta: [FRANCESE BASE,10]
-Offerta: [INGLESE BASE,10]
-Stato: Chiuso
-Richiesta: [ECOLOGIA,3]
-Offerta: [GENETICA,1]
-Stato: Ritirato
 Fruitore: zio
 Richiesta: [FRANCESE AVANZATO,10]
 Offerta: [FRANCESE BASE,10]
@@ -19,3 +5,17 @@ Stato: Chiuso
 Richiesta: [VIOLINO,3]
 Offerta: [CHITARRA,1]
 Stato: Aperto
+Fruitore: dvd1
+Richiesta: [FRANCESE BASE,10]
+Offerta: [INGLESE BASE,10]
+Stato: Chiuso
+Richiesta: [ECOLOGIA,3]
+Offerta: [GENETICA,1]
+Stato: Ritirato
+Fruitore: Lu
+Richiesta: [GENETICA,10]
+Offerta: [ECOLOGIA,16]
+Stato: Ritirato
+Richiesta: [INGLESE BASE,10]
+Offerta: [FRANCESE AVANZATO,10]
+Stato: Chiuso
