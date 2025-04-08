@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import it.ingbs.ingegneria_software.Eccezioni.CategoriaNotFoundException;
 import it.ingbs.ingegneria_software.model.comprensori.ComprensorioGeografico;
 import it.ingbs.ingegneria_software.model.fattori.FattoriConversione;
 import it.ingbs.ingegneria_software.model.gerarchie.Categoria;
@@ -117,9 +118,12 @@ public class GestoreDati {
      */
     private Categoria trovaCategoria(String nomeCategoria) {
         for (Gerarchia gerarchia : gerarchie.values()) {
-            Categoria categoria = gerarchia.getCategoria(nomeCategoria);
-            if (categoria != null) {
-                return categoria;
+            try {
+                Categoria categoria = gerarchia.getCategoria(nomeCategoria);
+                if (categoria != null) {
+                    return categoria;
+                }
+            } catch (CategoriaNotFoundException ex) {
             }
         }
         return null;

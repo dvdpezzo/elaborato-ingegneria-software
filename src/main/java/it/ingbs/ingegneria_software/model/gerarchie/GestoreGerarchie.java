@@ -159,6 +159,9 @@ public class GestoreGerarchie {
                 System.out.printf((CATEGORIA_S_AGGIUNTA) + "%n", nomeCategoria);
             } catch (PadreNotFoundException | CategoriaOmonimaException | IllegalCampoException e) {
                 System.out.println(e.getMessage());
+            } catch (CategoriaNotFoundException e) {
+                
+                e.printStackTrace();
             }
         } while (InputDati.yesOrNo(VUOI_AGGIUNGERE_ALTRE_CATEGORIE));
     }
@@ -195,6 +198,9 @@ public class GestoreGerarchie {
                 System.out.printf((CAMPO_S_CORRETTAMENTE_AGGIUNTO) + "%n", nomeCampo);
             } catch (IllegalCampoException e) {
                 System.out.println(e.getMessage());
+            } catch (CategoriaNotFoundException e) {
+                
+                e.printStackTrace();
             }
         } while (InputDati.yesOrNo(VUOI_AGGIUNGERE_ALTRI_CAMPI));
     }

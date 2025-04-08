@@ -77,12 +77,21 @@ public class GestoreRichieste implements Runnable{
     /**
      * Metodo che crea una nuova richiesta di scambio
      * @param fruitore soggetto che crea una richiesta di scambio di prestazione
-     * @throws CategoriaNotFoundException
      * @return la richiesta creata
      */
-    public RichiestaScambio nuovaRichiesta(Fruitore fruitore) throws CategoriaNotFoundException {
-        Categoria catRichiesta = cercaCatFoglia();
-        Categoria catOfferta = cercaCatFoglia();
+    public RichiestaScambio nuovaRichiesta(Fruitore fruitore) {
+        Categoria catRichiesta;
+        Categoria catOfferta;
+        do { 
+            catRichiesta = cercaCatFoglia();
+            catOfferta = cercaCatFoglia();
+            if (catRichiesta == null || catOfferta == null) {
+                System.out.println("Categoria non trovata. Riprova.");
+            } else if (catRichiesta.equals(catOfferta)) {
+                System.out.println("Le categorie non possono essere uguali. Riprova.");
+            }
+        } while (catRichiesta == null || catOfferta == null);
+        
         int numOre = InputDati.leggiInteroConMinimo("Di quante ore necessiti?", 0);
         
         // Controllo se esiste un fattore di conversione tra le due categorie
@@ -108,21 +117,22 @@ public class GestoreRichieste implements Runnable{
 
     /**
      * Metodo che cerca una categoria foglia
-     * @return la categoria cercata
-     * @throws CategoriaNotFoundException
+     * @return la categoria cercata se la trova null altrimenti
+     * 
      */
-    private Categoria cercaCatFoglia() throws CategoriaNotFoundException {
+    private Categoria cercaCatFoglia() {
         Categoria catCercata = null;
         String nomeRichiesta = InputDati.leggiStringaNonVuota("Inserisci il nome della categoria di cui hai bisogno").toUpperCase();
         for (Map.Entry<String, Gerarchia> gerarchia : gestoreFile.getGestoreDati().getGerarchie().entrySet()) {
-            catCercata = gerarchia.getValue().getCategoria(nomeRichiesta);
-            if (catCercata != null) {
-                break;
+            try {
+                catCercata = gerarchia.getValue().getCategoria(nomeRichiesta);
+                if (catCercata != null) {
+                    break;
+                }
+            } catch (CategoriaNotFoundException ex) {
+                ex.printStackTrace();
             }
-        }
-        if (catCercata == null) {
-            throw new CategoriaNotFoundException();
-        }
+        }        
         return catCercata;
     }
 
@@ -317,23 +327,25 @@ public class GestoreRichieste implements Runnable{
      * Metodo che visualizza le richieste di una categoria
      */
     public void visualizzaRichiesteCategoria(){
-        try {
-            Categoria catCercata = cercaCatFoglia();
-            for(Map.Entry<Fruitore, List<RichiestaScambio>> entry : mappaRichieste.entrySet()){
-                for(RichiestaScambio richiesta : entry.getValue()){
-                    if(richiesta.getCatRichiesta().equals(catCercata)){
-                        System.out.println(richiesta.getFr().getNomeUtente());
-                        System.out.println(richiesta.toString());
-                    }
-                    else if(richiesta.getCatOfferta().equals(catCercata)){
-                        System.out.println(richiesta.getFr().getNomeUtente());
-                        System.out.println(richiesta.toString());
-                     }
+        
+        Categoria catCercata = cercaCatFoglia();
+        if(catCercata == null){
+            System.out.println("Categoria non trovata.");
+            return;
+        }
+        for(Map.Entry<Fruitore, List<RichiestaScambio>> entry : mappaRichieste.entrySet()){
+            for(RichiestaScambio richiesta : entry.getValue()){
+                if(richiesta.getCatRichiesta().equals(catCercata)){
+                    System.out.println(richiesta.getFr().getNomeUtente());
+                    System.out.println(richiesta.toString());
                 }
+                else if(richiesta.getCatOfferta().equals(catCercata)){
+                    System.out.println(richiesta.getFr().getNomeUtente());
+                    System.out.println(richiesta.toString());
+                    }
             }
-        }catch (CategoriaNotFoundException e) {
-            e.printStackTrace();
-            }
+        }
+        
     }
 
 
