@@ -15,11 +15,12 @@ public class GestoreComuni {
     private static final String MSG_INPUT_OUT_OF_RANGE = "Input out of range. Please enter a valid comune number:";
     private static final String MSG_INSERISCI_NUMERO_COMUNE = "Inserisci il numero del %d° comune:";
 
-    private final HashMap<Integer, String> mappaComuni = new HashMap<>();
+    private final HashMap<Integer, String> mappaComuni;
     private final GestoreFile gestoreFile;
 
     public GestoreComuni(GestoreFile gestoreFile) {
         this.gestoreFile = gestoreFile;
+        this.mappaComuni = gestoreFile.getGestoreDati().getComuni();
     }
 
     /**
