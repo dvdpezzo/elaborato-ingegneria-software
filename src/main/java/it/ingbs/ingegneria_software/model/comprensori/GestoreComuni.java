@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import it.ingbs.ingegneria_software.gestione_file.GestoreFile;
 import it.ingbs.ingegneria_software.utilita_generale.InputDati;
 
@@ -14,11 +15,12 @@ public class GestoreComuni {
     private static final String MSG_INPUT_OUT_OF_RANGE = "Input out of range. Please enter a valid comune number:";
     private static final String MSG_INSERISCI_NUMERO_COMUNE = "Inserisci il numero del %d° comune:";
 
-    private final HashMap<Integer, String> mappaComuni= new HashMap();
+    private final HashMap<Integer, String> mappaComuni;
     private final GestoreFile gestoreFile;
 
     public GestoreComuni(GestoreFile gestoreFile) {
         this.gestoreFile = gestoreFile;
+        this.mappaComuni = gestoreFile.getGestoreDati().getComuni();    
     
     }
 
@@ -87,7 +89,7 @@ public class GestoreComuni {
     public void stampaComuni() {
         int position = 1;
         for (Map.Entry<Integer, String> entry : mappaComuni.entrySet()) {
-            System.out.println(String.format("Position: %d, Comune: %s", position, entry.getValue()));
+            System.out.println(String.format("%d) Comune: %s", position, entry.getValue()));
             position++;
         }
     }

@@ -94,38 +94,39 @@ public class GestoreFattori {
      */
     public void nuovoFattore() {
 
-        try {
-            Categoria categoria1, categoria2;
-            do {
+        Categoria categoria1, categoria2;
+        do {
+            try {
                 categoria1 = trovaCategoria();
                 categoria2 = trovaCategoria();
-            } while (categoria1.hasFiglio(categoria1) || categoria2.hasFiglio(categoria2));
-
-            double valoreConversione = InputDati.leggiDoubleLimitato(INSERISCI_VALORE_CONVERSIONE, 0.5, 2);
-            assegnaFattoreConversione(categoria1, categoria2, valoreConversione);
-            System.out.println(FATTORI_CONVERSIONE_CREATI);
-        } catch (CategoriaNotFoundException ex) {
-            System.out.println(CATEGORIA_NON_TROVATA);
-        }
+            } catch (Exception ex) {
+                System.out.println("Errore categoria inesistente");
+                return;
+            }
+        } while (categoria1.hasFiglio(categoria1) || categoria2.hasFiglio(categoria2));
+        double valoreConversione = InputDati.leggiDoubleLimitato(INSERISCI_VALORE_CONVERSIONE, 0.5, 2);
+        assegnaFattoreConversione(categoria1, categoria2, valoreConversione);
+        System.out.println(FATTORI_CONVERSIONE_CREATI);
     }
 
     /**
      * Chiede al configuratore quale fattore di conversione derivato vuole calcolare 
      */
     public void nuovoFattoreDerivato() {
-        try {
-            visualizzaFattori();
-            Categoria categoria1, categoria2, categoria3;
-            do {
+        visualizzaFattori();
+        Categoria categoria1, categoria2, categoria3;
+        do {
+            try {
                 categoria1 = trovaCategoria();
                 categoria2 = trovaCategoria();
                 categoria3 = trovaCategoria();
-            } while (categoria1.hasFiglio(categoria1) || categoria2.hasFiglio(categoria2) || categoria3.hasFiglio(categoria3));
-            fattoreDerivato(categoria1, categoria2, categoria3);
-            System.out.println(FATTORI_CONVERSIONE_DERIVATO_CREATI);
-        } catch (CategoriaNotFoundException ex) {
-            System.out.println(CATEGORIA_NON_TROVATA);
-        }
+            } catch (Exception ex) {
+                System.out.println("Errore categoria inesistente");
+                return;
+            }
+        } while (categoria1.hasFiglio(categoria1) || categoria2.hasFiglio(categoria2) || categoria3.hasFiglio(categoria3));
+        fattoreDerivato(categoria1, categoria2, categoria3);
+        System.out.println(FATTORI_CONVERSIONE_DERIVATO_CREATI);
     }
 
 
@@ -181,15 +182,13 @@ public class GestoreFattori {
 
     /**
      * Trova la categoria inserita dall'utente
-     * @return la categoria inserita dall'utente
-     * @throws CategoriaNotFoundException
+     * @return la categoria inserita dall'utente     * 
      */
-    private Categoria trovaCategoria() throws CategoriaNotFoundException {
+    private Categoria trovaCategoria() throws Exception{
 
         String nomeGerarchia = InputDati.leggiStringaNonVuota(INSERISCI_IL_NOME_DELLA_GERARCHIA);
         Gerarchia gerarchiaRicercata = gestoreGerarchie.getGerarchia(nomeGerarchia);
         String nomeCategoria = InputDati.leggiStringaNonVuota(CATEGORIA_RICERCATA);
-
         return gerarchiaRicercata.getCategoria(nomeCategoria);
     }
 
@@ -197,13 +196,20 @@ public class GestoreFattori {
      * Restituisce la categoria con il nome specificato
      * @param nomeCategoria il nome della categoria da cercare
      * @return la categoria con il nome specificato
-     * @throws CategoriaNotFoundException se la categoria non è stata trovata
+     * 
      */
-    public Categoria getCategoria(String nomeCategoria) throws CategoriaNotFoundException {
+    public Categoria getCategoria(String nomeCategoria) {
         for (Gerarchia gerarchia : gestoreGerarchie.getRadici().values()) {
-            Categoria categoria = gerarchia.getCategoria(nomeCategoria);
-            if (categoria != null) {
-                return categoria;
+            try {
+                Categoria categoria = gerarchia.getCategoria(nomeCategoria);
+                if (categoria != null) {
+                    return categoria;
+                }
+            } catch (CategoriaNotFoundException ex) {
+                ex.printStackTrace();
+
+
+                
             }
         }
        return null;
