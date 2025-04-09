@@ -22,7 +22,7 @@ public class ComprensorioGeografico {
     /**
      * Costruttore per quando creo nuovo (assegna codice random)
      */
-    public ComprensorioGeografico(List<String> listaComuni){
+    public ComprensorioGeografico(List<String> listaComuni) {
         this.codice=generaCodice();
         this.listaComuni=listaComuni;
     }
@@ -35,6 +35,9 @@ public class ComprensorioGeografico {
         this.listaComuni = parseComuni(listaComuni);
     }
 
+    public void setGestoreComuni(GestoreComuni gestoreComuni) {
+        this.gestoreComuni = gestoreComuni;
+    }
     /**
      * Analizza una rappresentazione di stringa di un elenco di comuni in una List<String>.
      *
@@ -67,12 +70,11 @@ public class ComprensorioGeografico {
      * @throws IOException 
      */
     public void aggiungiComuneNuovo(String nomeComune) throws IOException {
-        if (!listaComuni.contains(nomeComune)) {
-            listaComuni.add(nomeComune);
+        if (!listaComuni.contains(nomeComune.toUpperCase())) {
+            listaComuni.add(nomeComune.toUpperCase());
             int numero = gestoreComuni.getLastNumero()+1;
-            gestoreComuni.aggiungiComune(new Comuni(nomeComune, numero)); //aggiungo il comune all'elenco dei comuni e lo visualizzo per verifica. 
+            gestoreComuni.aggiungiComune(new Comuni(nomeComune.toUpperCase(), numero)); //aggiungo il comune all'elenco dei comuni e lo visualizzo per verifica. 
             gestoreComuni.scriviComuni();
-            gestoreComuni.visualizzaComuni();
             System.out.println(String.format(COMUNE_AGGIUNTO_CON_SUCCESSO_AL_COMPRENSORIO, nomeComune, getCodice()));
         } else {
             System.out.println(COMUNE_GIA_PRESENTE_NEL_COMPRENSORIO_GEOGRAFICO);

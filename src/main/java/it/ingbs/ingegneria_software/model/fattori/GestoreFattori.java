@@ -42,12 +42,22 @@ public class GestoreFattori {
      * @param categoria2 seconda categoria inserita 
      * @param valoreConversione indica il valore di conversione tra la prima e la seconda categoria 
      */
+
     private void assegnaFattoreConversione(Categoria categoria1, Categoria categoria2, double valoreConversione) {
         if (!(categoria1.hasFiglio(categoria1) && categoria2.hasFiglio(categoria2))) {
 
             String chiave = categoria1.getNome() + "->" + categoria2.getNome();
+            for(String chiaveEsistente : mappaFattori.keySet()) {
+                if (chiave.equalsIgnoreCase(chiaveEsistente)) {
+                    System.out.println("Il fattore di conversione esiste già!");
+                    return;
+                }
+            }
             FattoriConversione fattore = new FattoriConversione(valoreConversione, categoria1, categoria2);
             mappaFattori.put(chiave, fattore);
+            System.out.println(FATTORI_CONVERSIONE_CREATI);
+
+
 
             //creo in automatico il fattore opposto 
             fattoreOpposto(categoria1, categoria2, valoreConversione);
