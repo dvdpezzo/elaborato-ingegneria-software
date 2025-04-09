@@ -58,6 +58,12 @@ public class GestoreComprensorio {
         }
     }
 
+    private void impostaComuni(){
+        for (ComprensorioGeografico comprensorio : mappaComprensori.values()) {
+            comprensorio.setGestoreComuni(new GestoreComuni(gestoreFile));
+        }
+    }
+
     /**
      * Controlla se il comprensorio sia già presente oppure no.
      *
@@ -174,6 +180,7 @@ public class GestoreComprensorio {
     public void modificaComprensori() throws IOException {
         String[] voci = { "Visualizza comprensori","Aggiungi comune al comprensorio: ", "Aggiungi Comprensorio: ", "Rimuovi Comprensorio: ", "Salva Cambiamenti: " };
         MenuUtil menuComprensorio = new MenuUtil("AZIONI SUI COMPRENSORI", voci);
+        impostaComuni();
         int scelta = 0;
         do {
             scelta = menuComprensorio.scegli();

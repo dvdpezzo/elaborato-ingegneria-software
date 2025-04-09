@@ -46,8 +46,17 @@ public class GestoreFattori {
         if (!(categoria1.hasFiglio(categoria1) && categoria2.hasFiglio(categoria2))) {
 
             String chiave = categoria1.getNome() + "->" + categoria2.getNome();
+            for(String chiaveEsistente : mappaFattori.keySet()) {
+                if (chiave.equalsIgnoreCase(chiaveEsistente)) {
+                    System.out.println("Il fattore di conversione esiste già!");
+                    return;
+                }
+            }
             FattoriConversione fattore = new FattoriConversione(valoreConversione, categoria1, categoria2);
             mappaFattori.put(chiave, fattore);
+            System.out.println(FATTORI_CONVERSIONE_CREATI);
+
+
 
             //creo in automatico il fattore opposto 
             fattoreOpposto(categoria1, categoria2, valoreConversione);
@@ -56,6 +65,7 @@ public class GestoreFattori {
             System.out.println(ERRORE_CATEGORIA);
         }
     }
+
 
     /**
      * Crea il fattore di conversione opposto rispetto a quello inserito nel metodo assegnaFattoreConversione()
@@ -103,7 +113,6 @@ public class GestoreFattori {
 
             double valoreConversione = InputDati.leggiDoubleLimitato(INSERISCI_VALORE_CONVERSIONE, 0.5, 2);
             assegnaFattoreConversione(categoria1, categoria2, valoreConversione);
-            System.out.println(FATTORI_CONVERSIONE_CREATI);
         } catch (CategoriaNotFoundException ex) {
             System.out.println(CATEGORIA_NON_TROVATA);
         }
