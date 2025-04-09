@@ -178,6 +178,7 @@ public class InputDati
 			 catch (InputMismatchException e)
 			  {
 				System.out.println(ERRORE_FORMATO);
+				lettore.nextLine(); 
 			  }
 			} while (!finito);
 		   return valoreLetto;
@@ -220,7 +221,7 @@ public class InputDati
 			 if (valoreLetto >= minimo && valoreLetto <= massimo)
 			  finito = true;
 			 else
-			 System.out.println(ERRORE_MINIMO + minimo);
+			 System.out.println(ERRORE_COMPRESO);
 			  lettore.nextLine();
 			} while (!finito);
 		    
