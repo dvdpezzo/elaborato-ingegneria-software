@@ -170,14 +170,12 @@ public class GestoreRichieste implements Runnable{
                  if(richiestaScambio.equals(richiesta) && richiestaScambio.getStato()!= Stato.Chiuso){
                        richiestaScambio.setStato(Stato.Ritirato);
                        System.out.println("Richiesta ritirata con successo.");
+                       gestoreFile.salvaRichieste();
+                       return;
                     }
-                else{
-                    System.out.println("Richiesta non trovata o già chiusa.");
-                    return;
                 }
-             }
+                System.out.println("Richiesta non trovata o già chiusa.");
         }
-        gestoreFile.salvaRichieste();
     }
 
     /**
