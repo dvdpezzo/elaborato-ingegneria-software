@@ -1,3 +1,23 @@
+Fruitore: Franco12
+Richiesta: [FRANCESE BASE,10]
+Offerta: [FRANCESE AVANZATO,10]
+Stato: Chiuso
+Richiesta: [CHITARRA,3]
+Offerta: [VIOLINO,1]
+Stato: Aperto
+Richiesta: [GEOMETRIA NON EUCLIDEA,3]
+Offerta: [TROMBA,1]
+Stato: Aperto
+Richiesta: [GENETICA,5]
+Offerta: [BIOLOGIA,5]
+Stato: Aperto
+Fruitore: luca
+Richiesta: [INGLESE BASE,10]
+Offerta: [FRANCESE BASE,10]
+Stato: Chiuso
+Richiesta: [GENETICA,3]
+Offerta: [ECOLOGIA,1]
+Stato: Ritirato
 Fruitore: Lu
 Richiesta: [ECOLOGIA,10]
 Offerta: [GENETICA,16]
@@ -5,17 +25,3 @@ Stato: Ritirato
 Richiesta: [FRANCESE AVANZATO,10]
 Offerta: [INGLESE BASE,10]
 Stato: Chiuso
-Fruitore: dvd1
-Richiesta: [INGLESE BASE,10]
-Offerta: [FRANCESE BASE,10]
-Stato: Chiuso
-Richiesta: [GENETICA,3]
-Offerta: [ECOLOGIA,1]
-Stato: Ritirato
-Fruitore: zio
-Richiesta: [FRANCESE BASE,10]
-Offerta: [FRANCESE AVANZATO,10]
-Stato: Chiuso
-Richiesta: [CHITARRA,3]
-Offerta: [VIOLINO,1]
-Stato: Aperto
