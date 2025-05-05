@@ -3,6 +3,7 @@ package it.ingbs.ingegneria_software.gestione_file;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -49,7 +50,7 @@ public class GestoreFileComuni {
      * @return la mappa dei comuni letti dal file
      * @throws IOException se si verifica un errore durante la lettura del file
      */
-    public HashMap<Integer, String> leggiFile() throws IOException {
+    public HashMap<Integer, String> leggiFile() {
         HashMap<Integer, String> mappaComuni = new HashMap<>();
         try (BufferedReader br = new BufferedReader(new FileReader(fileComuni))){
             String parola = br.readLine();
@@ -60,6 +61,12 @@ public class GestoreFileComuni {
                 mappaComuni.put(num,nome.toUpperCase()); 
                 parola = br.readLine();
             }while(parola!=null && !parola.equals("\n")&& !parola.equals(""));
+        } catch (FileNotFoundException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
         }
         return mappaComuni;
     }

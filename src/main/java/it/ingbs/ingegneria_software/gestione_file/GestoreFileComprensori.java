@@ -58,7 +58,7 @@ public class GestoreFileComprensori{
      * @return la mappa dei comprensori geografici letti dal file
      * @throws IOException se si verifica un errore durante la lettura del file
      */
-    public HashMap<Integer, ComprensorioGeografico> leggiFile() throws IOException {
+    public HashMap<Integer, ComprensorioGeografico> leggiFile() {
         HashMap<Integer, ComprensorioGeografico> mappaComprensori = new HashMap<>();
         try (BufferedReader br = new BufferedReader(new FileReader(fileComprensori))) {
             String linea;
@@ -71,7 +71,6 @@ public class GestoreFileComprensori{
             }
         } catch (IOException e) {
             System.out.println(ERRORE_LETTURA_FILE);
-            throw e;
         }
         return mappaComprensori;
     }

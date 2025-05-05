@@ -41,7 +41,7 @@ public class GestoreFileCredenziali {
      * nome utente e password
      * @throws IOException file delle credenziali non esiste
      */
-    public HashMap<String, String> leggiFile() throws IOException {
+    public HashMap<String, String> leggiFile() {
         HashMap<String, String> mappaCredenziali = new HashMap<>();
         try (BufferedReader br = new BufferedReader(new FileReader(fileCredenziali))) {
             String parola;
@@ -53,6 +53,7 @@ public class GestoreFileCredenziali {
                     mappaCredenziali.put(nome, pass);
                 }
             }
+        } catch (IOException ex) {
         }
         return mappaCredenziali;
     }   
