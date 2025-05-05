@@ -1,14 +1,11 @@
-
 package it.ingbs.ingegneria_software.controller;
 
 
 import it.ingbs.ingegneria_software.model.comprensori.GestoreComprensorio;
 import it.ingbs.ingegneria_software.model.fattori.GestoreFattori;
 import it.ingbs.ingegneria_software.model.gerarchie.GestoreGerarchie;
-import it.ingbs.ingegneria_software.model.gerarchie.MenuGerarchie;
 import it.ingbs.ingegneria_software.model.richieste.GestoreRichieste;
 import it.ingbs.ingegneria_software.model.richieste.RichiestaScambio;
-import it.ingbs.ingegneria_software.model.utenti.Configuratore;
 import it.ingbs.ingegneria_software.model.utenti.Fruitore;
 import it.ingbs.ingegneria_software.utilita_generale.MenuUtil;
 
@@ -35,26 +32,29 @@ public class GestoreMenu {
         
     }
    
-    public void backEnd (Configuratore configuratore) throws Exception {
+    public void backEnd () {
         int scelta;
         do {
             scelta = menuBackEnd.scegli();
             switch (scelta) {            
 
                 case 1:
-                MenuGerarchie menuGerarchie = new MenuGerarchie(this.gestoreGerarchie);
+                MenuGestoreGerarchie menuGerarchie = new MenuGestoreGerarchie(this.gestoreGerarchie);
                 menuGerarchie.run();
                 break;
 
                 case 2:
-                gestoreFattori.modificaFattori();
+                MenuGestoreFattori menuFattori = new MenuGestoreFattori(this.gestoreFattori);
+                menuFattori.run();
                 break;
 
                 case 3:
-                gestoreComprensorio.modificaComprensori();
+                MenuGestoreComprensorio menuComprensorio = new MenuGestoreComprensorio(this.gestoreComprensorio);
+                menuComprensorio.run();
                 break;
                 case 4:
-                gestoreRichieste.run();
+                MenuGestoreRichieste menuRichieste = new MenuGestoreRichieste(this.gestoreRichieste);
+                menuRichieste.run();
                 break;
             }
         }while(scelta!=0);
@@ -64,16 +64,15 @@ public class GestoreMenu {
     /**
      * menu front end con le varie operazioni che il fruitore può eseguire 
      * @param fruitore
-     * @throws Exception
      */
 
-    public void frontEnd(Fruitore fruitore) throws Exception {
+    public void frontEnd(Fruitore fruitore) {
         int scelta;
         do {
             scelta = menuFrontEnd.scegli();
             switch (scelta) {
                 case 1:
-                    gestoreGerarchie.stampaGerarchie();
+                    gestoreFattori.stampaGerarchie();
                     break;
 
                 case 2:

@@ -1,6 +1,5 @@
 package it.ingbs.ingegneria_software.model.fattori;
 
-import java.io.IOException;
 import java.util.HashMap;
 
 import it.ingbs.ingegneria_software.Eccezioni.CategoriaNotFoundException;
@@ -9,7 +8,6 @@ import it.ingbs.ingegneria_software.model.gerarchie.Categoria;
 import it.ingbs.ingegneria_software.model.gerarchie.Gerarchia;
 import it.ingbs.ingegneria_software.model.gerarchie.GestoreGerarchie;
 import it.ingbs.ingegneria_software.utilita_generale.InputDati;
-import it.ingbs.ingegneria_software.utilita_generale.MenuUtil;
 
 public class GestoreFattori {
 
@@ -140,49 +138,23 @@ public class GestoreFattori {
     /**
      * Visualizza tutti i fattori di conversione
      */
-    private void visualizzaFattori() {
+    public void visualizzaFattori() {
         for (String chiave : mappaFattori.keySet()) {
             System.out.println(chiave + " : " + mappaFattori.get(chiave).getValoreConversione());
         }
     }
 
-    /*
-     * Menu che permette di eseguire operazioni sui fattori di conversione
+    /**
+     * Stampa le gerarchie utilizzando GestoreGerarchie.
      */
-    public void modificaFattori() throws IOException {
-        String[] voci = { "Visualizza gerarchie", "Aggiungi nuovo fattore di conversione", "Aggiungi fattore di conversione derivato", "Rimuovi fattore", "Salva fattori di conversione",
-                "Visualizza fattori di conversione" };
-        MenuUtil menuFattori = new MenuUtil("AZIONI SUI FATTORI DI CONVERSIONE", voci);
-        int scelta;
-        do {
-            scelta = menuFattori.scegli();
-            switch (scelta) {
-                case 1:
-                    gestoreGerarchie.stampaGerarchie();
-                    break;
-                case 2:
-                    nuovoFattore();
-                    break;
-                case 3:
-                    nuovoFattoreDerivato();
-                    break;
-                case 4:
-                    rimuoviFattore();
-                    break;
-                case 5:
-                    salvaFattori();
-                    break;
-                case 6:
-                    visualizzaFattori();
-                    break;
-            }
-        } while (scelta != 0);
+    public void stampaGerarchie() {
+        gestoreGerarchie.stampaGerarchie();
     }
 
     /**
      * Salva i fattori di conversione su file.
      */
-    private void salvaFattori() {
+    public void salvaFattori() {
         gestoreFile.salvaFattori();
         System.out.println(FATTORI_CONVERSIONE_SALVATI);
     }
@@ -224,9 +196,8 @@ public class GestoreFattori {
 
     /**
      * Rimuove un fattore di conversione dalla mappa dei fattori
-     * @throws IOException 
      */
-    private void rimuoviFattore() throws IOException {
+    public void rimuoviFattore() {
         visualizzaFattori();
         String nomeCategoria1 = InputDati.leggiStringaNonVuota(RIMUOVI_FATTORE_DA);
         String nomeCategoria2 = InputDati.leggiStringaNonVuota(RIMUOVI_FATTORE_VERSO);
@@ -234,7 +205,6 @@ public class GestoreFattori {
         mappaFattori.remove(nomeCategoria2.toUpperCase() + "->" + nomeCategoria1.toUpperCase());
         salvaFattori();
     }
-
 
     /*
      * ritorna il valore del fattore di conversione data la sua stringa 

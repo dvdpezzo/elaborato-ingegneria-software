@@ -33,10 +33,14 @@ public class GestoreFruitori {
         this.mappaDatiFruitori = gestoreDati.getDatiFruitori();
         this.gestoreUtente = gestoreUtente;
 
+    }          
+        
+    public HashMap<String, String> getMappaCredenziali() {
+        return mappaCredenziali;
     }
 
-          
-        
+
+
     /*
      * aggiunge i dati relativi ad un fruitore alla Mappa dei dati (MappaFruitori)
      */

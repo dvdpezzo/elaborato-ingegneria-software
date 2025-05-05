@@ -33,9 +33,6 @@ public class GestoreGerarchie {
     private static final String TITOLO_MENU_MODIFICA_GERARCHIA = "Cosa desideri fare?";
     private static final String CATEGORIA_S_AGGIUNTA = "Categoria %s aggiunta!";
     private static final String CATEGORIA_S_RIMOSSA = "Categoria %s rimossa!";
-    private static final String QUALE_CATEGORIA_VUOI_SPOSTARE = "Quale categoria vuoi spostare? ";
-    private static final String NUOVA_CATEGORIA_PADRE = "Nuova categoria padre: ";
-    private static final String CATEGORIA_S_ORA_E_UNA_SOTTO_CATEGORIA_DI_S = "Categoria %s ora è una sotto-categoria di %s";
     private static final String CAMPO_S_CORRETTAMENTE_AGGIUNTO = "Campo %s correttamente aggiunto!";
     private static final String SCELTA_ELIMINAZ_CAMPI = "1- Eliminare tutti i campi nativi\n2- Eliminare un campo nativo specifico\n";
     private static final String CAMPI_NATIVI_ELIMINATI = "Campi nativi eliminati";
@@ -55,7 +52,7 @@ public class GestoreGerarchie {
     /**
      * Aggiunge le gerarchie al programma.
      */
-    protected void aggiungiGerarchia() {
+    public void aggiungiGerarchia() {
         Gerarchia nuovaGerarchia;
         String nomeRadice;
         String descrizioneRadice;
@@ -83,7 +80,7 @@ public class GestoreGerarchie {
     /**
      * Rimuove le gerarchie dal programma.
      */
-    protected void rimuoviGerarchia() {
+    public void rimuoviGerarchia() {
         String nomeRadice;
         do {
             System.out.println(radici.keySet());

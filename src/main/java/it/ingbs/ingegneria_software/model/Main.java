@@ -9,7 +9,9 @@ import it.ingbs.ingegneria_software.Eccezioni.IllegalCampoException;
 import it.ingbs.ingegneria_software.Eccezioni.PadreNotFoundException;
 import it.ingbs.ingegneria_software.controller.GestoreMenu;
 import it.ingbs.ingegneria_software.gestione_accesso.GestoreAccesso;
-import it.ingbs.ingegneria_software.gestione_accesso.MenuAccesso;
+import it.ingbs.ingegneria_software.gestione_accesso.ControlloAccesso;
+import it.ingbs.ingegneria_software.gestione_accesso.GestoreAccessoConfiguratore;
+import it.ingbs.ingegneria_software.gestione_accesso.GestoreAccessoFruitore;
 import it.ingbs.ingegneria_software.gestione_file.GestoreDati;
 import it.ingbs.ingegneria_software.gestione_file.GestoreFile;
 import it.ingbs.ingegneria_software.model.comprensori.GestoreComprensorio;
@@ -39,21 +41,30 @@ public class Main {
             GestoreComprensorio gestoreComprensorio = new GestoreComprensorio(gestoreDati.getComprensori(), gestoreFile);
             GestoreRichieste gestoreRichieste = new GestoreRichieste(gestoreFile, gestoreDati.getRichieste());
             GestoreMenu sistemaGenerale = new GestoreMenu(gestoreGerarchie, gestoreFattori, gestoreComprensorio, gestoreRichieste);
-            GestoreAccesso sistemaAccesso = new GestoreAccesso(gestoreDati, gestoreFile, gestoreComprensorio);
+            GestoreAccessoConfiguratore sistemaAccessoConf = new GestoreAccessoConfiguratore(gestoreDati, gestoreFile, gestoreComprensorio);
+            GestoreAccessoFruitore sistemaAccessoFruit = new GestoreAccessoFruitore(gestoreDati, gestoreFile, gestoreComprensorio);
             sistemaAccesso.caricaDatiFruitori();
 
             //Creazione MenuAccesso
-            MenuAccesso menuAccesso = new MenuAccesso(sistemaAccesso);
+            ControlloAccesso menuAccesso = new ControlloAccesso();
             int opzione;
             do {
                 opzione = menu.scegli();
                 switch (opzione) {
                     case 1:
-                        Utente configuratore = menuAccesso.loginConfiguratore();
-                        if (configuratore instanceof Configuratore) {
-                            sistemaGenerale.backEnd((Configuratore) configuratore);
-                        }
-                        break;
+                        Configuratore configuratore = menuAccesso.login(new GestoreAccessoUtente<Configuratore>() {
+                            @Override
+                            public Configuratore accesso(String nomeUtente, String password) {
+                                return sistemaAccesso.loginConfiguratore(nomeUtente, password);
+                            }
+
+                            @Override
+                            public Configuratore registrazioneNuovoUtente() {
+                                return null; // Non necessario per il login
+                            }
+                        });
+                        sistemaGenerale.backEnd();
+                        break; // Aggiunto il break per evitare di eseguire il case successivo
 
                     case 2:
                         menuAccesso.menuFruitore(sistemaGenerale);

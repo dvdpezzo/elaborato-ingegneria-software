@@ -33,6 +33,11 @@ public class GestoreConfiguratori {
         
     }
 
+    
+    public Map<String, Configuratore> getMappaConfiguratori() {
+        return mappaConfiguratori;
+    }
+
     public Configuratore trovaConfiguratore (String nomeUtente) {
         Configuratore utente = mappaConfiguratori.get(nomeUtente);
         if (utente == null) {

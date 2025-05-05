@@ -14,9 +14,8 @@ import it.ingbs.ingegneria_software.model.gerarchie.Categoria;
 import it.ingbs.ingegneria_software.model.gerarchie.Gerarchia;
 import it.ingbs.ingegneria_software.model.utenti.Fruitore;
 import it.ingbs.ingegneria_software.utilita_generale.InputDati;
-import it.ingbs.ingegneria_software.utilita_generale.MenuUtil;
 
-public class GestoreRichieste implements Runnable{
+public class GestoreRichieste {
     private final HashMap<Fruitore, List<RichiestaScambio>> mappaRichieste;
     private final HashMap<Integer, List<RichiestaScambio>> richiesteChiuse = new HashMap<>();
     private final GestoreFile gestoreFile;
@@ -347,25 +346,7 @@ public class GestoreRichieste implements Runnable{
     }
 
 
-    /**
-     * Meenu delle richieste 
-     */
-    public void run(){
-        int scelta;
-        MenuUtil menuRichieste = new MenuUtil("MENU RICHIESTE", new String[]{"Visualizza richieste Chiuse","Visualizza richieste Categoria"});
-        do{
-            
-            scelta = menuRichieste.scegli();
-            switch(scelta){
-                case 1:
-                      visualizzaRichiesteChiuse();
-                    break;
-                case 2:
-                      visualizzaRichiesteCategoria();
-                    break;
-            }
-        }while(scelta!=0);
-    }
+    
 }
 
 
