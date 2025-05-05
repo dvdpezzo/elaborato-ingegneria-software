@@ -32,17 +32,14 @@ public class GestoreFile {
         return file.length() == 0;
     }
 
-    private <T> void caricaDati(File file, String messaggioErrore, java.util.function.Consumer<T> setter, java.util.function.Supplier<T> reader) {
-        if (!isFileEmpty(file)) {
-            setter.accept(reader.get());
-        } else {
-            System.err.println(messaggioErrore);
-        }
-    }
 
-    private <T> void caricaDatiConGestioneEccezioni(File file, String messaggioErrore, java.util.function.Consumer<T> setter, java.util.function.Supplier<T> reader) {
+    private <T> void leggiDati (File file, String messaggioErrore, java.util.function.Consumer<T> setter, java.util.function.Supplier<T> reader) {
         try {
-            caricaDati(file, messaggioErrore, setter, reader);
+            if (!isFileEmpty(file)) {
+                setter.accept(reader.get());
+            } else {
+                System.err.println(messaggioErrore);
+            }
         } catch (Exception e) {
             System.err.println("Errore durante la lettura del file: " + file.getName() + ". Dettagli: " + e.getMessage());
         }
@@ -53,14 +50,14 @@ public class GestoreFile {
      * @throws IOException se si verifica un errore durante la lettura dei file.
      */
     public void caricaSalvataggio() throws IOException {
-        caricaDatiConGestioneEccezioni(new File(FILE_COMUNI), "Il file dei comuni è vuoto.", gestoreDati::setComuni, () -> gestoreFileComuni.leggiFile());
-        caricaDatiConGestioneEccezioni(new File(FILE_COMPRENSORI), "Il file dei comprensori è vuoto.", gestoreDati::setComprensori, () -> gestoreFileComprensori.leggiFile());
-        caricaDatiConGestioneEccezioni(new File(FILE_GERARCHIE), "Il file delle gerarchie è vuoto.", gestoreDati::setGerarchie, () -> gestoreFileGerarchie.recuperaAlbero());
-        caricaDatiConGestioneEccezioni(new File(FILE_CREDENZIALI_CONFIGURATORI), "Il file delle credenziali dei configuratori è vuoto.", gestoreDati::setCredenzialiConfiguratori, gestoreFileCredConfiguratori::leggiFile);
-        caricaDatiConGestioneEccezioni(new File(FILE_CREDENZIALI_FRUITORI), "Il file delle credenziali dei fruitori è vuoto.", gestoreDati::setCredenzialiFruitori, () -> gestoreFileCredFruitori.leggiFile());
-        caricaDatiConGestioneEccezioni(new File(DATI_FRUITORI), "Il file dei dati dei fruitori è vuoto.", gestoreDati::setDatiFruitori, gestoreFileDatiFruitori::leggiFile);
-        caricaDatiConGestioneEccezioni(new File(FILE_FATTORI), "Il file dei fattori di conversione è vuoto.", gestoreDati::setFattori, gestoreFileFattori::leggiFile);
-        caricaDatiConGestioneEccezioni(new File(FILE_RICHIESTE), "Il file delle richieste è vuoto.", gestoreDati::setRichieste, gestoreFileRichieste::leggiFile);
+        leggiDati(new File(FILE_COMUNI), "Il file dei comuni è vuoto.", gestoreDati::setComuni, () -> gestoreFileComuni.leggiFile());
+        leggiDati(new File(FILE_COMPRENSORI), "Il file dei comprensori è vuoto.", gestoreDati::setComprensori, () -> gestoreFileComprensori.leggiFile());
+        leggiDati(new File(FILE_GERARCHIE), "Il file delle gerarchie è vuoto.", gestoreDati::setGerarchie, () -> gestoreFileGerarchie.recuperaAlbero());
+        leggiDati(new File(FILE_CREDENZIALI_CONFIGURATORI), "Il file delle credenziali dei configuratori è vuoto.", gestoreDati::setCredenzialiConfiguratori, gestoreFileCredConfiguratori::leggiFile);
+        leggiDati(new File(FILE_CREDENZIALI_FRUITORI), "Il file delle credenziali dei fruitori è vuoto.", gestoreDati::setCredenzialiFruitori, () -> gestoreFileCredFruitori.leggiFile());
+        leggiDati(new File(DATI_FRUITORI), "Il file dei dati dei fruitori è vuoto.", gestoreDati::setDatiFruitori, gestoreFileDatiFruitori::leggiFile);
+        leggiDati(new File(FILE_FATTORI), "Il file dei fattori di conversione è vuoto.", gestoreDati::setFattori, gestoreFileFattori::leggiFile);
+        leggiDati(new File(FILE_RICHIESTE), "Il file delle richieste è vuoto.", gestoreDati::setRichieste, gestoreFileRichieste::leggiFile);
     }
 
     /**
