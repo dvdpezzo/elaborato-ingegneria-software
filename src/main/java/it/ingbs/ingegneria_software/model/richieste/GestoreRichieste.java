@@ -21,9 +21,9 @@ public class GestoreRichieste {
     private final GestoreDati gestoreDati;
     private final Random random = new Random();
 
-    public GestoreRichieste(GestoreDati gestoreDati, HashMap<Fruitore, List<RichiestaScambio>> mappaRichieste) {
+    public GestoreRichieste(GestoreDati gestoreDati) {
         this.gestoreDati = gestoreDati;
-        this.mappaRichieste = mappaRichieste;
+        this.mappaRichieste = gestoreDati.getRichieste();
         valutazioneRichieste();
     }
 

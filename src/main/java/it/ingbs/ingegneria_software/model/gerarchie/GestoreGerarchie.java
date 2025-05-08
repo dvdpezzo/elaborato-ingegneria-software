@@ -44,9 +44,9 @@ public class GestoreGerarchie {
     private final HashMap<String, Gerarchia> radici;
     private final GestoreDati gestoreDati;
 
-    public GestoreGerarchie(HashMap<String, Gerarchia> radici, GestoreDati gestoreDati) {
-        this.radici = radici;
+    public GestoreGerarchie(GestoreDati gestoreDati) {
         this.gestoreDati = gestoreDati;
+        this.radici = gestoreDati.getGerarchie();
     }
 
     /**

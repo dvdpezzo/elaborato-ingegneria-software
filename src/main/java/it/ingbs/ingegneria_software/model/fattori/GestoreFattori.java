@@ -25,10 +25,10 @@ public class GestoreFattori {
     private final GestoreGerarchie gestoreGerarchie;
     private final GestoreDati gestoreDati;
 
-    public GestoreFattori(HashMap<String, FattoriConversione> mappaFattori, GestoreGerarchie gestoreGerarchie, GestoreDati gestoreDati) {
-        this.mappaFattori = mappaFattori;
+    public GestoreFattori(GestoreGerarchie gestoreGerarchie, GestoreDati gestoreDati) {
         this.gestoreGerarchie = gestoreGerarchie;
         this.gestoreDati = gestoreDati;
+        this.mappaFattori = gestoreDati.getFattori();
         
     }
 

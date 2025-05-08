@@ -29,9 +29,9 @@ public class GestoreComprensorio {
     /**
      * Costruttore che legge i comprensori dal file e li carica nella mappa.
      */
-    public GestoreComprensorio(HashMap<Integer, ComprensorioGeografico> mappaComprensori, GestoreDati gestoreDati) {
-        this.mappaComprensori = mappaComprensori;
+    public GestoreComprensorio(GestoreDati gestoreDati) {
         this.gestoreDati = gestoreDati;
+        this.mappaComprensori = gestoreDati.getComprensori();
     }
 
     /**

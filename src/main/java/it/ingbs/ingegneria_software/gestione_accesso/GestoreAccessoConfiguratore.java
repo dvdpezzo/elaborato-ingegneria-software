@@ -1,5 +1,6 @@
 package it.ingbs.ingegneria_software.gestione_accesso;
 
+
 import it.ingbs.ingegneria_software.model.utenti.Configuratore;
 import it.ingbs.ingegneria_software.model.utenti.GestoreConfiguratori;
 
@@ -9,6 +10,8 @@ public class GestoreAccessoConfiguratore implements GestoreAccessoUtente<Configu
     public GestoreAccessoConfiguratore(GestoreConfiguratori gestoreConfiguratori) {
         this.gestoreConfiguratori = gestoreConfiguratori;
     }
+
+
 
     /**
      * Permette l'accesso al configuratore.
