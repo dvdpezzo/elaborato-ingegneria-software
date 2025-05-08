@@ -9,7 +9,7 @@ import java.util.Random;
 import java.util.Set;
 
 import it.ingbs.ingegneria_software.Eccezioni.CategoriaNotFoundException;
-import it.ingbs.ingegneria_software.gestione_file.GestoreFile;
+import it.ingbs.ingegneria_software.gestione_file.GestoreDati;
 import it.ingbs.ingegneria_software.model.gerarchie.Categoria;
 import it.ingbs.ingegneria_software.model.gerarchie.Gerarchia;
 import it.ingbs.ingegneria_software.model.utenti.Fruitore;
@@ -18,11 +18,11 @@ import it.ingbs.ingegneria_software.utilita_generale.InputDati;
 public class GestoreRichieste {
     private final HashMap<Fruitore, List<RichiestaScambio>> mappaRichieste;
     private final HashMap<Integer, List<RichiestaScambio>> richiesteChiuse = new HashMap<>();
-    private final GestoreFile gestoreFile;
+    private final GestoreDati gestoreDati;
     private final Random random = new Random();
 
-    public GestoreRichieste(GestoreFile gestoreFileRichieste, HashMap<Fruitore, List<RichiestaScambio>> mappaRichieste) {
-        this.gestoreFile = gestoreFileRichieste;
+    public GestoreRichieste(GestoreDati gestoreDati, HashMap<Fruitore, List<RichiestaScambio>> mappaRichieste) {
+        this.gestoreDati = gestoreDati;
         this.mappaRichieste = mappaRichieste;
         valutazioneRichieste();
     }
@@ -40,7 +40,7 @@ public class GestoreRichieste {
             lista.add(richiestaScambio);
             mappaRichieste.put(fruitore, lista);
         }
-        gestoreFile.salvaRichieste();
+        gestoreDati.setRichieste(mappaRichieste);
     }
     
     /**
@@ -51,7 +51,7 @@ public class GestoreRichieste {
         for (Map.Entry<Fruitore, List<RichiestaScambio>> entry : mappaRichieste.entrySet()) {
             if (entry.getValue().contains(richiestaNuova)) {
                 entry.getValue().remove(richiestaNuova);
-                gestoreFile.salvaRichieste();
+                gestoreDati.setRichieste(mappaRichieste);
                 break;
             }
         }
@@ -95,12 +95,12 @@ public class GestoreRichieste {
         
         // Controllo se esiste un fattore di conversione tra le due categorie
         String chiaveConversione = catRichiesta.getNome().toUpperCase() + "->" + catOfferta.getNome().toUpperCase();
-        if (!gestoreFile.getGestoreDati().getFattori().containsKey(chiaveConversione)) {
+        if (!gestoreDati.getFattori().containsKey(chiaveConversione)) {
             System.out.println("Non esiste un fattore di conversione tra le categorie selezionate.");
             return null; 
         }
         
-        Double fattoreConversione = gestoreFile.getGestoreDati().getFattori().get(chiaveConversione).getValoreConversione();
+        Double fattoreConversione = gestoreDati.getFattori().get(chiaveConversione).getValoreConversione();
         Stato stato = Stato.Aperto;
         RichiestaScambio richiestaNuova = creaRichiesta(catRichiesta, catOfferta, numOre, fruitore, fattoreConversione,stato);
         System.out.println(richiestaNuova.toString());
@@ -109,7 +109,7 @@ public class GestoreRichieste {
             rimuoviRichiesta(richiestaNuova);
             return null;
         } else {
-            gestoreFile.salvaRichieste();
+            gestoreDati.setRichieste(mappaRichieste);
             return richiestaNuova;
         }
     }
@@ -122,7 +122,7 @@ public class GestoreRichieste {
     private Categoria cercaCatFoglia() {
         Categoria catCercata = null;
         String nomeRichiesta = InputDati.leggiStringaNonVuota("Inserisci il nome della categoria di cui hai bisogno").toUpperCase();
-        for (Map.Entry<String, Gerarchia> gerarchia : gestoreFile.getGestoreDati().getGerarchie().entrySet()) {
+        for (Map.Entry<String, Gerarchia> gerarchia :gestoreDati.getGerarchie().entrySet()) {
             try {
                 catCercata = gerarchia.getValue().getCategoria(nomeRichiesta);
                 if (catCercata != null) {
@@ -169,7 +169,7 @@ public class GestoreRichieste {
                  if(richiestaScambio.equals(richiesta) && richiestaScambio.getStato()!= Stato.Chiuso){
                        richiestaScambio.setStato(Stato.Ritirato);
                        System.out.println("Richiesta ritirata con successo.");
-                       gestoreFile.salvaRichieste();
+                       gestoreDati.setRichieste(mappaRichieste);
                        return;
                     }
                 }
@@ -210,7 +210,7 @@ public class GestoreRichieste {
                 }
             }
         }
-        gestoreFile.salvaRichieste();
+        gestoreDati.setRichieste(mappaRichieste);
     }
 
     /*
@@ -243,8 +243,8 @@ public class GestoreRichieste {
                 }
             }
         }
-       // filtraRichieste();
-        gestoreFile.salvaRichieste();
+        // filtraRichieste();
+        gestoreDati.setRichieste(mappaRichieste);
 
         return richiestaPrincipaleSoddisfatta;
     }

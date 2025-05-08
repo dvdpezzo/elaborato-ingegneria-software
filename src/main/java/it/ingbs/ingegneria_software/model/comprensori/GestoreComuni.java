@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import it.ingbs.ingegneria_software.gestione_file.GestoreFile;
+import it.ingbs.ingegneria_software.gestione_file.GestoreDati;
 import it.ingbs.ingegneria_software.utilita_generale.InputDati;
 
 public class GestoreComuni {
@@ -16,11 +16,11 @@ public class GestoreComuni {
     private static final String MSG_INSERISCI_NUMERO_COMUNE = "Inserisci il numero del %d° comune:";
 
     private final HashMap<Integer, String> mappaComuni;
-    private final GestoreFile gestoreFile;
+    private final GestoreDati gestoreDati;
 
-    public GestoreComuni(GestoreFile gestoreFile) {
-        this.gestoreFile = gestoreFile;
-        this.mappaComuni = gestoreFile.getGestoreDati().getComuni();    
+    public GestoreComuni(GestoreDati gestoreDati) {
+        this.gestoreDati = gestoreDati;
+        this.mappaComuni = gestoreDati.getComuni();  
     
     }
 
@@ -80,7 +80,7 @@ public class GestoreComuni {
      * @throws IOException se si verifica un errore durante la scrittura del file
      */
     public void scriviComuni() throws IOException {
-        gestoreFile.salvaComuni();
+        gestoreDati.setComuni(mappaComuni);
     }
 
     /**

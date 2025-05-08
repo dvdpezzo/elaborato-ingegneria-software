@@ -6,7 +6,7 @@ import it.ingbs.ingegneria_software.Eccezioni.CategoriaNotFoundException;
 import it.ingbs.ingegneria_software.Eccezioni.CategoriaOmonimaException;
 import it.ingbs.ingegneria_software.Eccezioni.IllegalCampoException;
 import it.ingbs.ingegneria_software.Eccezioni.PadreNotFoundException;
-import it.ingbs.ingegneria_software.gestione_file.GestoreFile;
+import it.ingbs.ingegneria_software.gestione_file.GestoreDati;
 import it.ingbs.ingegneria_software.utilita_generale.InputDati;
 import it.ingbs.ingegneria_software.utilita_generale.MenuUtil;
 
@@ -42,11 +42,11 @@ public class GestoreGerarchie {
     private static final String VUOI_ELIMINARE_ALTRI_CAMPI = "Vuoi eliminare altri campi? ";
 
     private final HashMap<String, Gerarchia> radici;
-    private final GestoreFile gestoreFile;
+    private final GestoreDati gestoreDati;
 
-    public GestoreGerarchie(HashMap<String, Gerarchia> radici, GestoreFile gestoreFile) {
+    public GestoreGerarchie(HashMap<String, Gerarchia> radici, GestoreDati gestoreDati) {
         this.radici = radici;
-        this.gestoreFile = gestoreFile;
+        this.gestoreDati = gestoreDati;
     }
 
     /**
@@ -272,7 +272,7 @@ public class GestoreGerarchie {
      * Salva tutte le gerarchie su file.
      */
     public void salvaGerarchie() {
-        gestoreFile.salvaGerarchie();
+        gestoreDati.setGerarchie(radici);
     }
 
     /**

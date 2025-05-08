@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
-import it.ingbs.ingegneria_software.gestione_file.GestoreFile;
+import it.ingbs.ingegneria_software.gestione_file.GestoreDati;
 import it.ingbs.ingegneria_software.utilita_generale.InputDati;
 
 // Classe che gestisce l'elenco dei comprensori inseriti dal configuratore
@@ -24,14 +24,14 @@ public class GestoreComprensorio {
     private static final int MIN_NUMERO_COMUNI_COMPRENSORIO = 3;
 
     private final HashMap<Integer, ComprensorioGeografico> mappaComprensori;
-    private final GestoreFile gestoreFile ;
+    private final GestoreDati gestoreDati;
 
     /**
      * Costruttore che legge i comprensori dal file e li carica nella mappa.
      */
-    public GestoreComprensorio(HashMap<Integer, ComprensorioGeografico> mappaComprensori, GestoreFile gestoreFile) {
+    public GestoreComprensorio(HashMap<Integer, ComprensorioGeografico> mappaComprensori, GestoreDati gestoreDati) {
         this.mappaComprensori = mappaComprensori;
-        this.gestoreFile = gestoreFile;
+        this.gestoreDati = gestoreDati;
     }
 
     /**
@@ -59,7 +59,7 @@ public class GestoreComprensorio {
 
     public void impostaComuni(){
         for (ComprensorioGeografico comprensorio : mappaComprensori.values()) {
-            comprensorio.setGestoreComuni(new GestoreComuni(gestoreFile));
+            comprensorio.setGestoreComuni(new GestoreComuni(gestoreDati));
         }
     }
 
@@ -92,7 +92,7 @@ public class GestoreComprensorio {
      * Salva la mappa dei comprensori su file.
      */
     public void salvaMappaComprensoriSuFile() {
-        gestoreFile.salvaComprensori();
+        gestoreDati.setComprensori(mappaComprensori);
     }
 
     /**
@@ -164,7 +164,7 @@ public class GestoreComprensorio {
      */
     public ComprensorioGeografico creaComprensorioGeografico() {
         List<String> listaComuni = new LinkedList<>();
-        GestoreComuni gestoreComuni = new GestoreComuni(gestoreFile);
+        GestoreComuni gestoreComuni = new GestoreComuni(gestoreDati);
 
         gestoreComuni.stampaComuni();
 
@@ -172,14 +172,5 @@ public class GestoreComprensorio {
 
         Collections.sort(listaComuni);
         return new ComprensorioGeografico(listaComuni);
-    }
-
-    /**
-     * Menu per la scelta delle operazioni da eseguire sui comprensori.
-     *
-     * @throws IOException se si verifica un errore di I/O
-     */
-    public void modificaComprensori() throws IOException {
-        
     }
 }

@@ -91,16 +91,30 @@ public class GestoreDati {
         return fattori;
     }
 
-    public void setFattori(HashMap<String, Double> fattori) {
+
+    // Metodo per convertire i fattori da file in oggetti FattoriConversione
+    public void setFattoriFile(HashMap<String, Double> fattori) {
         this.fattori = FattoriAdapter.convertFattori(fattori, categorie);
+    }
+
+
+    // Metodo per aggiornare i fattori di conversione run time dopo una modifica 
+    public void setFattori(HashMap<String, FattoriConversione> fattori) {
+        this.fattori = fattori;
     }
 
     public HashMap<Fruitore, List<RichiestaScambio>> getRichieste() {
         return richieste;
     }
 
-    public void setRichieste(HashMap<String, List<String>> richieste) {
+    // Metodo per convertire le richieste da file in oggetti RichiestaScambio
+    public void setRichiesteFile(HashMap<String, List<String>> richieste) {
         this.richieste = RichiesteAdapter.convertRichieste(richieste, datiFruitori, categorie);
+    }
+
+    // Metodo per aggiornare le richieste run time dopo una modifica
+    public void setRichieste(HashMap<Fruitore, List<RichiestaScambio>> richieste) {
+        this.richieste = richieste;
     }
 
     public HashMap<String, Fruitore> getDatiFruitori() {

@@ -3,7 +3,7 @@ package it.ingbs.ingegneria_software.model.fattori;
 import java.util.HashMap;
 
 import it.ingbs.ingegneria_software.Eccezioni.CategoriaNotFoundException;
-import it.ingbs.ingegneria_software.gestione_file.GestoreFile;
+import it.ingbs.ingegneria_software.gestione_file.GestoreDati;
 import it.ingbs.ingegneria_software.model.gerarchie.Categoria;
 import it.ingbs.ingegneria_software.model.gerarchie.Gerarchia;
 import it.ingbs.ingegneria_software.model.gerarchie.GestoreGerarchie;
@@ -23,12 +23,13 @@ public class GestoreFattori {
 
     private final HashMap<String, FattoriConversione> mappaFattori;
     private final GestoreGerarchie gestoreGerarchie;
-    private final GestoreFile gestoreFile;
+    private final GestoreDati gestoreDati;
 
-    public GestoreFattori(HashMap<String, FattoriConversione> mappaFattori, GestoreGerarchie gestoreGerarchie, GestoreFile gestoreFile) {
+    public GestoreFattori(HashMap<String, FattoriConversione> mappaFattori, GestoreGerarchie gestoreGerarchie, GestoreDati gestoreDati) {
         this.mappaFattori = mappaFattori;
         this.gestoreGerarchie = gestoreGerarchie;
-        this.gestoreFile = gestoreFile;
+        this.gestoreDati = gestoreDati;
+        
     }
 
     /**
@@ -155,7 +156,7 @@ public class GestoreFattori {
      * Salva i fattori di conversione su file.
      */
     public void salvaFattori() {
-        gestoreFile.salvaFattori();
+        gestoreDati.setFattori(mappaFattori);
         System.out.println(FATTORI_CONVERSIONE_SALVATI);
     }
 
