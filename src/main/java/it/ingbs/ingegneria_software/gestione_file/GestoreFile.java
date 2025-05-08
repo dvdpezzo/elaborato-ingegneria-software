@@ -56,8 +56,8 @@ public class GestoreFile {
         leggiDati(new File(FILE_CREDENZIALI_CONFIGURATORI), "Il file delle credenziali dei configuratori è vuoto.", gestoreDati::setCredenzialiConfiguratori, gestoreFileCredConfiguratori::leggiFile);
         leggiDati(new File(FILE_CREDENZIALI_FRUITORI), "Il file delle credenziali dei fruitori è vuoto.", gestoreDati::setCredenzialiFruitori, () -> gestoreFileCredFruitori.leggiFile());
         leggiDati(new File(DATI_FRUITORI), "Il file dei dati dei fruitori è vuoto.", gestoreDati::setDatiFruitori, gestoreFileDatiFruitori::leggiFile);
-        leggiDati(new File(FILE_FATTORI), "Il file dei fattori di conversione è vuoto.", gestoreDati::setFattori, gestoreFileFattori::leggiFile);
-        leggiDati(new File(FILE_RICHIESTE), "Il file delle richieste è vuoto.", gestoreDati::setRichieste, gestoreFileRichieste::leggiFile);
+        leggiDati(new File(FILE_FATTORI), "Il file dei fattori di conversione è vuoto.", gestoreDati::setFattoriFile, gestoreFileFattori::leggiFile);
+        leggiDati(new File(FILE_RICHIESTE), "Il file delle richieste è vuoto.", gestoreDati::setRichiesteFile, gestoreFileRichieste::leggiFile);
     }
 
     /**
