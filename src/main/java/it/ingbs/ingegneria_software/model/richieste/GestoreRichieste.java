@@ -21,11 +21,16 @@ public class GestoreRichieste implements UtilityHandler{
     private final HashMap<Integer, List<RichiestaScambio>> richiesteChiuse = new HashMap<>();
     private final GestoreDati gestoreDati;
     private final Random random = new Random();
+    private Fruitore fruitore; // Campo per il fruitore corrente
 
     public GestoreRichieste(GestoreDati gestoreDati) {
         this.gestoreDati = gestoreDati;
         this.mappaRichieste = gestoreDati.getRichieste();
         valutazioneRichieste();
+    }
+
+    public void setFruitore(Fruitore fruitore) {
+        this.fruitore = fruitore;
     }
 
     /**
@@ -41,18 +46,18 @@ public class GestoreRichieste implements UtilityHandler{
             lista.add(richiestaScambio);
             mappaRichieste.put(fruitore, lista);
         }
-        gestoreDati.setRichieste(mappaRichieste);
+        salva();
     }
     
     /**
      * Metodo che rimuove una richiesta di scambio dalla mappa delle richieste
      * @param richiestaNuova richiesta da rimuovere
      */
-    public void rimuoviRichiesta(RichiestaScambio richiestaNuova) {
+    private void rimuoviRichiesta(RichiestaScambio richiestaNuova) {
         for (Map.Entry<Fruitore, List<RichiestaScambio>> entry : mappaRichieste.entrySet()) {
             if (entry.getValue().contains(richiestaNuova)) {
                 entry.getValue().remove(richiestaNuova);
-                gestoreDati.setRichieste(mappaRichieste);
+                salva();
                 break;
             }
         }
@@ -110,7 +115,7 @@ public class GestoreRichieste implements UtilityHandler{
             rimuoviRichiesta(richiestaNuova);
             return null;
         } else {
-            gestoreDati.setRichieste(mappaRichieste);
+            salva();
             return richiestaNuova;
         }
     }
@@ -143,22 +148,6 @@ public class GestoreRichieste implements UtilityHandler{
         return mappaRichieste;
     }
 
-
-    /**
-     * Metodo che visualizza le richieste effettuate da un fruitore
-     * @param fruitore fruitore che effettua la richiesta
-     */
-    public void visualizzaRichieste(Fruitore fruitore) {
-        if (mappaRichieste.containsKey(fruitore)) {
-            for (RichiestaScambio richiesta : mappaRichieste.get(fruitore)) {
-                System.out.println(richiesta.toString());
-                
-            }
-        } else {
-            System.out.println("Non hai effettuato nessuna richiesta.");
-        }
-    }
-
     /**
      * Metodo che permette di ritirare una richiesta di scambio
      * @param fruitore fruitore che esgue la richiesta
@@ -170,7 +159,7 @@ public class GestoreRichieste implements UtilityHandler{
                  if(richiestaScambio.equals(richiesta) && richiestaScambio.getStato()!= Stato.Chiuso){
                        richiestaScambio.setStato(Stato.Ritirato);
                        System.out.println("Richiesta ritirata con successo.");
-                       gestoreDati.setRichieste(mappaRichieste);
+                       salva();
                        return;
                     }
                 }
@@ -211,7 +200,7 @@ public class GestoreRichieste implements UtilityHandler{
                 }
             }
         }
-        gestoreDati.setRichieste(mappaRichieste);
+        salva();
     }
 
     /*
@@ -245,7 +234,7 @@ public class GestoreRichieste implements UtilityHandler{
             }
         }
         // filtraRichieste();
-        gestoreDati.setRichieste(mappaRichieste);
+        salva();
 
         return richiestaPrincipaleSoddisfatta;
     }
@@ -348,31 +337,38 @@ public class GestoreRichieste implements UtilityHandler{
 
     @Override
     public void view() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        if (mappaRichieste.containsKey(fruitore)) {
+            for (RichiestaScambio richiesta : mappaRichieste.get(fruitore)) {
+                System.out.println(richiesta.toString());
+                
+            }
+        } else {
+            System.out.println("Non hai effettuato nessuna richiesta.");
+        }
     }
 
+    //rimuovi = ritira
     @Override
     public void rimuovi() {
-        Fruitore fruitore = // ...logica per ottenere il fruitore...
         RichiestaScambio richiesta = scegliRichiesta(fruitore);
         if (richiesta != null) {
-            rimuoviRichiesta(richiesta);
+            ritiraRichiesta(fruitore, richiesta);
             System.out.println("Richiesta rimossa con successo.");
         }
     }
 
     @Override
     public void aggiungi() {
-        Fruitore fruitore = // ...logica per ottenere il fruitore...
-        RichiestaScambio richiesta = nuovaRichiesta(fruitore);
-        if (richiesta != null) {
+        RichiestaScambio nuovaRichiesta = nuovaRichiesta(fruitore);
+        if (nuovaRichiesta != null) {
+            valutazioneRichiesta(fruitore, nuovaRichiesta);
             System.out.println("Richiesta aggiunta con successo.");
         }
     }
 
     @Override
     public void salva() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        gestoreDati.setRichieste(mappaRichieste);
     }
 
 

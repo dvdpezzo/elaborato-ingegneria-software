@@ -6,7 +6,6 @@ import it.ingbs.ingegneria_software.model.comprensori.GestoreComuni;
 import it.ingbs.ingegneria_software.model.fattori.GestoreFattori;
 import it.ingbs.ingegneria_software.model.gerarchie.GestoreGerarchie;
 import it.ingbs.ingegneria_software.model.richieste.GestoreRichieste;
-import it.ingbs.ingegneria_software.model.richieste.RichiestaScambio;
 import it.ingbs.ingegneria_software.model.utenti.Fruitore;
 import it.ingbs.ingegneria_software.utilita_generale.MenuUtil;
 
@@ -75,6 +74,7 @@ public class UserMenuController {
      */
 
     public void frontEnd(Fruitore fruitore) {
+        gestoreRichieste.setFruitore(fruitore); // Imposta il fruitore corrente
         int scelta;
         do {
             scelta = menuFrontEnd.scegli();
@@ -83,18 +83,16 @@ public class UserMenuController {
                     gestoreGerarchie.view();
                     break;
 
-                case 2:
-                    RichiestaScambio nuovaRichiesta = gestoreRichieste.nuovaRichiesta(fruitore);
-                    gestoreRichieste.valutazioneRichiesta(fruitore, nuovaRichiesta);
+                case 2:                    
+                    gestoreRichieste.aggiungi();
                     break;
                 
                 case 3:
-                    gestoreRichieste.visualizzaRichieste(fruitore);
+                    gestoreRichieste.view();
                     break;
                 
                 case 4: 
-                    RichiestaScambio richiesta =gestoreRichieste.scegliRichiesta(fruitore);
-                    gestoreRichieste.ritiraRichiesta(fruitore,richiesta);
+                    gestoreRichieste.rimuovi();
                     break;
             }
         } while (scelta != 0);
