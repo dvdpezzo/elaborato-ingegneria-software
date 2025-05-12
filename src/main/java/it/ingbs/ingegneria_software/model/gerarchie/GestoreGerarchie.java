@@ -9,8 +9,9 @@ import it.ingbs.ingegneria_software.Eccezioni.PadreNotFoundException;
 import it.ingbs.ingegneria_software.gestione_file.GestoreDati;
 import it.ingbs.ingegneria_software.utilita_generale.InputDati;
 import it.ingbs.ingegneria_software.utilita_generale.MenuUtil;
+import it.ingbs.ingegneria_software.utilita_generale.UtilityHandler;
 
-public class GestoreGerarchie {
+public class GestoreGerarchie implements UtilityHandler {
 
     private static final String VUOI_AGGIUNGERE_UNA_DESCRIZIONE = "Vuoi aggiungere una descrizione?";
     private static final String ERRORE_RADICE_OMONIMA = "ERRORE: si sta tentando di aggiungere una radice omonima";
@@ -50,53 +51,7 @@ public class GestoreGerarchie {
     }
 
     /**
-     * Aggiunge le gerarchie al programma.
-     */
-    public void aggiungiGerarchia() {
-        Gerarchia nuovaGerarchia;
-        String nomeRadice;
-        String descrizioneRadice;
-
-        do {
-            nomeRadice = InputDati.leggiStringaNonVuota(NOME_DELLA_RADICE);
-            boolean aggiungiDescrizione = InputDati.yesOrNo(VUOI_AGGIUNGERE_UNA_DESCRIZIONE);
-            if (aggiungiDescrizione) {
-                descrizioneRadice = InputDati.leggiStringaNonVuota(DESCRIZIONE_DELLA_RADICE);
-            } else {
-                descrizioneRadice = "";
-            }
-            nuovaGerarchia = new Gerarchia(nomeRadice, descrizioneRadice);
-
-            if (radici.containsKey(nomeRadice.toUpperCase())) {
-                System.out.println(ERRORE_RADICE_OMONIMA);
-            } else {
-                radici.put(nomeRadice.toUpperCase(), nuovaGerarchia);
-                System.out.println(RADICE_AGGIUNTA);
-            }
-
-        } while (InputDati.yesOrNo(VUOI_AGGIUNGERE_ALTRE_GERARCHIE));
-    }
-
-    /**
-     * Rimuove le gerarchie dal programma.
-     */
-    public void rimuoviGerarchia() {
-        String nomeRadice;
-        do {
-            System.out.println(radici.keySet());
-            nomeRadice = InputDati.leggiStringaNonVuota(NOME_DELLA_RADICE);
-            if (radici.containsKey(nomeRadice.toUpperCase())) {
-                radici.remove(nomeRadice.toUpperCase());
-                System.out.printf((RADICE_S_RIMOSSA) + "%n", nomeRadice);
-            } else {
-                System.out.println(ERRORE_RIMOZIONE_RADICE_INESISTENTE);
-            }
-
-        } while (InputDati.yesOrNo(VUOI_RIMUOVERE_ALTRE_GERARCHIE));
-    }
-
-    /**
-     * Menù per gestire le categorie.
+     * Da Spostare????
      */
     public void modificaGerarchia() {
         String nomeGerarchia;
@@ -243,14 +198,6 @@ public class GestoreGerarchie {
         return radici.get(nomeGerarchia.toUpperCase());
     }
 
-    /**
-     * Stampa tutte le gerarchie.
-     */
-    public void stampaGerarchie() {
-        for (Gerarchia gerarchia : radici.values()) {
-            stampaGerarchia(gerarchia.getCategoriaRadice(), 0);
-        }
-    }
 
     /**
      * Stampa una gerarchia a partire dalla categoria radice.
@@ -269,13 +216,6 @@ public class GestoreGerarchie {
     }
 
     /**
-     * Salva tutte le gerarchie su file.
-     */
-    public void salvaGerarchie() {
-        gestoreDati.setGerarchie(radici);
-    }
-
-    /**
      * Restituisce la mappa delle radici.
      *
      * @return la mappa delle radici
@@ -290,7 +230,7 @@ public class GestoreGerarchie {
      * @return la categoria con il nome specificato
      * @throws CategoriaNotFoundException 
      */
-         public Categoria getCategoriaRichiesta(String string) throws CategoriaNotFoundException {
+    public Categoria getCategoriaRichiesta(String string) throws CategoriaNotFoundException {
         for (Gerarchia g : radici.values()) {
              Categoria c = g.getCategoria(string);
             if (c.getNome().equals(string)) {
@@ -299,5 +239,59 @@ public class GestoreGerarchie {
         }
         return null;
      }
+
+    @Override
+    public void view() {
+        for (Gerarchia gerarchia : radici.values()) {
+            stampaGerarchia(gerarchia.getCategoriaRadice(), 0);
+        }
+    }
+
+    @Override
+    public void rimuovi() {
+        String nomeRadice;
+        do {
+            System.out.println(radici.keySet());
+            nomeRadice = InputDati.leggiStringaNonVuota(NOME_DELLA_RADICE);
+            if (radici.containsKey(nomeRadice.toUpperCase())) {
+                radici.remove(nomeRadice.toUpperCase());
+                System.out.printf((RADICE_S_RIMOSSA) + "%n", nomeRadice);
+            } else {
+                System.out.println(ERRORE_RIMOZIONE_RADICE_INESISTENTE);
+            }
+
+        } while (InputDati.yesOrNo(VUOI_RIMUOVERE_ALTRE_GERARCHIE));
+    }
+
+    @Override
+    public void aggiungi() {
+        Gerarchia nuovaGerarchia;
+        String nomeRadice;
+        String descrizioneRadice;
+
+        do {
+            nomeRadice = InputDati.leggiStringaNonVuota(NOME_DELLA_RADICE);
+            boolean aggiungiDescrizione = InputDati.yesOrNo(VUOI_AGGIUNGERE_UNA_DESCRIZIONE);
+            if (aggiungiDescrizione) {
+                descrizioneRadice = InputDati.leggiStringaNonVuota(DESCRIZIONE_DELLA_RADICE);
+            } else {
+                descrizioneRadice = "";
+            }
+            nuovaGerarchia = new Gerarchia(nomeRadice, descrizioneRadice);
+
+            if (radici.containsKey(nomeRadice.toUpperCase())) {
+                System.out.println(ERRORE_RADICE_OMONIMA);
+            } else {
+                radici.put(nomeRadice.toUpperCase(), nuovaGerarchia);
+                System.out.println(RADICE_AGGIUNTA);
+            }
+
+        } while (InputDati.yesOrNo(VUOI_AGGIUNGERE_ALTRE_GERARCHIE));
+    }
+
+    @Override
+    public void salva() {
+        gestoreDati.setGerarchie(radici);
+    }
 }
 

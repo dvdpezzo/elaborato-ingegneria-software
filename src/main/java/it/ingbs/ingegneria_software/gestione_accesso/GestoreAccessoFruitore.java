@@ -1,6 +1,6 @@
 package it.ingbs.ingegneria_software.gestione_accesso;
 
-import it.ingbs.ingegneria_software.controller.ServiceFactory;
+import it.ingbs.ingegneria_software.controller.ServiceProvider;
 import it.ingbs.ingegneria_software.model.utenti.Fruitore;
 import it.ingbs.ingegneria_software.model.utenti.GestoreFruitori;
 import it.ingbs.ingegneria_software.model.utenti.GestoreUtente;
@@ -9,9 +9,9 @@ import it.ingbs.ingegneria_software.utilita_generale.InputDati;
 public class GestoreAccessoFruitore implements GestoreAccessoUtente<Fruitore> {
     
     private final GestoreFruitori gestoreFruitori;
-    private final ServiceFactory serviceFactory;
+    private final ServiceProvider serviceFactory;
 
-    public GestoreAccessoFruitore(ServiceFactory serviceFactory) {
+    public GestoreAccessoFruitore(ServiceProvider serviceFactory) {
         this.serviceFactory = serviceFactory;
         this.gestoreFruitori = serviceFactory.getGestoreFruitori();
     }

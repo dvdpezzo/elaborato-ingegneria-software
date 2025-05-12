@@ -1,14 +1,14 @@
 package it.ingbs.ingegneria_software.model.comprensori;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import it.ingbs.ingegneria_software.gestione_file.GestoreDati;
 import it.ingbs.ingegneria_software.utilita_generale.InputDati;
+import it.ingbs.ingegneria_software.utilita_generale.UtilityHandler;
 
-public class GestoreComuni {
+public class GestoreComuni implements UtilityHandler {
 
     private static final String ERRORE_COMUNE_NON_TROVATO = "Comune non trovato!";
     private static final String MSG_COMUNE_GIA_INSERITO = "Questo comune è già stato inserito!";
@@ -25,33 +25,13 @@ public class GestoreComuni {
     }
 
     /**
-     * Aggiunge un comune alla lista.
-     *
-     * @param comune il comune da aggiungere
-     */
-    public void aggiungiComune(Comuni comune) {
-        if (!controlloComuni(comune)) {
-            mappaComuni.put(comune.getNumero(), comune.getNome().toUpperCase());
-        }
-    }
-
-    /**
      * Controlla se un comune è già presente nella lista.
      *
      * @param comune il comune da controllare
      * @return true se il comune è già presente, false altrimenti
      */
-    public boolean controlloComuni(Comuni comune) {
+    public boolean controlloComuni(Comune comune) {
         return mappaComuni.containsValue(comune.getNome().toUpperCase());
-    }
-
-    /**
-     * Visualizza l'elenco dei comuni.
-     */
-    public void visualizzaComuni() {
-        for (Map.Entry<Integer, String> entry : mappaComuni.entrySet()) {
-            System.out.println(String.format("%d %s \n", entry.getKey(), entry.getValue()));
-        }
     }
 
     /**
@@ -72,26 +52,6 @@ public class GestoreComuni {
         }
 
         return ERRORE_COMUNE_NON_TROVATO;
-    }
-
-    /**
-     * Salva la mappa dei comuni su un file.
-     *
-     * @throws IOException se si verifica un errore durante la scrittura del file
-     */
-    public void scriviComuni() throws IOException {
-        gestoreDati.setComuni(mappaComuni);
-    }
-
-    /**
-     * Stampa l'elenco dei comuni con la loro posizione.
-     */
-    public void stampaComuni() {
-        int position = 1;
-        for (Map.Entry<Integer, String> entry : mappaComuni.entrySet()) {
-            System.out.println(String.format("%d) Comune: %s", position, entry.getValue()));
-            position++;
-        }
     }
 
     /**
@@ -146,5 +106,37 @@ public class GestoreComuni {
             System.out.println(ERRORE_COMUNE_NON_TROVATO);
             return false;
         }
+    }
+
+    @Override
+    public void view() {
+        for (Map.Entry<Integer, String> entry : mappaComuni.entrySet()) {
+            System.out.println(String.format("%d) Comune: %s", entry.getKey(), entry.getValue()));
+        }
+    }
+
+    @Override
+    public void rimuovi() {
+        int numeroComune = InputDati.leggiIntero("Inserisci il numero del comune da rimuovere:");
+        if (rimuoviComune(numeroComune)) {
+            System.out.println("Comune rimosso con successo.");
+        }
+    }
+
+    @Override
+    public void aggiungi() {
+        String nomeComune = InputDati.leggiStringa("Inserisci il nome del comune da aggiungere:");
+        if (!mappaComuni.containsValue(nomeComune.toUpperCase())) {
+            int numeroComune = getLastNumero() + 1;
+            mappaComuni.put(numeroComune, nomeComune.toUpperCase());
+            System.out.println("Comune aggiunto con successo.");
+        } else {
+            System.out.println(MSG_COMUNE_GIA_INSERITO);
+        }
+    }
+
+    @Override
+    public void salva() {
+        gestoreDati.setComuni(mappaComuni);
     }
 }

@@ -14,8 +14,9 @@ import it.ingbs.ingegneria_software.model.gerarchie.Categoria;
 import it.ingbs.ingegneria_software.model.gerarchie.Gerarchia;
 import it.ingbs.ingegneria_software.model.utenti.Fruitore;
 import it.ingbs.ingegneria_software.utilita_generale.InputDati;
+import it.ingbs.ingegneria_software.utilita_generale.UtilityHandler;
 
-public class GestoreRichieste {
+public class GestoreRichieste implements UtilityHandler{
     private final HashMap<Fruitore, List<RichiestaScambio>> mappaRichieste;
     private final HashMap<Integer, List<RichiestaScambio>> richiesteChiuse = new HashMap<>();
     private final GestoreDati gestoreDati;
@@ -343,6 +344,35 @@ public class GestoreRichieste {
             }
         }
         
+    }
+
+    @Override
+    public void view() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public void rimuovi() {
+        Fruitore fruitore = // ...logica per ottenere il fruitore...
+        RichiestaScambio richiesta = scegliRichiesta(fruitore);
+        if (richiesta != null) {
+            rimuoviRichiesta(richiesta);
+            System.out.println("Richiesta rimossa con successo.");
+        }
+    }
+
+    @Override
+    public void aggiungi() {
+        Fruitore fruitore = // ...logica per ottenere il fruitore...
+        RichiestaScambio richiesta = nuovaRichiesta(fruitore);
+        if (richiesta != null) {
+            System.out.println("Richiesta aggiunta con successo.");
+        }
+    }
+
+    @Override
+    public void salva() {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
 

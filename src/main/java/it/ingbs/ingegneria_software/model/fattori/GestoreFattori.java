@@ -8,8 +8,9 @@ import it.ingbs.ingegneria_software.model.gerarchie.Categoria;
 import it.ingbs.ingegneria_software.model.gerarchie.Gerarchia;
 import it.ingbs.ingegneria_software.model.gerarchie.GestoreGerarchie;
 import it.ingbs.ingegneria_software.utilita_generale.InputDati;
+import it.ingbs.ingegneria_software.utilita_generale.UtilityHandler;
 
-public class GestoreFattori {
+public class GestoreFattori implements UtilityHandler {
 
     private static final String INSERISCI_IL_NOME_DELLA_GERARCHIA = "Inserisci il nome della Gerarchia:";
     private static final String ERRORE_CATEGORIA = "Le categorie che hai inserito non sono categorie foglia!";
@@ -84,7 +85,7 @@ public class GestoreFattori {
      * @param categoria2 categoria dalla quale prendo il valore 
      * @param categoria3 categoria delle quale voglio creare un valore 
      */
-    public void fattoreDerivato(Categoria categoria1, Categoria categoria2, Categoria categoria3) {
+    private void fattoreDerivato(Categoria categoria1, Categoria categoria2, Categoria categoria3) {
         String chiave12 = categoria1.getNome() + "->" + categoria2.getNome();
         String chiave23 = categoria2.getNome() + "->" + categoria3.getNome();
         if (mappaFattori.containsKey(chiave12) && mappaFattori.containsKey(chiave23)) {
@@ -97,29 +98,10 @@ public class GestoreFattori {
     }
 
     /**
-     * Chiede al configuratore quale fattore di conversione vuole creare 
-     */
-    public void nuovoFattore() {
-
-        Categoria categoria1, categoria2;
-        do {
-            try {
-                categoria1 = trovaCategoria();
-                categoria2 = trovaCategoria();
-            } catch (Exception ex) {
-                System.out.println("Errore categoria inesistente");
-                return;
-            }
-        } while (categoria1.hasFiglio(categoria1) || categoria2.hasFiglio(categoria2));
-        double valoreConversione = InputDati.leggiDoubleLimitato(INSERISCI_VALORE_CONVERSIONE, 0.5, 2);
-        assegnaFattoreConversione(categoria1, categoria2, valoreConversione);
-    }
-
-    /**
      * Chiede al configuratore quale fattore di conversione derivato vuole calcolare 
      */
     public void nuovoFattoreDerivato() {
-        visualizzaFattori();
+        view();
         Categoria categoria1, categoria2, categoria3;
         do {
             try {
@@ -136,29 +118,6 @@ public class GestoreFattori {
     }
 
 
-    /**
-     * Visualizza tutti i fattori di conversione
-     */
-    public void visualizzaFattori() {
-        for (String chiave : mappaFattori.keySet()) {
-            System.out.println(chiave + " : " + mappaFattori.get(chiave).getValoreConversione());
-        }
-    }
-
-    /**
-     * Stampa le gerarchie utilizzando GestoreGerarchie.
-     */
-    public void stampaGerarchie() {
-        gestoreGerarchie.stampaGerarchie();
-    }
-
-    /**
-     * Salva i fattori di conversione su file.
-     */
-    public void salvaFattori() {
-        gestoreDati.setFattori(mappaFattori);
-        System.out.println(FATTORI_CONVERSIONE_SALVATI);
-    }
 
     /**
      * Trova la categoria inserita dall'utente
@@ -187,30 +146,56 @@ public class GestoreFattori {
                 }
             } catch (CategoriaNotFoundException ex) {
                 ex.printStackTrace();
-
-
-                
+               
             }
         }
        return null;
     }
 
-    /**
-     * Rimuove un fattore di conversione dalla mappa dei fattori
-     */
-    public void rimuoviFattore() {
-        visualizzaFattori();
-        String nomeCategoria1 = InputDati.leggiStringaNonVuota(RIMUOVI_FATTORE_DA);
-        String nomeCategoria2 = InputDati.leggiStringaNonVuota(RIMUOVI_FATTORE_VERSO);
-        mappaFattori.remove(nomeCategoria1.toUpperCase() + "->" + nomeCategoria2.toUpperCase());
-        mappaFattori.remove(nomeCategoria2.toUpperCase() + "->" + nomeCategoria1.toUpperCase());
-        salvaFattori();
-    }
 
     /*
      * ritorna il valore del fattore di conversione data la sua stringa 
      */
     public Double getFattore(String nomeFattore){
          return  mappaFattori.get(nomeFattore).getValoreConversione();
+    }
+
+    @Override
+    public void view() {
+         for (String chiave : mappaFattori.keySet()) {
+            System.out.println(chiave + " : " + mappaFattori.get(chiave).getValoreConversione());
+        }
+    }
+
+    @Override
+    public void rimuovi() {
+        view();
+        String nomeCategoria1 = InputDati.leggiStringaNonVuota(RIMUOVI_FATTORE_DA);
+        String nomeCategoria2 = InputDati.leggiStringaNonVuota(RIMUOVI_FATTORE_VERSO);
+        mappaFattori.remove(nomeCategoria1.toUpperCase() + "->" + nomeCategoria2.toUpperCase());
+        mappaFattori.remove(nomeCategoria2.toUpperCase() + "->" + nomeCategoria1.toUpperCase());
+        salva();
+    }
+
+    @Override
+    public void aggiungi() {
+        Categoria categoria1, categoria2;
+        do {
+            try {
+                categoria1 = trovaCategoria();
+                categoria2 = trovaCategoria();
+            } catch (Exception ex) {
+                System.out.println("Errore categoria inesistente");
+                return;
+            }
+        } while (categoria1.hasFiglio(categoria1) || categoria2.hasFiglio(categoria2));
+        double valoreConversione = InputDati.leggiDoubleLimitato(INSERISCI_VALORE_CONVERSIONE, 0.5, 2);
+        assegnaFattoreConversione(categoria1, categoria2, valoreConversione);
+    }
+
+    @Override
+    public void salva() {
+        gestoreDati.setFattori(mappaFattori);
+        System.out.println(FATTORI_CONVERSIONE_SALVATI);
     }
 }

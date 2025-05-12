@@ -1,12 +1,12 @@
 package it.ingbs.ingegneria_software.model.comprensori;
 
-public class Comuni {
+public class Comune {
 
     private String nome;
     private Integer numero=0;
 
 
-    public Comuni(String nome, Integer numero) {
+    public Comune(String nome, Integer numero) {
         this.nome=nome;
         this.numero=numero;
     }
@@ -31,7 +31,7 @@ public class Comuni {
     public boolean equals(Object obj) {
         if (this == obj) return true;
         if (obj == null || getClass() != obj.getClass()) return false;
-        Comuni comuni = (Comuni) obj;
+        Comune comuni = (Comune) obj;
         return this.getNome().equalsIgnoreCase(comuni.getNome());
     }
 

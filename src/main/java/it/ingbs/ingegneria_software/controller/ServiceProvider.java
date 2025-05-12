@@ -9,7 +9,7 @@ import it.ingbs.ingegneria_software.model.utenti.GestoreConfiguratori;
 import it.ingbs.ingegneria_software.model.utenti.GestoreFruitori;
 import it.ingbs.ingegneria_software.model.utenti.GestoreUtente;
 
-public class ServiceFactory {
+public class ServiceProvider {
 
     private final GestoreDati gestoreDati;
     private GestoreConfiguratori gestoreConfiguratori;
@@ -19,13 +19,13 @@ public class ServiceFactory {
     private GestoreComprensorio gestoreComprensorio;
     private GestoreRichieste gestoreRichieste;
     private GestoreUtente gestoreUtente;
-    private MenuController sistemaGenerale;
+    private UserMenuController sistemaGenerale;
 
     /**
      * Costruttore vuoto per inizializzare il Service Locator.
      * Gli oggetti verranno creati solo quando richiesti.
      */
-    public ServiceFactory(GestoreDati gestoreDati) {
+    public ServiceProvider(GestoreDati gestoreDati) {
         this.gestoreDati = gestoreDati;
     }
 
@@ -71,9 +71,9 @@ public class ServiceFactory {
         return gestoreRichieste;
     }
 
-    public MenuController getSistemaGenerale() {
+    public UserMenuController getSistemaGenerale() {
         if (sistemaGenerale == null) {
-            sistemaGenerale = new MenuController(getGestoreGerarchie(), getGestoreFattori(), getGestoreComprensorio(), getGestoreRichieste());
+            sistemaGenerale = new UserMenuController(getGestoreGerarchie(), getGestoreFattori(), getGestoreComprensorio(), getGestoreRichieste());
         }
         return sistemaGenerale;
     }

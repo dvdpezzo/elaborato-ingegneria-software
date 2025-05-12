@@ -28,22 +28,22 @@ public class MenuFattori implements Runnable {
             scelta = menuFattori.scegli();
             switch (scelta) {
                 case 1:
-                    gestoreFattori.stampaGerarchie();
+                    gestoreGerarchie.view();
                     break;
                 case 2:
-                    gestoreFattori.nuovoFattore();
+                    gestoreFattori.aggiungi();
                     break;
                 case 3:
                     gestoreFattori.nuovoFattoreDerivato();
                     break;
                 case 4:
-                    gestoreFattori.rimuoviFattore();
+                    gestoreFattori.rimuovi();
                     break;
                 case 5:
-                    gestoreFattori.salvaFattori();
+                    gestoreFattori.salva();
                     break;
                 case 6:
-                    gestoreFattori.visualizzaFattori();
+                    gestoreFattori.view();
                     break;
             }
         } while (scelta != 0);

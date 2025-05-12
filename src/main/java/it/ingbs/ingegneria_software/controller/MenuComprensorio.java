@@ -27,19 +27,19 @@ public class MenuComprensorio implements Runnable {
             scelta = menuComprensorio.scegli();
             switch (scelta) {
                 case 1:
-                    gestoreComprensorio.visualizzaComprensori();
+                    gestoreComprensorio.view();
                     break;
                 case 2:
                 gestoreComprensorio.aggiungiComuneAlComprensorio();
                     break;
                 case 3:
-                gestoreComprensorio.aggiungiComprensorio();
+                gestoreComprensorio.aggiungi();
                     break;
                 case 4:
-                gestoreComprensorio.rimuoviComprensorio();
+                gestoreComprensorio.rimuovi();
                     break;
                 case 5:
-                gestoreComprensorio.salvaMappaComprensoriSuFile();
+                gestoreComprensorio.salva();
                     break;
             }
         } while (scelta != 0);

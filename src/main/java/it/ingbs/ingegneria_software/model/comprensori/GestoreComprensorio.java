@@ -8,9 +8,10 @@ import java.util.List;
 
 import it.ingbs.ingegneria_software.gestione_file.GestoreDati;
 import it.ingbs.ingegneria_software.utilita_generale.InputDati;
+import it.ingbs.ingegneria_software.utilita_generale.UtilityHandler;
 
 // Classe che gestisce l'elenco dei comprensori inseriti dal configuratore
-public class GestoreComprensorio {
+public class GestoreComprensorio implements UtilityHandler {
 
     private static final String INSERISCI_IL_CODICE_DEL_COMPRENSORIO_DA_RIMUOVERE = "Inserisci il codice del comprensorio da rimuovere:";
     private static final String COMPRENSORIO_AGGIUNTO = "Comprensorio aggiunto.";
@@ -43,19 +44,6 @@ public class GestoreComprensorio {
         return mappaComprensori;
     }
 
-    /**
-     * Aggiunge un comprensorio alla mappa.
-     */
-    public void aggiungiComprensorio() {
-        ComprensorioGeografico comprensorioNuovo = creaComprensorioGeografico();
-        if (controlloComprensorioDuplicato(comprensorioNuovo) != null) {
-            System.out.println(COMPRENSORIO_GIA_ESISTENTE);
-        } else {
-            mappaComprensori.put(comprensorioNuovo.getCodice(), comprensorioNuovo);
-            salvaMappaComprensoriSuFile();
-            System.out.println(COMPRENSORIO_AGGIUNTO);
-        }
-    }
 
     public void impostaComuni(){
         for (ComprensorioGeografico comprensorio : mappaComprensori.values()) {
@@ -89,53 +77,22 @@ public class GestoreComprensorio {
     }
 
     /**
-     * Salva la mappa dei comprensori su file.
-     */
-    public void salvaMappaComprensoriSuFile() {
-        gestoreDati.setComprensori(mappaComprensori);
-    }
-
-    /**
-     * Visualizza tutti i comprensori esistenti.
-     */
-    public void visualizzaComprensori() {
-        for (ComprensorioGeografico comprensorio : mappaComprensori.values()) {
-            System.out.println(comprensorio.toString());
-        }
-    }
-
-    /**
      * Controlla se il comprensorio esiste in base al codice.
      *
      * @param codiceComprensorio il codice del comprensorio da controllare
      * @return true se il comprensorio esiste, altrimenti false
      */
-    public boolean controllaEsistenzaComprensorio(int codiceComprensorio) {
+    private boolean controllaEsistenzaComprensorio(int codiceComprensorio) {
         return getComprensorio(codiceComprensorio) != null;
     }
 
-    /**
-     * Rimuove un comprensorio dalla mappa.
-     */
-    public void rimuoviComprensorio() {
-        visualizzaComprensori();
-        int codiceComprensorio = InputDati.leggiIntero(INSERISCI_IL_CODICE_DEL_COMPRENSORIO_DA_RIMUOVERE);
-
-        if (controllaEsistenzaComprensorio(codiceComprensorio)) {
-            mappaComprensori.remove(codiceComprensorio);
-            salvaMappaComprensoriSuFile();
-            System.out.println(COMPRENSORIO_RIMOSSO_CON_SUCCESSO);
-        } else {
-            System.out.println(CODICE_DEL_COMPRENSORIO_NON_TROVATO);
-        }
-    }
 
     /**
      * Aggiunge un comune a un comprensorio già esistente.
      *
     */
     public void aggiungiComuneAlComprensorio() {
-        visualizzaComprensori();
+        view();
         boolean risposta;
         int codiceComprensorio = InputDati.leggiIntero(INSERISCI_IL_CODICE_DEL_COMPRENSORIO_AL_QUALE_SI_VUOLE_AGGIUNGERE_IL_COMUNE);
         do {
@@ -147,7 +104,7 @@ public class GestoreComprensorio {
                     } catch (IOException e) {
                         System.out.println("Errore durante l'aggiunta del comune: " + e.getMessage());
                     }
-                    salvaMappaComprensoriSuFile();
+                    salva();
                 }
                 risposta = InputDati.yesOrNo(VUOI_AGGIUNGERE_UN_ALTRO_COMUNE);
             } else {
@@ -166,11 +123,49 @@ public class GestoreComprensorio {
         List<String> listaComuni = new LinkedList<>();
         GestoreComuni gestoreComuni = new GestoreComuni(gestoreDati);
 
-        gestoreComuni.stampaComuni();
+        gestoreComuni.view();
 
         gestoreComuni.inserimentoComuni(listaComuni, MIN_NUMERO_COMUNI_COMPRENSORIO);
 
         Collections.sort(listaComuni);
         return new ComprensorioGeografico(listaComuni);
+    }
+
+    @Override
+    public void view() {
+        for (ComprensorioGeografico comprensorio : mappaComprensori.values()) {
+            System.out.println(comprensorio.toString());
+        }
+    }
+
+    @Override
+    public void rimuovi() {
+        view();
+        int codiceComprensorio = InputDati.leggiIntero(INSERISCI_IL_CODICE_DEL_COMPRENSORIO_DA_RIMUOVERE);
+
+        if (controllaEsistenzaComprensorio(codiceComprensorio)) {
+            mappaComprensori.remove(codiceComprensorio);
+            salva();
+            System.out.println(COMPRENSORIO_RIMOSSO_CON_SUCCESSO);
+        } else {
+            System.out.println(CODICE_DEL_COMPRENSORIO_NON_TROVATO);
+        }
+    }
+
+    @Override
+    public void aggiungi() {
+        ComprensorioGeografico comprensorioNuovo = creaComprensorioGeografico();
+        if (controlloComprensorioDuplicato(comprensorioNuovo) != null) {
+            System.out.println(COMPRENSORIO_GIA_ESISTENTE);
+        } else {
+            mappaComprensori.put(comprensorioNuovo.getCodice(), comprensorioNuovo);
+            salva();
+            System.out.println(COMPRENSORIO_AGGIUNTO);
+        }
+    }
+
+    @Override
+    public void salva() {
+        gestoreDati.setComprensori(mappaComprensori);
     }
 }

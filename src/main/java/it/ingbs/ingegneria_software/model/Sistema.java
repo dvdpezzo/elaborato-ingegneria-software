@@ -2,9 +2,9 @@ package it.ingbs.ingegneria_software.model;
 
 import java.io.IOException;
 
-import it.ingbs.ingegneria_software.controller.MenuController;
-import it.ingbs.ingegneria_software.controller.ServiceFactory;
-import it.ingbs.ingegneria_software.gestione_accesso.ControlloAccesso;
+import it.ingbs.ingegneria_software.controller.ServiceProvider;
+import it.ingbs.ingegneria_software.controller.UserMenuController;
+import it.ingbs.ingegneria_software.gestione_accesso.AuthenticationHandler;
 import it.ingbs.ingegneria_software.gestione_accesso.GestoreAccessoConfiguratore;
 import it.ingbs.ingegneria_software.gestione_accesso.GestoreAccessoFruitore;
 import it.ingbs.ingegneria_software.gestione_file.GestoreDati;
@@ -16,7 +16,7 @@ import it.ingbs.ingegneria_software.utilita_generale.MenuUtil;
 public class Sistema {
     
     private static Sistema instance;
-    private final ServiceFactory serviceFactory;
+    private final ServiceProvider serviceFactory;
     private final GestoreFile gestoreFile;
     private final GestoreDati gestoreDati;
 
@@ -24,7 +24,7 @@ public class Sistema {
     private Sistema() {
         this.gestoreFile = new GestoreFile();
         this.gestoreDati = GestoreDati.getInstance();
-        this.serviceFactory = new ServiceFactory(gestoreDati);
+        this.serviceFactory = new ServiceProvider(gestoreDati);
     }
 
     
@@ -65,19 +65,19 @@ public class Sistema {
     }
 
     public void mostraMenu(String tipoUtente) {
-        ControlloAccesso controlloAccesso = new ControlloAccesso();
+        AuthenticationHandler controlloAccesso = new AuthenticationHandler();
         if ("configuratore".equalsIgnoreCase(tipoUtente)) {
             GestoreAccessoConfiguratore gestoreAccessoConfiguratore = new GestoreAccessoConfiguratore(serviceFactory);
             Configuratore configuratore = controlloAccesso.login(gestoreAccessoConfiguratore);
             if (configuratore != null) {
-                MenuController gestoreMenu = serviceFactory.getSistemaGenerale();
+                UserMenuController gestoreMenu = serviceFactory.getSistemaGenerale();
                 gestoreMenu.backEnd();
             }
         } else if ("fruitore".equalsIgnoreCase(tipoUtente)) {
             GestoreAccessoFruitore gestoreAccessoFruitore = new GestoreAccessoFruitore(serviceFactory);
             Fruitore fruitore = controlloAccesso.login(gestoreAccessoFruitore);
             if (fruitore != null) {
-                MenuController gestoreMenu = serviceFactory.getSistemaGenerale();
+                UserMenuController gestoreMenu = serviceFactory.getSistemaGenerale();
                 gestoreMenu.frontEnd(fruitore);
             }
         } else {

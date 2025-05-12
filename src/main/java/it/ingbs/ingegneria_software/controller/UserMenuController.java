@@ -10,7 +10,7 @@ import it.ingbs.ingegneria_software.model.utenti.Fruitore;
 import it.ingbs.ingegneria_software.utilita_generale.MenuUtil;
 
 
-public class MenuController {
+public class UserMenuController {
     
     
     private final String[] vociMenuBackEnd = new String[]{"GESTIONE GERARCHIE","GESTIONE FATTORI CONVERSIONE","GESTIONE COMPRENSORI","GESTIONE RICHIESTE"};
@@ -22,7 +22,7 @@ public class MenuController {
     private final GestoreComprensorio gestoreComprensorio;
     private final GestoreRichieste gestoreRichieste ;   
 
-    public MenuController(GestoreGerarchie gestoreGerarchia, GestoreFattori gestoreFattori, GestoreComprensorio gestoreComprensorio, GestoreRichieste gestoreRichieste) {
+    public UserMenuController(GestoreGerarchie gestoreGerarchia, GestoreFattori gestoreFattori, GestoreComprensorio gestoreComprensorio, GestoreRichieste gestoreRichieste) {
         this.gestoreGerarchie = gestoreGerarchia;
         this.gestoreFattori = gestoreFattori;
         this.gestoreComprensorio = gestoreComprensorio;
@@ -70,7 +70,7 @@ public class MenuController {
             scelta = menuFrontEnd.scegli();
             switch (scelta) {
                 case 1:
-                    gestoreFattori.stampaGerarchie();
+                    gestoreGerarchie.view();
                     break;
 
                 case 2:

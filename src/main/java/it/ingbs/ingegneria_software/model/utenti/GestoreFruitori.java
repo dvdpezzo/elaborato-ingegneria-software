@@ -56,7 +56,7 @@ public class GestoreFruitori {
      * @return il fruitore creato 
      */
     public Fruitore creaUtenteFruitore(GestoreComprensorio gestoreComprensorio, GestoreUtente gestoreUtente) {
-        gestoreComprensorio.visualizzaComprensori();
+        gestoreComprensorio.view();
         ComprensorioGeografico comprensorio;
         int code;
         do {

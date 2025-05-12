@@ -10,5 +10,4 @@ public interface UtilityHandler {
 
     void salva();
 
-
 }

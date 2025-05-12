@@ -27,19 +27,19 @@ public class MenuGerarchie implements Runnable {
             scelta = menu.scegli();
             switch (scelta) {
                 case 1:
-                    gestoreGerarchie.aggiungiGerarchia();
+                    gestoreGerarchie.aggiungi();
                     break;
                 case 2:
-                    gestoreGerarchie.rimuoviGerarchia();
+                    gestoreGerarchie.rimuovi();
                     break;
                 case 3:
                     gestoreGerarchie.modificaGerarchia();
                     break;
                 case 4:
-                    gestoreGerarchie.stampaGerarchie();
+                    gestoreGerarchie.view();
                     break;
                 case 5:
-                    gestoreGerarchie.salvaGerarchie();
+                    gestoreGerarchie.salva();
                     break;
             }
         } while (scelta != 0);

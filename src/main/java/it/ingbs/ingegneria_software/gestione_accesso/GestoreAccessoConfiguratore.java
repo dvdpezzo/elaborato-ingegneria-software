@@ -1,17 +1,16 @@
 package it.ingbs.ingegneria_software.gestione_accesso;
 
 
-import it.ingbs.ingegneria_software.controller.ServiceFactory;
+import it.ingbs.ingegneria_software.controller.ServiceProvider;
 import it.ingbs.ingegneria_software.model.utenti.Configuratore;
 import it.ingbs.ingegneria_software.model.utenti.GestoreConfiguratori;
 
 public class GestoreAccessoConfiguratore implements GestoreAccessoUtente<Configuratore> {
     private final GestoreConfiguratori gestoreConfiguratori;
 
-    public GestoreAccessoConfiguratore(ServiceFactory serviceFactory) {
+    public GestoreAccessoConfiguratore(ServiceProvider serviceFactory) {
         this.gestoreConfiguratori = serviceFactory.getGestoreConfiguratori();
     }
-
 
 
     /**

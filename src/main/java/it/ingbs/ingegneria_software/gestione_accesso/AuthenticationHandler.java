@@ -2,7 +2,7 @@ package it.ingbs.ingegneria_software.gestione_accesso;
 
 import it.ingbs.ingegneria_software.utilita_generale.InputDati;
 
-public class ControlloAccesso {
+public class AuthenticationHandler {
 
     private static final String INSERISCI_PASSWORD = "Inserisci password: ";
     private static final String INSERIRE_NOME_UTENTE = "Inserire nome utente: ";

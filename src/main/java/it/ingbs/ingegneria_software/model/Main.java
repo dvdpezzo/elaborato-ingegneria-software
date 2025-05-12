@@ -6,7 +6,7 @@ public class Main {
     public static void main(String[] args) {
 
         // Creazione del sistema
-        Sistema sistema = Sistema.getInstance(); // Corretto l'uso del singleton
+        Sistema sistema = Sistema.getInstance();
         
         // Carico salvataggi
         sistema.caricaSalvataggi();
@@ -18,14 +18,10 @@ public class Main {
         if (tipoUtente != null) {
             sistema.mostraMenu(tipoUtente);
         }
-
-        //terminazione del programma
-
         //salvataggio dei dati
         sistema.salvaDati();
 
     }
-
    
 }
 
