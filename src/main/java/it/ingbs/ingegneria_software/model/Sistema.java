@@ -2,7 +2,7 @@ package it.ingbs.ingegneria_software.model;
 
 import java.io.IOException;
 
-import it.ingbs.ingegneria_software.controller.GestoreMenu;
+import it.ingbs.ingegneria_software.controller.MenuController;
 import it.ingbs.ingegneria_software.controller.ServiceFactory;
 import it.ingbs.ingegneria_software.gestione_accesso.ControlloAccesso;
 import it.ingbs.ingegneria_software.gestione_accesso.GestoreAccessoConfiguratore;
@@ -70,14 +70,14 @@ public class Sistema {
             GestoreAccessoConfiguratore gestoreAccessoConfiguratore = new GestoreAccessoConfiguratore(serviceFactory.getGestoreConfiguratori());
             Configuratore configuratore = controlloAccesso.login(gestoreAccessoConfiguratore);
             if (configuratore != null) {
-                GestoreMenu gestoreMenu = serviceFactory.getSistemaGenerale();
+                MenuController gestoreMenu = serviceFactory.getSistemaGenerale();
                 gestoreMenu.backEnd();
             }
         } else if ("fruitore".equalsIgnoreCase(tipoUtente)) {
             GestoreAccessoFruitore gestoreAccessoFruitore = new GestoreAccessoFruitore(serviceFactory.getGestoreFruitori());
             Fruitore fruitore = controlloAccesso.login(gestoreAccessoFruitore);
             if (fruitore != null) {
-                GestoreMenu gestoreMenu = serviceFactory.getSistemaGenerale();
+                MenuController gestoreMenu = serviceFactory.getSistemaGenerale();
                 gestoreMenu.frontEnd(fruitore);
             }
         } else {

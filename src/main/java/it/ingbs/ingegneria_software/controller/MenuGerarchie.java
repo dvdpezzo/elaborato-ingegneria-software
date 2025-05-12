@@ -3,7 +3,7 @@ package it.ingbs.ingegneria_software.controller;
 import it.ingbs.ingegneria_software.model.gerarchie.GestoreGerarchie;
 import it.ingbs.ingegneria_software.utilita_generale.MenuUtil;
 
-public class MenuGestoreGerarchie implements Runnable {
+public class MenuGerarchie implements Runnable {
 
     private final GestoreGerarchie gestoreGerarchie;
     private static final String TITOLO_MENU = "Gestione Gerarchie";
@@ -15,7 +15,7 @@ public class MenuGestoreGerarchie implements Runnable {
         "Salva Gerarchie"
     };
 
-    public MenuGestoreGerarchie(GestoreGerarchie gestoreGerarchie) {
+    public MenuGerarchie(GestoreGerarchie gestoreGerarchie) {
         this.gestoreGerarchie = gestoreGerarchie;
     }
 

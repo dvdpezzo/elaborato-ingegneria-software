@@ -9,10 +9,8 @@ import it.ingbs.ingegneria_software.model.richieste.RichiestaScambio;
 import it.ingbs.ingegneria_software.model.utenti.Fruitore;
 import it.ingbs.ingegneria_software.utilita_generale.MenuUtil;
 
-/*
- * NUOVA CLASSE PER LA SUDDIVISIONE DEI COMPITI DEL CONFIGURATORE (Semplificazione della classe Sistema)
- */
-public class GestoreMenu {
+
+public class MenuController {
     
     
     private final String[] vociMenuBackEnd = new String[]{"GESTIONE GERARCHIE","GESTIONE FATTORI CONVERSIONE","GESTIONE COMPRENSORI","GESTIONE RICHIESTE"};
@@ -24,7 +22,7 @@ public class GestoreMenu {
     private final GestoreComprensorio gestoreComprensorio;
     private final GestoreRichieste gestoreRichieste ;   
 
-    public GestoreMenu(GestoreGerarchie gestoreGerarchia, GestoreFattori gestoreFattori, GestoreComprensorio gestoreComprensorio, GestoreRichieste gestoreRichieste) {
+    public MenuController(GestoreGerarchie gestoreGerarchia, GestoreFattori gestoreFattori, GestoreComprensorio gestoreComprensorio, GestoreRichieste gestoreRichieste) {
         this.gestoreGerarchie = gestoreGerarchia;
         this.gestoreFattori = gestoreFattori;
         this.gestoreComprensorio = gestoreComprensorio;
@@ -39,21 +37,21 @@ public class GestoreMenu {
             switch (scelta) {            
 
                 case 1:
-                MenuGestoreGerarchie menuGerarchie = new MenuGestoreGerarchie(this.gestoreGerarchie);
+                MenuGerarchie menuGerarchie = new MenuGerarchie(this.gestoreGerarchie);
                 menuGerarchie.run();
                 break;
 
                 case 2:
-                MenuGestoreFattori menuFattori = new MenuGestoreFattori(this.gestoreFattori);
+                MenuFattori menuFattori = new MenuFattori(this.gestoreFattori);
                 menuFattori.run();
                 break;
 
                 case 3:
-                MenuGestoreComprensorio menuComprensorio = new MenuGestoreComprensorio(this.gestoreComprensorio);
+                MenuComprensorio menuComprensorio = new MenuComprensorio(this.gestoreComprensorio);
                 menuComprensorio.run();
                 break;
                 case 4:
-                MenuGestoreRichieste menuRichieste = new MenuGestoreRichieste(this.gestoreRichieste);
+                MenuRichieste menuRichieste = new MenuRichieste(this.gestoreRichieste);
                 menuRichieste.run();
                 break;
             }

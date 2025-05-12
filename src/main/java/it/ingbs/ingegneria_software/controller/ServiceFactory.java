@@ -17,7 +17,7 @@ public class ServiceFactory {
     private GestoreFattori gestoreFattori;
     private GestoreComprensorio gestoreComprensorio;
     private GestoreRichieste gestoreRichieste;
-    private GestoreMenu sistemaGenerale;
+    private MenuController sistemaGenerale;
 
     /**
      * Costruttore vuoto per inizializzare il Service Locator.
@@ -69,9 +69,9 @@ public class ServiceFactory {
         return gestoreRichieste;
     }
 
-    public GestoreMenu getSistemaGenerale() {
+    public MenuController getSistemaGenerale() {
         if (sistemaGenerale == null) {
-            sistemaGenerale = new GestoreMenu(getGestoreGerarchie(), getGestoreFattori(), getGestoreComprensorio(), getGestoreRichieste());
+            sistemaGenerale = new MenuController(getGestoreGerarchie(), getGestoreFattori(), getGestoreComprensorio(), getGestoreRichieste());
         }
         return sistemaGenerale;
     }

@@ -3,7 +3,7 @@ package it.ingbs.ingegneria_software.controller;
 import it.ingbs.ingegneria_software.model.comprensori.GestoreComprensorio;
 import it.ingbs.ingegneria_software.utilita_generale.MenuUtil;
 
-public class MenuGestoreComprensorio implements Runnable {
+public class MenuComprensorio implements Runnable {
     private final GestoreComprensorio gestoreComprensorio;
     private static final String TITOLO_MENU = "Gestione Comprensori";
     private static final String[] VOCI_MENU = {
@@ -14,7 +14,7 @@ public class MenuGestoreComprensorio implements Runnable {
         "Salva Cambiamenti" 
     };
 
-    public MenuGestoreComprensorio(GestoreComprensorio gestoreComprensorio) {
+    public MenuComprensorio(GestoreComprensorio gestoreComprensorio) {
         this.gestoreComprensorio = gestoreComprensorio;
     }
 

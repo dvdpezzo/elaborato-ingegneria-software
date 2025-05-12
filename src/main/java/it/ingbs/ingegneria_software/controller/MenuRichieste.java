@@ -3,7 +3,7 @@ package it.ingbs.ingegneria_software.controller;
 import it.ingbs.ingegneria_software.model.richieste.GestoreRichieste;
 import it.ingbs.ingegneria_software.utilita_generale.MenuUtil;
 
-public class MenuGestoreRichieste implements Runnable {
+public class MenuRichieste implements Runnable {
     private final GestoreRichieste gestoreRichieste;
     private static final String TITOLO_MENU = "Gestione Richieste";
     private static final String[] VOCI_MENU = {
@@ -11,7 +11,7 @@ public class MenuGestoreRichieste implements Runnable {
         "Visualizza richieste Categoria"
     };
 
-    public MenuGestoreRichieste(GestoreRichieste gestoreRichieste) {
+    public MenuRichieste(GestoreRichieste gestoreRichieste) {
         this.gestoreRichieste = gestoreRichieste;
     }
 
