@@ -84,6 +84,7 @@ public class GestoreFruitori {
         Fruitore newFruitore = new Fruitore(nomeUtente, pass, code, email);
         mappaDatiFruitori.put(newFruitore.getNomeUtente(), newFruitore);
         gestoreDati.setDatiFruitori(mappaDatiFruitori);
+        gestoreDati.setCredenzialiFruitori(mappaCredenziali);
         return newFruitore;
     }
 

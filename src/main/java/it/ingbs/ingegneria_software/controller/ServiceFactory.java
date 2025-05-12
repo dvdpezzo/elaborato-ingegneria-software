@@ -7,6 +7,7 @@ import it.ingbs.ingegneria_software.model.gerarchie.GestoreGerarchie;
 import it.ingbs.ingegneria_software.model.richieste.GestoreRichieste;
 import it.ingbs.ingegneria_software.model.utenti.GestoreConfiguratori;
 import it.ingbs.ingegneria_software.model.utenti.GestoreFruitori;
+import it.ingbs.ingegneria_software.model.utenti.GestoreUtente;
 
 public class ServiceFactory {
 
@@ -17,6 +18,7 @@ public class ServiceFactory {
     private GestoreFattori gestoreFattori;
     private GestoreComprensorio gestoreComprensorio;
     private GestoreRichieste gestoreRichieste;
+    private GestoreUtente gestoreUtente;
     private MenuController sistemaGenerale;
 
     /**
@@ -74,6 +76,13 @@ public class ServiceFactory {
             sistemaGenerale = new MenuController(getGestoreGerarchie(), getGestoreFattori(), getGestoreComprensorio(), getGestoreRichieste());
         }
         return sistemaGenerale;
+    }
+
+    public GestoreUtente getGestoreUtente() {
+        if (gestoreUtente == null) {
+            gestoreUtente = new GestoreUtente(gestoreDati);
+        }
+        return gestoreUtente;
     }
 
 }

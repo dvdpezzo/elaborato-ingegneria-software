@@ -1,14 +1,19 @@
 package it.ingbs.ingegneria_software.gestione_accesso;
 
+import it.ingbs.ingegneria_software.controller.ServiceFactory;
 import it.ingbs.ingegneria_software.model.utenti.Fruitore;
 import it.ingbs.ingegneria_software.model.utenti.GestoreFruitori;
+import it.ingbs.ingegneria_software.model.utenti.GestoreUtente;
 import it.ingbs.ingegneria_software.utilita_generale.InputDati;
 
 public class GestoreAccessoFruitore implements GestoreAccessoUtente<Fruitore> {
+    
     private final GestoreFruitori gestoreFruitori;
+    private final ServiceFactory serviceFactory;
 
-    public GestoreAccessoFruitore(GestoreFruitori gestoreFruitori) {
-        this.gestoreFruitori = gestoreFruitori;
+    public GestoreAccessoFruitore(ServiceFactory serviceFactory) {
+        this.serviceFactory = serviceFactory;
+        this.gestoreFruitori = serviceFactory.getGestoreFruitori();
     }
 
     @Override
@@ -31,7 +36,8 @@ public class GestoreAccessoFruitore implements GestoreAccessoUtente<Fruitore> {
     @Override
     public Fruitore registrazioneNuovoUtente() {
         System.out.println("Sei stato reindirizzato alla creazione del tuo Nome utente e Password personali:");
-        return gestoreFruitori.creaUtenteFruitore(gestoreComprensori, gestoreUtenti);
+        GestoreUtente gestoreUtente = serviceFactory.getGestoreUtente();
+        return gestoreFruitori.creaUtenteFruitore(serviceFactory.getGestoreComprensorio(), gestoreUtente);
     }
 
     private boolean controlloEsistenzaFruitore(String nomeUtente, String pass) {

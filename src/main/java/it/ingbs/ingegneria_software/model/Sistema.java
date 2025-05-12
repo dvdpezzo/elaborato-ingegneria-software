@@ -67,14 +67,14 @@ public class Sistema {
     public void mostraMenu(String tipoUtente) {
         ControlloAccesso controlloAccesso = new ControlloAccesso();
         if ("configuratore".equalsIgnoreCase(tipoUtente)) {
-            GestoreAccessoConfiguratore gestoreAccessoConfiguratore = new GestoreAccessoConfiguratore(serviceFactory.getGestoreConfiguratori());
+            GestoreAccessoConfiguratore gestoreAccessoConfiguratore = new GestoreAccessoConfiguratore(serviceFactory);
             Configuratore configuratore = controlloAccesso.login(gestoreAccessoConfiguratore);
             if (configuratore != null) {
                 MenuController gestoreMenu = serviceFactory.getSistemaGenerale();
                 gestoreMenu.backEnd();
             }
         } else if ("fruitore".equalsIgnoreCase(tipoUtente)) {
-            GestoreAccessoFruitore gestoreAccessoFruitore = new GestoreAccessoFruitore(serviceFactory.getGestoreFruitori());
+            GestoreAccessoFruitore gestoreAccessoFruitore = new GestoreAccessoFruitore(serviceFactory);
             Fruitore fruitore = controlloAccesso.login(gestoreAccessoFruitore);
             if (fruitore != null) {
                 MenuController gestoreMenu = serviceFactory.getSistemaGenerale();

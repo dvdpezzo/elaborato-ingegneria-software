@@ -3,16 +3,23 @@ package it.ingbs.ingegneria_software.model.utenti;
 
 import java.util.ArrayList;
 
+import it.ingbs.ingegneria_software.gestione_file.GestoreDati;
+
 public class GestoreUtente {
 
     private static final String MSG_ERORE_NOME_UTENTE = "Nome Utente già Utilizzato, si prega di inserire un altro";
     //mappa che contiene configuratori e fruitori con il loro nome utente 
-    private final ArrayList<String> elencoNomi;
+    private ArrayList<String> elencoNomi = new ArrayList<>();
 
-    public GestoreUtente(ArrayList<String> elencoNomi) {
-        this.elencoNomi = elencoNomi;
+    public GestoreUtente(GestoreDati gestoreDati) {
+        this.elencoNomi = riempiElencoNomi(gestoreDati);
     }
-    
+
+    private ArrayList<String> riempiElencoNomi(GestoreDati gestoreDati) {
+        gestoreDati.getCredenzialiConfiguratori().forEach((k, v) -> elencoNomi.add(k));
+        gestoreDati.getCredenzialiFruitori().forEach((k, v) -> elencoNomi.add(k));
+        return elencoNomi;
+    }    
 
     /**
      * Aggiungo un utente alla mappa 
