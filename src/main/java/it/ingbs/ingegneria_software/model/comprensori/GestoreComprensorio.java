@@ -100,7 +100,13 @@ public class GestoreComprensorio implements UtilityHandler {
                 ComprensorioGeografico comprensorio = getComprensorio(codiceComprensorio);
                 if (comprensorio != null) {
                     try {
-                        comprensorio.aggiungiComuneNuovo(InputDati.leggiStringa(INSERISCI_IL_NOME_DEL_COMUNE));
+                        String nomeComune = InputDati.leggiStringa(INSERISCI_IL_NOME_DEL_COMUNE);
+                        if (comprensorio.getGestoreComuni().controlloComuni(nomeComune)) {
+                            comprensorio.aggiungiComuneNuovo(nomeComune);
+                        }
+                        else{
+                            System.out.println("Comune non trovato!");
+                        }                        
                     } catch (IOException e) {
                         System.out.println("Errore durante l'aggiunta del comune: " + e.getMessage());
                     }

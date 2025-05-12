@@ -30,8 +30,8 @@ public class GestoreComuni implements UtilityHandler {
      * @param comune il comune da controllare
      * @return true se il comune è già presente, false altrimenti
      */
-    public boolean controlloComuni(Comune comune) {
-        return mappaComuni.containsValue(comune.getNome().toUpperCase());
+    public boolean controlloComuni(String comune) {
+        return mappaComuni.containsValue(comune.toUpperCase());
     }
 
     /**
@@ -98,7 +98,7 @@ public class GestoreComuni implements UtilityHandler {
      * @param numeroComune il numero del comune da rimuovere
      * @return true se il comune è stato rimosso, false altrimenti
      */
-    public boolean rimuoviComune(int numeroComune) {
+    private boolean rimuoviComune(int numeroComune) {
         if (mappaComuni.containsKey(numeroComune)) {
             mappaComuni.remove(numeroComune);
             return true;
@@ -117,6 +117,7 @@ public class GestoreComuni implements UtilityHandler {
 
     @Override
     public void rimuovi() {
+        view();
         int numeroComune = InputDati.leggiIntero("Inserisci il numero del comune da rimuovere:");
         if (rimuoviComune(numeroComune)) {
             System.out.println("Comune rimosso con successo.");

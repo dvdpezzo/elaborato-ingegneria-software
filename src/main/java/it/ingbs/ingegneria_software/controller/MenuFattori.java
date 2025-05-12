@@ -28,7 +28,7 @@ public class MenuFattori implements Runnable {
             scelta = menuFattori.scegli();
             switch (scelta) {
                 case 1:
-                    gestoreGerarchie.view();
+                    gestoreFattori.viewGerarchie();
                     break;
                 case 2:
                     gestoreFattori.aggiungi();

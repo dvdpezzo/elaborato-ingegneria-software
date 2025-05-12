@@ -2,6 +2,7 @@ package it.ingbs.ingegneria_software.controller;
 
 import it.ingbs.ingegneria_software.gestione_file.GestoreDati;
 import it.ingbs.ingegneria_software.model.comprensori.GestoreComprensorio;
+import it.ingbs.ingegneria_software.model.comprensori.GestoreComuni;
 import it.ingbs.ingegneria_software.model.fattori.GestoreFattori;
 import it.ingbs.ingegneria_software.model.gerarchie.GestoreGerarchie;
 import it.ingbs.ingegneria_software.model.richieste.GestoreRichieste;
@@ -19,6 +20,7 @@ public class ServiceProvider {
     private GestoreComprensorio gestoreComprensorio;
     private GestoreRichieste gestoreRichieste;
     private GestoreUtente gestoreUtente;
+    private GestoreComuni gestoreComuni;
     private UserMenuController sistemaGenerale;
 
     /**
@@ -73,7 +75,7 @@ public class ServiceProvider {
 
     public UserMenuController getSistemaGenerale() {
         if (sistemaGenerale == null) {
-            sistemaGenerale = new UserMenuController(getGestoreGerarchie(), getGestoreFattori(), getGestoreComprensorio(), getGestoreRichieste());
+            sistemaGenerale = new UserMenuController(this);
         }
         return sistemaGenerale;
     }
@@ -83,6 +85,13 @@ public class ServiceProvider {
             gestoreUtente = new GestoreUtente(gestoreDati);
         }
         return gestoreUtente;
+    }
+
+    public GestoreComuni getGestoreComuni() {
+        if (gestoreComuni == null) {
+            gestoreComuni = new GestoreComuni(gestoreDati);
+        }
+        return gestoreComuni;
     }
 
 }

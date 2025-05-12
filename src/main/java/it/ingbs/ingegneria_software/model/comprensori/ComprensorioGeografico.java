@@ -38,6 +38,11 @@ public class ComprensorioGeografico {
     public void setGestoreComuni(GestoreComuni gestoreComuni) {
         this.gestoreComuni = gestoreComuni;
     }
+
+    public GestoreComuni getGestoreComuni() {
+        return gestoreComuni;
+    }
+
     /**
      * Analizza una rappresentazione di stringa di un elenco di comuni in una List<String>.
      *
@@ -72,9 +77,6 @@ public class ComprensorioGeografico {
     public void aggiungiComuneNuovo(String nomeComune) throws IOException {
         if (!listaComuni.contains(nomeComune.toUpperCase())) {
             listaComuni.add(nomeComune.toUpperCase());
-            int numero = gestoreComuni.getLastNumero()+1;
-            gestoreComuni.aggiungiComune(new Comuni(nomeComune.toUpperCase(), numero)); //aggiungo il comune all'elenco dei comuni e lo visualizzo per verifica. 
-            gestoreComuni.scriviComuni();
             System.out.println(String.format(COMUNE_AGGIUNTO_CON_SUCCESSO_AL_COMPRENSORIO, nomeComune, getCodice()));
         } else {
             System.out.println(COMUNE_GIA_PRESENTE_NEL_COMPRENSORIO_GEOGRAFICO);
@@ -111,5 +113,6 @@ public class ComprensorioGeografico {
         ComprensorioGeografico other = (ComprensorioGeografico) obj;
         return this.listaComuni.equals(other.listaComuni);
     }
+
 
 }

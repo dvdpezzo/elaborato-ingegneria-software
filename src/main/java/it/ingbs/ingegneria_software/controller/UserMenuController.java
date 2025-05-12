@@ -2,6 +2,7 @@ package it.ingbs.ingegneria_software.controller;
 
 
 import it.ingbs.ingegneria_software.model.comprensori.GestoreComprensorio;
+import it.ingbs.ingegneria_software.model.comprensori.GestoreComuni;
 import it.ingbs.ingegneria_software.model.fattori.GestoreFattori;
 import it.ingbs.ingegneria_software.model.gerarchie.GestoreGerarchie;
 import it.ingbs.ingegneria_software.model.richieste.GestoreRichieste;
@@ -13,7 +14,7 @@ import it.ingbs.ingegneria_software.utilita_generale.MenuUtil;
 public class UserMenuController {
     
     
-    private final String[] vociMenuBackEnd = new String[]{"GESTIONE GERARCHIE","GESTIONE FATTORI CONVERSIONE","GESTIONE COMPRENSORI","GESTIONE RICHIESTE"};
+    private final String[] vociMenuBackEnd = new String[]{"GESTIONE GERARCHIE","GESTIONE FATTORI CONVERSIONE","GESTIONE COMPRENSORI","GESTIONE RICHIESTE","GESTIONE COMUNI"};
     private final String[] vociMenuFrontEnd = new String[]{"Visualizza Gerarchie","Effettua una richiesta","Visualizza richieste","Ritira una richiesta"};      
     private final MenuUtil menuBackEnd = new MenuUtil("MENU BACK-END:", vociMenuBackEnd);
     private final MenuUtil menuFrontEnd = new MenuUtil("MENU FRONT END",vociMenuFrontEnd);
@@ -21,12 +22,15 @@ public class UserMenuController {
     private final GestoreFattori gestoreFattori;
     private final GestoreComprensorio gestoreComprensorio;
     private final GestoreRichieste gestoreRichieste ;   
+    private final GestoreComuni gestoreComuni;
 
-    public UserMenuController(GestoreGerarchie gestoreGerarchia, GestoreFattori gestoreFattori, GestoreComprensorio gestoreComprensorio, GestoreRichieste gestoreRichieste) {
-        this.gestoreGerarchie = gestoreGerarchia;
-        this.gestoreFattori = gestoreFattori;
-        this.gestoreComprensorio = gestoreComprensorio;
-        this.gestoreRichieste = gestoreRichieste;
+    public UserMenuController(ServiceProvider serviceFactory) {
+        this.gestoreGerarchie = serviceFactory.getGestoreGerarchie();
+        this.gestoreFattori = serviceFactory.getGestoreFattori();
+        this.gestoreComprensorio = serviceFactory.getGestoreComprensorio();
+        this.gestoreRichieste = serviceFactory.getGestoreRichieste();
+        this.gestoreComuni = serviceFactory.getGestoreComuni();
+        
         
     }
    
@@ -50,9 +54,15 @@ public class UserMenuController {
                 MenuComprensorio menuComprensorio = new MenuComprensorio(this.gestoreComprensorio);
                 menuComprensorio.run();
                 break;
+
                 case 4:
                 MenuRichieste menuRichieste = new MenuRichieste(this.gestoreRichieste);
                 menuRichieste.run();
+                break;
+
+                case 5:
+                MenuComuni menuComuni = new MenuComuni(this.gestoreComuni);
+                menuComuni.run();
                 break;
             }
         }while(scelta!=0);

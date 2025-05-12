@@ -198,4 +198,8 @@ public class GestoreFattori implements UtilityHandler {
         gestoreDati.setFattori(mappaFattori);
         System.out.println(FATTORI_CONVERSIONE_SALVATI);
     }
+
+    public void viewGerarchie() {
+        gestoreGerarchie.view();
+    }
 }

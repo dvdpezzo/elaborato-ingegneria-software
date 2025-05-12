@@ -11,7 +11,7 @@ public class MenuComprensorio implements Runnable {
         "Aggiungi comune al comprensorio:",
         "Aggiungi Comprensorio", 
         "Rimuovi Comprensorio", 
-        "Salva Cambiamenti" 
+        "Salva Cambiamenti",
     };
 
     public MenuComprensorio(GestoreComprensorio gestoreComprensorio) {
@@ -27,7 +27,7 @@ public class MenuComprensorio implements Runnable {
             scelta = menuComprensorio.scegli();
             switch (scelta) {
                 case 1:
-                    gestoreComprensorio.view();
+                gestoreComprensorio.view();
                     break;
                 case 2:
                 gestoreComprensorio.aggiungiComuneAlComprensorio();
