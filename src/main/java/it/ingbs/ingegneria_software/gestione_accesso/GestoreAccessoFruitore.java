@@ -31,7 +31,7 @@ public class GestoreAccessoFruitore implements GestoreAccessoUtente<Fruitore> {
     @Override
     public Fruitore registrazioneNuovoUtente() {
         System.out.println("Sei stato reindirizzato alla creazione del tuo Nome utente e Password personali:");
-        return gestoreFruitori.creaUtenteFruitore();
+        return gestoreFruitori.creaUtenteFruitore(gestoreComprensori, gestoreUtenti);
     }
 
     private boolean controlloEsistenzaFruitore(String nomeUtente, String pass) {

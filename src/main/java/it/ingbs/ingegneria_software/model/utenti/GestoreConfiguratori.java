@@ -10,7 +10,7 @@ import it.ingbs.ingegneria_software.utilita_generale.InputDati;
 public class GestoreConfiguratori {
 
     private Map<String, Configuratore> mappaConfiguratori = new HashMap<>();
-    private GestoreDati gestoreDati;
+    private final GestoreDati gestoreDati;
 
     public GestoreConfiguratori(GestoreDati gestoreDati) {
         this.gestoreDati = gestoreDati;
@@ -54,6 +54,11 @@ public class GestoreConfiguratori {
         String passwordUtente = InputDati.leggiStringaNonVuota("Inserire password: ");
         Configuratore newUtente = new Configuratore(nomeUtente, passwordUtente);
         mappaConfiguratori.put(newUtente.getNomeUtente(), newUtente);
+        HashMap<String, String> credenzialiMap = new HashMap<>();
+        for (Map.Entry<String, Configuratore> entry : mappaConfiguratori.entrySet()) {
+            credenzialiMap.put(entry.getKey(), entry.getValue().getPassword());
+        }
+        gestoreDati.setCredenzialiConfiguratori(credenzialiMap);
         return newUtente;        
     }
 

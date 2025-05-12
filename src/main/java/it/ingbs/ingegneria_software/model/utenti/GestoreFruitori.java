@@ -17,29 +17,22 @@ public class GestoreFruitori {
     private static final String MSG_COD_COMPRENSORIO = "Inserisci il codice del tuo comprensorio:";
     private final HashMap<String,Fruitore> mappaDatiFruitori;
     private final HashMap<String,String> mappaCredenziali;
-    private GestoreComprensorio gestoreComprensorio;
-    private final GestoreUtente gestoreUtente;
     private final GestoreDati gestoreDati;
     
             
     /**
-     * Non posso prendre una mappa ma i dati del fruitore
+     * Non posso prendere una mappa ma i dati del fruitore
      * @param gestoreCredenziali
      */
-    public GestoreFruitori(GestoreUtente gestoreUtente, GestoreDati gestoreDati, GestoreComprensorio gestoreComprensorio) {
+    public GestoreFruitori(GestoreDati gestoreDati) {
         this.gestoreDati = gestoreDati;
-        this.gestoreComprensorio = gestoreComprensorio;
         this.mappaCredenziali = gestoreDati.getCredenzialiFruitori();
         this.mappaDatiFruitori = gestoreDati.getDatiFruitori();
-        this.gestoreUtente = gestoreUtente;
-
     }          
         
     public HashMap<String, String> getMappaCredenziali() {
         return mappaCredenziali;
     }
-
-
 
     /*
      * aggiunge i dati relativi ad un fruitore alla Mappa dei dati (MappaFruitori)
@@ -56,15 +49,13 @@ public class GestoreFruitori {
             System.out.println("Utente:"); 
             f.infoFruitore();
         }
-        }
+    }
 
     /**
-     * 
-     * OSS: Devo aggiungere il controllo sul nome utente a livello globale  
      * creo un nuovo frutiore
      * @return il fruitore creato 
      */
-    public Fruitore creaUtenteFruitore() {
+    public Fruitore creaUtenteFruitore(GestoreComprensorio gestoreComprensorio, GestoreUtente gestoreUtente) {
         gestoreComprensorio.visualizzaComprensori();
         ComprensorioGeografico comprensorio;
         int code;

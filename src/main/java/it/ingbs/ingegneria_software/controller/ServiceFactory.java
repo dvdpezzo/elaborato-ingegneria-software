@@ -5,10 +5,14 @@ import it.ingbs.ingegneria_software.model.comprensori.GestoreComprensorio;
 import it.ingbs.ingegneria_software.model.fattori.GestoreFattori;
 import it.ingbs.ingegneria_software.model.gerarchie.GestoreGerarchie;
 import it.ingbs.ingegneria_software.model.richieste.GestoreRichieste;
+import it.ingbs.ingegneria_software.model.utenti.GestoreConfiguratori;
+import it.ingbs.ingegneria_software.model.utenti.GestoreFruitori;
 
 public class ServiceFactory {
 
-    private GestoreDati gestoreDati;
+    private final GestoreDati gestoreDati;
+    private GestoreConfiguratori gestoreConfiguratori;
+    private GestoreFruitori gestoreFruitori;
     private GestoreGerarchie gestoreGerarchie;
     private GestoreFattori gestoreFattori;
     private GestoreComprensorio gestoreComprensorio;
@@ -21,6 +25,20 @@ public class ServiceFactory {
      */
     public ServiceFactory(GestoreDati gestoreDati) {
         this.gestoreDati = gestoreDati;
+    }
+
+    public GestoreConfiguratori getGestoreConfiguratori() {
+        if (gestoreConfiguratori == null) {
+            gestoreConfiguratori = new GestoreConfiguratori(gestoreDati);
+        }
+        return gestoreConfiguratori;
+    }
+
+    public GestoreFruitori getGestoreFruitori() {
+        if (gestoreFruitori == null) {
+            gestoreFruitori = new GestoreFruitori(gestoreDati);
+        }
+        return gestoreFruitori;
     }
 
     public GestoreGerarchie getGestoreGerarchie() {

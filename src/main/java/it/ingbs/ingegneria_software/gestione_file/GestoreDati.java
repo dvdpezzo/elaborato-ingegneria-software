@@ -13,6 +13,8 @@ import it.ingbs.ingegneria_software.model.utenti.Fruitore;
 
 //classe contenente tutti i dati run-time
 public class GestoreDati {
+
+    private static GestoreDati instance;
     private HashMap<Integer, String> comuni;
     private HashMap<Integer, ComprensorioGeografico> comprensori;
     private HashMap<String, Gerarchia> gerarchie;
@@ -23,7 +25,7 @@ public class GestoreDati {
     private HashMap<Fruitore, List<RichiestaScambio>> richieste;
     private final HashMap<String, Categoria> categorie;
 
-    public GestoreDati() {
+    private GestoreDati() {
         this.comuni = new HashMap<>();
         this.comprensori = new HashMap<>();
         this.gerarchie = new HashMap<>();
@@ -33,6 +35,13 @@ public class GestoreDati {
         this.fattori = new HashMap<>();
         this.richieste = new HashMap<>();
         this.categorie = new HashMap<>();
+    }
+
+    public static GestoreDati getInstance() {
+        if (instance == null) {
+            instance = new GestoreDati();
+        }
+        return instance;
     }
 
     public HashMap<Integer, String> getComuni() {

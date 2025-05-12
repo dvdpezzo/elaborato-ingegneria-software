@@ -1,3 +1,19 @@
+Fruitore: luca
+Richiesta: [FRANCESE BASE,10]
+Offerta: [INGLESE BASE,10]
+Stato: Chiuso
+Richiesta: [ECOLOGIA,3]
+Offerta: [GENETICA,1]
+Stato: Ritirato
+Richiesta: [CHITARRA,9]
+Offerta: [VIOLINO,4]
+Stato: Aperto
+Richiesta: [CHITARRA,5]
+Offerta: [VIOLINO,2]
+Stato: Aperto
+Richiesta: [CHITARRA,2]
+Offerta: [INGLESE BASE,4]
+Stato: Aperto
 Fruitore: Franco12
 Richiesta: [FRANCESE AVANZATO,10]
 Offerta: [FRANCESE BASE,10]
@@ -16,22 +32,6 @@ Offerta: [ALGEBRA LINEARE,1]
 Stato: Aperto
 Richiesta: [ALGEBRA ASTRATTA,5]
 Offerta: [ALGEBRA LINEARE,2]
-Stato: Aperto
-Fruitore: luca
-Richiesta: [FRANCESE BASE,10]
-Offerta: [INGLESE BASE,10]
-Stato: Chiuso
-Richiesta: [ECOLOGIA,3]
-Offerta: [GENETICA,1]
-Stato: Ritirato
-Richiesta: [CHITARRA,9]
-Offerta: [VIOLINO,4]
-Stato: Aperto
-Richiesta: [CHITARRA,5]
-Offerta: [VIOLINO,2]
-Stato: Aperto
-Richiesta: [CHITARRA,2]
-Offerta: [INGLESE BASE,4]
 Stato: Aperto
 Fruitore: Lu
 Richiesta: [GENETICA,10]

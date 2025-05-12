@@ -26,7 +26,7 @@ public class GestoreFile {
     private final GestoreFileRichieste gestoreFileRichieste = new GestoreFileRichieste(FILE_RICHIESTE);
     private final GestoreFileFattori gestoreFileFattori = new GestoreFileFattori(FILE_FATTORI);
 
-    private final GestoreDati gestoreDati = new GestoreDati();
+    private final GestoreDati gestoreDati = GestoreDati.getInstance();
 
     private boolean isFileEmpty(File file) {
         return file.length() == 0;
