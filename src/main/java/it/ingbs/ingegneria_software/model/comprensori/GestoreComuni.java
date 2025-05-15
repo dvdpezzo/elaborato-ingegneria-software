@@ -93,14 +93,31 @@ public class GestoreComuni implements UtilityHandler {
     }
 
     /**
-     * Rimuove un comune dalla lista dei comuni.
+     * Rimuove un comune dalla lista dei comuni e aggiorna i numeri dei restanti comuni.
      *
      * @param numeroComune il numero del comune da rimuovere
      * @return true se il comune è stato rimosso, false altrimenti
      */
     private boolean rimuoviComune(int numeroComune) {
         if (mappaComuni.containsKey(numeroComune)) {
+            // Rimuove il comune specificato
             mappaComuni.remove(numeroComune);
+
+            // Crea una nuova mappa temporanea per riassegnare i numeri
+            HashMap<Integer, String> nuovaMappaComuni = new HashMap<>();
+            int nuovoNumero = 1;
+
+            // Riassegna i numeri in ordine crescente
+            for (Map.Entry<Integer, String> entry : mappaComuni.entrySet()) {
+                nuovaMappaComuni.put(nuovoNumero++, entry.getValue());
+            }
+
+            // Sostituisce la vecchia mappa con la nuova
+            mappaComuni.clear();
+            mappaComuni.putAll(nuovaMappaComuni);
+
+            // Salva i dati dopo la rimozione
+            gestoreDati.setComuni(mappaComuni);
             return true;
         } else {
             System.out.println(ERRORE_COMUNE_NON_TROVATO);
