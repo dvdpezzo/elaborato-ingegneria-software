@@ -53,6 +53,7 @@ public class Categoria implements Component {
         return this.padre;
     }
 
+    @Override
     public void setPadre(Categoria padre) {
         this.padre = padre;
     }

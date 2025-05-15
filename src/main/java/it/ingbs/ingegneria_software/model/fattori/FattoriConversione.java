@@ -1,24 +1,24 @@
 package it.ingbs.ingegneria_software.model.fattori;
 
-import it.ingbs.ingegneria_software.model.gerarchie.Categoria;
+import it.ingbs.ingegneria_software.model.gerarchie.CategoriaFoglia;
 
 public class FattoriConversione {
     
-    private final Categoria categoria1;
-    private final Categoria categoria2;
+    private final CategoriaFoglia catOfferta ;
+    private final CategoriaFoglia catRichiesta ;
     private final double valoreConversione;
 
     /**
      * Costruttore della classe FattoriConversione.
      * 
      * @param valoreConversione il valore del fattore di conversione
-     * @param categoriaFoglia1 la prima categoria foglia
+     * @param catOfferta la prima categoria foglia
      * @param categoriaFoglia2 la seconda categoria foglia
      */
-    public FattoriConversione(double valoreConversione, Categoria categoriaFoglia1, Categoria categoriaFoglia2) {
+    public FattoriConversione(double valoreConversione, CategoriaFoglia catOfferta, CategoriaFoglia catRichiesta ) {
         this.valoreConversione = valoreConversione;
-        this.categoria1 = categoriaFoglia1;
-        this.categoria2 = categoriaFoglia2;
+        this.catOfferta = catOfferta;
+        this.catRichiesta = catRichiesta;
     }
 
     /**
@@ -26,8 +26,8 @@ public class FattoriConversione {
      * 
      * @return la prima categoria
      */
-    public Categoria getCategoria1() {
-        return categoria1;
+    public CategoriaFoglia getCategoriaOfferta() {
+        return catOfferta;
     }
 
     /**
@@ -35,8 +35,8 @@ public class FattoriConversione {
      * 
      * @return la seconda categoria
      */
-    public Categoria getCategoria2() {
-        return categoria2;
+    public CategoriaFoglia getCategoriaRichiesta() {
+        return catRichiesta;
     }
 
     /**
