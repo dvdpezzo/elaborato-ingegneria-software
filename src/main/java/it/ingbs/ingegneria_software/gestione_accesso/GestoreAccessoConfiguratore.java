@@ -12,7 +12,6 @@ public class GestoreAccessoConfiguratore implements GestoreAccessoUtente<Configu
         this.gestoreConfiguratori = serviceFactory.getGestoreConfiguratori();
     }
 
-
     /**
      * Permette l'accesso al configuratore.
      * @param nomeUtente Nome utente del configuratore.

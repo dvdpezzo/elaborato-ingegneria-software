@@ -8,7 +8,6 @@ import java.util.Map;
 import java.util.Random;
 import java.util.Set;
 
-import it.ingbs.ingegneria_software.Eccezioni.CategoriaNotFoundException;
 import it.ingbs.ingegneria_software.gestione_file.GestoreDati;
 import it.ingbs.ingegneria_software.model.gerarchie.Categoria;
 import it.ingbs.ingegneria_software.model.gerarchie.Gerarchia;
@@ -129,13 +128,9 @@ public class GestoreRichieste implements UtilityHandler{
         Categoria catCercata = null;
         String nomeRichiesta = InputDati.leggiStringaNonVuota("Inserisci il nome della categoria di cui hai bisogno").toUpperCase();
         for (Map.Entry<String, Gerarchia> gerarchia :gestoreDati.getGerarchie().entrySet()) {
-            try {
-                catCercata = gerarchia.getValue().getCategoria(nomeRichiesta);
-                if (catCercata != null) {
-                    break;
-                }
-            } catch (CategoriaNotFoundException ex) {
-                ex.printStackTrace();
+            catCercata = gerarchia.getValue().getCategoriaByName(nomeRichiesta);
+            if (catCercata != null) {
+                break;
             }
         }        
         return catCercata;

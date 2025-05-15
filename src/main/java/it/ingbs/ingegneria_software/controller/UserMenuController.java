@@ -14,9 +14,9 @@ public class UserMenuController {
     
     
     private final String[] vociMenuBackEnd = new String[]{"GESTIONE GERARCHIE","GESTIONE FATTORI CONVERSIONE","GESTIONE COMPRENSORI","GESTIONE RICHIESTE","GESTIONE COMUNI"};
-    private final String[] vociMenuFrontEnd = new String[]{"Visualizza Gerarchie","Effettua una richiesta","Visualizza richieste","Ritira una richiesta"};      
-    private final MenuUtil menuBackEnd = new MenuUtil("MENU BACK-END:", vociMenuBackEnd);
-    private final MenuUtil menuFrontEnd = new MenuUtil("MENU FRONT END",vociMenuFrontEnd);
+    private final String[] vociMenuFrontEnd = new String[]{"VISUALIZZA GERARCHIE","EFFETTUA UNA RICHIESTA","VISUALIZZA RICHIESTE","RITIRA UNA RICHIESTA"};      
+    private final MenuUtil menuBackEnd = new MenuUtil("MENU CONFIGURATORE:", vociMenuBackEnd);
+    private final MenuUtil menuFrontEnd = new MenuUtil("MENU FRUITORE",vociMenuFrontEnd);
     private final GestoreGerarchie gestoreGerarchie ;
     private final GestoreFattori gestoreFattori;
     private final GestoreComprensorio gestoreComprensorio;
@@ -28,9 +28,7 @@ public class UserMenuController {
         this.gestoreFattori = serviceFactory.getGestoreFattori();
         this.gestoreComprensorio = serviceFactory.getGestoreComprensorio();
         this.gestoreRichieste = serviceFactory.getGestoreRichieste();
-        this.gestoreComuni = serviceFactory.getGestoreComuni();
-        
-        
+        this.gestoreComuni = serviceFactory.getGestoreComuni();        
     }
    
     public void backEnd () {
@@ -74,7 +72,7 @@ public class UserMenuController {
      */
 
     public void frontEnd(Fruitore fruitore) {
-        gestoreRichieste.setFruitore(fruitore); // Imposta il fruitore corrente
+        gestoreRichieste.setFruitore(fruitore);
         int scelta;
         do {
             scelta = menuFrontEnd.scegli();

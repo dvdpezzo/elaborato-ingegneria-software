@@ -30,8 +30,7 @@ public class GestoreAccessoFruitore implements GestoreAccessoUtente<Fruitore> {
                 return null;
             }
         } 
-    }
-    
+    }    
 
     @Override
     public Fruitore registrazioneNuovoUtente() {
