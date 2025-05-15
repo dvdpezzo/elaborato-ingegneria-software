@@ -93,6 +93,21 @@ public class GestoreComuni implements UtilityHandler {
     }
 
     /**
+     * Verifica se un comune è presente in un comprensorio geografico.
+     *
+     * @param nomeComune il nome del comune da verificare
+     * @return true se il comune è presente in un comprensorio, false altrimenti
+     */
+    private boolean isComuneInComprensorio(String nomeComune) {
+        for (ComprensorioGeografico comprensorio : gestoreDati.getComprensori().values()) {
+            if (comprensorio.getListaComuni().contains(nomeComune)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
      * Rimuove un comune dalla lista dei comuni e aggiorna i numeri dei restanti comuni.
      *
      * @param numeroComune il numero del comune da rimuovere
@@ -100,6 +115,14 @@ public class GestoreComuni implements UtilityHandler {
      */
     private boolean rimuoviComune(int numeroComune) {
         if (mappaComuni.containsKey(numeroComune)) {
+            String nomeComune = mappaComuni.get(numeroComune);
+
+            // Verifica se il comune è presente in un comprensorio geografico
+            if (isComuneInComprensorio(nomeComune)) {
+                System.out.println("Errore: Il comune è presente in un comprensorio geografico e non può essere eliminato.");
+                return false;
+            }
+
             // Rimuove il comune specificato
             mappaComuni.remove(numeroComune);
 
