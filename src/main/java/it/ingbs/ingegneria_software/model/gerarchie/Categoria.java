@@ -229,6 +229,7 @@ public class Categoria implements Component {
         return sb.toString();
     }
 
+    
 }
 
 class Campo {

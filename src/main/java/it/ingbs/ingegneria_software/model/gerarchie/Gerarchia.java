@@ -1,5 +1,8 @@
 package it.ingbs.ingegneria_software.model.gerarchie;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import it.ingbs.ingegneria_software.Eccezioni.CategoriaNotFoundException;
 import it.ingbs.ingegneria_software.Eccezioni.IllegalCampoException;
 import it.ingbs.ingegneria_software.utilita_generale.InputDati;
@@ -17,8 +20,9 @@ public class Gerarchia implements UtilityHandler {
     private static final String VUOI_AGGIUNGERE_UNA_DESCRIZIONE = "Vuoi aggiungere una descrizione?";
     private static final String ERRORE_MODIFICA_CATEGORIA_INESISTENTE = "ERRORE: si sta tentando di modificare una categoria inesistente";
 
-
     private final Categoria categoriaRadice;
+    private List<CategoriaFoglia> categorieFoglia = new ArrayList<>();
+    private List<Component> categorie = new ArrayList<>();
 
     /**
      * Costruttore della Gerarchia
@@ -46,9 +50,8 @@ public class Gerarchia implements UtilityHandler {
         return categoriaRadice.toString(0);
     }
 
-     /**
+    /**
      * Aggiunge una categoria alla gerarchia.
-     *
      */
     @Override
     public void aggiungi() {
@@ -59,13 +62,22 @@ public class Gerarchia implements UtilityHandler {
                     ? InputDati.leggiStringaNonVuota(DESCRIZIONE_CATEGORIA)
                     : " ";
             String nomePadre = InputDati.leggiStringaNonVuota(CHI_E_IL_PADRE);
+            boolean isFoglia = InputDati.yesOrNo("La categoria è una foglia?");
+
             try {
-                Categoria padre;
-                padre = this.getCategoriaRadice().cercaCategoria(nomePadre);
-                
-                Categoria nuovaCategoria = new Categoria(nomeCategoria, descrizioneCategoria);
+                Categoria padre = this.getCategoriaRadice().cercaCategoria(nomePadre);
+                Categoria nuovaCategoria;
+
+                if (isFoglia) {
+                    nuovaCategoria = new CategoriaFoglia(nomeCategoria, descrizioneCategoria);
+                    categorieFoglia.add((CategoriaFoglia) nuovaCategoria);
+                } else {
+                    nuovaCategoria = new Categoria(nomeCategoria, descrizioneCategoria);
+                }
+
                 padre.addFiglio(nuovaCategoria);
                 System.out.printf((CATEGORIA_S_AGGIUNTA) + "%n", nomeCategoria);
+
             } catch (CategoriaNotFoundException e) {
                 System.out.println(e.getMessage());
             }
@@ -81,6 +93,14 @@ public class Gerarchia implements UtilityHandler {
         System.out.println(this.toString());
         String nomeCategoria = InputDati.leggiStringaNonVuota(CATEGORIA_DA_ELIMINARE);
         try {
+            Categoria categoriaDaRimuovere = this.getCategoriaRadice().cercaCategoria(nomeCategoria);
+
+            if (categoriaDaRimuovere instanceof CategoriaFoglia) {
+                categorieFoglia.remove((CategoriaFoglia) categoriaDaRimuovere);
+                // Logica per rimuovere i fattori associati alla categoria foglia
+                // ...aggiungi qui il codice per rimuovere i fattori...
+            }
+
             this.getCategoriaRadice().rimuoviCategoria(nomeCategoria);
             System.out.printf((CATEGORIA_S_RIMOSSA) + "%n", nomeCategoria);
         } catch (CategoriaNotFoundException e) {
@@ -101,7 +121,7 @@ public class Gerarchia implements UtilityHandler {
     /**
      * Per le modifiche relative ai campi della categoria
      */
-    public void modificaCampiCategoria(){
+    public void modificaCampiCategoria() {
         view();
         //selezione della categoria da modificare all'interno della gerarchia
         String nomeCategoria = InputDati.leggiStringaNonVuota("Nome categoria da modificare: ");
@@ -116,10 +136,22 @@ public class Gerarchia implements UtilityHandler {
     public Categoria getCategoriaByName(String nomeCategoria) {
         try {
             return this.categoriaRadice.cercaCategoria(nomeCategoria);
-        } catch (CategoriaNotFoundException ex) { 
+        } catch (CategoriaNotFoundException ex) {
             System.out.println(ex.getMessage());
             return null;
         }
+    }
+
+    public List<CategoriaFoglia> getCategorieFoglia() {
+        return categorieFoglia;
+    }
+
+    public List<Component> getCategorie() {
+        return categorie;
+    }
+
+    public void setCategorie(List<Component> categorie) {
+        this.categorie = categorie;
     }
 
 }

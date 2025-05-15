@@ -15,7 +15,7 @@ public class FattoriConversione {
      * @param catOfferta la prima categoria foglia
      * @param categoriaFoglia2 la seconda categoria foglia
      */
-    public FattoriConversione(double valoreConversione, CategoriaFoglia catOfferta, CategoriaFoglia catRichiesta ) {
+    public FattoriConversione(double valoreConversione, CategoriaFoglia catOfferta, CategoriaFoglia catRichiesta) {
         this.valoreConversione = valoreConversione;
         this.catOfferta = catOfferta;
         this.catRichiesta = catRichiesta;
@@ -47,4 +47,5 @@ public class FattoriConversione {
     public double getValoreConversione() {
         return valoreConversione;
     }
+
 }

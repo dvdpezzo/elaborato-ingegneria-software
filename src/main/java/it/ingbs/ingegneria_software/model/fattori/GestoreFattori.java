@@ -1,10 +1,10 @@
 package it.ingbs.ingegneria_software.model.fattori;
 
 import java.util.HashMap;
+import java.util.Map;
 
-import it.ingbs.ingegneria_software.Eccezioni.CategoriaNotFoundException;
 import it.ingbs.ingegneria_software.gestione_file.GestoreDati;
-import it.ingbs.ingegneria_software.model.gerarchie.Categoria;
+import it.ingbs.ingegneria_software.model.gerarchie.CategoriaFoglia;
 import it.ingbs.ingegneria_software.model.gerarchie.Gerarchia;
 import it.ingbs.ingegneria_software.model.gerarchie.GestoreGerarchie;
 import it.ingbs.ingegneria_software.utilita_generale.InputDati;
@@ -12,19 +12,11 @@ import it.ingbs.ingegneria_software.utilita_generale.UtilityHandler;
 
 public class GestoreFattori implements UtilityHandler {
 
-    private static final String INSERISCI_IL_NOME_DELLA_GERARCHIA = "Inserisci il nome della Gerarchia:";
-    private static final String ERRORE_CATEGORIA = "Le categorie che hai inserito non sono categorie foglia!";
-    private static final String CATEGORIA_RICERCATA = "Inserisci il nome della categoria ricercata:";
-    private static final String INSERISCI_VALORE_CONVERSIONE = "Inserisci il valore di conversione:";
-    private static final String FATTORI_CONVERSIONE_CREATI = "Fattori di conversione creati";
-    private static final String FATTORI_CONVERSIONE_SALVATI = "Fattori di conversione salvati";
-    private static final String FATTORI_CONVERSIONE_DERIVATO_CREATI = "Fattore di conversione derivato creato";
-    private static final String RIMUOVI_FATTORE_DA = "Da quale categoria vuoi rimuovere il fattore? ";
-    private static final String RIMUOVI_FATTORE_VERSO = "Verso quale categoria vuoi rimuovere il fattore? ";
 
-    private final HashMap<String, FattoriConversione> mappaFattori;
     private final GestoreGerarchie gestoreGerarchie;
     private final GestoreDati gestoreDati;
+    private final Map<String, FattoriConversione> mappaFattori;
+    
 
     public GestoreFattori(GestoreGerarchie gestoreGerarchie, GestoreDati gestoreDati) {
         this.gestoreGerarchie = gestoreGerarchie;
@@ -33,168 +25,122 @@ public class GestoreFattori implements UtilityHandler {
         
     }
 
-    /**
-     * Crea un fattore di conversione e lo inserisce nella mappa dei fattori 
-     * e in automatico crea quello opposto
-     * 
-     * @param categoria1 prima categoria inserita 
-     * @param categoria2 seconda categoria inserita 
-     * @param valoreConversione indica il valore di conversione tra la prima e la seconda categoria 
-     */
-    private void assegnaFattoreConversione(CategoriaFoglia categoria1, CategoriaFoglia categoria2, double valoreConversione) {
-        String chiave = categoria1.getNome() + "->" + categoria2.getNome();
-        for(String chiaveEsistente : mappaFattori.keySet()) {
-                if (chiave.equalsIgnoreCase(chiaveEsistente)) {
-                    System.out.println("Il fattore di conversione esiste già!");
-                    return;
-                }
+    private FattoriConversione creaFattore(CategoriaFoglia catOfferta, CategoriaFoglia catRichiesta, double valoreConversione) {
+        FattoriConversione fattore = new FattoriConversione(valoreConversione, catOfferta, catRichiesta);
+        mappaFattori.put(catOfferta.getNome() + "->" + catRichiesta.getNome(), fattore);
+        catOfferta.setFattoriConversione(fattore);
+        return fattore;
+    }
+
+    private FattoriConversione creaFattoreOpposto(FattoriConversione fattore) {
+        FattoriConversione opposto = new FattoriConversione(1 / fattore.getValoreConversione(), fattore.getCategoriaRichiesta(), fattore.getCategoriaOfferta());
+        mappaFattori.put(fattore.getCategoriaRichiesta().getNome() + "->" + fattore.getCategoriaOfferta().getNome(), opposto);
+        fattore.getCategoriaRichiesta().setFattoriConversione(opposto);
+        return opposto;
+    }
+
+    private FattoriConversione creaFattoreDerivato(FattoriConversione fattore1, FattoriConversione fattore2) {
+        if (!fattore1.getCategoriaRichiesta().equals(fattore2.getCategoriaOfferta())) {
+            throw new IllegalArgumentException("Le categorie non sono compatibili per creare un fattore derivato.");
         }
-        FattoriConversione fattore = new FattoriConversione(valoreConversione, categoria1, categoria2);
-            mappaFattori.put(chiave, fattore);
-            System.out.println(FATTORI_CONVERSIONE_CREATI);
+        double valoreDerivato = fattore1.getValoreConversione() * fattore2.getValoreConversione();
+        FattoriConversione derivato = new FattoriConversione(valoreDerivato, fattore1.getCategoriaOfferta(), fattore2.getCategoriaRichiesta());
+        mappaFattori.put(fattore1.getCategoriaOfferta().getNome() + "->" + fattore2.getCategoriaRichiesta().getNome(), derivato);
+        fattore1.getCategoriaOfferta().setFattoriConversione(derivato);
 
-
-
-            //creo in automatico il fattore opposto 
-            fattoreOpposto(categoria1, categoria2, valoreConversione);
-        
-    }
-
-    /**
-     * Crea il fattore di conversione opposto rispetto a quello inserito nel metodo assegnaFattoreConversione()
-     * 
-     * @param categoria1 
-     * @param categoria2
-     * @param valoreConversione
-     */
-    private void fattoreOpposto(Categoria categoria1, Categoria categoria2, double valoreConversione) {
-
-        String chiaveOpposta = categoria2.getNome() + "->" + categoria1.getNome();
-        FattoriConversione fattoreOpposto = new FattoriConversione(1 / valoreConversione, categoria2, categoria1);
-        mappaFattori.put(chiaveOpposta, fattoreOpposto);
-    }
-
-    /**
-     * Crea un fattore di conversione derivandolo da due fattori già esistenti
-     * @param categoria1 categoria dalla quale prendo il valore
-     * @param categoria2 categoria dalla quale prendo il valore 
-     * @param categoria3 categoria delle quale voglio creare un valore 
-     */
-    private void fattoreDerivato(Categoria categoria1, Categoria categoria2, Categoria categoria3) {
-        String chiave12 = categoria1.getNome() + "->" + categoria2.getNome();
-        String chiave23 = categoria2.getNome() + "->" + categoria3.getNome();
-        if (mappaFattori.containsKey(chiave12) && mappaFattori.containsKey(chiave23)) {
-            double valoreConversione1 = mappaFattori.get(chiave12).getValoreConversione();
-            double valoreConversione2 = mappaFattori.get(chiave23).getValoreConversione();
-            double valoreDerivato = valoreConversione1 * valoreConversione2;
-
-            assegnaFattoreConversione(categoria1, categoria3, valoreDerivato);
-        }
-    }
-
-    /**
-     * Chiede al configuratore quale fattore di conversione derivato vuole calcolare 
-     */
-    public void nuovoFattoreDerivato() {
-        view();
-        Categoria categoria1, categoria2, categoria3;
-        do {
-            try {
-                categoria1 = trovaCategoria();
-                categoria2 = trovaCategoria();
-                categoria3 = trovaCategoria();
-            } catch (Exception ex) {
-                System.out.println("Errore categoria inesistente");
-                return;
-            }
-        } while (categoria1.hasFiglio(categoria1) || categoria2.hasFiglio(categoria2) || categoria3.hasFiglio(categoria3));
-        fattoreDerivato(categoria1, categoria2, categoria3);
-        System.out.println(FATTORI_CONVERSIONE_DERIVATO_CREATI);
-    }
-
-
-
-    /**
-     * Trova la categoria inserita dall'utente
-     * @return la categoria inserita dall'utente     * 
-     */
-    private Categoria trovaCategoria() throws Exception{
-
-        String nomeGerarchia = InputDati.leggiStringaNonVuota(INSERISCI_IL_NOME_DELLA_GERARCHIA);
-        Gerarchia gerarchiaRicercata = gestoreGerarchie.getGerarchia(nomeGerarchia);
-        String nomeCategoria = InputDati.leggiStringaNonVuota(CATEGORIA_RICERCATA);
-        return gerarchiaRicercata.getCategoria(nomeCategoria);
-    }
-
-    /**
-     * Restituisce la categoria con il nome specificato
-     * @param nomeCategoria il nome della categoria da cercare
-     * @return la categoria con il nome specificato
-     * 
-     */
-    public Categoria getCategoria(String nomeCategoria) {
-        for (Gerarchia gerarchia : gestoreGerarchie.getRadici().values()) {
-            try {
-                Categoria categoria = gerarchia.getCategoria(nomeCategoria);
-                if (categoria != null) {
-                    return categoria;
-                }
-            } catch (CategoriaNotFoundException ex) {
-                ex.printStackTrace();
-               
+        // Creazione ricorsiva dei fattori derivati
+        for (FattoriConversione fattoreEsistente : mappaFattori.values()) {
+            if (fattoreEsistente.getCategoriaOfferta().equals(fattore2.getCategoriaRichiesta())) {
+                creaFattoreDerivato(derivato, fattoreEsistente);
+            } else if (fattoreEsistente.getCategoriaRichiesta().equals(fattore1.getCategoriaOfferta())) {
+                creaFattoreDerivato(fattoreEsistente, derivato);
             }
         }
-       return null;
-    }
 
-
-    /*
-     * ritorna il valore del fattore di conversione data la sua stringa 
-     */
-    public Double getFattore(String nomeFattore){
-         return  mappaFattori.get(nomeFattore).getValoreConversione();
+        return derivato;
     }
 
     @Override
     public void view() {
-         for (String chiave : mappaFattori.keySet()) {
-            System.out.println(chiave + " : " + mappaFattori.get(chiave).getValoreConversione());
+        System.out.println("Fattori di conversione:");
+        for (Map.Entry<String, FattoriConversione> entry : mappaFattori.entrySet()) {
+            String chiave = entry.getKey();
+            FattoriConversione fattore = entry.getValue();
+            System.out.println(chiave + ": " + fattore);
         }
     }
 
     @Override
     public void rimuovi() {
-        view();
-        String nomeCategoria1 = InputDati.leggiStringaNonVuota(RIMUOVI_FATTORE_DA);
-        String nomeCategoria2 = InputDati.leggiStringaNonVuota(RIMUOVI_FATTORE_VERSO);
-        mappaFattori.remove(nomeCategoria1.toUpperCase() + "->" + nomeCategoria2.toUpperCase());
-        mappaFattori.remove(nomeCategoria2.toUpperCase() + "->" + nomeCategoria1.toUpperCase());
-        salva();
+        String nomeCategoria = InputDati.leggiStringaNonVuota("Nome della categoria foglia da rimuovere: ");
+        CategoriaFoglia categoriaDaRimuovere = gestoreGerarchie.getRadici().values().stream()
+                .flatMap(gerarchia -> gerarchia.getCategorieFoglia().stream())
+                .filter(categoria -> categoria.getNome().equalsIgnoreCase(nomeCategoria))
+                .findFirst()
+                .orElse(null);
+
+        if (categoriaDaRimuovere != null) {
+            CategoriaFoglia finalCategoriaDaRimuovere = categoriaDaRimuovere;
+            mappaFattori.entrySet().removeIf(entry -> 
+                entry.getValue().getCategoriaOfferta().equals(finalCategoriaDaRimuovere) ||
+                entry.getValue().getCategoriaRichiesta().equals(finalCategoriaDaRimuovere)
+            );
+            System.out.println("Fattori associati alla categoria rimossi.");
+        } else {
+            System.out.println("Categoria foglia non trovata.");
+        }
     }
 
     @Override
     public void aggiungi() {
-        Categoria categoria1, categoria2;
-        do {
-            try {
-                categoria1 = trovaCategoria();
-                categoria2 = trovaCategoria();
-            } catch (Exception ex) {
-                System.out.println("Errore categoria inesistente");
-                return;
+        // Chiede all'utente i nomi delle categorie foglia e il valore di conversione
+        String nomeCatOfferta = InputDati.leggiStringaNonVuota("Inserisci il nome della categoria offerta: ");
+        String nomeCatRichiesta = InputDati.leggiStringaNonVuota("Inserisci il nome della categoria richiesta: ");
+        double valoreConversione = InputDati.leggiDoubleLimitato("Inserisci il valore di conversione: ", 0.5, 2.0);
+
+        // Trova le categorie foglia corrispondenti
+        CategoriaFoglia catOfferta = getCatFogliaByName(nomeCatOfferta);        
+        CategoriaFoglia catRichiesta = getCatFogliaByName(nomeCatRichiesta);
+
+        // Crea il fattore e il fattore opposto
+        FattoriConversione fattore = creaFattore(catOfferta, catRichiesta, valoreConversione);
+        FattoriConversione fattoreOpposto = creaFattoreOpposto(fattore);
+
+        // Crea i fattori derivati per eventuali categorie già esistenti
+        for (FattoriConversione fattoreEsistente : mappaFattori.values()) {
+            if (fattoreEsistente.getCategoriaRichiesta().equals(catOfferta)) {
+                creaFattoreDerivato(fattoreEsistente, fattore);
+            } else if (fattoreEsistente.getCategoriaOfferta().equals(catRichiesta)) {
+                creaFattoreDerivato(fattore, fattoreEsistente);
             }
-        } while (categoria1.hasFiglio(categoria1) || categoria2.hasFiglio(categoria2));
-        double valoreConversione = InputDati.leggiDoubleLimitato(INSERISCI_VALORE_CONVERSIONE, 0.5, 2);
-        assegnaFattoreConversione(categoria1, categoria2, valoreConversione);
+        }
+
+        System.out.println("Fattore, fattore opposto e fattori derivati creati con successo.");
+    }
+
+    private CategoriaFoglia getCatFogliaByName(String nomeCategoria ) {
+        CategoriaFoglia catFoglia = gestoreGerarchie.getRadici().values().stream()
+                .flatMap(gerarchia -> gerarchia.getCategorieFoglia().stream())
+                .filter(categoria -> categoria.getNome().equalsIgnoreCase(nomeCategoria))
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("Categoria non trovata."));
+        return catFoglia;
     }
 
     @Override
     public void salva() {
-        gestoreDati.setFattori(mappaFattori);
-        System.out.println(FATTORI_CONVERSIONE_SALVATI);
+        gestoreDati.setFattori((HashMap<String, FattoriConversione>) mappaFattori);
     }
 
     public void viewGerarchie() {
-        gestoreGerarchie.view();
+        System.out.println("Categorie Foglia:");
+        for(Gerarchia gerarchia : gestoreGerarchie.getRadici().values()) {
+            for(CategoriaFoglia categoria : gerarchia.getCategorieFoglia()) {
+                System.out.println(categoria.toString(0));
+            }
+        }
+        
     }
+
+
 }

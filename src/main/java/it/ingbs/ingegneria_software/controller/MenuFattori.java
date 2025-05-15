@@ -9,8 +9,7 @@ public class MenuFattori implements Runnable {
     private static final String TITOLO_MENU = "Gestione Fattori di Conversione";
     private static final String[] VOCI_MENU = {
         "Visualizza gerarchie",
-        "Aggiungi nuovo fattore di conversione", 
-        "Aggiungi fattore di conversione derivato", 
+        "Aggiungi nuovo fattore di conversione",  
         "Rimuovi fattore", 
         "Salva fattori di conversione",
         "Visualizza fattori di conversione" 
@@ -34,15 +33,12 @@ public class MenuFattori implements Runnable {
                     gestoreFattori.aggiungi();
                     break;
                 case 3:
-                    gestoreFattori.nuovoFattoreDerivato();
-                    break;
-                case 4:
                     gestoreFattori.rimuovi();
                     break;
-                case 5:
+                case 4:
                     gestoreFattori.salva();
                     break;
-                case 6:
+                case 5:
                     gestoreFattori.view();
                     break;
             }

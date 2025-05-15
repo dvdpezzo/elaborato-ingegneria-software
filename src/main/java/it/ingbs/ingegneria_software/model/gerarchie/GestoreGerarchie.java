@@ -31,6 +31,10 @@ public class GestoreGerarchie implements UtilityHandler {
         this.radici = gestoreDati.getGerarchie();
     }
 
+    public HashMap<String, Gerarchia> getRadici() {
+        return radici;
+    }
+
     public void modificaGerarchia() {
         Gerarchia gerarchia;
         MenuUtil menuLavoro = new MenuUtil(TITOLO_MENU_MODIFICA_GERARCHIA, VOCI_LAVORO);

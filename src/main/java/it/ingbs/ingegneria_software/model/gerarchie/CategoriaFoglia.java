@@ -1,5 +1,7 @@
 package it.ingbs.ingegneria_software.model.gerarchie;
 
+import java.util.List;
+
 import it.ingbs.ingegneria_software.model.fattori.FattoriConversione;
 
 public class CategoriaFoglia extends Categoria {
@@ -7,7 +9,7 @@ public class CategoriaFoglia extends Categoria {
     private final String nome;
     private final String descrizione;
     private Categoria padre;
-    private FattoriConversione fattoriConversione;
+    private List<FattoriConversione> fattoriConversione;
 
     // Costruttore
     public CategoriaFoglia(String nome, String descrizione) {
@@ -45,15 +47,20 @@ public class CategoriaFoglia extends Categoria {
         return indentazione + nome + " [" + descrizione + "]\n";
     }
 
-    public void setFattoriConversione(FattoriConversione fattoriConversione) {
-        this.fattoriConversione = fattoriConversione;
+    @Override
+    public void addFiglio(Component nuovaCategoria) {
+        throw new UnsupportedOperationException("Non è possibile aggiungere figli a una categoria foglia.");
     }
 
-    private FattoriConversione assegnaFattoriConversione(CategoriaFoglia categoriaRichiesta, double valoreConversione) {
-        return  new FattoriConversione(valoreConversione, this, categoriaRichiesta);
+    public void setFattoriConversione(FattoriConversione fattoreConversione) {
+        if (!this.fattoriConversione.contains(fattoreConversione)) {
+            this.fattoriConversione.add(fattoreConversione);
+        }
     }
 
-    public FattoriConversione getFattoriConversione() {
-        return this.fattoriConversione;
+    public void setFattoriConversioneOpposto(FattoriConversione fattoreConversione) {
+        if (!this.fattoriConversione.contains(fattoreConversione)) {
+            this.fattoriConversione.add(fattoreConversione);
+        }
     }
 }
