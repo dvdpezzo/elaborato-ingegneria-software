@@ -25,7 +25,7 @@ public class GestoreFattori implements UtilityHandler {
         
     }
 
-    private FattoriConversione creaFattore(CategoriaFoglia catOfferta, CategoriaFoglia catRichiesta, double valoreConversione) {
+    public FattoriConversione creaFattore(CategoriaFoglia catOfferta, CategoriaFoglia catRichiesta, double valoreConversione) {
         FattoriConversione fattore = new FattoriConversione(valoreConversione, catOfferta, catRichiesta);
         mappaFattori.put(catOfferta.getNome() + "->" + catRichiesta.getNome(), fattore);
         catOfferta.setFattoriConversione(fattore);
