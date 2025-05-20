@@ -9,52 +9,29 @@ import it.ingbs.ingegneria_software.utilita_generale.InputDati;
 
 
 public class GestoreFruitori {
-
     private static final String MSG_PASS = "Inserisci la tua password:";
     private static final String MSG_NOME_UTENTE = "Inserisci il tuo nome utente:";
     private static final String MSG_EMAIL = "Inserisci la tua email:";
     private static final String ERRORE_COMPRENSORIO = "IL CODICE DEL COMPRENSORIO INSERITO E ERRATO!";
     private static final String MSG_COD_COMPRENSORIO = "Inserisci il codice del tuo comprensorio:";
+    
     private final HashMap<String,Fruitore> mappaDatiFruitori;
     private final HashMap<String,String> mappaCredenziali;
     private final GestoreDati gestoreDati;
     
-            
-    /**
-     * Non posso prendere una mappa ma i dati del fruitore
-     * @param gestoreCredenziali
-     */
     public GestoreFruitori(GestoreDati gestoreDati) {
         this.gestoreDati = gestoreDati;
         this.mappaCredenziali = gestoreDati.getCredenzialiFruitori();
         this.mappaDatiFruitori = gestoreDati.getDatiFruitori();
     }          
-        
-    public HashMap<String, String> getMappaCredenziali() {
-        return mappaCredenziali;
-    }
 
-    /*
-     * aggiunge i dati relativi ad un fruitore alla Mappa dei dati (MappaFruitori)
-     */
-    public void aggiungiDati(String nomeUtente, String password){
-        mappaCredenziali.put(nomeUtente, password);
-    }
-
-    /*
-     * visualizza elenco fruitori con informazioni annesse 
-     */
-    public void visualizzaFruitori(){
-        for(Fruitore f : mappaDatiFruitori.values()){
+    public void visualizzaFruitori() {
+        mappaDatiFruitori.values().forEach(f -> {
             System.out.println("Utente:"); 
             f.infoFruitore();
-        }
+        });
     }
 
-    /**
-     * creo un nuovo frutiore
-     * @return il fruitore creato 
-     */
     public Fruitore creaUtenteFruitore(GestoreComprensorio gestoreComprensorio, GestoreUtente gestoreUtente) {
         gestoreComprensorio.view();
         ComprensorioGeografico comprensorio;
@@ -62,53 +39,35 @@ public class GestoreFruitori {
         do {
             code = InputDati.leggiIntero(MSG_COD_COMPRENSORIO);
             comprensorio = gestoreComprensorio.getComprensorio(code);
-            if (comprensorio == null) {
-                System.out.println(ERRORE_COMPRENSORIO);
-            }
+            if (comprensorio == null) System.out.println(ERRORE_COMPRENSORIO);
         } while (comprensorio == null);
 
-        String email;
-        do {
+        String email, nomeUtente;
+        while (true) {
             email = InputDati.leggiStringaNonVuota(MSG_EMAIL);
-            if (emailEsistente(email)) {
-                System.out.println("Email già utilizzata, si prega di inserire un'altra email.");
+            final String emailFinal = email; //Variabile finale per l'uso nel lambda
+            if (mappaDatiFruitori.values().stream()
+                    .anyMatch(f -> f.getEmail().equalsIgnoreCase(emailFinal))) {
+                continue;
             }
-        } while (emailEsistente(email));
+            break;
+        }
 
-        String nomeUtente;
         do {
             nomeUtente = InputDati.leggiStringaNonVuota(MSG_NOME_UTENTE);
         } while (gestoreUtente.controlloUtente(nomeUtente));
 
-        String pass = InputDati.leggiStringa(MSG_PASS);
-        Fruitore newFruitore = new Fruitore(nomeUtente, pass, code, email);
-        mappaDatiFruitori.put(newFruitore.getNomeUtente(), newFruitore);
+        Fruitore newFruitore = new Fruitore(nomeUtente, InputDati.leggiStringa(MSG_PASS), code, email);
+        mappaDatiFruitori.put(nomeUtente, newFruitore);
+        mappaCredenziali.put(nomeUtente, newFruitore.getPassword());
+        
         gestoreDati.setDatiFruitori(mappaDatiFruitori);
         gestoreDati.setCredenzialiFruitori(mappaCredenziali);
         return newFruitore;
     }
 
-    private boolean emailEsistente(String email) {
-        for (Fruitore fruitore : mappaDatiFruitori.values()) {
-            if (fruitore.getEmail().equalsIgnoreCase(email)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    /**
-     * Trova un fruitore e lo restituisce 
-     * @param nomeUtente parametro di ricerca del fruitore
-     * @return il fruitore oppure un errore. 
-     */
     public Fruitore trovaFruitore(String nomeUtente) {
-        Fruitore utente = mappaDatiFruitori.get(nomeUtente);
-        if (utente == null) {
-            throw new IllegalArgumentException("Utente non trovato: " + nomeUtente);
-        }
-        return utente;
+        return mappaDatiFruitori.computeIfAbsent(nomeUtente, 
+            k -> { throw new IllegalArgumentException("Utente non trovato: " + k); });
     }
-    
-
 }

@@ -9,12 +9,12 @@ import it.ingbs.ingegneria_software.utilita_generale.InputDati;
 
 public class GestoreConfiguratori {
 
-    private Map<String, Configuratore> mappaConfiguratori = new HashMap<>();
+    private final Map<String, Configuratore> mappaConfiguratori = new HashMap<>();
     private final GestoreDati gestoreDati;
 
     public GestoreConfiguratori(GestoreDati gestoreDati) {
         this.gestoreDati = gestoreDati;
-        this.mappaConfiguratori = setMappaConfiguratori(gestoreDati.getCredenzialiConfiguratori());
+        setMappaConfiguratori(gestoreDati.getCredenzialiConfiguratori());
     }
 
     /**
@@ -23,14 +23,9 @@ public class GestoreConfiguratori {
      * @return mappa contenente nomeUtente e configuratore 
      */
     private Map<String, Configuratore> setMappaConfiguratori (Map<String, String> mappaCredenziali) {
-        for (Map.Entry<String, String> entry : mappaCredenziali.entrySet()) {
-            String nome = entry.getKey();
-            String pass = entry.getValue();
-            Configuratore utente = new Configuratore(nome, pass);
-            mappaConfiguratori.put(nome, utente);
-        }
+        mappaCredenziali.forEach((nome, pass) ->  
+          mappaConfiguratori.put(nome, new Configuratore(nome, pass)));
         return mappaConfiguratori;
-        
     }
 
     
@@ -51,8 +46,9 @@ public class GestoreConfiguratori {
         do {
             nomeUtente = InputDati.leggiStringaNonVuota("Inserire nome utente: ");
         } while (mappaConfiguratori.containsKey(nomeUtente));
-        String passwordUtente = InputDati.leggiStringaNonVuota("Inserire password: ");
-        Configuratore newUtente = new Configuratore(nomeUtente, passwordUtente);
+        
+        Configuratore newUtente = new Configuratore(nomeUtente, 
+            InputDati.leggiStringaNonVuota("Inserire password: "));
         mappaConfiguratori.put(newUtente.getNomeUtente(), newUtente);
         HashMap<String, String> credenzialiMap = new HashMap<>();
         for (Map.Entry<String, Configuratore> entry : mappaConfiguratori.entrySet()) {
