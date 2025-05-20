@@ -20,7 +20,7 @@ public class GestoreDatiTest {
 
     @BeforeEach
     public void setup() {
-        gestoreDati = new GestoreDati();
+        gestoreDati = GestoreDati.getInstance();
     }
 
     @Test
