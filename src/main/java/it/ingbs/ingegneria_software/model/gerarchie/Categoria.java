@@ -5,8 +5,18 @@ import java.util.Vector;
 
 import it.ingbs.ingegneria_software.Eccezioni.CampoNotFoundException;
 import it.ingbs.ingegneria_software.Eccezioni.IllegalCampoException;
+import it.ingbs.ingegneria_software.utilita_generale.InputDati;
+import it.ingbs.ingegneria_software.utilita_generale.MenuUtil;
 
 public class Categoria {
+
+    private static final String CAMPO_S_CORRETTAMENTE_AGGIUNTO = "Campo %s correttamente aggiunto!";
+    private static final String CAMPO_NATIVO_ELIMINATO = "Campo nativo eliminato!";
+    private static final String CAMPI_NATIVI_ELIMINATI = "Campi nativi eliminati!";
+    private static final String VUOI_AGGIUNGERE_ALTRI_CAMPI = "Vuoi aggiungere altri campi?";
+    private static final String VUOI_ELIMINARE_ALTRI_CAMPI = "Vuoi eliminare altri campi?";
+    private static final String NOME_DEL_CAMPO = "Nome del campo: ";
+    private static final String SCELTA_ELIMINAZ_CAMPI = "Vuoi eliminare tutti i campi nativi? (1) o solo alcuni? (2)";
 
     private final String descrizione;
     private final Vector<Campo> campiNativi;
@@ -64,6 +74,59 @@ public class Categoria {
     public void removeFiglio(Categoria categoriaDaRimuovere) {
         this.figli.remove(categoriaDaRimuovere);
         categoriaDaRimuovere.setPadre(null);
+    }
+
+     public void modificaCampi() {
+        MenuUtil menuLavoro = new MenuUtil("Cosa desideri fare?", new String[]{"aggiungi campo", "rimuovi campo"});
+        int scelta;
+        do {
+            scelta = menuLavoro.scegli();
+            switch (scelta) {
+                case 1:
+                    aggiungiCampi();
+                    break;
+                case 2:
+                    rimuoviCampi();
+                    break;
+            }
+        } while (scelta != 0);
+    }
+
+     private void aggiungiCampi() {
+        String nomeCampo;
+        do {
+            nomeCampo = InputDati.leggiStringaNonVuota(NOME_DEL_CAMPO);
+            try {
+                this.addCampoNativo(nomeCampo);
+                System.out.printf((CAMPO_S_CORRETTAMENTE_AGGIUNTO) + "%n", nomeCampo);
+            } catch (IllegalCampoException e) {
+                System.out.println(e.getMessage());
+            }
+        } while (InputDati.yesOrNo(VUOI_AGGIUNGERE_ALTRI_CAMPI));
+    }
+
+    private void rimuoviCampi() {
+        String nomeCampo;
+        int scelta = InputDati.leggiIntero(SCELTA_ELIMINAZ_CAMPI, 1, 2);
+        try {
+            if (scelta == 1) {
+                this.eliminaCampiNativi();
+                this.addCampoNativo(" "); // Aggiunge un campo vuoto
+                System.out.println(CAMPI_NATIVI_ELIMINATI);
+            } else {
+                System.out.println(this.stampaCampiNativi());
+                do {
+                    nomeCampo = InputDati.leggiStringaNonVuota(NOME_DEL_CAMPO);
+                    eliminaCampoNativo(nomeCampo);
+                    System.out.println(CAMPO_NATIVO_ELIMINATO);
+                } while (InputDati.yesOrNo(VUOI_ELIMINARE_ALTRI_CAMPI));
+                if (getCampiNativi().isEmpty()) {
+                    addCampoNativo(" "); // Aggiunge un campo vuoto se non ci sono più campi
+                }
+            }
+        } catch (IllegalCampoException | CampoNotFoundException ex) {
+            System.out.println(ex.getMessage());
+        }
     }
 
     /**

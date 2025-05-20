@@ -18,6 +18,7 @@ import it.ingbs.ingegneria_software.utilita_generale.InputDati;
     private static final String VUOI_AGGIUNGERE_UNA_DESCRIZIONE = "Vuoi aggiungere una descrizione?";
     private static final String CATEGORIA_DA_ELIMINARE = "Nome della categoria da eliminare: ";
     private static final String CATEGORIA_S_RIMOSSA = "Categoria %s rimossa!";
+    private static final String ERRORE_MODIFICA_CATEGORIA_INESISTENTE = "Categoria inesistente!";
 
     private static final String CAMPO_RADICE = "Radice";
     private final HashMap<String, Categoria> sottoCategorie;
@@ -139,6 +140,25 @@ import it.ingbs.ingegneria_software.utilita_generale.InputDati;
             this.sottoCategorie.remove(nome.toUpperCase());
         } else
             throw new CategoriaNotFoundException();
+    }
+
+    /**
+     * Per le modifiche relative ai campi della categoria
+     */
+    public void modificaCampiCategoria() {
+        try {
+            toString();
+            //selezione della categoria da modificare all'interno della gerarchia
+            String nomeCategoria = InputDati.leggiStringaNonVuota("Nome categoria da modificare: ");
+            Categoria categoria = getCategoria(nomeCategoria);
+            if (categoria != null) {
+                categoria.modificaCampi();
+            } else {
+                System.out.println(ERRORE_MODIFICA_CATEGORIA_INESISTENTE);
+            }
+        } catch (CategoriaNotFoundException ex) {
+            System.out.println(ex.getMessage());
+        }
     }
 
     /**

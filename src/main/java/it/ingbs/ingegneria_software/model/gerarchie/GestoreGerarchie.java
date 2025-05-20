@@ -89,7 +89,7 @@ public class GestoreGerarchie implements UtilityHandler {
      */
     private Categoria getCategoriaRichiesta(String string) throws CategoriaNotFoundException {
         for (Gerarchia g : radici.values()) {
-             Categoria c = g.getCategoriaByName(string);
+             Categoria c = g.getCategoria(string);
             if (c.getNome().equals(string)) {
                 return c;
             }

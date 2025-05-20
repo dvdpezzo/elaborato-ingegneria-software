@@ -2,6 +2,7 @@ package it.ingbs.ingegneria_software.model.fattori;
 
 import java.util.HashMap;
 
+import it.ingbs.ingegneria_software.Eccezioni.CategoriaNotFoundException;
 import it.ingbs.ingegneria_software.gestione_file.GestoreDati;
 import it.ingbs.ingegneria_software.model.gerarchie.Categoria;
 import it.ingbs.ingegneria_software.model.gerarchie.Gerarchia;
@@ -107,8 +108,8 @@ public class GestoreFattori implements UtilityHandler {
                 categoria1 = trovaCategoria();
                 categoria2 = trovaCategoria();
                 categoria3 = trovaCategoria();
-            } catch (Exception ex) {
-                System.out.println("Errore categoria inesistente");
+            } catch (CategoriaNotFoundException ex) {
+                System.err.println(ex.getMessage());
                 return;
             }
         } while (categoria1.hasFiglio(categoria1) || categoria2.hasFiglio(categoria2) || categoria3.hasFiglio(categoria3));
@@ -122,12 +123,12 @@ public class GestoreFattori implements UtilityHandler {
      * Trova la categoria inserita dall'utente
      * @return la categoria inserita dall'utente     * 
      */
-    private Categoria trovaCategoria() throws Exception{
+    private Categoria trovaCategoria() throws CategoriaNotFoundException {
 
         String nomeGerarchia = InputDati.leggiStringaNonVuota(INSERISCI_IL_NOME_DELLA_GERARCHIA);
         Gerarchia gerarchiaRicercata = gestoreGerarchie.getGerarchiaByName(nomeGerarchia);
         String nomeCategoria = InputDati.leggiStringaNonVuota(CATEGORIA_RICERCATA);
-        return gerarchiaRicercata.getCategoriaByName(nomeCategoria);
+        return gerarchiaRicercata.getCategoria(nomeCategoria);
     }
 
     /**
@@ -138,9 +139,13 @@ public class GestoreFattori implements UtilityHandler {
      */
     public Categoria getCategoria(String nomeCategoria) {
         for (Gerarchia gerarchia : gestoreGerarchie.getRadici().values()) {
-            Categoria categoria = gerarchia.getCategoriaByName(nomeCategoria);
-            if (categoria != null) {
-                return categoria;
+            try {
+                Categoria categoria = gerarchia.getCategoria(nomeCategoria);
+                if (categoria != null) {
+                    return categoria;
+                }
+            } catch (CategoriaNotFoundException ex) {
+                System.err.println(ex.getMessage());
             }
         }
        return null;
@@ -178,8 +183,8 @@ public class GestoreFattori implements UtilityHandler {
             try {
                 categoria1 = trovaCategoria();
                 categoria2 = trovaCategoria();
-            } catch (Exception ex) {
-                System.out.println("Errore categoria inesistente");
+            } catch (CategoriaNotFoundException ex) {
+                System.err.println(ex.getMessage());
                 return;
             }
         } while (categoria1.hasFiglio(categoria1) || categoria2.hasFiglio(categoria2));
