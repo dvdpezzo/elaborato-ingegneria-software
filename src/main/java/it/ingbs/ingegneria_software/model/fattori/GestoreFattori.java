@@ -2,7 +2,6 @@ package it.ingbs.ingegneria_software.model.fattori;
 
 import java.util.HashMap;
 
-import it.ingbs.ingegneria_software.Eccezioni.CategoriaNotFoundException;
 import it.ingbs.ingegneria_software.gestione_file.GestoreDati;
 import it.ingbs.ingegneria_software.model.gerarchie.Categoria;
 import it.ingbs.ingegneria_software.model.gerarchie.Gerarchia;
@@ -126,9 +125,9 @@ public class GestoreFattori implements UtilityHandler {
     private Categoria trovaCategoria() throws Exception{
 
         String nomeGerarchia = InputDati.leggiStringaNonVuota(INSERISCI_IL_NOME_DELLA_GERARCHIA);
-        Gerarchia gerarchiaRicercata = gestoreGerarchie.getGerarchia(nomeGerarchia);
+        Gerarchia gerarchiaRicercata = gestoreGerarchie.getGerarchiaByName(nomeGerarchia);
         String nomeCategoria = InputDati.leggiStringaNonVuota(CATEGORIA_RICERCATA);
-        return gerarchiaRicercata.getCategoria(nomeCategoria);
+        return gerarchiaRicercata.getCategoriaByName(nomeCategoria);
     }
 
     /**
@@ -139,14 +138,9 @@ public class GestoreFattori implements UtilityHandler {
      */
     public Categoria getCategoria(String nomeCategoria) {
         for (Gerarchia gerarchia : gestoreGerarchie.getRadici().values()) {
-            try {
-                Categoria categoria = gerarchia.getCategoria(nomeCategoria);
-                if (categoria != null) {
-                    return categoria;
-                }
-            } catch (CategoriaNotFoundException ex) {
-                ex.printStackTrace();
-               
+            Categoria categoria = gerarchia.getCategoriaByName(nomeCategoria);
+            if (categoria != null) {
+                return categoria;
             }
         }
        return null;

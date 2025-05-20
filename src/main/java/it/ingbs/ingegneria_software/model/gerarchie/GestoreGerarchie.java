@@ -3,9 +3,6 @@ package it.ingbs.ingegneria_software.model.gerarchie;
 import java.util.HashMap;
 
 import it.ingbs.ingegneria_software.Eccezioni.CategoriaNotFoundException;
-import it.ingbs.ingegneria_software.Eccezioni.CategoriaOmonimaException;
-import it.ingbs.ingegneria_software.Eccezioni.IllegalCampoException;
-import it.ingbs.ingegneria_software.Eccezioni.PadreNotFoundException;
 import it.ingbs.ingegneria_software.gestione_file.GestoreDati;
 import it.ingbs.ingegneria_software.utilita_generale.InputDati;
 import it.ingbs.ingegneria_software.utilita_generale.MenuUtil;
@@ -15,7 +12,7 @@ public class GestoreGerarchie implements UtilityHandler {
 
     private static final String VUOI_AGGIUNGERE_UNA_DESCRIZIONE = "Vuoi aggiungere una descrizione?";
     private static final String ERRORE_RADICE_OMONIMA = "ERRORE: si sta tentando di aggiungere una radice omonima";
-    private static final String[] VOCI_LAVORO = {"aggiungi categoria", "rimuovi categoria","aggiungi campi a Categoria", "rimuovi campi a Categoria", "visualizza Gerarchia"};
+    private static final String[] VOCI_LAVORO = {"aggiungi categoria", "rimuovi categoria","modifica campi categoria", "visualizza Gerarchia"};
     private static final String NOME_DELLA_RADICE = "Nome della radice: ";
     private static final String DESCRIZIONE_DELLA_RADICE = "Descrizione della radice: ";
     private static final String VUOI_AGGIUNGERE_ALTRE_GERARCHIE = "Vuoi aggiungere altre Gerarchie? ";
@@ -23,24 +20,11 @@ public class GestoreGerarchie implements UtilityHandler {
     private static final String VUOI_RIMUOVERE_ALTRE_GERARCHIE = "Vuoi rimuovere altre Gerarchie? ";
     private static final String QUALE_GERARCHIA_VUOI_MODIFICARE = "Quale gerarchia vuoi modificare? ";
     private static final String ERRORE_MODIFICA_GERARCHIA_INESISTENTE = "ERRORE: si sta tentando di modificare una gerarchia inesistente";
-    private static final String NOME_CATEGORIA = "Nome Categoria: ";
-    private static final String DESCRIZIONE_CATEGORIA = "Descrizione Categoria: ";
-    private static final String CHI_E_IL_PADRE = "A quale categoria desideri aggiungerla? ";
-    private static final String CATEGORIA_DA_ELIMINARE = "Nome Categoria da eliminare: ";
-    private static final String CATEGORIA_DA_MODIFICARE = "Nome Categoria che si vuole modificare: ";
-    private static final String NOME_DEL_CAMPO = "Nome del campo: ";
+   
     private static final String RADICE_AGGIUNTA = "Radice aggiunta!";
     private static final String RADICE_S_RIMOSSA = "Radice %s rimossa!";
     private static final String TITOLO_MENU_MODIFICA_GERARCHIA = "Cosa desideri fare?";
-    private static final String CATEGORIA_S_AGGIUNTA = "Categoria %s aggiunta!";
-    private static final String CATEGORIA_S_RIMOSSA = "Categoria %s rimossa!";
-    private static final String CAMPO_S_CORRETTAMENTE_AGGIUNTO = "Campo %s correttamente aggiunto!";
-    private static final String SCELTA_ELIMINAZ_CAMPI = "1- Eliminare tutti i campi nativi\n2- Eliminare un campo nativo specifico\n";
-    private static final String CAMPI_NATIVI_ELIMINATI = "Campi nativi eliminati";
-    private static final String CAMPO_NATIVO_ELIMINATO = "Campo nativo eliminato";
-    private static final String VUOI_AGGIUNGERE_ALTRE_CATEGORIE = "Vuoi aggiungere altre categorie? ";
-    private static final String VUOI_AGGIUNGERE_ALTRI_CAMPI = "Vuoi aggiungere altri campi? ";
-    private static final String VUOI_ELIMINARE_ALTRI_CAMPI = "Vuoi eliminare altri campi? ";
+    
 
     private final HashMap<String, Gerarchia> radici;
     private final GestoreDati gestoreDati;
@@ -50,35 +34,38 @@ public class GestoreGerarchie implements UtilityHandler {
         this.radici = gestoreDati.getGerarchie();
     }
 
+    public HashMap<String, Gerarchia> getRadici() {
+        return radici;
+    }
+
     /**
-     * Da Spostare????
+     * Modifica una gerarchia esistente.
+     * Permette di aggiungere o rimuovere categorie e campi.
      */
     public void modificaGerarchia() {
-        String nomeGerarchia;
+        Gerarchia gerarchia;
         MenuUtil menuLavoro = new MenuUtil(TITOLO_MENU_MODIFICA_GERARCHIA, VOCI_LAVORO);
         int scelta;
-
         System.out.println(radici.keySet());
+        String nomeGerarchia;
         nomeGerarchia = InputDati.leggiStringaNonVuota(QUALE_GERARCHIA_VUOI_MODIFICARE);
+        gerarchia = getGerarchiaByName(nomeGerarchia);
 
-        if (radici.containsKey(nomeGerarchia.toUpperCase())) {
+        if (gerarchia != null) {
             do {
                 scelta = menuLavoro.scegli();
                 switch (scelta) {
                     case 1:
-                        aggiungiCategoria(radici.get(nomeGerarchia.toUpperCase()));
+                        gerarchia.aggiungiCategoria();
                         break;
                     case 2:
-                        rimuoviCategoria(radici.get(nomeGerarchia.toUpperCase()));
+                        gerarchia.rimuoviCategoria();
                         break;
                     case 3:
-                        aggiungiCampi(radici.get(nomeGerarchia.toUpperCase()));
+                        gerarchia.modificaCampiCategoria();                      
                         break;
                     case 4:
-                        rimuoviCampi(radici.get(nomeGerarchia.toUpperCase()));
-                        break;
-                    case 5:
-                        System.out.println(radici.get(nomeGerarchia.toUpperCase()));
+                        System.out.println(gerarchia.toString());
                         break;
                 }
 
@@ -88,117 +75,35 @@ public class GestoreGerarchie implements UtilityHandler {
         }
     }
 
-    /**
-     * Aggiunge una categoria alla gerarchia.
-     *
-     * @param gerarchia la gerarchia a cui aggiungere la categoria
-     */
-    private void aggiungiCategoria(Gerarchia gerarchia) {
-        do {
-            System.out.println(gerarchia.toString());
-            String nomeCategoria, descrizioneCategoria;
-            nomeCategoria = InputDati.leggiStringaNonVuota(NOME_CATEGORIA);
-            boolean aggiungiDescrizione = InputDati.yesOrNo(VUOI_AGGIUNGERE_UNA_DESCRIZIONE);
-            if (aggiungiDescrizione) {
-                descrizioneCategoria = InputDati.leggiStringaNonVuota(DESCRIZIONE_CATEGORIA);
-            } else {
-                descrizioneCategoria = " ";
-            }
-            String nomePadre = InputDati.leggiStringaNonVuota(CHI_E_IL_PADRE);
-            try {
-                gerarchia.addSottocategoria(nomeCategoria.toUpperCase(), descrizioneCategoria, nomePadre);
-                gerarchia.getCategoria(nomeCategoria.toUpperCase()).addCampoNativo(" "); // Aggiunge un campo nativo vuoto
-                System.out.printf((CATEGORIA_S_AGGIUNTA) + "%n", nomeCategoria);
-            } catch (PadreNotFoundException | CategoriaOmonimaException | IllegalCampoException e) {
-                System.out.println(e.getMessage());
-            } catch (CategoriaNotFoundException e) {
-                
-                e.printStackTrace();
-            }
-        } while (InputDati.yesOrNo(VUOI_AGGIUNGERE_ALTRE_CATEGORIE));
+    public Gerarchia getGerarchiaByName(String nomeGerarchia) {
+        Gerarchia gerarchia = radici.get(nomeGerarchia.toUpperCase());
+        return gerarchia;
     }
 
+
     /**
-     * Rimuove una categoria dalla gerarchia.
-     *
-     * @param gerarchia la gerarchia da cui rimuovere la categoria
+     *  Restituisce la categoria con il nome specificato.
+     * @param string il nome della categoria
+     * @return la categoria con il nome specificato
+     * @throws CategoriaNotFoundException 
      */
-    private void rimuoviCategoria(Gerarchia gerarchia) {
-        System.out.println(gerarchia.toString());
-        String nomeCategoria = InputDati.leggiStringaNonVuota(CATEGORIA_DA_ELIMINARE);
-        try {
-            gerarchia.rimuoviCategoria(nomeCategoria);
-            System.out.printf((CATEGORIA_S_RIMOSSA) + "%n", nomeCategoria);
-        } catch (CategoriaNotFoundException e) {
-            System.out.println(e.getMessage());
+    private Categoria getCategoriaRichiesta(String string) throws CategoriaNotFoundException {
+        for (Gerarchia g : radici.values()) {
+             Categoria c = g.getCategoriaByName(string);
+            if (c.getNome().equals(string)) {
+                return c;
+            }
+        }
+        return null;
+     }
+
+    @Override
+    public void view() {
+        for (Gerarchia gerarchia : radici.values()) {
+            stampaGerarchia(gerarchia.getCategoriaRadice(), 0);
         }
     }
-
-    /**
-     * Aggiunge campi a una categoria della gerarchia.
-     *
-     * @param gerarchia la gerarchia contenente la categoria a cui aggiungere i campi
-     */
-    private void aggiungiCampi(Gerarchia gerarchia) {
-        String nomeCategoria, nomeCampo;
-        System.out.println(gerarchia.toString());
-        nomeCategoria = InputDati.leggiStringaNonVuota(CATEGORIA_DA_MODIFICARE);
-        do {
-            nomeCampo = InputDati.leggiStringaNonVuota(NOME_DEL_CAMPO);
-            try {
-                gerarchia.getCategoria(nomeCategoria).addCampoNativo(nomeCampo);
-                System.out.printf((CAMPO_S_CORRETTAMENTE_AGGIUNTO) + "%n", nomeCampo);
-            } catch (IllegalCampoException e) {
-                System.out.println(e.getMessage());
-            } catch (CategoriaNotFoundException e) {
-                
-                e.printStackTrace();
-            }
-        } while (InputDati.yesOrNo(VUOI_AGGIUNGERE_ALTRI_CAMPI));
-    }
-
-    /**
-     * Rimuove campi da una categoria della gerarchia.
-     *
-     * @param gerarchia la gerarchia contenente la categoria da cui rimuovere i campi
-     */
-    private void rimuoviCampi(Gerarchia gerarchia) {
-        String nomeCategoria, nomeCampo;
-        System.out.println(gerarchia.toString());
-        int scelta = InputDati.leggiIntero(SCELTA_ELIMINAZ_CAMPI, 1, 2);
-        nomeCategoria = InputDati.leggiStringaNonVuota(CATEGORIA_DA_MODIFICARE);
-        try {
-            if (scelta == 1) {
-                gerarchia.getCategoria(nomeCategoria).eliminaCampiNativi();
-                gerarchia.getCategoria(nomeCategoria).addCampoNativo(" "); // Aggiunge un campo vuoto
-                System.out.println(CAMPI_NATIVI_ELIMINATI);
-            } else {
-                System.out.println(gerarchia.getCategoria(nomeCategoria).stampaCampiNativi());
-                do {
-                    nomeCampo = InputDati.leggiStringaNonVuota(NOME_DEL_CAMPO);
-                    gerarchia.getCategoria(nomeCategoria).eliminaCampoNativo(nomeCampo);
-                    System.out.println(CAMPO_NATIVO_ELIMINATO);
-                } while (InputDati.yesOrNo(VUOI_ELIMINARE_ALTRI_CAMPI));
-                if (gerarchia.getCategoria(nomeCategoria).getCampiNativi().isEmpty()) {
-                    gerarchia.getCategoria(nomeCategoria).addCampoNativo(" "); // Aggiunge un campo vuoto se non ci sono più campi
-                }
-            }
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-        }
-    }
-
-    /**
-     * Restituisce la gerarchia con il nome specificato.
-     *
-     * @param nomeGerarchia il nome della gerarchia
-     * @return la gerarchia con il nome specificato
-     */
-    public Gerarchia getGerarchia(String nomeGerarchia) {
-        return radici.get(nomeGerarchia.toUpperCase());
-    }
-
-
+    
     /**
      * Stampa una gerarchia a partire dalla categoria radice.
      *
@@ -212,38 +117,6 @@ public class GestoreGerarchie implements UtilityHandler {
         System.out.println(categoria.getNome());
         for (Categoria sottocategoria : categoria.getFigli()) {
             stampaGerarchia(sottocategoria, livello + 1);
-        }
-    }
-
-    /**
-     * Restituisce la mappa delle radici.
-     *
-     * @return la mappa delle radici
-     */
-    public HashMap<String, Gerarchia> getRadici() {
-        return radici;
-    }
-
-    /**
-     *  Restituisce la categoria con il nome specificato.
-     * @param string il nome della categoria
-     * @return la categoria con il nome specificato
-     * @throws CategoriaNotFoundException 
-     */
-    public Categoria getCategoriaRichiesta(String string) throws CategoriaNotFoundException {
-        for (Gerarchia g : radici.values()) {
-             Categoria c = g.getCategoria(string);
-            if (c.getNome().equals(string)) {
-                return c;
-            }
-        }
-        return null;
-     }
-
-    @Override
-    public void view() {
-        for (Gerarchia gerarchia : radici.values()) {
-            stampaGerarchia(gerarchia.getCategoriaRadice(), 0);
         }
     }
 
@@ -293,5 +166,7 @@ public class GestoreGerarchie implements UtilityHandler {
     public void salva() {
         gestoreDati.setGerarchie(radici);
     }
+
+    
 }
 
