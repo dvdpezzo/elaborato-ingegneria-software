@@ -42,41 +42,23 @@ public class GestoreFattori implements UtilityHandler {
      * @param valoreConversione indica il valore di conversione tra la prima e la seconda categoria 
      */
     private void assegnaFattoreConversione(Categoria categoria1, Categoria categoria2, double valoreConversione) {
-        if (!(categoria1.hasFiglio(categoria1) && categoria2.hasFiglio(categoria2))) {
-
-            String chiave = categoria1.getNome() + "->" + categoria2.getNome();
-            for(String chiaveEsistente : mappaFattori.keySet()) {
-                if (chiave.equalsIgnoreCase(chiaveEsistente)) {
-                    System.out.println("Il fattore di conversione esiste già!");
-                    return;
-                }
-            }
-            FattoriConversione fattore = new FattoriConversione(valoreConversione, categoria1, categoria2);
-            mappaFattori.put(chiave, fattore);
-            System.out.println(FATTORI_CONVERSIONE_CREATI);
-
-
-
-            //creo in automatico il fattore opposto 
-            fattoreOpposto(categoria1, categoria2, valoreConversione);
-
-        } else {
+        if (categoria1.hasFiglio(categoria1) || categoria2.hasFiglio(categoria2)) {
             System.out.println(ERRORE_CATEGORIA);
+            return;
         }
-    }
 
-    /**
-     * Crea il fattore di conversione opposto rispetto a quello inserito nel metodo assegnaFattoreConversione()
-     * 
-     * @param categoria1 
-     * @param categoria2
-     * @param valoreConversione
-     */
-    private void fattoreOpposto(Categoria categoria1, Categoria categoria2, double valoreConversione) {
+        String chiave = categoria1.getNome() + "->" + categoria2.getNome();
+        if (mappaFattori.containsKey(chiave)) {
+            System.out.println("Il fattore di conversione esiste già!");
+            return;
+        }
 
-        String chiaveOpposta = categoria2.getNome() + "->" + categoria1.getNome();
-        FattoriConversione fattoreOpposto = new FattoriConversione(1 / valoreConversione, categoria2, categoria1);
-        mappaFattori.put(chiaveOpposta, fattoreOpposto);
+        // Crea fattore diretto e inverso
+        mappaFattori.put(chiave, new FattoriConversione(valoreConversione, categoria1, categoria2));
+        mappaFattori.put(categoria2.getNome() + "->" + categoria1.getNome(), 
+            new FattoriConversione(1/valoreConversione, categoria2, categoria1));
+        
+        System.out.println(FATTORI_CONVERSIONE_CREATI);
     }
 
     /**
@@ -88,13 +70,14 @@ public class GestoreFattori implements UtilityHandler {
     private void fattoreDerivato(Categoria categoria1, Categoria categoria2, Categoria categoria3) {
         String chiave12 = categoria1.getNome() + "->" + categoria2.getNome();
         String chiave23 = categoria2.getNome() + "->" + categoria3.getNome();
-        if (mappaFattori.containsKey(chiave12) && mappaFattori.containsKey(chiave23)) {
-            double valoreConversione1 = mappaFattori.get(chiave12).getValoreConversione();
-            double valoreConversione2 = mappaFattori.get(chiave23).getValoreConversione();
-            double valoreDerivato = valoreConversione1 * valoreConversione2;
-
-            assegnaFattoreConversione(categoria1, categoria3, valoreDerivato);
+        
+        if (!mappaFattori.containsKey(chiave12) || !mappaFattori.containsKey(chiave23)) {
+            System.out.println("Uno dei fattori di conversione non esiste!");
+            return;
         }
+        double valoreDerivato = mappaFattori.get(chiave12).getValoreConversione() * 
+                               mappaFattori.get(chiave23).getValoreConversione();
+        assegnaFattoreConversione(categoria1, categoria3, valoreDerivato);
     }
 
     /**

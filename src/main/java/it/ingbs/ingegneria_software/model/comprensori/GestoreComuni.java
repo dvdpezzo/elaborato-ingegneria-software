@@ -1,8 +1,11 @@
 package it.ingbs.ingegneria_software.model.comprensori;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
+import java.util.stream.IntStream;
 
 import it.ingbs.ingegneria_software.gestione_file.GestoreDati;
 import it.ingbs.ingegneria_software.utilita_generale.InputDati;
@@ -44,14 +47,7 @@ public class GestoreComuni implements UtilityHandler {
         while (n < 1 || n > mappaComuni.size()) {
             n = InputDati.leggiIntero(MSG_INPUT_OUT_OF_RANGE);
         }
-
-        for (Map.Entry<Integer, String> entry : mappaComuni.entrySet()) {
-            if (entry.getKey() == n) {
-                return entry.getValue();
-            }
-        }
-
-        return ERRORE_COMUNE_NON_TROVATO;
+        return mappaComuni.getOrDefault(n, ERRORE_COMUNE_NON_TROVATO);
     }
 
     /**
@@ -60,13 +56,7 @@ public class GestoreComuni implements UtilityHandler {
      * @return il numero più alto di comune
      */
     public int getLastNumero() {
-        int max = 0;
-        for (Map.Entry<Integer, String> entry : mappaComuni.entrySet()) {
-            if (entry.getKey() > max) {
-                max = entry.getKey();
-            }
-        }
-        return max;
+        return mappaComuni.isEmpty() ? 0 : Collections.max(mappaComuni.keySet());
     }
 
     /**
@@ -77,19 +67,16 @@ public class GestoreComuni implements UtilityHandler {
      * @param n il numero di comuni da inserire
      */
     public void inserimentoComuni(List<String> listaComuni, int n) {
-        for (int i = 0; i < n; i++) {
-            boolean comuneValido = false;
-            while (!comuneValido) {
-                int numeroComune = InputDati.leggiIntero(String.format(MSG_INSERISCI_NUMERO_COMUNE, i + 1));
-                String comune = scegliComune(numeroComune);
-                if (listaComuni.contains(comune)) {
-                    System.out.println(MSG_COMUNE_GIA_INSERITO);
-                } else {
+        IntStream.range(0, n).forEach(i -> {
+            while (true) {
+                String comune = scegliComune(InputDati.leggiIntero(String.format(MSG_INSERISCI_NUMERO_COMUNE, i + 1)));
+                if (!listaComuni.contains(comune)) {
                     listaComuni.add(comune);
-                    comuneValido = true;
+                    break;
                 }
+                System.out.println(MSG_COMUNE_GIA_INSERITO);
             }
-        }
+        });
     }
 
     /**
@@ -99,12 +86,8 @@ public class GestoreComuni implements UtilityHandler {
      * @return true se il comune è presente in un comprensorio, false altrimenti
      */
     private boolean isComuneInComprensorio(String nomeComune) {
-        for (ComprensorioGeografico comprensorio : gestoreDati.getComprensori().values()) {
-            if (comprensorio.getListaComuni().contains(nomeComune)) {
-                return true;
-            }
-        }
-        return false;
+        return gestoreDati.getComprensori().values().stream()
+                .anyMatch(c -> c.getListaComuni().contains(nomeComune));
     }
 
     /**
@@ -114,38 +97,29 @@ public class GestoreComuni implements UtilityHandler {
      * @return true se il comune è stato rimosso, false altrimenti
      */
     private boolean rimuoviComune(int numeroComune) {
-        if (mappaComuni.containsKey(numeroComune)) {
-            String nomeComune = mappaComuni.get(numeroComune);
-
-            // Verifica se il comune è presente in un comprensorio geografico
-            if (isComuneInComprensorio(nomeComune)) {
-                System.out.println("Errore: Il comune è presente in un comprensorio geografico e non può essere eliminato.");
-                return false;
-            }
-
-            // Rimuove il comune specificato
-            mappaComuni.remove(numeroComune);
-
-            // Crea una nuova mappa temporanea per riassegnare i numeri
-            HashMap<Integer, String> nuovaMappaComuni = new HashMap<>();
-            int nuovoNumero = 1;
-
-            // Riassegna i numeri in ordine crescente
-            for (Map.Entry<Integer, String> entry : mappaComuni.entrySet()) {
-                nuovaMappaComuni.put(nuovoNumero++, entry.getValue());
-            }
-
-            // Sostituisce la vecchia mappa con la nuova
-            mappaComuni.clear();
-            mappaComuni.putAll(nuovaMappaComuni);
-
-            // Salva i dati dopo la rimozione
-            gestoreDati.setComuni(mappaComuni);
-            return true;
-        } else {
+        if (!mappaComuni.containsKey(numeroComune)) {
             System.out.println(ERRORE_COMUNE_NON_TROVATO);
             return false;
         }
+
+        String nomeComune = mappaComuni.get(numeroComune);
+        if (isComuneInComprensorio(nomeComune)) {
+            System.out.println("Errore: Il comune è presente in un comprensorio geografico e non può essere eliminato.");
+            return false;
+        }
+
+        mappaComuni.remove(numeroComune);
+        
+        // Riordina i numeri dei comuni rimanenti
+        TreeMap<Integer, String> comuniOrdinati = new TreeMap<>(mappaComuni);
+        mappaComuni.clear();
+        int num = 1;
+        for (String value : comuniOrdinati.values()) {
+            mappaComuni.put(num++, value);
+        }
+        
+        gestoreDati.setComuni(mappaComuni);
+        return true;
     }
 
     @Override
@@ -166,14 +140,13 @@ public class GestoreComuni implements UtilityHandler {
 
     @Override
     public void aggiungi() {
-        String nomeComune = InputDati.leggiStringa("Inserisci il nome del comune da aggiungere:");
-        if (!mappaComuni.containsValue(nomeComune.toUpperCase())) {
-            int numeroComune = getLastNumero() + 1;
-            mappaComuni.put(numeroComune, nomeComune.toUpperCase());
-            System.out.println("Comune aggiunto con successo.");
-        } else {
+        String nomeComune = InputDati.leggiStringa("Inserisci il nome del comune da aggiungere:").toUpperCase();
+        if (mappaComuni.containsValue(nomeComune)) {
             System.out.println(MSG_COMUNE_GIA_INSERITO);
+            return;
         }
+        mappaComuni.put(getLastNumero() + 1, nomeComune);
+        System.out.println("Comune aggiunto con successo.");
     }
 
     @Override
