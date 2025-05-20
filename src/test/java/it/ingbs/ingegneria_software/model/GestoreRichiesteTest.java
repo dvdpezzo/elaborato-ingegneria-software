@@ -7,7 +7,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import it.ingbs.ingegneria_software.gestione_file.GestoreFile;
+import it.ingbs.ingegneria_software.gestione_file.GestoreDati;
 import it.ingbs.ingegneria_software.model.gerarchie.Categoria;
 import it.ingbs.ingegneria_software.model.richieste.GestoreRichieste;
 import it.ingbs.ingegneria_software.model.richieste.RichiestaScambio;
@@ -17,14 +17,14 @@ import it.ingbs.ingegneria_software.model.utenti.Fruitore;
 public class GestoreRichiesteTest {
 
     private GestoreRichieste gestoreRichieste;
-    private GestoreFile gestoreFile;
+    private GestoreDati gestoreDati;
     private HashMap<Fruitore, List<RichiestaScambio>> mappaRichieste;
 
     @BeforeEach
     public void setUp() {
-        gestoreFile = new GestoreFile();
+        gestoreDati = new GestoreDati();
         mappaRichieste = new HashMap<>();
-        gestoreRichieste = new GestoreRichieste(gestoreFile, mappaRichieste);
+        gestoreRichieste = new GestoreRichieste(gestoreDati);
     }
 
     @Test

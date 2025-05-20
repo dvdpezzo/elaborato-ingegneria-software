@@ -6,9 +6,19 @@ import it.ingbs.ingegneria_software.Eccezioni.CategoriaNotFoundException;
 import it.ingbs.ingegneria_software.Eccezioni.CategoriaOmonimaException;
 import it.ingbs.ingegneria_software.Eccezioni.IllegalCampoException;
 import it.ingbs.ingegneria_software.Eccezioni.PadreNotFoundException;
+import it.ingbs.ingegneria_software.utilita_generale.InputDati;
 
  public class Gerarchia {
     
+    private static final String CATEGORIA_S_AGGIUNTA = "Categoria %s aggiunta!";
+    private static final String NOME_CATEGORIA = "Nome della categoria: ";
+    private static final String DESCRIZIONE_CATEGORIA = "Descrizione della categoria: ";
+    private static final String CHI_E_IL_PADRE = "Chi è il padre della categoria? ";
+    private static final String VUOI_AGGIUNGERE_ALTRE_CATEGORIE = "Vuoi aggiungere altre categorie?";
+    private static final String VUOI_AGGIUNGERE_UNA_DESCRIZIONE = "Vuoi aggiungere una descrizione?";
+    private static final String CATEGORIA_DA_ELIMINARE = "Nome della categoria da eliminare: ";
+    private static final String CATEGORIA_S_RIMOSSA = "Categoria %s rimossa!";
+
     private static final String CAMPO_RADICE = "Radice";
     private final HashMap<String, Categoria> sottoCategorie;
     private final Categoria categoriaRadice;
@@ -58,6 +68,28 @@ import it.ingbs.ingegneria_software.Eccezioni.PadreNotFoundException;
         } else
             throw new PadreNotFoundException();
     }
+    
+    public void aggiungiCategoria() {
+        do {
+            System.out.println(toString());
+            String nomeCategoria, descrizioneCategoria;
+            nomeCategoria = InputDati.leggiStringaNonVuota(NOME_CATEGORIA);
+            boolean aggiungiDescrizione = InputDati.yesOrNo(VUOI_AGGIUNGERE_UNA_DESCRIZIONE);
+            if (aggiungiDescrizione) {
+                descrizioneCategoria = InputDati.leggiStringaNonVuota(DESCRIZIONE_CATEGORIA);
+            } else {
+                descrizioneCategoria = " ";
+            }
+            String nomePadre = InputDati.leggiStringaNonVuota(CHI_E_IL_PADRE);
+            try {
+                addSottocategoria(nomeCategoria.toUpperCase(), descrizioneCategoria, nomePadre);
+                getCategoria(nomeCategoria.toUpperCase()).addCampoNativo(" "); // Aggiunge un campo nativo vuoto
+                System.out.printf((CATEGORIA_S_AGGIUNTA) + "%n", nomeCategoria);
+            } catch (PadreNotFoundException | CategoriaOmonimaException | IllegalCampoException | CategoriaNotFoundException e) {
+                System.out.println(e.getMessage());
+            }
+        } while (InputDati.yesOrNo(VUOI_AGGIUNGERE_ALTRE_CATEGORIE));
+    }
 
     /**
      * Aggiunge una sotto-categoria per la creazione dell'albero della gerarchia durante la fase di caricamento del
@@ -83,13 +115,23 @@ import it.ingbs.ingegneria_software.Eccezioni.PadreNotFoundException;
             throw new PadreNotFoundException();
     }
 
+    public void rimuoviCategoria() {
+        System.out.println(toString());
+        String nomeCategoria = InputDati.leggiStringaNonVuota(CATEGORIA_DA_ELIMINARE);
+        try {
+            rimuoviCategoria(nomeCategoria);
+            System.out.printf((CATEGORIA_S_RIMOSSA) + "%n", nomeCategoria);
+        } catch (CategoriaNotFoundException e) {
+            System.out.println(e.getMessage());
+        }
+    }
     /**
      * Rimuove la categoria specificata dalla gerarchia
      *
      * @param nome il nome della categoria da rimuovere;
      * @throws CategoriaNotFoundException se non viene trovata una categoria col nome specificato
      */
-    public void rimuoviCategoria(String nome) throws CategoriaNotFoundException {
+    private void rimuoviCategoria(String nome) throws CategoriaNotFoundException {
         Categoria daRimuovere;
         if (sottoCategorie.containsKey(nome.toUpperCase())) {
             daRimuovere = sottoCategorie.get(nome.toUpperCase());
