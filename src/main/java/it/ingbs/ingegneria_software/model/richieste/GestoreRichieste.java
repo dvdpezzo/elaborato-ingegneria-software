@@ -12,20 +12,30 @@ import it.ingbs.ingegneria_software.Eccezioni.CategoriaNotFoundException;
 import it.ingbs.ingegneria_software.gestione_file.GestoreDati;
 import it.ingbs.ingegneria_software.model.gerarchie.Categoria;
 import it.ingbs.ingegneria_software.model.gerarchie.Gerarchia;
+import it.ingbs.ingegneria_software.model.gerarchie.GestoreGerarchie;
 import it.ingbs.ingegneria_software.model.utenti.Fruitore;
 import it.ingbs.ingegneria_software.utilita_generale.InputDati;
 import it.ingbs.ingegneria_software.utilita_generale.UtilityHandler;
 
-public class GestoreRichieste implements UtilityHandler{
+public class GestoreRichieste implements UtilityHandler {
     private final HashMap<Fruitore, List<RichiestaScambio>> mappaRichieste;
-    private final HashMap<Integer, List<RichiestaScambio>> richiesteChiuse = new HashMap<>();
     private final GestoreDati gestoreDati;
-    private final Random random = new Random();
-    private Fruitore fruitore; // Campo per il fruitore corrente
+    private final GestoreGerarchie gestoreGerarchie;
+    private final GestoreCicliScambio gestoreCicli;
+    private final VisualizzatoreRichieste visualizzatore;
+    private Random random = new Random();
+    private Fruitore fruitore;
 
-    public GestoreRichieste(GestoreDati gestoreDati) {
+    public GestoreRichieste(GestoreDati gestoreDati, GestoreGerarchie gestoreGerarchie) {
         this.gestoreDati = gestoreDati;
+        this.gestoreGerarchie = gestoreGerarchie;
         this.mappaRichieste = gestoreDati.getRichieste();
+        this.gestoreCicli = new GestoreCicliScambio(mappaRichieste);
+        this.visualizzatore = new VisualizzatoreRichieste();
+        inizializza();
+    }
+
+    private final void inizializza() {
         valutazioneRichieste();
     }
 
@@ -50,7 +60,7 @@ public class GestoreRichieste implements UtilityHandler{
     }
     
     /**
-     * Metodo che rimuove una richiesta di scambio dalla mappa delle richieste
+     * Metodo che rimuove una richiesta di scambio dalla mappa delle richieste (quando non viene salvata)
      * @param richiestaNuova richiesta da rimuovere
      */
     private void rimuoviRichiesta(RichiestaScambio richiestaNuova) {
@@ -84,7 +94,7 @@ public class GestoreRichieste implements UtilityHandler{
      * @param fruitore soggetto che crea una richiesta di scambio di prestazione
      * @return la richiesta creata
      */
-    public RichiestaScambio nuovaRichiesta(Fruitore fruitore) {
+    private RichiestaScambio nuovaRichiesta(Fruitore fruitore) {
         Categoria catRichiesta;
         Categoria catOfferta;
         do { 
@@ -95,7 +105,7 @@ public class GestoreRichieste implements UtilityHandler{
             } else if (catRichiesta.equals(catOfferta)) {
                 System.out.println("Le categorie non possono essere uguali. Riprova.");
             }
-        } while (catRichiesta == null || catOfferta == null);
+        } while (catRichiesta == null || catOfferta == null || catRichiesta.equals(catOfferta));
         
         int numOre = InputDati.leggiInteroConMinimo("Di quante ore necessiti?", 0);
         
@@ -107,38 +117,31 @@ public class GestoreRichieste implements UtilityHandler{
         }
         
         Double fattoreConversione = gestoreDati.getFattori().get(chiaveConversione).getValoreConversione();
-        Stato stato = Stato.Aperto;
-        RichiestaScambio richiestaNuova = creaRichiesta(catRichiesta, catOfferta, numOre, fruitore, fattoreConversione,stato);
-        System.out.println(richiestaNuova.toString());
-        boolean salva = InputDati.yesOrNo("Vuoi salvare la richiesta?");
-        if (!salva) {
+        RichiestaScambio richiestaNuova = creaRichiesta(catRichiesta, catOfferta, numOre, fruitore, fattoreConversione, Stato.Aperto);
+        
+        if (!InputDati.yesOrNo("Vuoi salvare la richiesta?")) {
             rimuoviRichiesta(richiestaNuova);
             return null;
-        } else {
-            salva();
-            return richiestaNuova;
         }
+        
+        salva();
+        return richiestaNuova;
     }
 
     /**
-     * Metodo che cerca una categoria foglia
+     * Metodo che cerca una categoria foglia usando il GestoreGerarchie
      * @return la categoria cercata se la trova null altrimenti
-     * 
      */
     private Categoria cercaCatFoglia() {
-        Categoria catCercata = null;
         String nomeRichiesta = InputDati.leggiStringaNonVuota("Inserisci il nome della categoria di cui hai bisogno").toUpperCase();
-        for (Map.Entry<String, Gerarchia> gerarchia :gestoreDati.getGerarchie().entrySet()) {
-            try {
-                catCercata = gerarchia.getValue().getCategoria(nomeRichiesta);
-                if (catCercata != null) {
-                    break;
-                }
-            } catch (CategoriaNotFoundException ex) {
-                System.err.println(ex.getMessage());
+        try {
+            for (Map.Entry<String, Gerarchia> gerarchia : gestoreDati.getGerarchie().entrySet()) {
+                return gerarchia.getValue().getCategoria(nomeRichiesta);
             }
-        }        
-        return catCercata;
+        } catch (CategoriaNotFoundException ex) {
+            System.err.println(ex.getMessage());
+        }
+        return null;
     }
 
     /*
@@ -207,144 +210,12 @@ public class GestoreRichieste implements UtilityHandler{
      * Metodo che valuta una richiesta di scambio
      */
     public boolean valutazioneRichiesta(Fruitore proprietarioRichiesta, RichiestaScambio richiesta) {
-        // prendo la mappa di tutte le richieste che hanno fruitori con lo stesso comprensorio di proprietario richiesta
-        HashMap<Fruitore, List<RichiestaScambio>> mappaRichiesteComprensorio = new HashMap<>();
-        for (Map.Entry<Fruitore, List<RichiestaScambio>> entry : mappaRichieste.entrySet()) {
-            if (entry.getKey().getComprensorio() == (proprietarioRichiesta.getComprensorio())) {
-                mappaRichiesteComprensorio.put(entry.getKey(), entry.getValue());
-            }
-        }
-
-        // Verifica se esiste un ciclo di richieste soddisfatte
-        boolean richiestaPrincipaleSoddisfatta = false;
-        for (Map.Entry<Fruitore, List<RichiestaScambio>> entry : mappaRichiesteComprensorio.entrySet()) {
-            for (RichiestaScambio r : entry.getValue()) {
-                Set<RichiestaScambio> visited = new HashSet<>();
-                if (isCyclic(r, visited, mappaRichiesteComprensorio)) {
-                    // Chiude tutte le richieste coinvolte nel ciclo
-                    for (RichiestaScambio richiestaCiclo : visited) {
-                        richiestaCiclo.setStato(Stato.Chiuso);
-                    }
-                    // Aggiunge il set di richieste chiuse alla mappa richiesteChiuse
-                    aggiungiRichiesteChiuse(visited);
-                    if (visited.contains(richiesta)) {
-                        richiestaPrincipaleSoddisfatta = true;
-                    }
-                }
-            }
-        }
-        // filtraRichieste();
-        salva();
-
-        return richiestaPrincipaleSoddisfatta;
-    }
-
-    /*
-     * Metodo che filtra le richieste
-     */
-    private boolean isCyclic(RichiestaScambio richiesta, Set<RichiestaScambio> visited, HashMap<Fruitore, List<RichiestaScambio>> mappaRichiesteComprensorio) {
-        if (visited.contains(richiesta)) {
-            return true;
-        }
-
-        visited.add(richiesta);
-
-        for (Map.Entry<Fruitore, List<RichiestaScambio>> entry : mappaRichiesteComprensorio.entrySet()) {
-            for (RichiestaScambio r : entry.getValue()) {
-                if (richiesta.soddisfaRichiesta(r)) {
-                    if (isCyclic(r, visited, mappaRichiesteComprensorio)) {
-                        return true;
-                    }
-                }
-            }
-        }
-
-        visited.remove(richiesta);
-        return false;
-    }
-
-
-    /**
-     * Metodo che genera un codice casuale
-     * @return
-     */   
-    private int generaCodiceRichiesta(){        
-        return random.nextInt(9999);
-    }
-
-    /**
-     * Metodo che aggiunge un set di richieste chiuse alla mappa richiesteChiuse.
-     * Genera un codice univoco per identificare il gruppo di richieste.
-     * Evita di aggiungere lo stesso set più volte.
-     *
-     * @param richiesteSet il set di richieste che si completano a vicenda
-     */
-    private void aggiungiRichiesteChiuse(Set<RichiestaScambio> richiesteSet) {
-        // Converte il set in una lista per confronti
-        List<RichiestaScambio> nuovaListaRichieste = new ArrayList<>(richiesteSet);
-
-        // Controlla se il set è già presente nella mappa
-        for (List<RichiestaScambio> listaEsistente : richiesteChiuse.values()) {
-            if (listaEsistente.containsAll(nuovaListaRichieste) && nuovaListaRichieste.containsAll(listaEsistente)) {
-                // Il set è già presente, non aggiungere duplicati
-                return;
-            }
-        }
-
-        // Genera un codice univoco e aggiunge il set alla mappa
-        int codiceUnivoco = generaCodiceRichiesta();
-        richiesteChiuse.put(codiceUnivoco, nuovaListaRichieste);
-    }
-
-    /**
-     * Metodo che visualizza le richieste chiuse
-     */
-    public void visualizzaRichiesteChiuse(){
-        for(Map.Entry<Integer, List<RichiestaScambio>> entry : richiesteChiuse.entrySet()){
-            System.out.println("Codice richiesta: " + entry.getKey());
-            for(RichiestaScambio richiesta : entry.getValue()){
-
-                System.out.println(richiesta.getFr().getNomeUtente()+" "+richiesta.getFr().getEmail());
-                System.out.println(richiesta.toString()+"\n");
-            }
-        }
-    }
-
-    /**
-     * Metodo che visualizza le richieste di una categoria
-     */
-    public void visualizzaRichiesteCategoria(){
-        
-        Categoria catCercata = cercaCatFoglia();
-        if(catCercata == null){
-            System.out.println("Categoria non trovata.");
-            return;
-        }
-        for(Map.Entry<Fruitore, List<RichiestaScambio>> entry : mappaRichieste.entrySet()){
-            for(RichiestaScambio richiesta : entry.getValue()){
-                if(richiesta.getCatRichiesta().equals(catCercata)){
-                    System.out.println(richiesta.getFr().getNomeUtente());
-                    System.out.println(richiesta.toString());
-                }
-                else if(richiesta.getCatOfferta().equals(catCercata)){
-                    System.out.println(richiesta.getFr().getNomeUtente());
-                    System.out.println(richiesta.toString());
-                    }
-            }
-        }
-        
+        return gestoreCicli.valutaRichiesta(proprietarioRichiesta, richiesta);
     }
 
     @Override
     public void view() {
-        if (mappaRichieste.containsKey(fruitore)) {
-            for (RichiestaScambio richiesta : mappaRichieste.get(fruitore)) {
-                System.out.println(richiesta.toString());
-                
-            }
-        } else {
-            System.out.println("Non hai effettuato nessuna richiesta.");
-        }
+        visualizzatore.visualizzaRichiesteFruitore(this.fruitore, mappaRichieste);
     }
 
     //rimuovi = ritira
@@ -370,13 +241,5 @@ public class GestoreRichieste implements UtilityHandler{
     public void salva() {
         gestoreDati.setRichieste(mappaRichieste);
     }
-
-
     
 }
-
-
-
-
-
-

@@ -70,4 +70,10 @@ public class GestoreFruitori {
         return mappaDatiFruitori.computeIfAbsent(nomeUtente, 
             k -> { throw new IllegalArgumentException("Utente non trovato: " + k); });
     }
+
+    public HashMap<String, String> getMappaCredenziali() {
+        return mappaCredenziali;
+    }
+
+
 }

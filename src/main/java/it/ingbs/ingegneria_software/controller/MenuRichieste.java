@@ -17,7 +17,7 @@ public class MenuRichieste implements Runnable {
 
     @Override
     /**
-     * Meenu delle richieste 
+     * Menu delle richieste 
      */
     public void run(){
         int scelta;
