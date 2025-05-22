@@ -127,12 +127,15 @@ public class GestoreRichieste implements UtilityHandler {
      */
     private Categoria cercaCatFoglia() {
         String nomeRichiesta = InputDati.leggiStringaNonVuota("Inserisci il nome della categoria di cui hai bisogno").toUpperCase();
-        try {
-            for (Map.Entry<String, Gerarchia> gerarchia : gestoreDati.getGerarchie().entrySet()) {
-                return gerarchia.getValue().getCategoria(nomeRichiesta);
+        for (Map.Entry<String, Gerarchia> gerarchia : gestoreDati.getGerarchie().entrySet()) {
+            try {
+                Categoria cat = gerarchia.getValue().getCategoria(nomeRichiesta);
+                if (cat != null && cat.getFigli().isEmpty()) {  // Verifica che sia una foglia
+                    return cat;
+                }
+            } catch (CategoriaNotFoundException ex) {
+                System.err.println(ex.getMessage());
             }
-        } catch (CategoriaNotFoundException ex) {
-            System.err.println(ex.getMessage());
         }
         return null;
     }
@@ -189,7 +192,7 @@ public class GestoreRichieste implements UtilityHandler {
     public void valutazioneRichieste() {
         for (Map.Entry<Fruitore, List<RichiestaScambio>> entry : mappaRichieste.entrySet()) {
             for (RichiestaScambio richiesta : entry.getValue()) {
-                gestoreCicli.valutaRichiesta(entry.getKey(), richiesta);
+                valutazioneRichiesta(entry.getKey(), richiesta);
                 
             }
         }
@@ -201,7 +204,7 @@ public class GestoreRichieste implements UtilityHandler {
      */
     public void valutazioneRichiesta(Fruitore proprietarioRichiesta, RichiestaScambio richiesta) {
         if (richiesta.getStato() == Stato.Aperto) {
-            gestoreCicli.valutaRichiesta(proprietarioRichiesta, richiesta);
+            gestoreCicli.valutaRichieste(proprietarioRichiesta, richiesta);
             salva();
         }
     }
@@ -235,46 +238,43 @@ public class GestoreRichieste implements UtilityHandler {
         gestoreDati.setRichieste(mappaRichieste);
     }
     
+    private void visualizzaRichiesta(RichiestaScambio richiesta) {
+        System.out.println(richiesta.getFr().getNomeUtente() + " " + richiesta.getFr().getEmail());
+        System.out.println(richiesta.toString());
+    }
+
     public void visualizzaRichiesteChiuse() {
         Map<Integer, List<RichiestaScambio>> richiesteChiuse = gestoreCicli.getRichiesteChiuse();
         for(Map.Entry<Integer, List<RichiestaScambio>> entry : richiesteChiuse.entrySet()){
             System.out.println("Ciclo #" + entry.getKey() + ":");
             for(RichiestaScambio richiesta : entry.getValue()){
-                System.out.println(richiesta.getFr().getNomeUtente()+" "+richiesta.getFr().getEmail());
-                System.out.println(richiesta.toString()+"\n");
+                visualizzaRichiesta(richiesta);
+                System.out.println();
             }
             System.out.println("-----------------");
         }
     }
     
     public void visualizzaRichiesteCategoria() {
-       Categoria catCercata = cercaCatFoglia();
+        Categoria catCercata = cercaCatFoglia();
         if(catCercata == null){
             System.out.println("Categoria non trovata.");
             return;
         }
         for(Map.Entry<Fruitore, List<RichiestaScambio>> entry : mappaRichieste.entrySet()){
             for(RichiestaScambio richiesta : entry.getValue()){
-                if(richiesta.getCatRichiesta().equals(catCercata)){
-                    System.out.println(richiesta.getFr().getNomeUtente());
-                    System.out.println(richiesta.toString());
+                if(richiesta.getCatRichiesta().equals(catCercata) || 
+                   richiesta.getCatOfferta().equals(catCercata)){
+                    visualizzaRichiesta(richiesta);
                 }
-                else if(richiesta.getCatOfferta().equals(catCercata)){
-                    System.out.println(richiesta.getFr().getNomeUtente());
-                    System.out.println(richiesta.toString());
-                    }
             }
         }
     }
 
     public void visualizzaRichiesteFruitore(Fruitore fruitore, Map<Fruitore, List<RichiestaScambio>> mappaRichieste) {
-        for(Map.Entry<Fruitore, List<RichiestaScambio>> entry : mappaRichieste.entrySet()){
-            if(entry.getKey().equals(fruitore)){
-                for(RichiestaScambio richiesta : entry.getValue()){
-                    System.out.println(richiesta.getFr().getNomeUtente());
-                    System.out.println(richiesta.toString());
-                }
-            }
+        List<RichiestaScambio> richiesteFruitore = mappaRichieste.get(fruitore);
+        if (richiesteFruitore != null) {
+            richiesteFruitore.forEach(this::visualizzaRichiesta);
         }
     }
 }
