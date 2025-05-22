@@ -19,7 +19,6 @@ public class GestoreFileTest {
     @Test
     public void testCaricaSalvataggio() {
         try {
-            gestoreFile.creaSalvataggio(); // Assicura che i file siano creati prima di caricarli
             gestoreFile.caricaSalvataggio();
             assertNotNull(gestoreFile.getGestoreDati().getComuni());
             assertNotNull(gestoreFile.getGestoreDati().getComprensori());

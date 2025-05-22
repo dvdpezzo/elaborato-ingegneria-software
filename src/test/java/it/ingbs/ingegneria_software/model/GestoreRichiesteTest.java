@@ -1,8 +1,5 @@
 package it.ingbs.ingegneria_software.model;
 
-import java.util.HashMap;
-import java.util.List;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -18,12 +15,10 @@ public class GestoreRichiesteTest {
 
     private GestoreRichieste gestoreRichieste;
     private GestoreDati gestoreDati;
-    private HashMap<Fruitore, List<RichiestaScambio>> mappaRichieste;
 
     @BeforeEach
     public void setUp() {
         gestoreDati = GestoreDati.getInstance();
-        mappaRichieste = new HashMap<>();
         gestoreRichieste = new GestoreRichieste(gestoreDati);
     }
 
@@ -34,11 +29,8 @@ public class GestoreRichiesteTest {
         Fruitore fruitore1 = new Fruitore("Fruitore1", null, 10, null);
         Fruitore fruitore2 = new Fruitore("Fruitore2", null, 10, null);
 
-        RichiestaScambio richiesta1 = new RichiestaScambio(cat1, 5, cat2, fruitore1, 1.0, Stato.Aperto);
-        RichiestaScambio richiesta2 = new RichiestaScambio(cat2, 5, cat1, fruitore2, 1.0, Stato.Aperto);
-
-        gestoreRichieste.addRichiesta(fruitore1, richiesta1);
-        gestoreRichieste.addRichiesta(fruitore2, richiesta2);
+        RichiestaScambio richiesta1 = gestoreRichieste.creaRichiesta(cat1, cat2, 5, fruitore1, 1.0, Stato.Aperto);
+        RichiestaScambio richiesta2 = gestoreRichieste.creaRichiesta(cat2, cat1, 5, fruitore2, 1.0, Stato.Aperto);
 
         gestoreRichieste.valutazioneRichiesta(fruitore1, richiesta1);
 
@@ -55,13 +47,9 @@ public class GestoreRichiesteTest {
         Fruitore fruitore2 = new Fruitore("Fruitore2", "Comprensorio1", 20, null);
         Fruitore fruitore3 = new Fruitore("Fruitore3", "Comprensorio1", 20, null);
 
-        RichiestaScambio richiesta1 = new RichiestaScambio(cat1, 5, cat2, fruitore1, 1.0, Stato.Aperto);
-        RichiestaScambio richiesta2 = new RichiestaScambio(cat2, 5, cat3, fruitore2, 1.0, Stato.Aperto);
-        RichiestaScambio richiesta3 = new RichiestaScambio(cat3, 5, cat1, fruitore3, 1.0, Stato.Aperto);
-
-        gestoreRichieste.addRichiesta(fruitore1, richiesta1);
-        gestoreRichieste.addRichiesta(fruitore2, richiesta2);
-        gestoreRichieste.addRichiesta(fruitore3, richiesta3);
+        RichiestaScambio richiesta1 = gestoreRichieste.creaRichiesta(cat1, cat2, 5, fruitore1, 1.0, Stato.Aperto);
+        RichiestaScambio richiesta2 = gestoreRichieste.creaRichiesta(cat2, cat3, 5, fruitore2, 1.0, Stato.Aperto);
+        RichiestaScambio richiesta3 = gestoreRichieste.creaRichiesta(cat3, cat1, 5, fruitore3, 1.0, Stato.Aperto);
 
         gestoreRichieste.valutazioneRichiesta(fruitore1, richiesta1);
 
@@ -79,19 +67,37 @@ public class GestoreRichiesteTest {
         Fruitore fruitore2 = new Fruitore("Fruitore2", "Comprensorio1", 20, null);
         Fruitore fruitore3 = new Fruitore("Fruitore3", "Comprensorio1", 20, null);
 
-        RichiestaScambio richiesta1 = new RichiestaScambio(cat1, 5, cat2, fruitore1, 1.0, Stato.Aperto);
-        RichiestaScambio richiesta2 = new RichiestaScambio(cat2, 5, cat3, fruitore2, 1.0, Stato.Aperto);
-        RichiestaScambio richiesta3 = new RichiestaScambio(cat3, 5, cat2, fruitore3, 1.0, Stato.Aperto);
-
-        gestoreRichieste.addRichiesta(fruitore1, richiesta1);
-        gestoreRichieste.addRichiesta(fruitore2, richiesta2);
-        gestoreRichieste.addRichiesta(fruitore3, richiesta3);
+        RichiestaScambio richiesta1 =  gestoreRichieste.creaRichiesta(cat1, cat2, 5, fruitore1, 1.0, Stato.Aperto);
+        RichiestaScambio richiesta2 =  gestoreRichieste.creaRichiesta(cat2, cat3, 5, fruitore2, 1.0, Stato.Aperto);
+        RichiestaScambio richiesta3 =  gestoreRichieste.creaRichiesta(cat3, cat2, 5, fruitore3, 1.0, Stato.Aperto);
 
         gestoreRichieste.valutazioneRichiesta(fruitore1, richiesta1);
-        
+
         assertEquals(Stato.Aperto, richiesta1.getStato());
         assertEquals(Stato.Chiuso, richiesta2.getStato());
         assertEquals(Stato.Chiuso, richiesta3.getStato());
+    }
+
+    @Test
+    public void testRitiraRichiesta_Success() {
+        Categoria cat1 = new Categoria("MATE", null);
+        Fruitore fruitore1 = new Fruitore("Fruitore1", null, 10, null);
+        RichiestaScambio richiesta1 =  gestoreRichieste.creaRichiesta(cat1, cat1, 5, fruitore1, 1.0, Stato.Aperto);
+
+        gestoreRichieste.ritiraRichiesta(fruitore1, richiesta1);
+
+        assertEquals(Stato.Ritirato, richiesta1.getStato());
+    }
+
+    @Test
+    public void testRitiraRichiesta_AlreadyChiuso() {
+        Categoria cat1 = new Categoria("MATE", null);
+        Fruitore fruitore1 = new Fruitore("Fruitore1", null, 10, null);
+        RichiestaScambio richiesta1 =  gestoreRichieste.creaRichiesta(cat1, cat1, 5, fruitore1, 1.0, Stato.Chiuso);
+
+        gestoreRichieste.ritiraRichiesta(fruitore1, richiesta1);
+
+        assertEquals(Stato.Chiuso, richiesta1.getStato());
     }
 
 }

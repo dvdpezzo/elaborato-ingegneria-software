@@ -41,7 +41,7 @@ public class GestoreRichieste implements UtilityHandler {
      * @param fruitore fruitore che effettua la richiesta
      * @param richiestaScambio richiesta effettuata
      */
-    public void addRichiesta(Fruitore fruitore, RichiestaScambio richiestaScambio){
+    private void addRichiesta(Fruitore fruitore, RichiestaScambio richiestaScambio){
         if(mappaRichieste.containsKey(fruitore)){
             mappaRichieste.get(fruitore).add(richiestaScambio);
         }else{
