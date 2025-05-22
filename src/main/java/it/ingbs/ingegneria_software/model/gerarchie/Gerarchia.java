@@ -179,21 +179,14 @@ import it.ingbs.ingegneria_software.utilita_generale.InputDati;
     }
 
     /**
-     * ToString ricorsivo che partendo dalla radice visualizza l'albero della gerarchia, chiamando ricorsivamente il
-     * metodo per ogni SottoCategoria figlia
+     * ToString ricorsivo che partendo dalla radice visualizza l'albero della gerarchia
      *
      * @return l'albero della gerarchia
      */
+    @Override
     public String toString() {
-        return toString(categoriaRadice.getNome());
+        return categoriaRadice.toString(0);
     }
-
-    public String toString(String nomeCategoria) {
-        Categoria c = sottoCategorie.get(nomeCategoria.toUpperCase());
-
-        return c.toString(0);
-    }
-
     
     public HashMap<String, Categoria> getSottoCategorie() {
         return sottoCategorie;

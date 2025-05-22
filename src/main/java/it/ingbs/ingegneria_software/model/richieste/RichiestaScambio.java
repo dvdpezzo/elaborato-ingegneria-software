@@ -26,7 +26,7 @@ public class RichiestaScambio {
         this.catOfferta = catOfferta;
         this.fr = fr;
         this.oreRichieste = ore;
-        this.oreOfferte = calcolaOreOfferte(fattoreConv, ore);
+        this.oreOfferte = (int) (fattoreConv * ore); // Calcolo diretto invece di chiamare un metodo
         this.stato = stato;
     }
 
@@ -73,17 +73,6 @@ public class RichiestaScambio {
 
     public void setOreOfferte(int oreOffertte) {
         this.oreOfferte = oreOffertte;
-    }
-
-    /**
-     * 
-     * @param catRichiesta categoria richiesta dal fruitore
-     * @param catOfferta  categorie offerta dal fruitore
-     * @param oreRichieste numero di ore che vengono richieste dal fruitore per la categoria richiesta
-     * @return numero di ore che il fruitore deve offrire
-     */
-    public int calcolaOreOfferte(Double fattoreConv, int oreRichieste){
-        return (int) (fattoreConv*oreRichieste);
     }
 
     public Fruitore getFr() {

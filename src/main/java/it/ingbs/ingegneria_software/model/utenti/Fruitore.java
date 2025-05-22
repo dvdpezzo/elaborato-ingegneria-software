@@ -32,16 +32,17 @@ public class Fruitore extends Utente{
     }
     
     /**
-     * visualizza a video le informazioni di un utente
+     * Crea una stringa contenente le informazioni dell'utente
+     * @return stringa con le informazioni dell'utente
      */
-    public void infoFruitore(){
-        StringBuffer sb = new StringBuffer();
-        sb.append(this.getNomeUtente());
-        sb.append((this.getPassword()));
-        sb.append(String.valueOf(this.getComprensorio()));
-        sb.append((this.getEmail()));
-        sb.toString();
-     }
+    public String infoFruitore(){
+        return new StringBuilder()
+            .append(getNomeUtente())
+            .append(getPassword())
+            .append(getComprensorio())
+            .append(getEmail())
+            .toString();
+    }
 
 
     /**
