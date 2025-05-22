@@ -1,19 +1,17 @@
+package it.ingbs.ingegneria_software.model.richieste;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
 import java.util.Set;
 
-import it.ingbs.ingegneria_software.model.richieste.RichiestaScambio;
-import it.ingbs.ingegneria_software.model.richieste.Stato;
 import it.ingbs.ingegneria_software.model.utenti.Fruitore;
 
 public class GestoreCicliScambio {
     private final HashMap<Fruitore, List<RichiestaScambio>> mappaRichieste;
-    private final HashMap<Integer, List<RichiestaScambio>> richiesteChiuse;
-    private final Random random = new Random();
+    private final HashMap<Fruitore, List<RichiestaScambio>> richiesteChiuse;
     
     public GestoreCicliScambio(HashMap<Fruitore, List<RichiestaScambio>> mappaRichieste) {
         this.mappaRichieste = mappaRichieste;
@@ -79,10 +77,6 @@ public class GestoreCicliScambio {
                 return;
             }
         }
-
-        // Genera un codice univoco e aggiunge il set alla mappa
-        int codiceUnivoco = random.nextInt(9999);
-        richiesteChiuse.put(codiceUnivoco, nuovaListaRichieste);
     }
 
     private HashMap<Fruitore, List<RichiestaScambio>> filtraPerComprensorio(Fruitore proprietario) {
@@ -93,5 +87,9 @@ public class GestoreCicliScambio {
             }
         }
         return mappaRichiesteComprensorio;
+    }
+
+    public HashMap<Fruitore, List<RichiestaScambio>> getRichiesteChiuse() {
+        return richiesteChiuse;
     }
 }

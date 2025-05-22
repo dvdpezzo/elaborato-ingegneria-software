@@ -2,17 +2,14 @@ package it.ingbs.ingegneria_software.model.richieste;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
-import java.util.Set;
 
 import it.ingbs.ingegneria_software.Eccezioni.CategoriaNotFoundException;
 import it.ingbs.ingegneria_software.gestione_file.GestoreDati;
 import it.ingbs.ingegneria_software.model.gerarchie.Categoria;
 import it.ingbs.ingegneria_software.model.gerarchie.Gerarchia;
-import it.ingbs.ingegneria_software.model.gerarchie.GestoreGerarchie;
 import it.ingbs.ingegneria_software.model.utenti.Fruitore;
 import it.ingbs.ingegneria_software.utilita_generale.InputDati;
 import it.ingbs.ingegneria_software.utilita_generale.UtilityHandler;
@@ -20,18 +17,14 @@ import it.ingbs.ingegneria_software.utilita_generale.UtilityHandler;
 public class GestoreRichieste implements UtilityHandler {
     private final HashMap<Fruitore, List<RichiestaScambio>> mappaRichieste;
     private final GestoreDati gestoreDati;
-    private final GestoreGerarchie gestoreGerarchie;
     private final GestoreCicliScambio gestoreCicli;
-    private final VisualizzatoreRichieste visualizzatore;
     private Random random = new Random();
     private Fruitore fruitore;
 
-    public GestoreRichieste(GestoreDati gestoreDati, GestoreGerarchie gestoreGerarchie) {
+    public GestoreRichieste(GestoreDati gestoreDati) {
         this.gestoreDati = gestoreDati;
-        this.gestoreGerarchie = gestoreGerarchie;
         this.mappaRichieste = gestoreDati.getRichieste();
         this.gestoreCicli = new GestoreCicliScambio(mappaRichieste);
-        this.visualizzatore = new VisualizzatoreRichieste();
         inizializza();
     }
 
@@ -215,7 +208,7 @@ public class GestoreRichieste implements UtilityHandler {
 
     @Override
     public void view() {
-        visualizzatore.visualizzaRichiesteFruitore(this.fruitore, mappaRichieste);
+        visualizzaRichiesteFruitore(this.fruitore, mappaRichieste);
     }
 
     //rimuovi = ritira
@@ -242,4 +235,46 @@ public class GestoreRichieste implements UtilityHandler {
         gestoreDati.setRichieste(mappaRichieste);
     }
     
+     public void visualizzaRichiesteChiuse() {
+        Map<Fruitore, List<RichiestaScambio>> richiesteChiuse = gestoreCicli.getRichiesteChiuse();
+        for(Map.Entry<Fruitore, List<RichiestaScambio>> entry : richiesteChiuse.entrySet()){
+            System.out.println("Codice richiesta: " + entry.getKey());
+            for(RichiestaScambio richiesta : entry.getValue()){
+
+                System.out.println(richiesta.getFr().getNomeUtente()+" "+richiesta.getFr().getEmail());
+                System.out.println(richiesta.toString()+"\n");
+            }
+        }
+    }
+    
+    public void visualizzaRichiesteCategoria() {
+       Categoria catCercata = cercaCatFoglia();
+        if(catCercata == null){
+            System.out.println("Categoria non trovata.");
+            return;
+        }
+        for(Map.Entry<Fruitore, List<RichiestaScambio>> entry : mappaRichieste.entrySet()){
+            for(RichiestaScambio richiesta : entry.getValue()){
+                if(richiesta.getCatRichiesta().equals(catCercata)){
+                    System.out.println(richiesta.getFr().getNomeUtente());
+                    System.out.println(richiesta.toString());
+                }
+                else if(richiesta.getCatOfferta().equals(catCercata)){
+                    System.out.println(richiesta.getFr().getNomeUtente());
+                    System.out.println(richiesta.toString());
+                    }
+            }
+        }
+    }
+
+    public void visualizzaRichiesteFruitore(Fruitore fruitore, Map<Fruitore, List<RichiestaScambio>> mappaRichieste) {
+        for(Map.Entry<Fruitore, List<RichiestaScambio>> entry : mappaRichieste.entrySet()){
+            if(entry.getKey().equals(fruitore)){
+                for(RichiestaScambio richiesta : entry.getValue()){
+                    System.out.println(richiesta.getFr().getNomeUtente());
+                    System.out.println(richiesta.toString());
+                }
+            }
+        }
+    }
 }

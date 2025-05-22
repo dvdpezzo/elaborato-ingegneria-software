@@ -68,7 +68,7 @@ public class ServiceProvider {
 
     public GestoreRichieste getGestoreRichieste() {
         if (gestoreRichieste == null) {
-            gestoreRichieste = new GestoreRichieste(gestoreDati, gestoreGerarchie);
+            gestoreRichieste = new GestoreRichieste(gestoreDati);
         }
         return gestoreRichieste;
     }
