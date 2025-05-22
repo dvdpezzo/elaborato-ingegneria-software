@@ -22,7 +22,7 @@ public class GestoreRichiesteTest {
 
     @BeforeEach
     public void setUp() {
-        gestoreDati = new GestoreDati();
+        gestoreDati = GestoreDati.getInstance();
         mappaRichieste = new HashMap<>();
         gestoreRichieste = new GestoreRichieste(gestoreDati);
     }
@@ -63,9 +63,8 @@ public class GestoreRichiesteTest {
         gestoreRichieste.addRichiesta(fruitore2, richiesta2);
         gestoreRichieste.addRichiesta(fruitore3, richiesta3);
 
-        boolean risultato = gestoreRichieste.valutazioneRichiesta(fruitore1, richiesta1);
+        gestoreRichieste.valutazioneRichiesta(fruitore1, richiesta1);
 
-        assertEquals(true, risultato);
         assertEquals(Stato.Chiuso, richiesta1.getStato());
         assertEquals(Stato.Chiuso, richiesta2.getStato());
         assertEquals(Stato.Chiuso, richiesta3.getStato());
@@ -88,9 +87,8 @@ public class GestoreRichiesteTest {
         gestoreRichieste.addRichiesta(fruitore2, richiesta2);
         gestoreRichieste.addRichiesta(fruitore3, richiesta3);
 
-        boolean risultato = gestoreRichieste.valutazioneRichiesta(fruitore1, richiesta1);
-
-        assertEquals(false, risultato);
+        gestoreRichieste.valutazioneRichiesta(fruitore1, richiesta1);
+        
         assertEquals(Stato.Aperto, richiesta1.getStato());
         assertEquals(Stato.Chiuso, richiesta2.getStato());
         assertEquals(Stato.Chiuso, richiesta3.getStato());
