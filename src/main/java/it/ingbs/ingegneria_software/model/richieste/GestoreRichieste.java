@@ -183,27 +183,27 @@ public class GestoreRichieste implements UtilityHandler {
        
     }
 
-    /*
-     * Metodo che valuta tutte le richieste di scambio presenti nella mappaRichieste
+    /**
+     * Valuta tutte le richieste aperte cercando cicli di scambio validi
      */
-    public void valutazioneRichieste(){
-        for(Map.Entry<Fruitore, List<RichiestaScambio>> entry : mappaRichieste.entrySet()){
-            for(RichiestaScambio richiesta : entry.getValue()){
-                if(richiesta.getStato() == Stato.Aperto){
-                    if(valutazioneRichiesta(entry.getKey(), richiesta)){
-                        richiesta.setStato(Stato.Chiuso);
-                    }
-                }
+    public void valutazioneRichieste() {
+        for (Map.Entry<Fruitore, List<RichiestaScambio>> entry : mappaRichieste.entrySet()) {
+            for (RichiestaScambio richiesta : entry.getValue()) {
+                gestoreCicli.valutaRichiesta(entry.getKey(), richiesta);
+                
             }
         }
         salva();
     }
 
-    /*
-     * Metodo che valuta una richiesta di scambio
+    /**
+     * Valuta una singola richiesta di scambio
      */
-    public boolean valutazioneRichiesta(Fruitore proprietarioRichiesta, RichiestaScambio richiesta) {
-        return gestoreCicli.valutaRichiesta(proprietarioRichiesta, richiesta);
+    public void valutazioneRichiesta(Fruitore proprietarioRichiesta, RichiestaScambio richiesta) {
+        if (richiesta.getStato() == Stato.Aperto) {
+            gestoreCicli.valutaRichiesta(proprietarioRichiesta, richiesta);
+            salva();
+        }
     }
 
     @Override
@@ -235,15 +235,15 @@ public class GestoreRichieste implements UtilityHandler {
         gestoreDati.setRichieste(mappaRichieste);
     }
     
-     public void visualizzaRichiesteChiuse() {
-        Map<Fruitore, List<RichiestaScambio>> richiesteChiuse = gestoreCicli.getRichiesteChiuse();
-        for(Map.Entry<Fruitore, List<RichiestaScambio>> entry : richiesteChiuse.entrySet()){
-            System.out.println("Codice richiesta: " + entry.getKey());
+    public void visualizzaRichiesteChiuse() {
+        Map<Integer, List<RichiestaScambio>> richiesteChiuse = gestoreCicli.getRichiesteChiuse();
+        for(Map.Entry<Integer, List<RichiestaScambio>> entry : richiesteChiuse.entrySet()){
+            System.out.println("Ciclo #" + entry.getKey() + ":");
             for(RichiestaScambio richiesta : entry.getValue()){
-
                 System.out.println(richiesta.getFr().getNomeUtente()+" "+richiesta.getFr().getEmail());
                 System.out.println(richiesta.toString()+"\n");
             }
+            System.out.println("-----------------");
         }
     }
     
