@@ -38,14 +38,15 @@ class GestoreAccessoConfiguratoreTest {
         gestoreAccessoConfiguratore = new GestoreAccessoConfiguratore(serviceProvider);
     }
 
+    /**
+     * Test per verificare che l'accesso al configuratore classico funzioni correttamente.
+     */
     @Test
     void testAccessoConfiguratoreClassico_Success() {
         // Arrange
         String username = "utente1";
         String password = "password1";
-        HashMap<String, String> credenziali = new HashMap<>();
-        credenziali.put(username, password);
-        gestoreDati.setCredenzialiConfiguratori(credenziali);
+        gestoreConfiguratori.getMappaConfiguratori().put(username, new Configuratore(username, password));
 
         // Act
         Configuratore configuratore = gestoreAccessoConfiguratore.accesso(username, password);
@@ -56,26 +57,34 @@ class GestoreAccessoConfiguratoreTest {
         assertEquals(password, configuratore.getPassword());
     }
 
+
+    /**
+     * Test per verificare che l'accesso fallisca con credenziali errate.
+     */
     @Test
     void testAccessoConfiguratoreClassico_Fail() {
         // Arrange
         String username = "utente2";
         String password = "password2";
-        HashMap<String, String> credenziali = new HashMap<>();
-        credenziali.put(username, password);
-        gestoreDati.setCredenzialiConfiguratori(credenziali);
+        gestoreConfiguratori.getMappaConfiguratori().put(username, new Configuratore(username, password));
+        
 
         // Act & Assert
         assertNull(gestoreAccessoConfiguratore.accesso(username, "wrongpassword"));
         assertNull(gestoreAccessoConfiguratore.accesso("wronguser", password));
     }
 
+
+
+    /**
+     * Test per verificare che l'accesso fallisca con un configuratore inesistente.
+     */
     @Test
     void testPrimoAccesso_AdminAdmin() throws Exception {
-        // Arrange: Simula input utente per la registrazione
+      
         String nuovoUtente = "nuovoConfig";
         String nuovaPassword = "nuovaPass";
-        String inputSimulato = nuovoUtente + "\n" + nuovaPassword + "\n";
+        String inputSimulato = nuovoUtente + System.lineSeparator() + nuovaPassword + System.lineSeparator();
         InputStream originalIn = System.in;
         try {
             System.setIn(new ByteArrayInputStream(inputSimulato.getBytes()));
