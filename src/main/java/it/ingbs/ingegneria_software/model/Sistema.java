@@ -2,7 +2,6 @@ package it.ingbs.ingegneria_software.model;
 
 import java.io.IOException;
 
-import it.ingbs.ingegneria_software.controller.ServiceProvider;
 import it.ingbs.ingegneria_software.controller.UserMenuController;
 import it.ingbs.ingegneria_software.gestione_accesso.AuthenticationHandler;
 import it.ingbs.ingegneria_software.gestione_accesso.GestoreAccessoConfiguratore;
@@ -12,6 +11,7 @@ import it.ingbs.ingegneria_software.gestione_file.GestoreFile;
 import it.ingbs.ingegneria_software.model.utenti.Configuratore;
 import it.ingbs.ingegneria_software.model.utenti.Fruitore;
 import it.ingbs.ingegneria_software.utilita_generale.MenuUtil;
+import it.ingbs.ingegneria_software.utilita_generale.ServiceProvider;
 
 public class Sistema {
     

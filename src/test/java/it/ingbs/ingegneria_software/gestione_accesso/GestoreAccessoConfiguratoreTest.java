@@ -11,10 +11,10 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import it.ingbs.ingegneria_software.controller.ServiceProvider;
 import it.ingbs.ingegneria_software.gestione_file.GestoreDati;
 import it.ingbs.ingegneria_software.model.utenti.Configuratore;
 import it.ingbs.ingegneria_software.model.utenti.GestoreConfiguratori;
+import it.ingbs.ingegneria_software.utilita_generale.ServiceProvider;
 
 // Java
 

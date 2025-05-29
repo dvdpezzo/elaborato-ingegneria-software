@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import it.ingbs.ingegneria_software.gestione_file.Adapter.FattoriAdapter;
+import it.ingbs.ingegneria_software.gestione_file.Adapter.RichiesteAdapter;
 import it.ingbs.ingegneria_software.model.comprensori.ComprensorioGeografico;
 import it.ingbs.ingegneria_software.model.fattori.FattoriConversione;
 import it.ingbs.ingegneria_software.model.gerarchie.Categoria;

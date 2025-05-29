@@ -1,10 +1,10 @@
 package it.ingbs.ingegneria_software.gestione_accesso;
 
-import it.ingbs.ingegneria_software.controller.ServiceProvider;
 import it.ingbs.ingegneria_software.model.utenti.Fruitore;
 import it.ingbs.ingegneria_software.model.utenti.GestoreFruitori;
 import it.ingbs.ingegneria_software.model.utenti.GestoreUtente;
 import it.ingbs.ingegneria_software.utilita_generale.InputDati;
+import it.ingbs.ingegneria_software.utilita_generale.ServiceProvider;
 
 public class GestoreAccessoFruitore implements GestoreAccessoUtente<Fruitore> {
     

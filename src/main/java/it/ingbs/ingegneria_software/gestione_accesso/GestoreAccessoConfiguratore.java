@@ -1,9 +1,9 @@
 package it.ingbs.ingegneria_software.gestione_accesso;
 
 
-import it.ingbs.ingegneria_software.controller.ServiceProvider;
 import it.ingbs.ingegneria_software.model.utenti.Configuratore;
 import it.ingbs.ingegneria_software.model.utenti.GestoreConfiguratori;
+import it.ingbs.ingegneria_software.utilita_generale.ServiceProvider;
 
 public class GestoreAccessoConfiguratore implements GestoreAccessoUtente<Configuratore> {
     private final GestoreConfiguratori gestoreConfiguratori;
