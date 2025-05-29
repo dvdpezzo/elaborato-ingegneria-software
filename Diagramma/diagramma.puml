@@ -1,0 +1,108 @@
+@startuml "Package Diagram"
+
+skinparam packageStyle rectangle
+skinparam backgroundColor white
+skinparam dpi 300
+skinparam scale 1
+skinparam pageMargin 10
+skinparam pageFormat A4
+
+package "it.ingbs.ingegneria_software" {
+    package "model" {
+        package "utenti" {
+            class Utente
+            class Fruitore
+            class Configuratore
+            class GestoreUtente
+            class GestoreFruitori
+            class GestoreConfiguratori
+        }
+
+        package "richieste" {
+            class RichiestaScambio
+            class GestoreRichieste
+            class GestoreCicliScambio
+            enum Stato
+        }
+
+        package "comprensori" {
+            class ComprensorioGeografico
+            class GestoreComprensorio
+            class GestoreComuni
+            class Comune 
+        }
+
+        package "fattori" {
+            class FattoriConversione
+            class GestoreFattori
+        }
+
+        package "gerarchie" {
+            class Categoria 
+            class GestoreGerarchie
+            class Gerarchia
+        }
+
+        class Sistema
+        class Main
+    }
+
+    package "controller" {
+        class UserMenuController
+        class MenuComuni
+        class MenuFattori
+        class MenuRichieste
+        Class MenuComprensorio
+        class MenuGerarchie
+    }
+
+    package "gestione_accesso" {
+        class AuthenticationHandler
+        class GestoreAccessoConfiguratore
+        class GestoreAccessoFruitore
+        class GestoreAccessoUtente
+    }
+
+    package "gestione_file" {
+        class GestoreFile
+        class GestoreDati
+        class GestoreFileComprensori
+        class GestoreFileFattori
+        class GestoreFileRichieste
+        class GestoreFileGerarchie
+        class GestoreFileDatiFruitori
+        class GestoreFileCredenziali
+        class GestoreFileComuni
+
+
+        
+        package "Adapter" {
+            class RichiesteAdapter
+            class FattoriAdapter
+        }
+    }
+
+    package "utilita_generale" {
+        class MenuUtil
+        class ServiceProvider
+        interface UtilityHandler
+    }
+
+    package "Eccezioni" {
+        class CategoriaNotFoundException
+        class CampoNotFoundException
+        class CategoriaOmonimaException
+        class PadreNotFoundException
+        class IllegalCampoException
+    }
+}
+
+' Relazioni tra i package
+model ..> controller
+model ..> gestione_file
+model ..> utilita_generale
+controller ..> model
+gestione_accesso ..> model
+gestione_file ..> model
+
+@enduml
