@@ -2,10 +2,7 @@
 
 skinparam packageStyle rectangle
 skinparam backgroundColor white
-skinparam dpi 300
-skinparam scale 1
-skinparam pageMargin 10
-skinparam pageFormat A4
+
 
 package "it.ingbs.ingegneria_software" {
     package "model" {
