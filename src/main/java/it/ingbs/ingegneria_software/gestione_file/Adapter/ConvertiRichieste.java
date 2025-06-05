@@ -9,7 +9,7 @@ import it.ingbs.ingegneria_software.model.richieste.RichiestaScambio;
 import it.ingbs.ingegneria_software.model.richieste.Stato;
 import it.ingbs.ingegneria_software.model.utenti.Fruitore;
 
-public class RichiesteAdapter {
+public class ConvertiRichieste {
 
     public static HashMap<Fruitore, List<RichiestaScambio>> convertRichieste(
             HashMap<String, List<String>> richieste,

@@ -6,7 +6,7 @@ import static org.junit.Assert.*;
 
 import java.util.HashMap;
 
-import it.ingbs.ingegneria_software.gestione_file.Adapter.FattoriAdapter;
+import it.ingbs.ingegneria_software.gestione_file.Adapter.ConvertiFattori;
 import it.ingbs.ingegneria_software.model.fattori.FattoriConversione;
 import it.ingbs.ingegneria_software.model.gerarchie.Categoria;
 
@@ -37,7 +37,7 @@ public class FattoriAdapterTest {
      */
     @Test
     public void testConvertFattoriReturnsCorrectSize() {
-        HashMap<String, FattoriConversione> result = FattoriAdapter.convertFattori(fattori, categorie);
+        HashMap<String, FattoriConversione> result = ConvertiFattori.convertFattori(fattori, categorie);
         assertEquals(2, result.size());
     }
 
@@ -49,7 +49,7 @@ public class FattoriAdapterTest {
      */
     @Test
     public void testConvertFattoriCorrectValues() {
-        HashMap<String, FattoriConversione> result = FattoriAdapter.convertFattori(fattori, categorie);
+        HashMap<String, FattoriConversione> result = ConvertiFattori.convertFattori(fattori, categorie);
         FattoriConversione conv = result.get("A->B");
         assertNotNull(conv);
         assertEquals(0.5, conv.getValoreConversione(), 0.0000);
@@ -64,7 +64,7 @@ public class FattoriAdapterTest {
     @Test
     public void testConvertFattoriWithMultipleEntries() {
         fattori.put("A->C", 1.5);
-        HashMap<String, FattoriConversione> result = FattoriAdapter.convertFattori(fattori, categorie);
+        HashMap<String, FattoriConversione> result = ConvertiFattori.convertFattori(fattori, categorie);
         assertEquals(3, result.size());
         assertEquals(1.5, result.get("A->C").getValoreConversione(), 0.0000);
         assertEquals("A", result.get("A->C").getCategoria1().getNome());

@@ -5,7 +5,7 @@ import java.util.HashMap;
 import it.ingbs.ingegneria_software.model.fattori.FattoriConversione;
 import it.ingbs.ingegneria_software.model.gerarchie.Categoria;
 
-public class FattoriAdapter {
+public class ConvertiFattori {
 
     public static HashMap<String, FattoriConversione> convertFattori(HashMap<String, Double> fattori, HashMap<String, Categoria> categorie) {
         HashMap<String, FattoriConversione> mappaFattori = new HashMap<>();

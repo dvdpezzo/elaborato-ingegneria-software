@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import it.ingbs.ingegneria_software.gestione_file.Adapter.FattoriAdapter;
-import it.ingbs.ingegneria_software.gestione_file.Adapter.RichiesteAdapter;
+import it.ingbs.ingegneria_software.gestione_file.Adapter.ConvertiFattori;
+import it.ingbs.ingegneria_software.gestione_file.Adapter.ConvertiRichieste;
 import it.ingbs.ingegneria_software.model.comprensori.ComprensorioGeografico;
 import it.ingbs.ingegneria_software.model.fattori.FattoriConversione;
 import it.ingbs.ingegneria_software.model.gerarchie.Categoria;
@@ -105,7 +105,7 @@ public class GestoreDati {
 
     // Metodo per convertire i fattori da file in oggetti FattoriConversione
     public void setFattoriFile(HashMap<String, Double> fattori) {
-        this.fattori = FattoriAdapter.convertFattori(fattori, categorie);
+        this.fattori = ConvertiFattori.convertFattori(fattori, categorie);
     }
 
 
@@ -120,7 +120,7 @@ public class GestoreDati {
 
     // Metodo per convertire le richieste da file in oggetti RichiestaScambio
     public void setRichiesteFile(HashMap<String, List<String>> richieste) {
-        this.richieste = RichiesteAdapter.convertRichieste(richieste, datiFruitori, categorie);
+        this.richieste = ConvertiRichieste.convertRichieste(richieste, datiFruitori, categorie);
     }
 
     // Metodo per aggiornare le richieste run time dopo una modifica
