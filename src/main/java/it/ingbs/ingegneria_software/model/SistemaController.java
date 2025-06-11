@@ -13,24 +13,24 @@ import it.ingbs.ingegneria_software.model.utenti.Fruitore;
 import it.ingbs.ingegneria_software.utilita_generale.MenuUtil;
 import it.ingbs.ingegneria_software.utilita_generale.ServiceProvider;
 
-public class Sistema {
+public class SistemaController {
     
-    private static Sistema instance;
+    private static SistemaController instance;
     private final ServiceProvider serviceFactory;
     private final GestoreFile gestoreFile;
     private final GestoreDati gestoreDati;
 
     
-    private Sistema() {
+    private SistemaController() {
         this.gestoreFile = new GestoreFile();
         this.gestoreDati = GestoreDati.getInstance();
         this.serviceFactory = new ServiceProvider(gestoreDati);
     }
 
     
-    public static Sistema getInstance() {
+    public static SistemaController getInstance() {
         if (instance == null) {
-            instance = new Sistema();
+            instance = new SistemaController();
         }
         return instance;
     }
