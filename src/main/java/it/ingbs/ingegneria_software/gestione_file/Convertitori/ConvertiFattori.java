@@ -1,4 +1,4 @@
-package it.ingbs.ingegneria_software.gestione_file.Adapter;
+package it.ingbs.ingegneria_software.gestione_file.Convertitori;
 
 import java.util.HashMap;
 

@@ -6,7 +6,7 @@ import static org.junit.Assert.*;
 
 import java.util.HashMap;
 
-import it.ingbs.ingegneria_software.gestione_file.Adapter.ConvertiFattori;
+import it.ingbs.ingegneria_software.gestione_file.Convertitori.ConvertiFattori;
 import it.ingbs.ingegneria_software.model.fattori.FattoriConversione;
 import it.ingbs.ingegneria_software.model.gerarchie.Categoria;
 
