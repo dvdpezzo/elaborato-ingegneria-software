@@ -11,10 +11,9 @@ import it.ingbs.ingegneria_software.gestione_file.GestoreDati;
 import it.ingbs.ingegneria_software.model.gerarchie.Categoria;
 import it.ingbs.ingegneria_software.model.gerarchie.Gerarchia;
 import it.ingbs.ingegneria_software.model.utenti.Fruitore;
-import it.ingbs.ingegneria_software.utilita_generale.InputDati;
-import it.ingbs.ingegneria_software.utilita_generale.UtilityHandler;
+import it.ingbs.ingegneria_software.utilita_generale.*;
 
-public class GestoreRichieste implements UtilityHandler {
+public class GestoreRichieste implements Rimuovibile,Salvabile,Visualizzabile, Aggiungibile {
     private final HashMap<Fruitore, List<RichiestaScambio>> mappaRichieste;
     private final GestoreDati gestoreDati;
     private final GestoreCicliScambio gestoreCicli;

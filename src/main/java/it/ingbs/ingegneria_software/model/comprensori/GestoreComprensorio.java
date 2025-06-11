@@ -7,10 +7,9 @@ import java.util.LinkedList;
 import java.util.List;
 
 import it.ingbs.ingegneria_software.gestione_file.GestoreDati;
-import it.ingbs.ingegneria_software.utilita_generale.InputDati;
-import it.ingbs.ingegneria_software.utilita_generale.UtilityHandler;
+import it.ingbs.ingegneria_software.utilita_generale.*;
 
-public class GestoreComprensorio implements UtilityHandler {
+public class GestoreComprensorio implements Visualizzabile, Salvabile, Rimuovibile, Aggiungibile {
     private static final String MSG_CODICE_RIMOZIONE = "Inserisci il codice del comprensorio da rimuovere:";
     private static final String MSG_CODICE_AGGIUNTA = "Inserisci il codice del comprensorio al quale si vuole aggiungere il comune:";
     private static final String MSG_NOME_COMUNE = "Inserisci il nome del comune:";
