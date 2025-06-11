@@ -93,7 +93,7 @@ public class UserMenuController {
                     break;
                 
                 case 4: 
-                    gestoreRichieste.rimuovi();
+                    gestoreRichieste.ritira();
                     break;
             }
         } while (scelta != 0);

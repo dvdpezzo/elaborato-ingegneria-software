@@ -13,7 +13,7 @@ import it.ingbs.ingegneria_software.model.gerarchie.Gerarchia;
 import it.ingbs.ingegneria_software.model.utenti.Fruitore;
 import it.ingbs.ingegneria_software.utilita_generale.*;
 
-public class GestoreRichieste implements Rimuovibile,Salvabile,Visualizzabile, Aggiungibile {
+public class GestoreRichieste implements Salvabile,Visualizzabile, Aggiungibile {
     private final HashMap<Fruitore, List<RichiestaScambio>> mappaRichieste;
     private final GestoreDati gestoreDati;
     private final GestoreCicliScambio gestoreCicli;
@@ -213,9 +213,7 @@ public class GestoreRichieste implements Rimuovibile,Salvabile,Visualizzabile, A
         visualizzaRichiesteFruitore(this.fruitore, mappaRichieste);
     }
 
-    //rimuovi = ritira
-    @Override
-    public void rimuovi() {
+    public void ritira() {
         RichiestaScambio richiesta = scegliRichiesta(fruitore);
         if (richiesta != null) {
             ritiraRichiesta(fruitore, richiesta);
