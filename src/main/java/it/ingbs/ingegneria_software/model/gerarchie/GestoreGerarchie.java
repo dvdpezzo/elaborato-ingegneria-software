@@ -5,7 +5,7 @@ import java.util.HashMap;
 import it.ingbs.ingegneria_software.gestione_file.GestoreDati;
 import it.ingbs.ingegneria_software.utilita_generale.*;
 
-public class GestoreGerarchie implements Rimuovibile,Salvabile,Visualizzabile, Aggiungibile {
+public class GestoreGerarchie implements Rimovibile,Salvabile,Visualizzabile, Aggiungibile {
     private static final String[] VOCI_LAVORO = {"aggiungi categoria", "rimuovi categoria","modifica campi categoria", "visualizza Gerarchia"};
     private static final String ERRORE = "ERRORE: si sta tentando di %s";
     private static final String NOME_RADICE = "Nome della radice: ";

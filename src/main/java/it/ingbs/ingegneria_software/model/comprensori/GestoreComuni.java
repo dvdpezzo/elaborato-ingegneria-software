@@ -10,7 +10,7 @@ import java.util.stream.IntStream;
 import it.ingbs.ingegneria_software.gestione_file.GestoreDati;
 import it.ingbs.ingegneria_software.utilita_generale.*;
 
-public class GestoreComuni implements Rimuovibile,Salvabile,Visualizzabile,Aggiungibile {
+public class GestoreComuni implements Rimovibile,Salvabile,Visualizzabile,Aggiungibile {
 
     private static final String ERRORE_COMUNE_NON_TROVATO = "Comune non trovato!";
     private static final String MSG_COMUNE_GIA_INSERITO = "Questo comune è già stato inserito!";

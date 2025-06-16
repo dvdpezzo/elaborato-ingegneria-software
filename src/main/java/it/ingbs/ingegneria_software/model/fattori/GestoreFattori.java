@@ -9,7 +9,7 @@ import it.ingbs.ingegneria_software.model.gerarchie.Gerarchia;
 import it.ingbs.ingegneria_software.model.gerarchie.GestoreGerarchie;
 import it.ingbs.ingegneria_software.utilita_generale.*;
 
-public class GestoreFattori implements Rimuovibile,Salvabile,Visualizzabile, Aggiungibile {
+public class GestoreFattori implements Rimovibile,Salvabile,Visualizzabile, Aggiungibile {
 
     private static final String INSERISCI_IL_NOME_DELLA_GERARCHIA = "Inserisci il nome della Gerarchia:";
     private static final String ERRORE_CATEGORIA = "Le categorie che hai inserito non sono categorie foglia!";
