@@ -10,7 +10,7 @@ import it.ingbs.ingegneria_software.gestione_file.Convertitori.ConvertiFattori;
 import it.ingbs.ingegneria_software.model.fattori.FattoriConversione;
 import it.ingbs.ingegneria_software.model.gerarchie.Categoria;
 
-public class FattoriAdapterTest {
+public class ConvertiFattoriTest {
 
     private HashMap<String, Double> fattori;
     private HashMap<String, Categoria> categorie;
@@ -40,8 +40,6 @@ public class FattoriAdapterTest {
         HashMap<String, FattoriConversione> result = ConvertiFattori.convertFattori(fattori, categorie);
         assertEquals(2, result.size());
     }
-
-
 
     /**
      * test che verifica che il metodo convertFattori restituisca una mappa con valore di conversione
