@@ -6,6 +6,9 @@ import java.util.HashMap;
 import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
+
+import it.ingbs.ingegneria_software.Eccezioni.LoadException;
+
 import org.junit.After;
 
 public class GestoreFileTest {
@@ -20,7 +23,7 @@ public class GestoreFileTest {
     }
 
     @Test
-    public void testCaricaSalvataggio() throws IOException {
+    public void testCaricaSalvataggio() throws IOException, LoadException {
         gestoreFile.caricaSalvataggio();
         
         // Verifica che tutti i dati siano stati caricati correttamente
