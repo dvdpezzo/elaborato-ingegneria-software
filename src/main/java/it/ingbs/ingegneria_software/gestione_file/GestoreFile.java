@@ -6,6 +6,8 @@ import java.util.HashMap;
 import java.util.logging.Logger;
 import java.util.logging.Level;
 
+import it.ingbs.ingegneria_software.Eccezioni.LoadException;
+import it.ingbs.ingegneria_software.Eccezioni.ReadException;
 import it.ingbs.ingegneria_software.model.utenti.Fruitore;
 
 public class GestoreFile {
@@ -52,18 +54,19 @@ public class GestoreFile {
             if (!isFileEmpty(file)) {
                 setter.accept(reader.get());
             } else {
-                LOGGER.warning(messaggioErrore);
+                throw new ReadException(); // Lancia l'eccezione personalizzata
             }
         } catch (Exception e) {
-            LOGGER.log(Level.SEVERE, "Errore durante la lettura del file: " + file.getName(), e);
-        }
+        throw new ReadException();
     }
+}
 
     /**
      * Carica i dati salvati su file.
+     * @throws LoadException 
      * @throws IOException se si verifica un errore durante la lettura dei file.
      */
-    public void caricaSalvataggio() {
+    public void caricaSalvataggio() throws LoadException {
         try {
             leggiDati(new File(FILE_COMUNI), "Il file dei comuni è vuoto.", 
                 gestoreDati::setComuni, gestoreFileComuni::leggiFile);
@@ -84,7 +87,7 @@ public class GestoreFile {
             
             LOGGER.info("Caricamento dati completato con successo");
         } catch (Exception e) {
-            LOGGER.log(Level.SEVERE, "Errore durante il caricamento dei dati", e);
+            throw new LoadException();
         }
     }
 
@@ -210,14 +213,12 @@ public class GestoreFile {
     public HashMap<String, Fruitore> caricaDatiFruitori() {
         File file = new File(DATI_FRUITORI);
         if (isFileEmpty(file)) {
-            LOGGER.warning("Il file dei dati dei fruitori è vuoto.");
-            return new HashMap<>();
+            throw new ReadException();
         }
         try {
             return gestoreFileDatiFruitori.leggiFile();
         } catch (Exception e) {
-            LOGGER.log(Level.SEVERE, "Errore durante il caricamento dei dati dei fruitori", e);
-            return new HashMap<>();
+            throw new ReadException();
         }
     }
 }

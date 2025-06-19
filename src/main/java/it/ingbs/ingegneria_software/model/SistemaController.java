@@ -1,8 +1,7 @@
 package it.ingbs.ingegneria_software.model;
 
-import java.util.logging.Logger;
-import java.util.logging.Level;
-
+import it.ingbs.ingegneria_software.Eccezioni.LoadException;
+import it.ingbs.ingegneria_software.Eccezioni.ReadException;
 import it.ingbs.ingegneria_software.controller.UserMenuController;
 import it.ingbs.ingegneria_software.gestione_accesso.AuthenticationHandler;
 import it.ingbs.ingegneria_software.gestione_accesso.GestoreAccessoConfiguratore;
@@ -19,8 +18,7 @@ import it.ingbs.ingegneria_software.utilita_generale.ServiceProvider;
  * come login, caricamento dati e gestione menu.
  */
 public class SistemaController {
-    
-    private static final Logger LOGGER = Logger.getLogger(SistemaController.class.getName());
+
     private static SistemaController instance;
     private final ServiceProvider serviceFactory;
     private final GestoreFile gestoreFile;
@@ -45,27 +43,27 @@ public class SistemaController {
 
     /**
      * Carica i dati salvati dal sistema.
-     * Gestisce le eccezioni e registra gli errori nel log.
+     * @throws LoadException 
      */
-    public void caricaSalvataggi() {
+    public void caricaSalvataggi() throws LoadException {
         try {
             gestoreFile.caricaSalvataggio();
-            LOGGER.info("Salvataggi caricati con successo.");
+        } catch (ReadException e) {
+            throw e;
         } catch (Exception e) {
-            LOGGER.log(Level.SEVERE, "Errore durante il caricamento dei salvataggi", e);
-            throw new RuntimeException("Errore durante il caricamento dei salvataggi", e);
+            throw new LoadException();
         }
     }
 
     /**
      * Gestisce il processo di login dell'utente.
-     * @return il tipo di utente ("configuratore" o "fruitore") o null se il login fallisce
+     * @return il tipo di utente ("configuratore" o "fruitore")
+     * @throws ReadException se la scelta non è valida
      */
     public String login() {
-        LOGGER.info("Avvio processo di login");
         MenuUtil menuLogin = new MenuUtil("Login", new String[]{"Configuratore", "Fruitore"});
         int scelta = menuLogin.scegli();
-        
+
         String tipoUtente;
         switch (scelta) {
             case 1:
@@ -75,25 +73,20 @@ public class SistemaController {
                 tipoUtente = "fruitore";
                 break;
             default:
-                tipoUtente = null;
-                break;
+                throw new ReadException();
         }
-
-        if (tipoUtente == null) {
-            LOGGER.warning("Scelta login non valida");
-        }
-        
         return tipoUtente;
     }
 
     /**
      * Mostra il menu appropriato in base al tipo di utente.
      * @param tipoUtente il tipo di utente ("configuratore" o "fruitore")
+     * @throws ReadException se il tipo utente non è valido
+     * @throws LoadException se si verifica un errore durante la gestione del menu
      */
-    public void mostraMenu(String tipoUtente) {
+    public void mostraMenu(String tipoUtente) throws LoadException {
         if (tipoUtente == null) {
-            LOGGER.warning("Tipo utente non specificato");
-            return;
+            throw new ReadException();
         }
 
         AuthenticationHandler controlloAccesso = new AuthenticationHandler();
@@ -104,10 +97,12 @@ public class SistemaController {
             } else if ("fruitore".equalsIgnoreCase(tipoUtente)) {
                 gestisciMenuFruitore(controlloAccesso);
             } else {
-                LOGGER.warning("Tipo utente non riconosciuto: " + tipoUtente);
+                throw new ReadException();
             }
+        } catch (ReadException e) {
+            throw e;
         } catch (Exception e) {
-            LOGGER.log(Level.SEVERE, "Errore durante la gestione del menu", e);
+            throw new LoadException();
         }
     }
 
@@ -131,14 +126,13 @@ public class SistemaController {
 
     /**
      * Salva i dati del sistema.
+     * @throws LoadException se si verifica un errore durante il salvataggio
      */
-    public void salvaDati() {
+    public void salvaDati() throws LoadException {
         try {
             gestoreFile.creaSalvataggio();
-            LOGGER.info("Dati salvati con successo");
         } catch (Exception e) {
-            LOGGER.log(Level.SEVERE, "Errore durante il salvataggio dei dati", e);
-            throw new RuntimeException("Impossibile salvare i dati", e);
+            throw new LoadException();
         }
     }
 }

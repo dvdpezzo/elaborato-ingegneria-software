@@ -1,9 +1,10 @@
 package it.ingbs.ingegneria_software.model;
 
+import it.ingbs.ingegneria_software.Eccezioni.LoadException;
 
 public class Main {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws LoadException {
 
         // Creazione del sistema
         SistemaController sistema = SistemaController.getInstance();
