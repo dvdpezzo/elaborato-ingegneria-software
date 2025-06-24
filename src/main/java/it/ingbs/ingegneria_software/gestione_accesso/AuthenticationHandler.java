@@ -14,7 +14,7 @@ public class AuthenticationHandler {
      * @param <T> Tipo dell'utente restituito (Configuratore o Fruitore).
      * @return Utente valido se le credenziali sono corrette.
      */
-    public <T> T login(GestoreAccessoUtente<T> gestoreAccesso) {
+    public <T> T login(LoginStrategy<T> gestoreAccesso) {
         T result;
         do {
             String nomeUtente = InputDati.leggiStringaNonVuota(INSERIRE_NOME_UTENTE);
@@ -23,5 +23,4 @@ public class AuthenticationHandler {
         } while (result == null);
         return result;
     }
-    
 }

@@ -6,7 +6,7 @@ import it.ingbs.ingegneria_software.model.utenti.GestoreUtente;
 import it.ingbs.ingegneria_software.utilita_generale.InputDati;
 import it.ingbs.ingegneria_software.utilita_generale.ServiceProvider;
 
-public class GestoreAccessoFruitore implements GestoreAccessoUtente<Fruitore> {
+public class GestoreAccessoFruitore implements LoginStrategy<Fruitore> {
     
     private final GestoreFruitori gestoreFruitori;
     private final ServiceProvider serviceFactory;

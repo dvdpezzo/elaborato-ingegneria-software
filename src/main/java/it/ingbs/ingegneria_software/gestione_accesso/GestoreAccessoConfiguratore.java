@@ -5,7 +5,7 @@ import it.ingbs.ingegneria_software.model.utenti.Configuratore;
 import it.ingbs.ingegneria_software.model.utenti.GestoreConfiguratori;
 import it.ingbs.ingegneria_software.utilita_generale.ServiceProvider;
 
-public class GestoreAccessoConfiguratore implements GestoreAccessoUtente<Configuratore> {
+public class GestoreAccessoConfiguratore implements LoginStrategy<Configuratore> {
     private final GestoreConfiguratori gestoreConfiguratori;
 
     public GestoreAccessoConfiguratore(ServiceProvider serviceFactory) {

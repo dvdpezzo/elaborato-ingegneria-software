@@ -1,6 +1,6 @@
 package it.ingbs.ingegneria_software.gestione_accesso;
 
-public interface GestoreAccessoUtente<T> {
+public interface LoginStrategy<T> {
     /**
      * Metodo per l'accesso di un utente.
      * @param nomeUtente Nome utente dell'utente.
