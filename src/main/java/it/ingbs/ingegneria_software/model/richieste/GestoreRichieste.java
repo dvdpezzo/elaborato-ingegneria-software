@@ -263,6 +263,7 @@ public class GestoreRichieste implements Salvabile,Visualizzabile, Aggiungibile 
                 if(richiesta.getCatRichiesta().equals(catCercata) || 
                    richiesta.getCatOfferta().equals(catCercata)){
                     visualizzaRichiesta(richiesta);
+                    System.out.println();
                 }
             }
         }

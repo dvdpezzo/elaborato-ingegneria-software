@@ -9,7 +9,7 @@ public class Main {
         // Creazione del sistema
         SistemaController sistema = SistemaController.getInstance();
         
-        // Carico salvataggi
+        // Carica salvataggi
         sistema.caricaSalvataggi();
 
         // Schermata login di accesso in cui si seleziona se configuratore o fruitore
